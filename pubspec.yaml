@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   get: ^4.7.2
+  share_plus: ^11.0.0
+  camera: ^0.11.2
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,7 @@ flutter:
     - assest/images/authentication/
     - assest/icons/authentication/
     - assest/images/personalization/
+    - assest/images/home/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

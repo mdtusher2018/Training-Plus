@@ -499,7 +499,15 @@ AppBar authAppBar(String title) {
 }
 
 
-
+Widget commonCloseButton(){
+  return GestureDetector(
+    onTap: Get.back,
+    child: Container(
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(color: AppColors.boxBG,shape: BoxShape.circle),
+      child: Icon(Icons.close)),
+  );
+}
 
 class CommonImage extends StatelessWidget {
   final String imagePath;

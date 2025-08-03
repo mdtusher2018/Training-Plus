@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:training_plus/utils/theme.dart';
-import 'package:training_plus/view/authentication/after_signup_otp_view.dart';
-import 'package:training_plus/view/authentication/create_new_password_view.dart';
-import 'package:training_plus/view/authentication/forgot_password_otp_view.dart';
-import 'package:training_plus/view/authentication/forgot_password_view.dart';
-import 'package:training_plus/view/authentication/sign_in_view.dart';
-import 'package:training_plus/view/authentication/sign_up_view.dart';
-import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
-import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
-import 'package:training_plus/view/personalization/Personalization_2.dart';
-import 'package:training_plus/view/personalization/Personalization_1.dart';
-import 'package:training_plus/view/personalization/personalized_view.dart'; // your AppColors
+import 'package:training_plus/view/home/camera_view.dart';
+import 'package:training_plus/view/home/nutrition_tracker_view.dart';
+import 'package:training_plus/view/home/running_gps_view.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Training Plus',
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      home: Personalization1(),
+      home: ScanCameraPage(),
     );
   }
 }

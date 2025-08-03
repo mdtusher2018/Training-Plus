@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/view/personalization/Personalization_4.dart';
+import 'package:training_plus/view/personalization/Personalization_5.dart';
 import 'package:training_plus/view/personalization/widget/CommonSelectableCard.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class Personalization3 extends StatelessWidget {
-  Personalization3({super.key});
+class Personalization4 extends StatelessWidget {
+  Personalization4({super.key});
 
-  final ValueNotifier<String?> selectedSkill = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> selectedAgeGroup = ValueNotifier<String?>(null);
 
-  final List<Map<String, String>> skills = [
-    {"title": "Beginner", "subtitle": "Just getting started"},
-    {"title": "Intermediate", "subtitle": "Some experience and skills"},
-    {"title": "Advanced", "subtitle": "Experienced and skilled"},
+  final List<Map<String, String>> ageGroups = [
+    {"title": "Youth", "subtitle": "Under 13 Years Old"},
+    {"title": "Teen", "subtitle": "13–17 Years Old"},
+    {"title": "Adult", "subtitle": "18+ Years Old"},
   ];
 
   @override
@@ -25,11 +25,11 @@ class Personalization3 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildProgressBar(target: 3),
+              buildProgressBar(target: 4),
               const SizedBox(height: 20),
               Center(
                 child: commonText(
-                  "What's your skill\nlevel?",
+                  "Select Your Age\nGroup",
                   size: 22,
                   isBold: true,
                   textAlign: TextAlign.center,
@@ -39,16 +39,16 @@ class Personalization3 extends StatelessWidget {
 
               Expanded(
                 child: ValueListenableBuilder<String?>(
-                  valueListenable: selectedSkill,
+                  valueListenable: selectedAgeGroup,
                   builder: (context, selected, _) {
                     return ListView.separated(
-                      itemCount: skills.length,
+                      itemCount: ageGroups.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 14),
                       itemBuilder: (context, index) {
-                        final skill = skills[index];
-                        final isSelected = selected == skill['title'];
+                        final role = ageGroups[index];
+                        final isSelected = selected == role['title'];
                         return GestureDetector(
-                          onTap: () => selectedSkill.value = skill['title'],
+                          onTap: () => selectedAgeGroup.value = role['title'],
                           child: Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
@@ -74,13 +74,13 @@ class Personalization3 extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 commonText(
-                                  skill['title']!,
+                                  role['title']!,
                                   size: 15,
                                   isBold: true,
                                 ),
                                 const SizedBox(height: 4),
                                 commonText(
-                                  skill['subtitle']!,
+                                  role['subtitle']!,
                                   size: 13,
                                   color: AppColors.textSecondary,
                                 ),
@@ -96,7 +96,7 @@ class Personalization3 extends StatelessWidget {
 
               const SizedBox(height: 24),
               ValueListenableBuilder<String?>(
-                valueListenable: selectedSkill,
+                valueListenable: selectedAgeGroup,
                 builder: (context, value, _) {
                   return Row(
                     children: [
@@ -116,12 +116,12 @@ class Personalization3 extends StatelessWidget {
                           iconWidget: const Icon(Icons.arrow_forward),
                           iconLeft: false,
                           onTap: value != null
-                              ? () => navigateToPage(Personalization4())
+                              ? () => navigateToPage(Personalization5())
                               : () {
                                   commonSnackbar(
                                     title: "Validity Error",
                                     message:
-                                        "Please select your skill level before continuing.",
+                                        "Please select your age group before continuing.",
                                     backgroundColor: AppColors.error,
                                   );
                                 },
