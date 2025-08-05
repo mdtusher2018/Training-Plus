@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/utils/helper.dart';
 
 Widget commonText(
   String text, {
@@ -402,27 +403,26 @@ Widget commonTextField({
   void Function(String)? onChanged,
 }) {
   return SizedBox(
-    width: 50,
-    height: 50,
+ 
     child: TextField(
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,
-      textAlign: TextAlign.center,
+ 
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
+    
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
+        hintStyle: TextStyle(fontSize: 12, color: AppColors.textSecondary),
         filled: true,
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderSide: BorderSide(color: Colors.black),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
+             borderSide: BorderSide(color: Colors.black),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -555,7 +555,7 @@ class CommonImage extends StatelessWidget {
       );
     } else {
       imageWidget = Image.network(
-        imagePath,
+        getFullImagePath(imagePath),
         width: width,
         height: height,
         fit: fit,

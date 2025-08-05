@@ -31,12 +31,7 @@ ThemeData appTheme(){
             color: AppColors.textSecondary,
           ),
         ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.white,
-          elevation: 0,
-          centerTitle: true,
-        ),
+    
         checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.all(AppColors.primary),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
