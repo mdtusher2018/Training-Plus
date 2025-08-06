@@ -61,9 +61,9 @@ class CommunityView extends StatelessWidget {
       children: [
         sectionHeader("My Posts"),
         const SizedBox(height: 12),
-        _postCard(user: "You", time: "1 Day Ago"),
+        _postCard(user: "You", time: "1 Day Ago",myPost: true),
         const SizedBox(height: 12),
-        _postCard(user: "You", time: "1 Day Ago"),
+        _postCard(user: "You", time: "1 Day Ago",myPost: true),
       ],
     );
   }
@@ -90,17 +90,18 @@ class CommunityView extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.boxBG,
+              color: AppColors.white,
+              
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               children: [
                 commonText("${index + 1}", size: 14, isBold: true),
-                const SizedBox(width: 12),
-                CircleAvatar(radius: 14),
+                const SizedBox(width: 8),
+                CircleAvatar(radius: 16,backgroundImage: NetworkImage("https://plus.unsplash.com/premium_photo-1664297814064-661d433c03d9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")),
                 const SizedBox(width: 12),
                 Expanded(child: commonText(name.toString(), size: 14)),
-                commonText("$points Points", size: 14, fontWeight: FontWeight.w600),
+                commonText("$points\nPoints", size: 14, fontWeight: FontWeight.w600,textAlign: TextAlign.left),
               ],
             ),
           );
@@ -122,7 +123,7 @@ class CommunityView extends StatelessWidget {
     );
   }
 
-  Widget _postCard({required String user, required String time, String? tag}) {
+  Widget _postCard({required String user, required String time, String? tag,bool myPost=false}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -134,7 +135,7 @@ class CommunityView extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(radius: 16),
+              CircleAvatar(radius: 20,backgroundImage: NetworkImage("https://plus.unsplash.com/premium_photo-1664297814064-661d433c03d9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -145,6 +146,7 @@ class CommunityView extends StatelessWidget {
                   ],
                 ),
               ),
+
               if (tag != null)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -154,13 +156,15 @@ class CommunityView extends StatelessWidget {
                     border: Border.all(color: AppColors.primary),
                   ),
                   child: commonText(tag, size: 12),
-                )
+                ),
+              if(myPost)...[Icon(Icons.edit),SizedBox(width: 4,),
+              Icon(Icons.delete_outline_rounded)]
             ],
           ),
           const SizedBox(height: 12),
           commonText(
             "Just completed my first 5K run today! 🏃‍♂️ The feeling of crossing that finish line was incredible. Started training just 2 months ago and couldn’t even run for 5 minutes straight. Now look at me!",
-            size: 13,
+            size: 13,maxline: 4
           ),
           const SizedBox(height: 12),
           Row(
@@ -169,7 +173,7 @@ class CommunityView extends StatelessWidget {
               const SizedBox(width: 4),
               commonText("15", size: 12),
               const SizedBox(width: 16),
-              const Icon(Icons.comment_outlined, size: 16),
+              const Icon(Icons.mode_comment_outlined, size: 16),
               const SizedBox(width: 4),
               commonText("6", size: 12),
             ],
