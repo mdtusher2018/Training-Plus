@@ -10,33 +10,35 @@ class SubscriptionView extends StatefulWidget {
 }
 
 class _SubscriptionViewState extends State<SubscriptionView> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+
+
 
   final List<Map<String, dynamic>> plans = [
     {
       "title": "Sport Pro",
       "price": "7.99/mo",
-      "features": [
-        "Access to All Sports",
-        "Workout Tracking",
-        "Community Leaderboards",
-        "Nutrition Tracker",
-        "Running Tracker",
-      ]
+      "features": {
+        "Access to All Sports": true,
+        "Workout Tracking": true,
+        "Community Leaderboards": true,
+        "Nutrition Tracker": true,
+        "Running Tracker": true,
+        "Mental Performance Tools": false,
+        "Customize Weekly Goals": false,
+      }
     },
     {
       "title": "All Elite",
       "price": "19.99/mo",
-      "features": [
-        "Access to All Sports",
-        "Workout Tracking",
-        "Community Leaderboards",
-        "Nutrition Tracker",
-        "Running Tracker",
-        "Mental Performance Tools",
-        "Customize Weekly Goals",
-      ]
+      "features": {
+        "Access to All Sports": true,
+        "Workout Tracking": true,
+        "Community Leaderboards": true,
+        "Nutrition Tracker": true,
+        "Running Tracker": true,
+        "Mental Performance Tools": true,
+        "Customize Weekly Goals": true,
+      }
     },
   ];
 
@@ -45,57 +47,24 @@ class _SubscriptionViewState extends State<SubscriptionView> {
     return Scaffold(
       backgroundColor: AppColors.mainBG,
       appBar: authAppBar("Choose Your Plan"),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: (index) => setState(() => _currentPage = index),
-              itemCount: plans.length,
-              itemBuilder: (context, index) {
-                final plan = plans[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  child: _buildPlanCard(
-                    title: plan["title"],
-                    price: plan["price"],
-                    features: List<String>.from(plan["features"]),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Page indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(plans.length, (index) {
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                width: _currentPage == index ? 10 : 6,
-                height: _currentPage == index ? 10 : 6,
-                decoration: BoxDecoration(
-                  color: _currentPage == index ? AppColors.primary : Colors.grey,
-                  shape: BoxShape.circle,
-                ),
-              );
-            }),
-          ),
-
-          // Free trial button
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: commonButton(
-              "Start 7 Day Free Trial",
-              color: AppColors.primary,
-              textColor: AppColors.white,
-              width: double.infinity,
-              onTap: () {
-                // TODO: Navigate to payment/activation
-              },
-            ),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: PageView.builder(
+        
+          itemCount: plans.length,
+          itemBuilder: (context, index) {
+            final plan = plans[index];
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: _buildPlanCard(
+                title: plan["title"],
+                price: plan["price"],
+                features: Map<String, bool>.from(plan["features"]),
+                isPro: plan["title"] == "Sport Pro",
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -103,53 +72,113 @@ class _SubscriptionViewState extends State<SubscriptionView> {
   Widget _buildPlanCard({
     required String title,
     required String price,
-    required List<String> features,
+    required Map<String, bool> features,
+    required bool isPro,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          commonText(title, size: 22, isBold: true),
-          const SizedBox(height: 16),
-
-          // Features
-          Expanded(
-            child: ListView.builder(
+    return SingleChildScrollView(
+      child: Container(
+      constraints: BoxConstraints(minHeight: 460),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            commonText(title, size: 22, isBold: true),
+            const SizedBox(height: 16),
+      
+            // Features list
+            ListView.builder(
+      
+              shrinkWrap: true,
               itemCount: features.length,
               itemBuilder: (context, i) {
+                final key = features.keys.elementAt(i);
+                final available = features[key]!;
+            
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.check, size: 18, color: AppColors.primary),
-                      const SizedBox(width: 8),
-                      Expanded(child: commonText(features[i], size: 14)),
+                   
+                     
+                      Expanded(
+                        child: Row(
+                          children: [
+                            commonText(key, size: 14),
+                            if (isPro && key == "Access to All Sports")
+                              GestureDetector(
+                                onTap: () {
+                                  _showInfoBottomSheet(context);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Icon(Icons.info_outline, size: 18),
+                                ),
+                              )
+                          ],
+                        ),
+                      ), const SizedBox(width: 8),   Icon(
+                        available ? Icons.check : Icons.lock_outline,
+                        size: 18,
+                      
+                      ),
                     ],
                   ),
                 );
               },
             ),
-          ),
-
-          const SizedBox(height: 16),
-          commonText(price, size: 18, isBold: true, color: AppColors.primary),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () {
-              // TODO: Show details
-            },
-            child: commonText("Learn more",
-                size: 14, color: AppColors.textSecondary),
-          ),
-        ],
+      
+            const SizedBox(height: 16),
+        
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: commonButton(
+                price,
+                width: double.infinity,
+                onTap: () {
+                  // TODO: Navigate to payment/activation
+                },
+              ),
+            ),
+            if(isPro)Center(child: commonText("Start 7 day free trial",size: 14))
+          ],
+        ),
       ),
+    );
+  }
+
+  void _showInfoBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(children: [commonCloseButton()],mainAxisAlignment: MainAxisAlignment.end,),
+             
+              const SizedBox(height: 12),
+              commonText(
+                "Sport Pro currently features\n3 additional sports.",
+                size: 15,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30,)
+         
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/widgets/common_widgets.dart' show authAppBar, commonText;
+import 'package:training_plus/widgets/common_widgets.dart' show authAppBar, commonButton, commonText,commonTextfieldWithTitle,commonCloseButton;
 
 
 class NutritionTrackerPage extends StatelessWidget {
@@ -63,19 +63,24 @@ final List<Map<String, dynamic>> meals = [
                   commonText("Saturday, July 12",size: 14),
                ],
              ),
-                Material(
-                  elevation: 1,
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.white,borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Row(mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset("assest/images/home/gole_black.png",width: 20,),
-                      commonText("Set Goals",size: 14)
-                      ],
-                    ),
-                  ))
+                GestureDetector(
+                  onTap: (){
+                    showSetGoalsBottomSheet(context);
+                  },
+                  child: Material(
+                    elevation: 1,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      decoration: BoxDecoration(color: AppColors.white,borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: Row(mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset("assest/images/home/gole_black.png",width: 20,),
+                        commonText("Set Goals",size: 14)
+                        ],
+                      ),
+                    )),
+                )
               ],
             ),
         
@@ -379,4 +384,93 @@ final List<Map<String, dynamic>> meals = [
       child: commonText("$label  \n$value", size: 10, color: AppColors.white, isBold: true),
     );
   }
+
+
+void showSetGoalsBottomSheet(BuildContext context) {
+  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController proteinController = TextEditingController();
+  final TextEditingController carbsController = TextEditingController();
+  final TextEditingController fatsController = TextEditingController();
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: AppColors.white,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (context) {
+      return Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              top: 24,
+              left: 16,
+              right: 16,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(child: commonText("Set Goals", size: 18, isBold: true)),
+                  const SizedBox(height: 20),
+          
+                  commonTextfieldWithTitle(
+                    "Daily Calories",
+                    caloriesController,
+                    hintText: "Set your daily calories intake",
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 16),
+          
+                  commonTextfieldWithTitle(
+                    "Daily Protein",
+                    proteinController,
+                    hintText: "Set your daily protein intake",
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 16),
+          
+                  commonTextfieldWithTitle(
+                    "Daily Carbs",
+                    carbsController,
+                    hintText: "Set your daily carbs intake",
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 16),
+          
+                  commonTextfieldWithTitle(
+                    "Daily Fats",
+                    fatsController,
+                    hintText: "Set your daily fats intake",
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(height: 24),
+          
+                  commonButton(
+                    "Set Goal",
+                    width: double.infinity,
+                    onTap: () {
+                      
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+       
+       Positioned(
+        top: 10,right: 16,
+        child: commonCloseButton())
+        ],
+      );
+    },
+  );
+}
+
+
 }
