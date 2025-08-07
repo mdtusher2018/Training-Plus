@@ -16,6 +16,8 @@ class ImagePaths {
   static const String resetPasswordImage = 'assest/images/authentication/reset_password.png';
   static const String forgetPasswordImage = 'assest/images/authentication/forget_password.png';
 
+  static const lock="assest/images/profile/lock.png";
+
 
 
 

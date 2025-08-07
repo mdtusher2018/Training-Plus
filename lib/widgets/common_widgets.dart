@@ -74,7 +74,7 @@ Widget commonTextfieldWithTitle(
   textSize = 14.0,
   suffixIcon,
   borderWidth = 0.0,
-  double? scale = 3.0,
+  double? scale = 2.0,
   optional = false,
   changePasswordVisibility,
   TextInputType keyboardType = TextInputType.text,
@@ -399,6 +399,10 @@ Widget commonNumberInputField({
 Widget commonTextField({
   TextEditingController? controller,
   String? hintText,
+  int? minLine,
+  bool? enabled,
+  Color boarderColor=Colors.black,
+  double boarderWidth=1.0,
   TextInputType keyboardType = TextInputType.number,
   void Function(String)? onChanged,
 }) {
@@ -408,7 +412,10 @@ Widget commonTextField({
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,
- 
+      minLines: minLine,
+      maxLines: minLine,
+      enabled: enabled,
+
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
     
@@ -418,15 +425,15 @@ Widget commonTextField({
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: BorderSide(color: boarderColor,width: boarderWidth),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-             borderSide: BorderSide(color: Colors.black),
+             borderSide: BorderSide(color: boarderColor,width: boarderWidth),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: BorderSide(color: boarderColor,width: boarderWidth),
         ),
       ),
     ),
@@ -503,7 +510,7 @@ Widget commonCloseButton(){
   return GestureDetector(
     onTap: Get.back,
     child: Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(6),
       decoration: BoxDecoration(color: AppColors.boxBG,shape: BoxShape.circle),
       child: Icon(Icons.close)),
   );

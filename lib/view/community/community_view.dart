@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/community/CommunityPostView.dart';
+import 'package:training_plus/view/community/active_challenges_view.dart';
+import 'package:training_plus/view/community/leaderboard_view.dart';
+import 'package:training_plus/view/community/my_posts_view.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class CommunityView extends StatelessWidget {
   const CommunityView({Key? key}) : super(key: key);
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +21,7 @@ class CommunityView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColors.boxBG,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         title: commonText("Community", size: 20, isBold: true),
       ),
@@ -21,52 +30,124 @@ class CommunityView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _activeChallengesSection(),
-            const SizedBox(height: 24),
+            _activeChallengesSection(context),
+        
             _myPostsSection(),
-            const SizedBox(height: 24),
+     
             _leaderboardSection(),
-            const SizedBox(height: 24),
+  
             _communityFeedSection(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
-        onPressed: () {},
+        onPressed: () {
+          navigateToPage(CommunityPostView());
+        },
+        shape: CircleBorder(),
         child: const Icon(Icons.add),
       ),
     );
+  
+  
   }
 
-  Widget _activeChallengesSection() {
+  Widget _activeChallengesSection(BuildContext context) {
+
+  final List<Map<String, dynamic>> challenges = [
+    {
+      'title': "7 Day Soccer Challenge",
+      'status': "Joined",
+      'participants': 234,
+      'daysLeft': 3,
+      'progress': 5 / 7,
+    },
+    {
+      'title': "Wellness Week",
+      'status': "Join",
+      'participants': 189,
+      'daysLeft': 3,
+      'progress': null,
+    },
+    {
+      'title': "21 Day Meditation Challenge",
+      'status': "Join",
+      'participants': 234,
+      'daysLeft': 3,
+      'progress': null,
+    },
+  ];
+
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("Active Challenges"),
+        sectionHeader("Active Challenges",onTap: () {
+          navigateToPage(ActiveChallengesView());
+        },),
         const SizedBox(height: 12),
-        challengeCard("7 Day Soccer Challenge", "Joined", 234, 3, 5 / 7),
-        const SizedBox(height: 12),
-        challengeCard("Wellness Week", "Join", 189, 3, null),
-        const SizedBox(height: 12),
-        challengeCard("21 Day Meditation Challenge", "Join", 234, 3, null),
+   ListView.builder(
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+        itemCount: challenges.length,
+        itemBuilder: (context, index) {
+          final challenge = challenges[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: challengeCard(
+              challenge['title'],
+              challenge['status'],
+              challenge['participants'],
+              challenge['daysLeft'],
+              challenge['progress'],
+              onTap: () {
+                showChallengeDetailsBottomSheet(context);
+              },
+            ),
+          );
+        },
+      ),
+    
       ],
     );
   }
-
 
   Widget _myPostsSection() {
+    final List<Map<String, dynamic>> myPosts = [
+      {"user": "You", "time": "1 Day Ago"},
+      {"user": "You", "time": "1 Day Ago"},
+      // Add more posts here if needed
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("My Posts"),
+        sectionHeader("My Posts",onTap: () {
+          navigateToPage(MyPostsView());
+        },),
         const SizedBox(height: 12),
-        _postCard(user: "You", time: "1 Day Ago",myPost: true),
-        const SizedBox(height: 12),
-        _postCard(user: "You", time: "1 Day Ago",myPost: true),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: myPosts.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final post = myPosts[index];
+            return postCard(
+              user: post['user'],
+              time: post['time'],
+              myPost: true,
+              ontap: () {
+                showCommentsBottomSheet(context);                
+              },
+            );
+          },
+        ),
       ],
     );
   }
+
 
   Widget _leaderboardSection() {
     final leaders = [
@@ -80,122 +161,57 @@ class CommunityView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("This Week Leaderboard"),
+        sectionHeader("This Week Leaderboard",onTap: () {
+          navigateToPage(LeaderboardView());
+        },),
         const SizedBox(height: 12),
         ...leaders.asMap().entries.map((entry) {
           final index = entry.key;
           final name = entry.value[0];
           final points = entry.value[1];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                commonText("${index + 1}", size: 14, isBold: true),
-                const SizedBox(width: 8),
-                CircleAvatar(radius: 16,backgroundImage: NetworkImage("https://plus.unsplash.com/premium_photo-1664297814064-661d433c03d9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")),
-                const SizedBox(width: 12),
-                Expanded(child: commonText(name.toString(), size: 14)),
-                commonText("$points\nPoints", size: 14, fontWeight: FontWeight.w600,textAlign: TextAlign.left),
-              ],
-            ),
-          );
+          return leaderboardCard(points: points as num, index: index, name: name as String);
         })
       ],
     );
   }
 
   Widget _communityFeedSection() {
+    final List<Map<String, String>> communityPosts = [
+      {"user": "Michael Carter", "time": "1hr Ago", "tag": "Soccer"},
+      {"user": "Emily Rivera", "time": "1hr Ago", "tag": "Yoga"},
+      // Add more posts if needed
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("Community Feed"),
+        SizedBox(height: 16,),
+        sectionHeader("Community Feed",onTap: () {
+          navigateToPage(CommunityView());
+        },),
         const SizedBox(height: 12),
-        _postCard(user: "Michael Carter", time: "1hr Ago", tag: "Soccer"),
-        const SizedBox(height: 12),
-        _postCard(user: "Emily Rivera", time: "1hr Ago", tag: "Yoga"),
-      ],
-    );
-  }
-
-  Widget _postCard({required String user, required String time, String? tag,bool myPost=false}) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(radius: 20,backgroundImage: NetworkImage("https://plus.unsplash.com/premium_photo-1664297814064-661d433c03d9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    commonText(user, size: 14, isBold: true),
-                    commonText(time, size: 12, color: AppColors.textSecondary),
-                  ],
-                ),
-              ),
-
-              if (tag != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: AppColors.primary),
-                  ),
-                  child: commonText(tag, size: 12),
-                ),
-              if(myPost)...[Icon(Icons.edit),SizedBox(width: 4,),
-              Icon(Icons.delete_outline_rounded)]
-            ],
-          ),
-          const SizedBox(height: 12),
-          commonText(
-            "Just completed my first 5K run today! 🏃‍♂️ The feeling of crossing that finish line was incredible. Started training just 2 months ago and couldn’t even run for 5 minutes straight. Now look at me!",
-            size: 13,maxline: 4
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              const Icon(Icons.favorite_border, size: 16),
-              const SizedBox(width: 4),
-              commonText("15", size: 12),
-              const SizedBox(width: 16),
-              const Icon(Icons.mode_comment_outlined, size: 16),
-              const SizedBox(width: 4),
-              commonText("6", size: 12),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget sectionHeader(String title) {
-    return Row(
-      
-      children: [
-        Expanded(child: commonText(title, size: 16, isBold: true,maxline: 1)),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            commonText("See all "),
-            const Icon(Icons.arrow_forward, size: 14,color: AppColors.primary,),
-          ],
+        ListView.separated(
+          itemCount: communityPosts.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final post = communityPosts[index];
+            return postCard(
+              user: post["user"]!,
+              time: post["time"]!,
+              tag: post["tag"],
+              ontap: () {
+                showCommentsBottomSheet(context);                
+              },
+            );
+          },
         ),
       ],
     );
   }
+
+
+
+
 }
