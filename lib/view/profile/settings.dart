@@ -3,15 +3,20 @@ import 'package:get/get.dart';
 import 'package:training_plus/view/profile/change_password.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingsView extends StatelessWidget {
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: commonText("General Settings", size: 18, isBold: true),
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios_new)),
+        title: commonText("Settings", size: 18, isBold: true),
         centerTitle: true,
       ),
 
@@ -29,7 +34,7 @@ class SettingsScreen extends StatelessWidget {
           
                 haveArrow: true,
                 onTap: () {
-                  Get.to(ChangePasswordScreen());
+                  navigateToPage(ChangePasswordScreen());
                 },
               ),
 
@@ -40,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
              
                 onTap: () {
                   showDeleteAccountDialog(context, () {
-                    Navigator.pop(context);
+                    Get.back();
                   });
                 },
               ),
@@ -99,7 +104,7 @@ class SettingsScreen extends StatelessWidget {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Navigator.of(context).pop(); // Close the dialog
+                      Get.back();
                     },
                   ),
                 ),
@@ -112,7 +117,7 @@ class SettingsScreen extends StatelessWidget {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Navigator.of(context).pop(); // Close the dialog
+                      Get.back();
                       onDelete(); // Perform the delete action
                     },
                   ),

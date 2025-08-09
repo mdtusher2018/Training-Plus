@@ -26,10 +26,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() => isLoading = false);
-      // handle post-password-change logic here
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Password changed successfully")),
-      );
+      Get.back();
+      commonSnackbar(title: "Successfully", message: "Password changed successfully",backgroundColor: AppColors.success);
+      
     });
   }
 
@@ -103,7 +102,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ? const CircularProgressIndicator()
                 : commonButton(
                     "Change Password",
-                    textColor: AppColors.white,
                     onTap: handleChangePassword,
                   ),
           ],

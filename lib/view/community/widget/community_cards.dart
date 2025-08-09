@@ -210,7 +210,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
     );
   }
 
-  void showChallengeDetailsBottomSheet(BuildContext context) {
+  void showChallengeDetailsBottomSheet(BuildContext context,{required bool isJoined}) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -258,6 +258,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
                 commonText("Achievement Badge\n200 Points", size: 14),
             
                 const SizedBox(height: 30),
+                if(isJoined)
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -275,7 +276,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
                     child: commonText(
                       "Join Challenge",
                       size: 15,
-                      color: Colors.white,
+                      
                       fontWeight: FontWeight.w600,
                     ),
                   ),

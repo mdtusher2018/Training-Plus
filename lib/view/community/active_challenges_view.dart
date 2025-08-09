@@ -95,7 +95,7 @@ class _ActiveChallengesViewState extends State<ActiveChallengesView> {
               challenge['daysLeft'],
               challenge['progress'],
               onTap: () {
-                showChallengeDetailsBottomSheet(context);
+                showChallengeDetailsBottomSheet(context,isJoined: challenge['progress']==null);
               },
             ),
           );

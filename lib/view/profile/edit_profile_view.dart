@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class EditProfilePage extends StatefulWidget {
+class EditProfileView extends StatefulWidget {
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
+  _EditProfileViewState createState() => _EditProfileViewState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfileViewState extends State<EditProfileView> {
   // Controllers for text fields
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -177,7 +178,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             SizedBox(height: 24),
 
             // Edit Profile button
-         commonButton("Edit Profile")
+         commonButton("Edit Profile",onTap: () {
+           Get.back();
+         },)
           ],
         ),
       ),

@@ -26,17 +26,17 @@ class _RedeemPointsviewState extends State<RedeemPointsview> {
        {
       "title": "Training Plus Sticker Pack",
       "points": 300,
-      "redeem":false
+      "redeem":true
     },
        {
       "title": "Training Plus Sticker Pack",
       "points": 300,
-      "redeem":false
+      "redeem":true
     },
        {
       "title": "Training Plus Sticker Pack",
       "points": 300,
-      "redeem":false
+      "redeem":true
     },
    
   ];
@@ -64,10 +64,13 @@ class _RedeemPointsviewState extends State<RedeemPointsview> {
         return ListTile(
 title: commonText(run["title"], size: 16),
 subtitle: commonText("${run["points"]} Points", size: 14,color: AppColors.textSecondary),
-trailing: Container(
-  padding: EdgeInsets.symmetric(horizontal: 10,vertical: 8),
-  decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(25)),
-  child: commonText("Redeem",size: 12),
+trailing: Opacity(
+  opacity:(run['redeem']==true)? 0.5:1,
+  child: Container(
+    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+    decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(25)),
+    child: commonText("Redeem",size: 12),
+  ),
 ),
         );
       }, separatorBuilder: (context, index) => SizedBox(height: 16,), itemCount: runs.length),

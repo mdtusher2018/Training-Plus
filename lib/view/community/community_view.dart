@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/view/community/CommunityPostView.dart';
 import 'package:training_plus/view/community/active_challenges_view.dart';
+import 'package:training_plus/view/community/community_feed_view.dart';
 import 'package:training_plus/view/community/leaderboard_view.dart';
 import 'package:training_plus/view/community/my_posts_view.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
@@ -102,7 +103,7 @@ class CommunityView extends StatelessWidget {
               challenge['daysLeft'],
               challenge['progress'],
               onTap: () {
-                showChallengeDetailsBottomSheet(context);
+                showChallengeDetailsBottomSheet(context,isJoined: challenge['progress']==null);
               },
             ),
           );
@@ -161,6 +162,7 @@ class CommunityView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 16,),
         sectionHeader("This Week Leaderboard",onTap: () {
           navigateToPage(LeaderboardView());
         },),
@@ -187,7 +189,7 @@ class CommunityView extends StatelessWidget {
       children: [
         SizedBox(height: 16,),
         sectionHeader("Community Feed",onTap: () {
-          navigateToPage(CommunityView());
+          navigateToPage(CommunityFeedView());
         },),
         const SizedBox(height: 12),
         ListView.separated(

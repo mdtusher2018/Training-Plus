@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/progress/all_achivment_view.dart';
 import 'package:training_plus/view/progress/recentSessionsView.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -337,7 +339,9 @@ decoration: BoxDecoration(color: AppColors.mainBG,borderRadius: BorderRadius.cir
               commonText("Achievements", size: 14, fontWeight: FontWeight.w600),
               const Spacer(),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  navigateToPage(AllAchivmentView());
+                },
                 child: Row(
                   children: [
                     commonText("See all", size: 12),SizedBox(width: 4,),Icon(Icons.arrow_forward)
@@ -481,7 +485,9 @@ void showSetGoalBottomSheet(BuildContext context) {
                       const SizedBox(height: 32),
                   
                       /// Set Goal Button
-                    commonButton("Set Goal"),
+                    commonButton("Set Goal",onTap:   () {
+              Get.back();
+            },),
                   
                       const SizedBox(height: 32),
                     ],
