@@ -67,6 +67,7 @@ class _CommunityFeedViewState extends State<CommunityFeedView> {
             user: post["user"]!,
             time: post["time"]!,
             tag: post["tag"],
+            context: context,
             ontap: () {
             showCommentsBottomSheet(context);                
           },

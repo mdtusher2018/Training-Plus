@@ -16,9 +16,9 @@ class _MyPostsViewState extends State<MyPostsView> {
     {"user": "You", "time": "1 Day Ago"},
     {"user": "You", "time": "1 Day Ago"},
     {"user": "You", "time": "1 Day Ago"},
-    {"user": "You", "time": "1 Day Ago"}, 
     {"user": "You", "time": "1 Day Ago"},
-    {"user": "You", "time": "1 Day Ago"}, 
+    {"user": "You", "time": "1 Day Ago"},
+    {"user": "You", "time": "1 Day Ago"},
     {"user": "You", "time": "1 Day Ago"},
     {"user": "You", "time": "1 Day Ago"},
     // Add more posts here if needed
@@ -44,14 +44,20 @@ class _MyPostsViewState extends State<MyPostsView> {
       body: ListView.separated(
         padding: EdgeInsets.all(16),
         shrinkWrap: true,
-        
+
         itemCount: myPosts.length,
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final post = myPosts[index];
-          return postCard(user: post['user'], time: post['time'], myPost: true,ontap: () {
-            showCommentsBottomSheet(context);                
-          },);
+          return postCard(
+            user: post['user'],
+            time: post['time'],
+            context: context,
+            myPost: true,
+            ontap: () {
+              showCommentsBottomSheet(context);
+            },
+          );
         },
       ),
     );

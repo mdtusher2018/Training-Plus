@@ -138,6 +138,7 @@ class CommunityView extends StatelessWidget {
             return postCard(
               user: post['user'],
               time: post['time'],
+              context: context,
               myPost: true,
               ontap: () {
                 showCommentsBottomSheet(context);                
@@ -203,6 +204,7 @@ class CommunityView extends StatelessWidget {
               user: post["user"]!,
               time: post["time"]!,
               tag: post["tag"],
+              context: context,
               ontap: () {
                 showCommentsBottomSheet(context);                
               },

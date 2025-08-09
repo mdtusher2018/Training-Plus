@@ -1,5 +1,7 @@
   import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/community/community_edit_post_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
   Widget challengeCard(String title, String status, int participants, int daysLeft, double? progress,{required Function()? onTap}) {
@@ -62,7 +64,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
     );
   }
 
-  Widget postCard({required String user, required String time, String? tag,bool myPost=false,required Function()? ontap}) {
+  Widget postCard({required String user, required String time, String? tag,bool myPost=false,required Function()? ontap,required BuildContext context}) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -96,8 +98,16 @@ import 'package:training_plus/widgets/common_widgets.dart';
                   ),
                   child: commonText(tag, size: 12),
                 ),
-              if(myPost)...[SizedBox(width: 6,), Icon(Icons.edit),SizedBox(width: 4,),
-              Icon(Icons.delete_outline_rounded)]
+              if(myPost)...[SizedBox(width: 6,), GestureDetector(
+                onTap: () {
+                  navigateToPage(EditPostView());
+                },
+                child: Icon(Icons.edit)),SizedBox(width: 4,),
+              GestureDetector(
+                onTap: (){
+                   showDeletePostDialog(context);
+                },
+                child: Icon(Icons.delete_outline_rounded))]
             ],
           ),
           const SizedBox(height: 12),
@@ -423,4 +433,55 @@ void showCommentsBottomSheet(BuildContext context) {
 
 
 
+  Future<void> showDeletePostDialog(
+    BuildContext context,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: commonText(
+            "Do you want to delete this post?",
+            size: 18,
+            fontWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          actions: [
+            Row(
+              children: [
+                Expanded(
+                  child: commonButton(
+                    "Cancel",
+                    color: Colors.grey.shade400,
+                    textColor: Colors.black,
+                    height: 40,
+                    width: 100,
+                    onTap: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: commonButton(
+                    "Delete",
+                    color: Colors.red.shade700,
+                    textColor: Colors.white,
+                    height: 40,
+                    width: 100,
+                    onTap: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 
