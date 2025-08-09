@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -63,8 +64,8 @@ class _OnboardingViewState extends State<OnboardingView>
       _fadeControllers[currentPage].forward();
       setState(() {});
     } else {
-      // Navigate to next page like RoleChooseView
-      // navigateToPage(RoleChooseView());
+   
+      navigateToPage(SigninView());
     }
   }
 
@@ -95,13 +96,13 @@ class _OnboardingViewState extends State<OnboardingView>
                   ),
                   SafeArea(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
                           const Spacer(),
                           commonText(
                             data["title"]!,
-                            size: 26,
+                            size: 28,
                             isBold: true,
                             textAlign: TextAlign.center,
                             color: Colors.white,
@@ -109,7 +110,8 @@ class _OnboardingViewState extends State<OnboardingView>
                           const SizedBox(height: 12),
                           commonText(
                             data["subtitle"]!,
-                            size: 14,
+                            size: 16,
+                        
                             textAlign: TextAlign.center,
                             color: Colors.white.withOpacity(0.9),
                           ),
@@ -118,7 +120,7 @@ class _OnboardingViewState extends State<OnboardingView>
                             (currentPage < totalPages - 1)
                                 ? "Next"
                                 : "Get Started",
-                            haveNextIcon: true,
+                            haveNextIcon: currentPage < totalPages - 1,
                             onTap: _goToNextPage,
                           ),
                           const SizedBox(height: 50),
@@ -126,12 +128,17 @@ class _OnboardingViewState extends State<OnboardingView>
                       ),
                     ),
                   ),
-                  Positioned(
+                  if(currentPage < totalPages - 1)Positioned(
                     top: 56,
                     right: 24,
                     child: GestureDetector(
                       onTap: () {
-    
+                        _fadeControllers[currentPage].reverse();
+                        currentPage = totalPages - 1;
+                        _fadeControllers[currentPage].forward();
+                        setState(() {
+                          
+                        });
                       },
                       child: commonText(
                         "Skip",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/widgets/common_widgets.dart' show authAppBar, commonButton, commonText,commonTextfieldWithTitle,commonCloseButton;
+import 'package:training_plus/view/home/camera_view.dart';
+import 'package:training_plus/widgets/common_widgets.dart' show commonButton, commonCloseButton, commonText, commonTextfieldWithTitle, navigateToPage;
 
 
 class NutritionTrackerPage extends StatelessWidget {
@@ -45,7 +46,17 @@ final List<Map<String, dynamic>> meals = [
   },
 ];
     return Scaffold(
-      appBar: authAppBar("Nutrition Tracker"),
+   
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: commonText("Nutrition Tracker", size: 21, isBold: true),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -249,13 +260,18 @@ final List<Map<String, dynamic>> meals = [
           ],
         ),
       ),
-      floatingActionButton: Container(
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          shape: BoxShape.circle
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          navigateToPage(CameraView());
+        },
+        child: Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            shape: BoxShape.circle
+          ),
+          child: Icon(Icons.fullscreen,size: 40,),
         ),
-        child: Icon(Icons.fullscreen,size: 40,),
       ),
     );
   }

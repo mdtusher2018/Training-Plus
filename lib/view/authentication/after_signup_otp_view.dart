@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class AfterSignUpOtpView extends StatefulWidget {
@@ -86,7 +88,18 @@ class _AfterSignUpOtpViewState extends State<AfterSignUpOtpView> {
               commonButton(
                 "Verify OTP",
                 onTap: () {
-                  // Add your verification logic
+                  
+
+                  String code = controllers.map((c) => c.text).join();
+                  if(code.isEmpty){
+                    commonSnackbar(title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
+                    return;
+                  }
+                  else if(code.length<6){
+                    commonSnackbar(title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
+                    return;
+                  }
+                  navigateToPage(RootView(),clearStack: true);
                   commonSnackbar(
                     title: "Verified",
                     message: "OTP verified successfully",
@@ -98,11 +111,16 @@ class _AfterSignUpOtpViewState extends State<AfterSignUpOtpView> {
               const SizedBox(height: 24),
 
               // Back to sign in
-           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.arrow_back),commonText("  Back to sign in",size: 14)
-            ],
+           GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.arrow_back),commonText("  Back to sign up",size: 14)
+              ],
+             ),
            )
             ],
           ),

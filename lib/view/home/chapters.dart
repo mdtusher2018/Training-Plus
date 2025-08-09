@@ -179,8 +179,7 @@ class _ChaptersPageState extends State<ChaptersPage> {
               
                 width: double.infinity,
                 onTap: () {
-                  Navigator.pop(ctx);
-                  Navigator.pop(context);
+                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
               ),
               const SizedBox(height: 16),

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/home/nutrition_tracker_view.dart';
+import 'package:training_plus/view/home/running_gps_view.dart';
+import 'package:training_plus/view/home/workout_details.dart';
+import 'package:training_plus/view/notification/notification_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class HomePageView extends StatelessWidget {
@@ -37,14 +41,19 @@ class HomePageView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.primary,
+                  GestureDetector(
+                    onTap: () {
+                      navigateToPage(NotificationsView());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primary,
+                      ),
+                      child: const Icon(Icons.notifications_none,
+                          color: Colors.white),
                     ),
-                    child: const Icon(Icons.notifications_none,
-                        color: Colors.white),
                   ),
                 ],
               ),
@@ -114,21 +123,32 @@ class HomePageView extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _buildQuickAction(
-                        label:  "Running\nTracker",
-                        imagePath: "assest/images/home/running_track.png"
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        navigateToPage(RunningTrackerPage());
+                      },
+                      child: _buildQuickAction(
+                        
+                          label:  "Running\nTracker",
+                          imagePath: "assest/images/home/running_track.png"
+                          ),
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: _buildQuickAction(
-                        label:  "Nutrition\nTracker",
-                        imagePath: "assest/images/home/nutrition_track.png",
-                        color1: Color(0xFF724C21),
-                        color2: Color(0xFFE0CC64),
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        navigateToPage(NutritionTrackerPage());
+                      },
+                      child: _buildQuickAction(
+                          label:  "Nutrition\nTracker",
+                          imagePath: "assest/images/home/nutrition_track.png",
+                          color1: Color(0xFF724C21),
+                          color2: Color(0xFFE0CC64),
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight
+                          ),
+                    ),
                   ),
                 ],
               ),
@@ -160,8 +180,13 @@ class HomePageView extends StatelessWidget {
                   separatorBuilder: (context, index) => SizedBox(width: 10,),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return _buildWorkoutCard("Intermediate", "Ball Control Mastery",
-                            "25 min", "https://www.rhsmith.umd.edu/sites/default/files/research/featured/2022/11/soccer-player.jpg");
+                    return GestureDetector(
+                      onTap: () {
+                        navigateToPage(WorkoutDetailPage());
+                      },
+                      child: _buildWorkoutCard("Intermediate", "Ball Control Mastery",
+                              "25 min", "https://www.rhsmith.umd.edu/sites/default/files/research/featured/2022/11/soccer-player.jpg"),
+                    );
                   },
                 ),
               ),

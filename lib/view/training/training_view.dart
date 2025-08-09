@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/home/workout_details.dart';
 import 'package:training_plus/view/training/chooseYourSportChange.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -34,60 +35,73 @@ class _TrainingViewState extends State<TrainingView> {
             _buildTabs(),
 
             const SizedBox(height: 16),
-  if (selectedTab == 0) _buildTrainingList(sessions: [
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Image for Soccer
-    "title": "Ball Control Mastery",
-    "level": "Intermediate",
-    "duration": "25 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Passing Precision",
-    "level": "Advanced",
-    "duration": "30 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Dribbling Drills",
-    "level": "Advanced",
-    "duration": "45 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Shooting Accuracy",
-    "level": "Beginner",
-    "duration": "20 min",
-  },
-]),
+            if (selectedTab == 0)
+              _buildTrainingList(
+                sessions: [
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Image for Soccer
+                    "title": "Ball Control Mastery",
+                    "level": "Intermediate",
+                    "duration": "25 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Passing Precision",
+                    "level": "Advanced",
+                    "duration": "30 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Dribbling Drills",
+                    "level": "Advanced",
+                    "duration": "45 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Shooting Accuracy",
+                    "level": "Beginner",
+                    "duration": "20 min",
+                  },
+                ],
+              ),
 
-if (selectedTab == 1) _buildTrainingList(sessions: [
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image for Basketball
-    "title": "Dribble Mastery",
-    "level": "Advanced",
-    "duration": "35 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Passing Precision",
-    "level": "Intermediate",
-    "duration": "25 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Shooting Accuracy",
-    "level": "Advanced",
-    "duration": "30 min",
-  },
-  {
-    "image": "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-    "title": "Defensive Drills",
-    "level": "Intermediate",
-    "duration": "40 min",
-  },
-]),
-    
+            if (selectedTab == 1)
+              _buildTrainingList(
+                sessions: [
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image for Basketball
+                    "title": "Dribble Mastery",
+                    "level": "Advanced",
+                    "duration": "35 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Passing Precision",
+                    "level": "Intermediate",
+                    "duration": "25 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Shooting Accuracy",
+                    "level": "Advanced",
+                    "duration": "30 min",
+                  },
+                  {
+                    "image":
+                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
+                    "title": "Defensive Drills",
+                    "level": "Intermediate",
+                    "duration": "40 min",
+                  },
+                ],
+              ),
 
             const SizedBox(height: 24),
             _buildWellnessToolkit(),
@@ -110,26 +124,29 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                commonText("Current Training", size: 18,),
-                commonText("Soccer", size: 14, isBold: true,),
+                commonText("Current Training", size: 18),
+                commonText("Soccer", size: 14, isBold: true),
               ],
             ),
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(ChooseYourSportChangeView());
             },
             child: Container(
               padding: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: AppColors.white,
-                border: Border.all(width: 1,
-                style: BorderStyle.solid),
-                borderRadius: BorderRadius.circular(8)
+                border: Border.all(width: 1, style: BorderStyle.solid),
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: commonText("Change", size: 14, fontWeight: FontWeight.w600),
+              child: commonText(
+                "Change",
+                size: 14,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -148,10 +165,12 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                child: commonText("My Trainings",
-                
-                    size: 14,
-                    fontWeight: FontWeight.w600),
+                child: commonText(
+                  "My Trainings",
+
+                  size: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -167,10 +186,12 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                child: commonText("Completed",
-                 
-                    size: 14,
-                    fontWeight: FontWeight.w600),
+                child: commonText(
+                  "Completed",
+
+                  size: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -179,8 +200,7 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
     );
   }
 
-  Widget _buildTrainingList({required List<Map<String,String>> sessions}) {
-
+  Widget _buildTrainingList({required List<Map<String, String>> sessions}) {
     return Column(
       children: sessions.map((session) => _buildTrainingCard(session)).toList(),
     );
@@ -213,11 +233,23 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(session["title"]!, size: 16, fontWeight: FontWeight.bold),
+                  commonText(
+                    session["title"]!,
+                    size: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                   const SizedBox(height: 4),
-                  commonText(session["level"]!, size: 14, color: AppColors.green),
+                  commonText(
+                    session["level"]!,
+                    size: 14,
+                    color: AppColors.green,
+                  ),
                   const SizedBox(height: 4),
-                  commonText(session["duration"]!, size: 13, color: AppColors.textSecondary),
+                  commonText(
+                    session["duration"]!,
+                    size: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ],
               ),
             ),
@@ -236,9 +268,11 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
     ];
 
     return Container(
-      decoration: BoxDecoration(color: AppColors.white,
-      border: Border.all(width: 1,color: Colors.grey.withOpacity(0.5)),
-      borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
+        borderRadius: BorderRadius.circular(10),
+      ),
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,23 +286,37 @@ if (selectedTab == 1) _buildTrainingList(sessions: [
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
             childAspectRatio: 2.5,
-            children: tools.map((tool) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: AppColors.boxBG,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    commonText(tool["title"]!, size: 14, fontWeight: FontWeight.w600),
-                    commonText("${tool["subtitle"]!} exercises", size: 12, color: AppColors.textSecondary),
-                  ],
-                ),
-              );
-            }).toList(),
-          )
+            children:
+                tools.map((tool) {
+                  return GestureDetector(
+                    onTap: () {
+                      navigateToPage(WorkoutDetailPage());
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.boxBG,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          commonText(
+                            tool["title"]!,
+                            size: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          commonText(
+                            "${tool["subtitle"]!} exercises",
+                            size: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+          ),
         ],
       ),
     );

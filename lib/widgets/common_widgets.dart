@@ -12,6 +12,7 @@ Widget commonText(
   Color color = Colors.black,
   bool isBold = false,
   softwarp,
+  double? wordSpacing,
   maxline = 1000,
   bool haveUnderline = false,
   fontWeight,
@@ -30,7 +31,7 @@ Widget commonText(
       decoration:
           (haveUnderline) ? TextDecoration.underline : TextDecoration.none,
       color: color,
-
+wordSpacing: wordSpacing,
       fontWeight:
           isBold
               ? FontWeight.bold
@@ -451,14 +452,20 @@ Widget commonCheckbox({
       Checkbox(
         value: value,
         onChanged: onChanged,
-        activeColor: AppColors.primary,
+        // activeColor: AppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        side: const BorderSide(color: Colors.black26),
+        side: BorderSide(
+          color: value ? AppColors.primary : Colors.grey,
+          width: 2,
+        ),
       ),
-      if (label.isNotEmpty) Flexible(child: commonText(label, size: 14)),
+      if (label.isNotEmpty)
+        Flexible(child: commonText(label, size: 14)),
     ],
   );
 }
+
+
 
 Widget commonDropdown<T>({
   required List<T> items,

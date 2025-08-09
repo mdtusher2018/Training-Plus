@@ -4,14 +4,14 @@ import 'package:training_plus/utils/image_paths.dart';
 import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashView extends StatefulWidget {
+  const SplashView({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   late AnimationController _fadeInController;
   late Animation<double> _fadeInAnimation;
 

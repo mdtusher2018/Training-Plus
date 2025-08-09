@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class CreateNewPasswordView extends StatefulWidget {
@@ -12,7 +13,8 @@ class CreateNewPasswordView extends StatefulWidget {
 
 class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
@@ -28,7 +30,6 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
               CommonImage(
                 imagePath: ImagePaths.resetPasswordImage,
                 isAsset: true,
-            
               ),
               const SizedBox(height: 16),
               commonText("Create new password", size: 21, isBold: true),
@@ -75,6 +76,28 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
               commonButton(
                 "Continue",
                 onTap: () {
+                  String password = passwordController.text.trim();
+                  String confirmPassword =
+                      confirmPasswordController.text.trim();
+
+                  if (password.isEmpty || confirmPassword.isEmpty) {
+                    commonSnackbar(
+                      title: "Error",
+                      message: "Please fill all the fields",
+                      backgroundColor: AppColors.error,
+                    );
+                    return;
+                  }
+
+                  if (password != confirmPassword) {
+                    commonSnackbar(
+                      title: "Error",
+                      message: "Passwords do not match",
+                      backgroundColor: AppColors.error,
+                    );
+                    return;
+                  }
+                  navigateToPage(SigninView(), clearStack: true);
                   commonSnackbar(
                     title: "Success",
                     message: "Password reset successful",
@@ -84,13 +107,19 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
               ),
               const SizedBox(height: 24),
 
-                // Back to sign in
-           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.arrow_back),commonText("  Back to sign in",size: 14)
-            ],
-           )
+              // Back to sign in
+              GestureDetector(
+                onTap: () {
+                  navigateToPage(SigninView(), clearStack: true);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.arrow_back),
+                    commonText("  Back to sign in", size: 14),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

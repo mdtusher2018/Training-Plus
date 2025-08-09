@@ -1,11 +1,21 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/view/progress/recentSessionsView.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class ProgressScreen extends StatelessWidget {
-  const ProgressScreen({super.key});
+class ProgressView extends StatefulWidget {
+   ProgressView({super.key});
+
+  @override
+  State<ProgressView> createState() => _ProgressViewState();
+}
+
+class _ProgressViewState extends State<ProgressView> {
+bool isMonthly=false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +32,11 @@ class ProgressScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTrainingActivityChart(),
+            _buildTrainingActivityChart(isMonthly:isMonthly,ontap: (){
+              setState(() {
+                isMonthly=!isMonthly;
+              });
+            } ),
             const SizedBox(height: 16),
             _buildSportsActivityChart(),
             const SizedBox(height: 16),
@@ -40,78 +54,100 @@ class ProgressScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTrainingActivityChart() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              commonText("Training Activity", size: 14, fontWeight: FontWeight.w600),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Row(
-                  children: [
-                    commonText("Monthly", size: 12, color: AppColors.white),
-                    const Icon(Icons.arrow_drop_down, color: Colors.white),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            height: 160,
-            child: BarChart(
-              BarChartData(
-                borderData: FlBorderData(show: false),
-                titlesData: FlTitlesData(
-                  topTitles: AxisTitles(),
-                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (value, meta) {
-                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Text(months[value.toInt() % 12], style: const TextStyle(fontSize: 8)),
-                        );
-                      },
+  // Widget _buildTrainingActivityChart() {
+Widget _buildTrainingActivityChart({required bool isMonthly,required Function() ontap}) {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      // Monthly data
+      final monthlyData = [30, 40, 28, 32, 29, 25, 33, 20, 15, 10, 12, 14];
+      final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // Weekly data
+      final weeklyData = [5, 8, 7, 6, 10, 9, 4];
+      final weekDays = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                commonText("Training Activity", size: 14, fontWeight: FontWeight.w600),
+                const Spacer(),
+                GestureDetector(
+                  onTap:ontap,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      children: [
+                        commonText(isMonthly ? "Monthly" : "Weekly", size: 12),
+                        const Icon(Icons.arrow_drop_down),
+                      ],
                     ),
                   ),
                 ),
-                gridData: FlGridData(show: false),
-                barGroups: List.generate(
-                  12,
-                  (index) => BarChartGroupData(
-                    x: index,
-                    barRods: [
-                      BarChartRodData(
-                        toY: [30, 40, 28, 32, 29, 25, 33, 20, 15, 10, 12, 14][index].toDouble(),
-                        width: 16,
-                        borderRadius: BorderRadius.circular(4),
-                        color: AppColors.primary,
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 160,
+              child: BarChart(
+                BarChartData(
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(
+                    topTitles: AxisTitles(),
+                    rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          if (isMonthly) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Text(months[value.toInt() % 12], style: const TextStyle(fontSize: 8)),
+                            );
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Text(weekDays[value.toInt() % 7], style: const TextStyle(fontSize: 10)),
+                            );
+                          }
+                        },
                       ),
-                    ],
+                    ),
+                  ),
+                  gridData: FlGridData(show: false),
+                  barGroups: List.generate(
+                    isMonthly ? 12 : 7,
+                    (index) => BarChartGroupData(
+                      x: index,
+                      barRods: [
+                        BarChartRodData(
+                          toY: isMonthly ? monthlyData[index].toDouble() : weeklyData[index].toDouble(),
+                          width: isMonthly?16:24,
+                          borderRadius: BorderRadius.circular(4),
+                          color: AppColors.primary,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+            )
+          ],
+        ),
+      );
+    },
+  );
+}
 
   Widget _buildSportsActivityChart() {
     return Container(
@@ -254,8 +290,14 @@ decoration: BoxDecoration(color: AppColors.mainBG,borderRadius: BorderRadius.cir
               commonText("Recent Sessions", size: 14, fontWeight: FontWeight.w600),
               const Spacer(),
               TextButton(
-                onPressed: () {},
-                child: commonText("See all", size: 12, color: AppColors.primary),
+                onPressed: () {
+                  navigateToPage(RecentSessionsView());
+                },
+                child: Row(
+                  children: [
+                    commonText("See all", size: 12),SizedBox(width: 4,),Icon(Icons.arrow_forward)
+                  ],
+                ),
               ),
             ],
           ),
@@ -296,7 +338,11 @@ decoration: BoxDecoration(color: AppColors.mainBG,borderRadius: BorderRadius.cir
               const Spacer(),
               TextButton(
                 onPressed: () {},
-                child: commonText("See all", size: 12, color: AppColors.primary),
+                child: Row(
+                  children: [
+                    commonText("See all", size: 12),SizedBox(width: 4,),Icon(Icons.arrow_forward)
+                  ],
+                ),
               ),
             ],
           ),
@@ -325,7 +371,8 @@ decoration: BoxDecoration(color: AppColors.mainBG,borderRadius: BorderRadius.cir
                 ),
               );
             },
-          )
+          ),
+          SizedBox(height: 16,)
         ],
       ),
     );
@@ -357,8 +404,6 @@ decoration: BoxDecoration(color: AppColors.mainBG,borderRadius: BorderRadius.cir
         ),
     );
   }
-
-
 
 void showSetGoalBottomSheet(BuildContext context) {
   final TextEditingController targetController = TextEditingController();
@@ -453,6 +498,4 @@ void showSetGoalBottomSheet(BuildContext context) {
     },
   );
 }
-
-
 }

@@ -33,7 +33,7 @@ ThemeData appTheme(){
         ),
     
         checkboxTheme: CheckboxThemeData(
-          fillColor: MaterialStateProperty.all(AppColors.primary),
+  
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
       );

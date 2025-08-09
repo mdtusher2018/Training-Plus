@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -34,6 +35,15 @@ bool isRunning=false;
                 width: double.infinity,
               ),
             ),
+          ),
+
+          Positioned(
+            top: 70,left: 32,
+            child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios_new)),
           ),
 
           // Bottom stats section with blur

@@ -2,6 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/forgot_password_view.dart';
+import 'package:training_plus/view/authentication/sign_up_view.dart';
+import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SigninView extends StatefulWidget {
@@ -91,16 +94,34 @@ class _SigninViewState extends State<SigninView> {
               commonButton(
                 "Sign In",
                 onTap: () {
-                  commonSnackbar(
-                    title: "Login",
-                    message: "Login process started",
-                    backgroundColor: AppColors.success,
+                  if(emailController.text.isEmpty){
+                     commonSnackbar(
+                    title: "Empty",
+                    message: "Please enter your email",
+                    backgroundColor: AppColors.error,
                   );
+                  return;
+                  }
+                   if(emailController.text.isEmpty){
+                     commonSnackbar(
+                    title: "Empty",
+                    message: "Please enter your password",
+                    backgroundColor: AppColors.error,
+                  );
+                  return;
+                  }
+                  // commonSnackbar(
+                  //   title: "Login",
+                  //   message: "Login process started",
+                  //   backgroundColor: AppColors.success,
+                  // );
+                  navigateToPage(RootView(),clearStack: true);
+                  
                 },
               ),   const SizedBox(height: 12),
    GestureDetector(
                     onTap: () {
-                      // handle forgot password
+                      navigateToPage(ForgotPasswordView());
                     },
                     child: commonText(
                       "Forgot the password?",
@@ -128,7 +149,7 @@ class _SigninViewState extends State<SigninView> {
                       isBold: true,
                       clickRecognized: TapGestureRecognizer()
                         ..onTap = () {
-                          // navigate to signup
+                          navigateToPage(SignupView());
                         },
                     ),
                   ],

@@ -2,20 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:get/get.dart';
 import 'dart:async';
 
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class ScanCameraPage extends StatefulWidget {
-  const ScanCameraPage({super.key});
+class CameraView extends StatefulWidget {
+  const CameraView({super.key});
 
   @override
-  State<ScanCameraPage> createState() => _ScanCameraPageState();
+  State<CameraView> createState() => _CameraViewState();
 }
 
-class _ScanCameraPageState extends State<ScanCameraPage>
+class _CameraViewState extends State<CameraView>
     with SingleTickerProviderStateMixin {
   CameraController? _controller;
   Future<void>? _initializeControllerFuture;
@@ -295,90 +294,98 @@ void _showManualEntrySheet() {
     ),
    
     builder: (context) {
-      return Padding(
-        padding: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: commonText(
-                "Manual Entry",
-                size: 18,
-              
-              ),
+      return Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
             ),
-            const SizedBox(height: 20),
-
-           
-            commonTextField(
-              controller: mealNameController,
-              hintText: "Meal Name (e.g., Grilled Chicken)"
-            ),
-            const SizedBox(height: 16),
-
-            // Calories & Proteins
-            Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: commonTextField(
-                        controller: caloriesController,
-                        keyboardType: TextInputType.number,
-                        hintText: "Calories"
-                      ),
+                Center(
+                  child: commonText(
+                    "Manual Entry",
+                    size: 18,
+                  
+                  ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child:    commonTextField(
-                        controller: proteinsController,
-                        keyboardType: TextInputType.number,
-                        hintText: "Proteins (g)"
-                      ),
+                const SizedBox(height: 20),
+          
+               
+                commonTextField(
+                  controller: mealNameController,
+                  hintText: "Meal Name (e.g., Grilled Chicken)"
+                ),
+                const SizedBox(height: 16),
+          
+                // Calories & Proteins
+                Row(
+                  children: [
+                    Expanded(
+                      child: commonTextField(
+                            controller: caloriesController,
+                            keyboardType: TextInputType.number,
+                            hintText: "Calories"
+                          ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child:    commonTextField(
+                            controller: proteinsController,
+                            keyboardType: TextInputType.number,
+                            hintText: "Proteins (g)"
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+          
+                // Carbs & Fat
+                Row(
+                  children: [
+                    Expanded(
+                      child:  commonTextField(
+                            controller: carbsController,
+                            keyboardType: TextInputType.number,
+                           hintText: "Carbs (g)"
+                          ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child:  commonTextField(
+                            controller: fatController,
+                            keyboardType: TextInputType.number,
+                            hintText: "Fat (g)"
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+          
+                // Add Food Data Button
+                commonButton(
+                  "Add Food Data",
+             
+                  onTap: () {
+                     Navigator.of(context).popUntil((route) => route.isFirst);
+                    
+                    debugPrint(
+                        "Meal: ${mealNameController.text}, Calories: ${caloriesController.text}, Protein: ${proteinsController.text}, Carbs: ${carbsController.text}, Fat: ${fatController.text}");
+                  },
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-
-            // Carbs & Fat
-            Row(
-              children: [
-                Expanded(
-                  child:  commonTextField(
-                        controller: carbsController,
-                        keyboardType: TextInputType.number,
-                       hintText: "Carbs (g)"
-                      ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child:  commonTextField(
-                        controller: fatController,
-                        keyboardType: TextInputType.number,
-                        hintText: "Fat (g)"
-                      ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            // Add Food Data Button
-            commonButton(
-              "Add Food Data",
-         
-              onTap: () {
-                Get.back();
-                
-                debugPrint(
-                    "Meal: ${mealNameController.text}, Calories: ${caloriesController.text}, Protein: ${proteinsController.text}, Carbs: ${carbsController.text}, Fat: ${fatController.text}");
-              },
-            ),
-          ],
-        ),
+          ),
+       Positioned(
+        top: 8,right: 16,
+        child: commonCloseButton())
+       
+        ],
       );
     },
   );

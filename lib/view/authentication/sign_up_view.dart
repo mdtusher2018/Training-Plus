@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/after_signup_otp_view.dart';
+import 'package:training_plus/view/authentication/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SignupView extends StatefulWidget {
@@ -22,6 +25,44 @@ class _SignupViewState extends State<SignupView> {
 
   final List<TextEditingController> controllers =
       List.generate(6, (index) => TextEditingController());
+
+  void _validateAndSignup({String? referralCode}) {
+    String name = fullNameController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String confirmPassword = confirmPasswordController.text.trim();
+
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      commonSnackbar(
+        title: "Error",
+        message: "Please fill all the fields",
+        backgroundColor: AppColors.error,
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      commonSnackbar(
+        title: "Error",
+        message: "Passwords do not match",
+        backgroundColor: AppColors.error,
+      );
+      return;
+    }
+
+    // Success → Move to RootView
+    commonSnackbar(
+      title: "Success",
+      message: "Account created successfully",
+      backgroundColor: AppColors.success,
+    );
+
+    navigateToPage(AfterSignUpOtpView());
+  }
+
 
 
   @override
@@ -96,14 +137,7 @@ class _SignupViewState extends State<SignupView> {
               // Sign Up Button
               commonButton(
                 "Sign Up",
-                onTap: () {
-              
-                  commonSnackbar(
-                    title: "Success",
-                    message: "Signup process started",
-                    backgroundColor: AppColors.success,
-                  );
-                },
+                onTap:      _validateAndSignup,
               ),
 
               const SizedBox(height: 24),
@@ -116,7 +150,7 @@ class _SignupViewState extends State<SignupView> {
                     color: AppColors.primary,
                     clickRecognized:TapGestureRecognizer()
                     ..onTap = () {
-                      
+                      navigateToPage(SigninView());
                     },
                     isBold: true,
                   ),
@@ -130,8 +164,9 @@ class _SignupViewState extends State<SignupView> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                 showReferralCodeBottomSheet(context, () {
-                   
+                 showReferralCodeBottomSheet(context,(code) {
+                  
+                   _validateAndSignup(referralCode: code);
                  },);
                   },
                   child: commonText(
@@ -171,7 +206,7 @@ class _SignupViewState extends State<SignupView> {
 
 
 // Show the bottom sheet
-void showReferralCodeBottomSheet(BuildContext context, VoidCallback onUse) {
+void showReferralCodeBottomSheet(BuildContext context, Function(String) onUse) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -180,54 +215,76 @@ void showReferralCodeBottomSheet(BuildContext context, VoidCallback onUse) {
     ),
     backgroundColor: Colors.white,
     builder: (ctx) {
-      return Stack(
-        children: [
-          Padding(
-            padding: MediaQuery.of(ctx).viewInsets.add(const EdgeInsets.fromLTRB(24, 24, 24, 40)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                commonText(
-                  "Use referral code",
-                  size: 20,
-                  isBold: true,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    6,
-                    (index) => Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: buildOTPTextField(controllers[index], index, context
-                        
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Stack(
+            children: [
+              Padding(
+                padding: MediaQuery.of(ctx).viewInsets.add(const EdgeInsets.fromLTRB(24, 24, 24, 40)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    commonText(
+                      "Use referral code",
+                      size: 20,
+                      isBold: true,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        6,
+                        (index) => Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: buildOTPTextField(controllers[index], index, context
+                            
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 32),
+                    commonButton(
+                      "Use Code",
+                      onTap: () {
+                        String code = controllers.map((c) => c.text).join();
+                        if(code.isEmpty){
+                          commonSnackbar(title: "Empty", message: "Please enter a referral code.",backgroundColor: AppColors.error);
+                          return;
+                        }
+                        else if(code.length<6){
+                          commonSnackbar(title: "Invalid", message: "Invalid referral code length.",backgroundColor: AppColors.error);
+                          return;
+                        }else{
+                        Get.back();
+                        onUse(code); 
+
+                        }
+                        
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 32),
-                commonButton(
-                  "Use Code",
+              ),
+               Positioned(
+                top: 10,right: 10,
+                child: GestureDetector(
                   onTap: () {
-                    String code = controllers.map((c) => c.text).join();
-                    Navigator.pop(context);
-                    onUse(); // You can pass the code via callback if needed
-                    print("Referral Code Used: $code");
+                    Get.back();
                   },
-                ),
-              ],
-            ),
-          ),
-           Positioned(
-            top: 10,right: 10,
-            child: Icon(Icons.cancel_rounded,size: 30))
-        ],
+                  child: Icon(Icons.cancel_rounded,size: 30)))
+            ],
+          );
+        }
       );
     },
-  );
+  ).then((value) {
+     for (var controller in controllers) {
+      controller.clear();
+    }
+  },);
 }
 
 }

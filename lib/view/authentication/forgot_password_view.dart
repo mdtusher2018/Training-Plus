@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/forgot_password_otp_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class ForgotPasswordView extends StatefulWidget {
@@ -55,7 +57,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               commonButton(
                 "Reset Password",
                 onTap: () {
-                  // Add your verification logic
+                   if(emailController.text.isEmpty){
+                      commonSnackbar(title: "Empty", message: "Please enter your email.",backgroundColor: AppColors.error);
+                    return;
+                    }
+                    navigateToPage(ForgotPasswordOtpView());
                   commonSnackbar(
                     title: "Verified",
                     message: "OTP verified successfully",
@@ -67,11 +73,16 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               const SizedBox(height: 24),
 
               // Back to sign in
-           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.arrow_back),commonText("  Back to log in",size: 14)
-            ],
+           GestureDetector(
+            onTap: (){
+              Get.back();
+            },
+             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.arrow_back),commonText("  Back to log in",size: 14)
+              ],
+             ),
            )
             ],
           ),

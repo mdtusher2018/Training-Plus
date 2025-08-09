@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/create_new_password_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class ForgotPasswordOtpView extends StatefulWidget {
@@ -86,7 +87,19 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
               commonButton(
                 "Verify OTP",
                 onTap: () {
-                  // Add your verification logic
+                        
+
+                  String code = controllers.map((c) => c.text).join();
+                  if(code.isEmpty){
+                    commonSnackbar(title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
+                    return;
+                  }
+                  else if(code.length<6){
+                    commonSnackbar(title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
+                    return;
+                  }
+                  navigateToPage(CreateNewPasswordView());
+                              
                   commonSnackbar(
                     title: "Verified",
                     message: "OTP verified successfully",
