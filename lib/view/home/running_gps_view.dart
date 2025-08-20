@@ -1,42 +1,84 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:training_plus/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-
 class RunningTrackerPage extends StatefulWidget {
   const RunningTrackerPage({super.key});
-
   @override
   State<RunningTrackerPage> createState() => _RunningTrackerPageState();
 }
-
 class _RunningTrackerPageState extends State<RunningTrackerPage> {
   String runningTime = "01:09:44";
   double distance = 10.9;
   double pace = 12.4;
 bool isRunning=false;
+final String apiKey = '506107e66ed04133be2159f7b7ea222d'; 
+  MapController mapController = MapController();
+  LatLng? _currentLocation;
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+  Future<void> _getCurrentLocation() async {
+    // Check permissions
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied || 
+        permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.whileInUse || 
+        permission == LocationPermission.always) {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      LatLng userLocation = LatLng(position.latitude, position.longitude);
+      setState(() {
+        _currentLocation = userLocation;
+      });
+      // Move the map to the user location
+      mapController.move(userLocation, 18);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
           // Map section (placeholder for now)
-          SizedBox(
-            height: double.infinity,
-            child: Center(
-              child: Image.network(
-                "https://media.wired.com/photos/59269cd37034dc5f91bec0f1/3:2/w_960,c_limit/GoogleMapTA.jpg",
-                fit: BoxFit.cover,
-                height: double.infinity,
-                width: double.infinity,
-              ),
-            ),
+        FlutterMap(
+        mapController: mapController,
+        options: MapOptions(
+          initialCenter: _currentLocation ?? LatLng(20.5937, 78.9629), // Default India
+          initialZoom: 10,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            additionalOptions: {
+              'apiKey': apiKey,
+            },
           ),
-
+          if (_currentLocation != null)
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: _currentLocation!,
+                  width: 40,
+                  height: 40,
+                  child: const Icon(Icons.my_location,
+                      color: Colors.blue, size: 32),
+                ),
+              ],
+            ),
+        ],
+      ),
           Positioned(
             top: 70,left: 32,
             child: GestureDetector(
@@ -45,16 +87,13 @@ bool isRunning=false;
               },
               child: Icon(Icons.arrow_back_ios_new)),
           ),
-
           // Bottom stats section with blur
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30), // blur only inside container
               child: Container(
-                padding: const EdgeInsets.all(16),
-            
-              
+                padding: const EdgeInsets.all(16),              
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -62,7 +101,6 @@ bool isRunning=false;
                         size: 28, isBold: true, ),
                     commonText("Running time", size: 14, color: AppColors.textSecondary),
                     const SizedBox(height: 12),
-
                     // Distance & Pace Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,7 +110,6 @@ bool isRunning=false;
                       ],
                     ),
                     const SizedBox(height: 20),
-
                     // Control Buttons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -80,8 +117,7 @@ bool isRunning=false;
                         _roundButton((isRunning)?Icons.pause:Icons.play_arrow, Colors.yellow.shade700, () {
                           setState(() {
                             isRunning=!isRunning;
-                          });
-                          
+                          });                      
                           if(isRunning){ 
                               commonSnackbar(
                                 title: "Run Started", message: "Good luck!");}
@@ -89,8 +125,7 @@ bool isRunning=false;
                               commonSnackbar(
                                 title: "Paused", message: "Run paused");
                               }
-                        }),
-                  
+                        }),                  
                         const SizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () {
                           _showRunCompleteSheet(context);
@@ -107,7 +142,6 @@ bool isRunning=false;
       ),
     );
   }
-
   Widget _statItem(String value, String label) {
     return Column(
       children: [
@@ -116,7 +150,6 @@ bool isRunning=false;
       ],
     );
   }
-
   Widget _roundButton(IconData icon, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -131,7 +164,6 @@ bool isRunning=false;
       ),
     );
   }
-
   void _showRunCompleteSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -187,12 +219,10 @@ bool isRunning=false;
                     width: double.infinity,
                     onTap: () {
                       Navigator.pop(context); // Close sheet
-                    
                     },
                   ),   const SizedBox(height: 16),
                 ],
-              ),
-          
+              ),     
           Positioned(
             right: 0,
             top: 0,
@@ -204,7 +234,4 @@ bool isRunning=false;
       },
     );
   }
-
-
-
 }
