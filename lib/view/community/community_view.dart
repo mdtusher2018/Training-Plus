@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/CommunityPostView.dart';
 import 'package:training_plus/view/community/active_challenges_view.dart';
 import 'package:training_plus/view/community/community_feed_view.dart';
@@ -33,18 +33,18 @@ class CommunityView extends StatelessWidget {
           children: [
             _activeChallengesSection(context),
         
-            _myPostsSection(),
+            _myPostsSection(context),
      
-            _leaderboardSection(),
+            _leaderboardSection(context),
   
-            _communityFeedSection(),
+            _communityFeedSection(context),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         onPressed: () {
-          navigateToPage(CommunityPostView());
+          navigateToPage(context: context,CommunityPostView());
         },
         shape: CircleBorder(),
         child: const Icon(Icons.add),
@@ -85,7 +85,7 @@ class CommunityView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         sectionHeader("Active Challenges",onTap: () {
-          navigateToPage(ActiveChallengesView());
+          navigateToPage(context: context,ActiveChallengesView());
         },),
         const SizedBox(height: 12),
    ListView.builder(
@@ -114,7 +114,7 @@ class CommunityView extends StatelessWidget {
     );
   }
 
-  Widget _myPostsSection() {
+  Widget _myPostsSection(BuildContext context) {
     final List<Map<String, dynamic>> myPosts = [
       {"user": "You", "time": "1 Day Ago"},
       {"user": "You", "time": "1 Day Ago"},
@@ -125,7 +125,7 @@ class CommunityView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         sectionHeader("My Posts",onTap: () {
-          navigateToPage(MyPostsView());
+          navigateToPage(context: context,MyPostsView());
         },),
         const SizedBox(height: 12),
         ListView.separated(
@@ -151,7 +151,7 @@ class CommunityView extends StatelessWidget {
   }
 
 
-  Widget _leaderboardSection() {
+  Widget _leaderboardSection(BuildContext context) {
     final leaders = [
       ["Jordan Lee", 1350],
       ["Sarah Smith", 1270],
@@ -165,7 +165,7 @@ class CommunityView extends StatelessWidget {
       children: [
         SizedBox(height: 16,),
         sectionHeader("This Week Leaderboard",onTap: () {
-          navigateToPage(LeaderboardView());
+          navigateToPage(context: context,LeaderboardView());
         },),
         const SizedBox(height: 12),
         ...leaders.asMap().entries.map((entry) {
@@ -178,7 +178,7 @@ class CommunityView extends StatelessWidget {
     );
   }
 
-  Widget _communityFeedSection() {
+  Widget _communityFeedSection(BuildContext context) {
     final List<Map<String, String>> communityPosts = [
       {"user": "Michael Carter", "time": "1hr Ago", "tag": "Soccer"},
       {"user": "Emily Rivera", "time": "1hr Ago", "tag": "Yoga"},
@@ -190,7 +190,7 @@ class CommunityView extends StatelessWidget {
       children: [
         SizedBox(height: 16,),
         sectionHeader("Community Feed",onTap: () {
-          navigateToPage(CommunityFeedView());
+          navigateToPage(context: context,CommunityFeedView());
         },),
         const SizedBox(height: 12),
         ListView.separated(

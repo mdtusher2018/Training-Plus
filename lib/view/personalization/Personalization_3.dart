@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/Personalization_4.dart';
 import 'package:training_plus/view/personalization/widget/CommonSelectableCard.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -116,9 +116,9 @@ class Personalization3 extends StatelessWidget {
                           iconWidget: const Icon(Icons.arrow_forward),
                           iconLeft: false,
                           onTap: value != null
-                              ? () => navigateToPage(Personalization4())
+                              ? () => navigateToPage(context: context,Personalization4())
                               : () {
-                                  commonSnackbar(
+                                  commonSnackbar(context: context,
                                     title: "Validity Error",
                                     message:
                                         "Please select your skill level before continuing.",

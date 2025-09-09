@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:training_plus/view/home/chapters.dart';
 import 'package:training_plus/view/home/widgets/common_videoplayer.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 
 class WorkoutDetailPage extends StatelessWidget {
   const WorkoutDetailPage({super.key});
@@ -101,7 +101,7 @@ class WorkoutDetailPage extends StatelessWidget {
               
                   width: double.infinity,
                   onTap: () {
-                    Get.to(ChaptersPage());
+                    navigateToPage(context: context,ChaptersPage());
                   },
                 ),
               ),
@@ -111,7 +111,7 @@ class WorkoutDetailPage extends StatelessWidget {
         top: 56,left: 24,
         child: GestureDetector(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new,color: AppColors.white,)),
       )

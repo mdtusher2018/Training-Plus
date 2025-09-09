@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -26,8 +26,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() => isLoading = false);
-      Get.back();
-      commonSnackbar(title: "Successfully", message: "Password changed successfully",backgroundColor: AppColors.success);
+      Navigator.pop(context);
+      commonSnackbar(context: context,title: "Successfully", message: "Password changed successfully",backgroundColor: AppColors.success);
       
     });
   }
@@ -39,7 +39,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Get.back(),
+          onPressed: () => Navigator.pop(context),
         ),
         title: commonText("Change Password", size: 18, isBold: true),
         centerTitle: true,

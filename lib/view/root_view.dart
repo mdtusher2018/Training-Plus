@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/community_view.dart';
 import 'package:training_plus/view/home/home_page_view.dart';
 import 'package:training_plus/view/profile/profile_view.dart';

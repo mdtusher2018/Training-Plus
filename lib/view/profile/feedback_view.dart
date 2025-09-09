@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class FeedbackView extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -75,7 +75,7 @@ class _ActiveChallengesViewState extends State<ActiveChallengesView> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new)),
         title: commonText("Active Community", size: 20, isBold: true),

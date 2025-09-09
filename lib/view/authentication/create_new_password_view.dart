@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
-import 'package:training_plus/view/authentication/sign_in_view.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class CreateNewPasswordView extends StatefulWidget {
@@ -81,7 +81,7 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
                       confirmPasswordController.text.trim();
 
                   if (password.isEmpty || confirmPassword.isEmpty) {
-                    commonSnackbar(
+                    commonSnackbar(context: context,
                       title: "Error",
                       message: "Please fill all the fields",
                       backgroundColor: AppColors.error,
@@ -90,15 +90,15 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
                   }
 
                   if (password != confirmPassword) {
-                    commonSnackbar(
+                    commonSnackbar(context: context,
                       title: "Error",
                       message: "Passwords do not match",
                       backgroundColor: AppColors.error,
                     );
                     return;
                   }
-                  navigateToPage(SigninView(), clearStack: true);
-                  commonSnackbar(
+                  navigateToPage(context: context,SigninView(), clearStack: true);
+                  commonSnackbar(context: context,
                     title: "Success",
                     message: "Password reset successful",
                     backgroundColor: AppColors.success,
@@ -110,7 +110,7 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  navigateToPage(SigninView(), clearStack: true);
+                  navigateToPage(context: context,SigninView(), clearStack: true);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

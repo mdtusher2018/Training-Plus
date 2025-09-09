@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class CommunityPostView extends StatefulWidget {
@@ -32,7 +32,7 @@ class _CommunityPostViewState extends State<CommunityPostView> {
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         leading: GestureDetector(
-          onTap: () => Get.back(),
+          onTap: () {Navigator.pop(context);},
           child: const Icon(Icons.arrow_back_ios_new),
         ),
         title: commonText("Community Post", size: 20, isBold: true),
@@ -87,15 +87,15 @@ class _CommunityPostViewState extends State<CommunityPostView> {
             // Share Button
             commonButton("Share Post", onTap: () {
               if (_postController.text.trim().isEmpty) {
-                Get.snackbar("Oops", "Please write something to share.",
-                    snackPosition: SnackPosition.TOP);
+                commonSnackbar(title:  "Oops",message: "Please write something to share.",
+                    context: context);
                 return;
               }
 
               // Handle post submission
               print("Posted: ${_postController.text}");
               print("Tag: $selectedTag");
-              Get.back(); // Or navigate to feed
+              Navigator.pop(context); // Or navigate to feed
             }),
             SizedBox(height: 16,)
           ],

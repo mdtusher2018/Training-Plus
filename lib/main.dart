@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:training_plus/utils/theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/services/localstorage/local_storage_service.dart';
+import 'package:training_plus/core/utils/theme.dart';
 import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
 
-
-
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalStorageService.init(); // initialize SharedPreferences
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,11 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       title: 'Training Plus',
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      home: SplashView(),
+      home: const SplashView(),
     );
   }
 }

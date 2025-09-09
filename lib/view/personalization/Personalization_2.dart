@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/Personalization_3.dart';
 import 'package:training_plus/view/personalization/widget/CommonSelectableCard.dart' show buildProgressBar;
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -143,10 +143,10 @@ class Personalization2 extends StatelessWidget {
                           iconLeft: false,
                           onTap: selected.isNotEmpty
                               ? () {
-                                  navigateToPage(Personalization3());
+                                  navigateToPage(context: context,Personalization3());
                                 }
                               : () {
-                                  commonSnackbar(
+                                  commonSnackbar(context: context,
                                     title: "Validity Error",
                                     message:
                                         "Please select at least 1 sport before continuing.",

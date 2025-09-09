@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:training_plus/view/home/video_play_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 
 class ChaptersPage extends StatefulWidget {
   const ChaptersPage({super.key});
@@ -64,14 +64,20 @@ class _ChaptersPageState extends State<ChaptersPage> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: GestureDetector(
-                          onTap: () async {
-                            final result = await Get.to(() => const VideoPlayerView());
-                            if (result == true) {
-                              setState(() {
-                                video.completed = true;
-                              });
-                            }
-                          },
+                         onTap: () async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const VideoPlayerView(),
+      ),
+    );
+
+    if (result == true) {
+      setState(() {
+        video.completed = true;
+      });
+    }
+  },
                           child: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(

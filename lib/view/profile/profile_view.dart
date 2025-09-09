@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/view/authentication/sign_in_view.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/profile/BadgeShelfView.dart';
 import 'package:training_plus/view/profile/ContactUsView.dart';
 import 'package:training_plus/view/profile/FaqView.dart';
@@ -54,52 +53,52 @@ class ProfileView extends StatelessWidget {
     // Sections
 _sectionHeader("General"),
 sectionTile("Edit Profile", "assest/images/profile/edit_profile.png", onTap: () {
-  navigateToPage(EditProfileView());
+  navigateToPage(context: context,EditProfileView());
 }),
 sectionTile("Settings", "assest/images/profile/settings.png", onTap: () {
-  navigateToPage(SettingsView());
+  navigateToPage(context: context,SettingsView());
 }),
 sectionTile("Redeem Points", "assest/images/profile/redeem_points.png", onTap: () {
-  navigateToPage(RedeemPointsview());
+  navigateToPage(context: context,RedeemPointsview());
 }),
 sectionTile("Running History", "assest/images/profile/running_history.png", onTap: () {
-  navigateToPage(RunningHistoryView());
+  navigateToPage(context: context,RunningHistoryView());
 }),
 sectionTile("Badge Shelf", "assest/images/profile/badge_shelf.png", onTap: () {
-  navigateToPage(BadgeShelfView());
+  navigateToPage(context: context,BadgeShelfView());
 }),
 sectionTile("My Subscription", "assest/images/profile/my_subscription.png", onTap: () {
-  navigateToPage(MySubscriptionView());
+  navigateToPage(context: context,MySubscriptionView());
 }),
 
 const SizedBox(height: 24),
 
 _sectionHeader("Support & Help"),
 sectionTile("Feedback", "assest/images/profile/feedback.png", onTap: () {
-  navigateToPage(FeedbackView());
+  navigateToPage(context: context,FeedbackView());
 }),
 sectionTile("FAQ", "assest/images/profile/faq.png", onTap: () {
-  navigateToPage(FaqView());
+  navigateToPage(context: context,FaqView());
 }),
 sectionTile("Contact Us", "assest/images/profile/contact_us.png", onTap: () {
-  navigateToPage(ContactUsView());
+  navigateToPage(context: context,ContactUsView());
 }),
 
 const SizedBox(height: 24),
 
 _sectionHeader("Legal"),
 sectionTile("Terms of Service", "assest/images/profile/terms_of_service.png", onTap: () {
-  navigateToPage(TermsOfServiceView());
+  navigateToPage(context: context,TermsOfServiceView());
 }),
 sectionTile("Privacy Policy", "assest/images/profile/privacy_policy.png", onTap: () {
-  navigateToPage(PrivacyPolicyView());
+  navigateToPage(context: context,PrivacyPolicyView());
 }),
 
 const SizedBox(height: 24),
 
 _sectionHeader("Others"),
 sectionTile("Invite Friends", "assest/images/profile/invite_friends.png", onTap: () {
-  navigateToPage(InviteFriendsView());
+  navigateToPage(context: context,InviteFriendsView());
 }),
 sectionTile("Logout", "assest/images/profile/logout.png", onTap: () {
   showLogoutAccountDialog(context);
@@ -156,7 +155,8 @@ Widget sectionTile(String title, String imagePath, {VoidCallback? onTap, Color? 
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Get.back();
+                      // Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -169,7 +169,7 @@ Widget sectionTile(String title, String imagePath, {VoidCallback? onTap, Color? 
                     height: 40,
                     width: 100,
                     onTap: () {
-                      navigateToPage(SigninView(),clearStack: true);
+                      navigateToPage(context: context,SigninView(),clearStack: true);
                     },
                   ),
                 ),

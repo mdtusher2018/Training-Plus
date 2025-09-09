@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/my_workouts_view.dart';
 import 'package:training_plus/view/home/nutrition_tracker_view.dart';
 import 'package:training_plus/view/home/running_gps_view.dart';
@@ -45,7 +45,7 @@ class HomePageView extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      navigateToPage(NotificationsView());
+                      navigateToPage(context: context,NotificationsView());
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
@@ -127,7 +127,7 @@ class HomePageView extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        navigateToPage(RunningTrackerPage());
+                        navigateToPage(context: context,RunningTrackerPage());
                       },
                       child: _buildQuickAction(
                         
@@ -140,7 +140,7 @@ class HomePageView extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        navigateToPage(NutritionTrackerPage());
+                        navigateToPage(context: context,NutritionTrackerPage());
                       },
                       child: _buildQuickAction(
                           label:  "Nutrition\nTracker",
@@ -163,7 +163,7 @@ class HomePageView extends StatelessWidget {
                   commonText("My Workouts", size: 18, isBold: true),
                   GestureDetector(
                     onTap: () {
-                      navigateToPage(MyWorkoutsView());
+                      navigateToPage(context: context,MyWorkoutsView());
                     },
                     child: Row(
                       children: [
@@ -186,7 +186,7 @@ class HomePageView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        navigateToPage(WorkoutDetailPage());
+                        navigateToPage(context: context,WorkoutDetailPage());
                       },
                       child: buildWorkoutCard("Intermediate", "Ball Control Mastery",
                               "25 min", "https://www.rhsmith.umd.edu/sites/default/files/research/featured/2022/11/soccer-player.jpg"),

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/helper.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/helper.dart';
 
 Widget commonText(
   String text, {
@@ -42,26 +42,44 @@ wordSpacing: wordSpacing,
   );
 }
 
+
 void commonSnackbar({
+  required BuildContext context,
   required String title,
   required String message,
   Color backgroundColor = Colors.black,
   Color textColor = Colors.white,
-  SnackPosition position = SnackPosition.TOP,
   Duration duration = const Duration(seconds: 3),
 }) {
-  Get.snackbar(
-    title,
-    message,
+  final snackBar = SnackBar(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          message,
+          style: TextStyle(color: textColor),
+        ),
+      ],
+    ),
     backgroundColor: backgroundColor,
-    colorText: textColor,
-    snackPosition: position,
     duration: duration,
+    behavior: SnackBarBehavior.floating,
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    borderRadius: 8,
-    isDismissible: true,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
   );
+
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
+
 
 Widget commonTextfieldWithTitle(
   String title,
@@ -151,32 +169,36 @@ Widget commonTextfieldWithTitle(
   );
 }
 
+
 void navigateToPage(
+  
   Widget page, {
+    required BuildContext context,
   bool replace = false,
   bool clearStack = false,
-  ontap,
-  Transition transition = Transition.fadeIn,
+  Function? onTap,
   Duration duration = const Duration(milliseconds: 600),
 }) {
+  PageRouteBuilder route = PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      // Fade transition
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+    transitionDuration: duration,
+  );
+
   if (clearStack) {
-    Get.offAll(
-      page,
-      transition: transition,
-      duration: duration,
-    )!.then(ontap ?? (e) {});
+    Navigator.of(context).pushAndRemoveUntil(route, (route) => false)
+        .then((value) => onTap?.call(value));
   } else if (replace) {
-    Get.off(
-      page,
-      transition: transition,
-      duration: duration,
-    )!.then(ontap ?? (e) {});
+    Navigator.of(context).pushReplacement(route)
+        .then((value) => onTap?.call(value));
   } else {
-    Get.to(
-      page,
-      transition: transition,
-      duration: duration,
-    )!.then(ontap ?? (e) {});
+    Navigator.of(context).push(route).then((value) => onTap?.call(value));
   }
 }
 
@@ -505,7 +527,7 @@ AppBar authAppBar(String title) {
     elevation: 0,
     leading: IconButton(
       icon: const Icon(Icons.arrow_back, color: AppColors.white),
-      onPressed: () => Get.back(),
+      onPressed: () {},
     ),
     title: commonText(title, size: 20, isBold: true, color: Colors.white),
     centerTitle: true,
@@ -515,7 +537,9 @@ AppBar authAppBar(String title) {
 
 Widget commonCloseButton(){
   return GestureDetector(
-    onTap: Get.back,
+    onTap: () {
+      // pop
+    },
     child: Container(
       padding: EdgeInsets.all(6),
       decoration: BoxDecoration(color: AppColors.boxBG,shape: BoxShape.circle),

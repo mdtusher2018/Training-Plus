@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -179,7 +179,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
             // Edit Profile button
          commonButton("Edit Profile",onTap: () {
-           Get.back();
+           Navigator.pop(context);
          },)
           ],
         ),

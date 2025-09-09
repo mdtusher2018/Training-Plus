@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class NotificationsView extends StatelessWidget {
@@ -32,7 +32,7 @@ class NotificationsView extends StatelessWidget {
         elevation: 0,
         leading: GestureDetector(
           onTap: (){
-            Get.back();
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new)),
         title: commonText("Notifications", size: 20, isBold: true),

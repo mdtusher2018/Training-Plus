@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/workout_details.dart';
 import 'package:training_plus/view/training/chooseYourSportChange.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -131,7 +131,7 @@ class _TrainingViewState extends State<TrainingView> {
           ),
           GestureDetector(
             onTap: () {
-              Get.to(ChooseYourSportChangeView());
+navigateToPage(context: context, ChooseYourSportChangeView());
             },
             child: Container(
               padding: EdgeInsets.all(4),
@@ -290,7 +290,7 @@ class _TrainingViewState extends State<TrainingView> {
                 tools.map((tool) {
                   return GestureDetector(
                     onTap: () {
-                      navigateToPage(WorkoutDetailPage());
+                      navigateToPage(context: context,WorkoutDetailPage());
                     },
                     child: Container(
                       decoration: BoxDecoration(

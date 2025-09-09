@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/forgot_password_otp_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -58,11 +58,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 "Reset Password",
                 onTap: () {
                    if(emailController.text.isEmpty){
-                      commonSnackbar(title: "Empty", message: "Please enter your email.",backgroundColor: AppColors.error);
+                      commonSnackbar(context: context,title: "Empty", message: "Please enter your email.",backgroundColor: AppColors.error);
                     return;
                     }
-                    navigateToPage(ForgotPasswordOtpView());
-                  commonSnackbar(
+                    navigateToPage(context: context,ForgotPasswordOtpView());
+                  commonSnackbar(context: context,
                     title: "Verified",
                     message: "OTP verified successfully",
                     backgroundColor: AppColors.success,
@@ -75,7 +75,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               // Back to sign in
            GestureDetector(
             onTap: (){
-              Get.back();
+              Navigator.pop(context);
             },
              child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

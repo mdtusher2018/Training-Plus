@@ -1,5 +1,5 @@
 
-import 'package:training_plus/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/ApiEndpoints.dart';
 
 String getFullImagePath(String imagePath) {
   if (imagePath.isEmpty) {

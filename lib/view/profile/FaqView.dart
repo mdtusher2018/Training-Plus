@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class FaqView extends StatefulWidget {
@@ -56,7 +56,7 @@ class _FaqViewState extends State<FaqView> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Get.back(),
+          onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
         title: commonText("FAQ", size: 21, isBold: true),

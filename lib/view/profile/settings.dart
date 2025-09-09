@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:training_plus/view/profile/change_password.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -13,7 +12,7 @@ class SettingsView extends StatelessWidget {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new)),
         title: commonText("Settings", size: 18, isBold: true),
@@ -34,7 +33,7 @@ class SettingsView extends StatelessWidget {
           
                 haveArrow: true,
                 onTap: () {
-                  navigateToPage(ChangePasswordScreen());
+                  navigateToPage(context: context,ChangePasswordScreen());
                 },
               ),
 
@@ -45,7 +44,8 @@ class SettingsView extends StatelessWidget {
              
                 onTap: () {
                   showDeleteAccountDialog(context, () {
-                    Get.back();
+                    // Navigator.pop(context);
+                    Navigator.pop(context);
                   });
                 },
               ),
@@ -104,7 +104,7 @@ class SettingsView extends StatelessWidget {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -117,7 +117,7 @@ class SettingsView extends StatelessWidget {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                       onDelete(); // Perform the delete action
                     },
                   ),

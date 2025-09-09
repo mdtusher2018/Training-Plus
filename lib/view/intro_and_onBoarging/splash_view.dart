@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -29,7 +29,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
 
     // Navigate to onboarding with fade transition after delay
     Timer(const Duration(seconds: 3), () {
-      navigateToPage(
+      navigateToPage(context: context,
         const OnboardingView(),
   
       );

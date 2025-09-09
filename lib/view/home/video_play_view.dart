@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 
 class VideoPlayerView extends StatefulWidget {
   const VideoPlayerView({super.key});

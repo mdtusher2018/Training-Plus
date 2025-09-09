@@ -1,6 +1,6 @@
   import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/community_edit_post_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -100,7 +100,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
                 ),
               if(myPost)...[SizedBox(width: 6,), GestureDetector(
                 onTap: () {
-                  navigateToPage(EditPostView());
+                  navigateToPage(context: context,EditPostView());
                 },
                 child: Icon(Icons.edit)),SizedBox(width: 4,),
               GestureDetector(
@@ -460,7 +460,7 @@ void showCommentsBottomSheet(BuildContext context) {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -473,7 +473,7 @@ void showCommentsBottomSheet(BuildContext context) {
                     height: 40,
                     width: 100,
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                   ),
                 ),

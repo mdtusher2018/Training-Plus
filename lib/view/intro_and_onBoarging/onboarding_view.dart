@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
-import 'package:training_plus/view/authentication/sign_in_view.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -65,7 +65,7 @@ class _OnboardingViewState extends State<OnboardingView>
       setState(() {});
     } else {
    
-      navigateToPage(SigninView());
+      navigateToPage(context: context,SigninView());
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -23,7 +23,7 @@ class _MyWorkoutsViewState extends State<MyWorkoutsView> {
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
-            Get.back();
+            Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new),
         ),
@@ -37,7 +37,7 @@ class _MyWorkoutsViewState extends State<MyWorkoutsView> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              navigateToPage(WorkoutDetailPage());
+              navigateToPage(context: context,WorkoutDetailPage());
             },
             child: SizedBox(
               height: 230,

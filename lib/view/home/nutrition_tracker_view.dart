@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/camera_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart' show commonButton, commonCloseButton, commonText, commonTextfieldWithTitle, navigateToPage;
 
@@ -262,7 +262,7 @@ final List<Map<String, dynamic>> meals = [
       ),
       floatingActionButton: GestureDetector(
         onTap: () {
-          navigateToPage(CameraView());
+          navigateToPage(context: context,CameraView());
         },
         child: Container(
           padding: EdgeInsets.all(10),

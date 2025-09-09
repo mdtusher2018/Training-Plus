@@ -1,34 +1,31 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/forgot_password_view.dart';
+import 'package:training_plus/view/authentication/sign_in/signin_controller.dart';
 import 'package:training_plus/view/authentication/sign_up_view.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
+import 'sign_in_provider.dart';
 
-class SigninView extends StatefulWidget {
-  const SigninView({super.key});
+class SigninView extends ConsumerWidget {
+  SigninView({super.key});
 
-  @override
-  State<SigninView> createState() => _SigninViewState();
-}
-
-class _SigninViewState extends State<SigninView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  bool passwordVisible = true;
-  bool rememberMe = false;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SignInState state = ref.watch(signInControllerProvider);
+    final SignInController controller = ref.read(signInControllerProvider.notifier);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
-       
             children: [
               Center(
                 child: Column(
@@ -66,70 +63,76 @@ class _SigninViewState extends State<SigninView> {
                 "Password",
                 passwordController,
                 hintText: "Enter your password",
-                isPasswordVisible: passwordVisible,
+                isPasswordVisible: state.passwordVisible,
                 issuffixIconVisible: true,
-                changePasswordVisibility: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
+                changePasswordVisibility: controller.togglePasswordVisibility,
               ),
-
-             
 
               // Remember Me & Forgot Password
               Align(
                 alignment: Alignment.centerLeft,
-                child: commonCheckbox(value: rememberMe,
-                label: "Remember me",
-                 onChanged: (value){      setState(() {
-                  rememberMe = value ?? false;
-                });}),
+                child: commonCheckbox(
+                  value: state.rememberMe,
+                  label: "Remember me",
+                  onChanged: (p0) {
+                    controller.toggleRememberMe(p0??false);
+                  },
+                ),
               ),
-          
 
               const SizedBox(height: 16),
 
               // Sign In Button
               commonButton(
                 "Sign In",
-                onTap: () {
-                  if(emailController.text.isEmpty){
-                     commonSnackbar(
-                    title: "Empty",
-                    message: "Please enter your email",
-                    backgroundColor: AppColors.error,
-                  );
-                  return;
+                onTap: () async {
+                  if (emailController.text.isEmpty) {
+                    commonSnackbar(context: context,
+                      title: "Empty",
+                      message: "Please enter your email",
+                      backgroundColor: AppColors.error,
+                    );
+                    return;
                   }
-                   if(emailController.text.isEmpty){
-                     commonSnackbar(
-                    title: "Empty",
-                    message: "Please enter your password",
-                    backgroundColor: AppColors.error,
-                  );
-                  return;
+                  if (passwordController.text.isEmpty) {
+                    commonSnackbar(context: context,
+                      title: "Empty",
+                      message: "Please enter your password",
+                      backgroundColor: AppColors.error,
+                    );
+                    return;
                   }
-                  // commonSnackbar(
-                  //   title: "Login",
-                  //   message: "Login process started",
-                  //   backgroundColor: AppColors.success,
-                  // );
-                  navigateToPage(RootView(),clearStack: true);
-                  
+
+                  controller.setLoading(true);
+
+                  try {
+                    // Here you call your API using repository
+                    // Example: final response = await repository.signIn(email, password);
+                    // On success:
+                    navigateToPage(context: context,RootView(), clearStack: true);
+                  } catch (e) {
+                    commonSnackbar(context: context,
+                      title: "Error",
+                      message: e.toString(),
+                      backgroundColor: AppColors.error,
+                    );
+                  } finally {
+                    controller.setLoading(false);
+                  }
                 },
-              ),   const SizedBox(height: 12),
-   GestureDetector(
-                    onTap: () {
-                      navigateToPage(ForgotPasswordView());
-                    },
-                    child: commonText(
-                      "Forgot the password?",
-                      size: 14,
-                      
-                      isBold: true,
-                    ),
-                  ),
+              ),
+
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  navigateToPage(context: context,ForgotPasswordView());
+                },
+                child: commonText(
+                  "Forgot the password?",
+                  size: 14,
+                  isBold: true,
+                ),
+              ),
               const SizedBox(height: 32),
 
               // Sign Up Prompt
@@ -149,7 +152,7 @@ class _SigninViewState extends State<SigninView> {
                       isBold: true,
                       clickRecognized: TapGestureRecognizer()
                         ..onTap = () {
-                          navigateToPage(SignupView());
+                          navigateToPage(context: context,SignupView());
                         },
                     ),
                   ],

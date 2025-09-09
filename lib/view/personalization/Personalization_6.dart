@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class Personalization6 extends StatelessWidget {
@@ -117,7 +117,7 @@ class Personalization6 extends StatelessWidget {
                                 // Complete action
                               }
                             : () {
-                                commonSnackbar(
+                                commonSnackbar(context: context,
                                   title: "Validity Error",
                                   message:
                                       "Please select at least 1 goal before continuing.",

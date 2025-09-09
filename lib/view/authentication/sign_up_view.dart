@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/after_signup_otp_view.dart';
-import 'package:training_plus/view/authentication/sign_in_view.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SignupView extends StatefulWidget {
@@ -36,7 +36,7 @@ class _SignupViewState extends State<SignupView> {
         email.isEmpty ||
         password.isEmpty ||
         confirmPassword.isEmpty) {
-      commonSnackbar(
+      commonSnackbar(context: context,
         title: "Error",
         message: "Please fill all the fields",
         backgroundColor: AppColors.error,
@@ -45,7 +45,7 @@ class _SignupViewState extends State<SignupView> {
     }
 
     if (password != confirmPassword) {
-      commonSnackbar(
+      commonSnackbar(context: context,
         title: "Error",
         message: "Passwords do not match",
         backgroundColor: AppColors.error,
@@ -54,13 +54,13 @@ class _SignupViewState extends State<SignupView> {
     }
 
     // Success → Move to RootView
-    commonSnackbar(
+    commonSnackbar(context: context,
       title: "Success",
       message: "Account created successfully",
       backgroundColor: AppColors.success,
     );
 
-    navigateToPage(AfterSignUpOtpView());
+    navigateToPage(context: context,AfterSignUpOtpView());
   }
 
 
@@ -150,7 +150,7 @@ class _SignupViewState extends State<SignupView> {
                     color: AppColors.primary,
                     clickRecognized:TapGestureRecognizer()
                     ..onTap = () {
-                      navigateToPage(SigninView());
+                      navigateToPage(context: context,SigninView());
                     },
                     isBold: true,
                   ),
@@ -251,14 +251,14 @@ void showReferralCodeBottomSheet(BuildContext context, Function(String) onUse) {
                       onTap: () {
                         String code = controllers.map((c) => c.text).join();
                         if(code.isEmpty){
-                          commonSnackbar(title: "Empty", message: "Please enter a referral code.",backgroundColor: AppColors.error);
+                          commonSnackbar(context: context,title: "Empty", message: "Please enter a referral code.",backgroundColor: AppColors.error);
                           return;
                         }
                         else if(code.length<6){
-                          commonSnackbar(title: "Invalid", message: "Invalid referral code length.",backgroundColor: AppColors.error);
+                          commonSnackbar(context: context,title: "Invalid", message: "Invalid referral code length.",backgroundColor: AppColors.error);
                           return;
                         }else{
-                        Get.back();
+                        Navigator.pop(context);
                         onUse(code); 
 
                         }
@@ -272,7 +272,7 @@ void showReferralCodeBottomSheet(BuildContext context, Function(String) onUse) {
                 top: 10,right: 10,
                 child: GestureDetector(
                   onTap: () {
-                    Get.back();
+                    Navigator.pop(context);
                   },
                   child: Icon(Icons.cancel_rounded,size: 30)))
             ],

@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -69,7 +69,7 @@ class _AfterSignUpOtpViewState extends State<AfterSignUpOtpView> {
                     color: AppColors.primary,
                     clickRecognized:TapGestureRecognizer()
                     ..onTap = () {
-                        commonSnackbar(
+                        commonSnackbar(context: context,
                       title: "Resent",
                       message: "OTP code resent successfully",
                       backgroundColor: AppColors.success,
@@ -92,15 +92,15 @@ class _AfterSignUpOtpViewState extends State<AfterSignUpOtpView> {
 
                   String code = controllers.map((c) => c.text).join();
                   if(code.isEmpty){
-                    commonSnackbar(title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
+                    commonSnackbar(context: context,title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
                     return;
                   }
                   else if(code.length<6){
-                    commonSnackbar(title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
+                    commonSnackbar(context: context,title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
                     return;
                   }
-                  navigateToPage(RootView(),clearStack: true);
-                  commonSnackbar(
+                  navigateToPage(context: context, RootView(),clearStack: true);
+                  commonSnackbar(context: context,
                     title: "Verified",
                     message: "OTP verified successfully",
                     backgroundColor: AppColors.success,
@@ -113,7 +113,7 @@ class _AfterSignUpOtpViewState extends State<AfterSignUpOtpView> {
               // Back to sign in
            GestureDetector(
             onTap: () {
-              Get.back();
+              Navigator.pop(context);
             },
              child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

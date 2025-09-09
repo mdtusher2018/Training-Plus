@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/image_paths.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/create_new_password_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -68,7 +68,7 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
                     color: AppColors.primary,
                     clickRecognized:TapGestureRecognizer()
                     ..onTap = () {
-                        commonSnackbar(
+                        commonSnackbar(context: context,
                       title: "Resent",
                       message: "OTP code resent successfully",
                       backgroundColor: AppColors.success,
@@ -91,16 +91,16 @@ class _ForgotPasswordOtpViewState extends State<ForgotPasswordOtpView> {
 
                   String code = controllers.map((c) => c.text).join();
                   if(code.isEmpty){
-                    commonSnackbar(title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
+                    commonSnackbar(context: context,title: "Empty", message: "Please enter the OTP.",backgroundColor: AppColors.error);
                     return;
                   }
                   else if(code.length<6){
-                    commonSnackbar(title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
+                    commonSnackbar(context: context,title: "Invalid", message: "Invalid OTP length.",backgroundColor: AppColors.error);
                     return;
                   }
-                  navigateToPage(CreateNewPasswordView());
+                  navigateToPage(context: context,CreateNewPasswordView());
                               
-                  commonSnackbar(
+                  commonSnackbar(context: context,
                     title: "Verified",
                     message: "OTP verified successfully",
                     backgroundColor: AppColors.success,

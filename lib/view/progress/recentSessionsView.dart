@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 

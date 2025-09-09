@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/Personalization_2.dart';
 import 'package:training_plus/view/personalization/widget/CommonSelectableCard.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -120,10 +120,10 @@ class Personalization1 extends StatelessWidget {
                     iconLeft: false,
                     onTap: value != null
                         ? () {
-                            navigateToPage(Personalization2());
+                            navigateToPage(context: context,Personalization2());
                           }
                         : () {
-                            commonSnackbar(
+                            commonSnackbar(context: context,
                               title: "Validity Error",
                               message:
                                   "Please select a role before continuing.",

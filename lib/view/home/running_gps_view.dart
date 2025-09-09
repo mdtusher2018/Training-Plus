@@ -2,7 +2,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_map/flutter_map.dart';
 // import 'package:geolocator/geolocator.dart';
-// import 'package:get/get.dart';
+// 
 // import 'package:latlong2/latlong.dart';
 // import 'package:share_plus/share_plus.dart';
 // import 'package:training_plus/utils/colors.dart';
@@ -83,7 +83,7 @@
 //             top: 70,left: 32,
 //             child: GestureDetector(
 //               onTap: () {
-//                 Get.back();
+//                 Navigator.pop(context);
 //               },
 //               child: Icon(Icons.arrow_back_ios_new)),
 //           ),
@@ -119,10 +119,10 @@
 //                             isRunning=!isRunning;
 //                           });
 //                           if(isRunning){
-//                               commonSnackbar(
+//                               commonSnackbar(context: context,
 //                                 title: "Run Started", message: "Good luck!");}
 //                                 else{
-//                               commonSnackbar(
+//                               commonSnackbar(context: context,
 //                                 title: "Paused", message: "Run paused");
 //                               }
 //                         }),
@@ -240,10 +240,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
+
 import 'package:latlong2/latlong.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:training_plus/utils/colors.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class RunningTrackerPage extends StatefulWidget {
@@ -357,7 +357,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
         _getCurrentLocation(moveCamera: false);
       });
 
-      commonSnackbar(title: "Run Started", message: "Good luck!");
+      commonSnackbar(context: context,title: "Run Started", message: "Good luck!");
     }
   }
 
@@ -367,7 +367,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
     });
     _locationUpdateTimer?.cancel();
     _timer?.cancel();
-    commonSnackbar(title: "Paused", message: "Run paused");
+    commonSnackbar(context: context,title: "Paused", message: "Run paused");
   }
 
   String _formatDuration(Duration d) {
@@ -424,7 +424,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
             left: 32,
             child: GestureDetector(
               onTap: () {
-                Get.back();
+                Navigator.pop(context);
               },
               child: const Icon(Icons.arrow_back_ios_new),
             ),

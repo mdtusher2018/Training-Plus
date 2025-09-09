@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:training_plus/utils/colors.dart';
-import 'package:training_plus/utils/helper.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:video_player/video_player.dart';
 
 /// Stateful widget to fetch and then display video content.
