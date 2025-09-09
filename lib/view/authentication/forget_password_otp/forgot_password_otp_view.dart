@@ -76,7 +76,7 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                     color: AppColors.primary,
                     clickRecognized: TapGestureRecognizer()
                       ..onTap = () async {
-                        await controller.resendOtp("user@example.com");
+                        await controller.resendOtp(email: email);
                         commonSnackbar(
                           context: context,
                           title: "Resent",

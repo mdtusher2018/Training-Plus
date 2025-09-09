@@ -6,12 +6,14 @@ import 'package:training_plus/view/authentication/forget_password_otp/forget_pas
 
 class ForgotPasswordOtpState {
   final bool isLoading;
+  final bool isResend;
 
-  const ForgotPasswordOtpState({this.isLoading = false});
+  const ForgotPasswordOtpState({this.isLoading = false,this.isResend=false});
 
-  ForgotPasswordOtpState copyWith({bool? isLoading}) {
+  ForgotPasswordOtpState copyWith({bool? isLoading,bool? isResend}) {
     return ForgotPasswordOtpState(
       isLoading: isLoading ?? this.isLoading,
+      isResend: isResend ?? this.isResend,
     );
   }
 }
@@ -26,7 +28,26 @@ class ForgotPasswordOtpController extends StateNotifier<ForgotPasswordOtpState> 
     state = state.copyWith(isLoading: value);
   }
 
-  /// Verify OTP API call
+
+Future<bool> resendOtp({required String email}) async {
+  state = state.copyWith(isLoading: true, isResend: true);
+  try {
+    final response = await apiService.post(ApiEndpoints.resendOtp, {"email": email});
+    log("Resend OTP Response: $response");
+    state = state.copyWith(isLoading: false);
+    if (response["statusCode"] == 200) {
+      return true;
+    }
+    return false;
+  } catch (e, st) {
+    log("Resend OTP failed", error: e, stackTrace: st);
+    state = state.copyWith(isLoading: false);
+    return false;
+  }
+}
+
+
+
  /// Verify OTP and return the model
   Future<ForgetPasswordOtpModel?> verifyOtp(String otp, String email) async {
     log("Entered OTP: $otp");
@@ -40,7 +61,7 @@ class ForgotPasswordOtpController extends StateNotifier<ForgotPasswordOtpState> 
         {
           "email": email,
           "otp": otp,
-          "purpose": "forget-password",
+          "purpose":(state.isResend)?"resend-otp": "forget-password",
         },
       );
 
@@ -55,21 +76,6 @@ class ForgotPasswordOtpController extends StateNotifier<ForgotPasswordOtpState> 
     } catch (e, st) {
       log("Forgot Password OTP verification failed", error: e, stackTrace: st);
       return null;
-    } finally {
-      setLoading(false);
-    }
-  }
-  /// Resend OTP API call (optional)
-  Future<void> resendOtp(String email) async {
-    setLoading(true);
-    try {
-      final response = await apiService.post(
-        ApiEndpoints.forgetPassword,
-        {"email": email},
-      );
-      log("Resend OTP Response: $response");
-    } catch (e, st) {
-      log("Resend OTP failed", error: e, stackTrace: st);
     } finally {
       setLoading(false);
     }
