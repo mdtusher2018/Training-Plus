@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: 30),
 
     // Sections
-sectionHeader("General"),
+_sectionHeader("General"),
 sectionTile("Edit Profile", "assest/images/profile/edit_profile.png", onTap: () {
   navigateToPage(EditProfileView());
 }),
@@ -74,7 +74,7 @@ sectionTile("My Subscription", "assest/images/profile/my_subscription.png", onTa
 
 const SizedBox(height: 24),
 
-sectionHeader("Support & Help"),
+_sectionHeader("Support & Help"),
 sectionTile("Feedback", "assest/images/profile/feedback.png", onTap: () {
   navigateToPage(FeedbackView());
 }),
@@ -87,7 +87,7 @@ sectionTile("Contact Us", "assest/images/profile/contact_us.png", onTap: () {
 
 const SizedBox(height: 24),
 
-sectionHeader("Legal"),
+_sectionHeader("Legal"),
 sectionTile("Terms of Service", "assest/images/profile/terms_of_service.png", onTap: () {
   navigateToPage(TermsOfServiceView());
 }),
@@ -97,7 +97,7 @@ sectionTile("Privacy Policy", "assest/images/profile/privacy_policy.png", onTap:
 
 const SizedBox(height: 24),
 
-sectionHeader("Others"),
+_sectionHeader("Others"),
 sectionTile("Invite Friends", "assest/images/profile/invite_friends.png", onTap: () {
   navigateToPage(InviteFriendsView());
 }),
@@ -109,7 +109,7 @@ sectionTile("Logout", "assest/images/profile/logout.png", onTap: () {
       ),
     );
   }
-  Widget sectionHeader(String title) {
+  Widget _sectionHeader(String title) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8),
     child: commonText(title, size: 14, isBold: true),
