@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
-import 'package:training_plus/view/authentication/forgot_password_view.dart';
+import 'package:training_plus/view/authentication/authentication_providers.dart';
+import 'package:training_plus/view/authentication/forget_password/forgot_password_view.dart';
 import 'package:training_plus/view/authentication/sign_in/signin_controller.dart';
-import 'package:training_plus/view/authentication/sign_up_view.dart';
+import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-import 'sign_in_provider.dart';
 
 class SigninView extends ConsumerWidget {
   SigninView({super.key});
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController(text: "admin@gmail.com");
+  final TextEditingController passwordController = TextEditingController(text: "hello123");
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,7 +84,7 @@ class SigninView extends ConsumerWidget {
 
               // Sign In Button
               commonButton(
-                "Sign In",
+                "Sign In",isLoading: state.isLoading,
                 onTap: () async {
                   if (emailController.text.isEmpty) {
                     commonSnackbar(context: context,
@@ -109,7 +109,11 @@ class SigninView extends ConsumerWidget {
                     // Here you call your API using repository
                     // Example: final response = await repository.signIn(email, password);
                     // On success:
-                    navigateToPage(context: context,RootView(), clearStack: true);
+                       final user = await controller.signIn(email: emailController.text.trim(), password: passwordController.text.trim());
+                       if (user != null) {
+                      // Navigate to root view
+                      navigateToPage(context: context ,RootView(), clearStack: true);
+                    }
                   } catch (e) {
                     commonSnackbar(context: context,
                       title: "Error",

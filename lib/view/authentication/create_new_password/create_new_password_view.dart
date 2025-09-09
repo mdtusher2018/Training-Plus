@@ -1,26 +1,26 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
+import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class CreateNewPasswordView extends StatefulWidget {
-  const CreateNewPasswordView({super.key});
+class CreateNewPasswordView extends ConsumerWidget {
+  String email;
+  CreateNewPasswordView({super.key, required this.email});
 
-  @override
-  State<CreateNewPasswordView> createState() => _CreateNewPasswordViewState();
-}
-
-class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  bool passwordVisible = true;
-  bool confirmPasswordVisible = true;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(createNewPasswordControllerProvider);
+    final controller = ref.read(createNewPasswordControllerProvider.notifier);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -47,13 +47,9 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
                 "Password",
                 passwordController,
                 hintText: "Enter your password",
-                isPasswordVisible: passwordVisible,
+                isPasswordVisible: state.isPasswordVisible,
                 issuffixIconVisible: true,
-                changePasswordVisibility: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
+                changePasswordVisibility: controller.togglePasswordVisibility,
               ),
               const SizedBox(height: 16),
 
@@ -62,26 +58,25 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
                 "Confirm Password",
                 confirmPasswordController,
                 hintText: "Enter your password",
-                isPasswordVisible: confirmPasswordVisible,
+                isPasswordVisible: state.isConfirmPasswordVisible,
                 issuffixIconVisible: true,
-                changePasswordVisibility: () {
-                  setState(() {
-                    confirmPasswordVisible = !confirmPasswordVisible;
-                  });
-                },
+                changePasswordVisibility:
+                    controller.toggleConfirmPasswordVisibility,
               ),
               const SizedBox(height: 30),
 
               // Continue Button
               commonButton(
                 "Continue",
-                onTap: () {
+                isLoading: state.isLoading,
+                onTap: () async {
                   String password = passwordController.text.trim();
                   String confirmPassword =
                       confirmPasswordController.text.trim();
 
                   if (password.isEmpty || confirmPassword.isEmpty) {
-                    commonSnackbar(context: context,
+                    commonSnackbar(
+                      context: context,
                       title: "Error",
                       message: "Please fill all the fields",
                       backgroundColor: AppColors.error,
@@ -90,27 +85,54 @@ class _CreateNewPasswordViewState extends State<CreateNewPasswordView> {
                   }
 
                   if (password != confirmPassword) {
-                    commonSnackbar(context: context,
+                    commonSnackbar(
+                      context: context,
                       title: "Error",
                       message: "Passwords do not match",
                       backgroundColor: AppColors.error,
                     );
                     return;
                   }
-                  navigateToPage(context: context,SigninView(), clearStack: true);
-                  commonSnackbar(context: context,
-                    title: "Success",
-                    message: "Password reset successful",
-                    backgroundColor: AppColors.success,
+
+                  // Call API
+                  final result = await controller.resetPassword(
+                    email: email,
+                    password: password,
                   );
+
+                  if (result != null && result.statusCode == 200) {
+                    navigateToPage(
+                      context: context,
+                      SigninView(),
+                      clearStack: true,
+                    );
+                    commonSnackbar(
+                      context: context,
+                      title: "Success",
+                      message: "Password reset successful",
+                      backgroundColor: AppColors.success,
+                    );
+                  } else {
+                    commonSnackbar(
+                      context: context,
+                      title: "Error",
+                      message: result?.message ?? "Failed to reset password",
+                      backgroundColor: AppColors.error,
+                    );
+                  }
                 },
               ),
+
               const SizedBox(height: 24),
 
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  navigateToPage(context: context,SigninView(), clearStack: true);
+                  navigateToPage(
+                    context: context,
+                    SigninView(),
+                    clearStack: true,
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

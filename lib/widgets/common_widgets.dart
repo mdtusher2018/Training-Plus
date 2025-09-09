@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import 'package:another_flushbar/flushbar.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 
@@ -47,37 +47,52 @@ void commonSnackbar({
   required BuildContext context,
   required String title,
   required String message,
+  bool isTop=false,
   Color backgroundColor = Colors.black,
   Color textColor = Colors.white,
   Duration duration = const Duration(seconds: 3),
 }) {
-  final snackBar = SnackBar(
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: textColor,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          message,
-          style: TextStyle(color: textColor),
-        ),
-      ],
-    ),
-    backgroundColor: backgroundColor,
-    duration: duration,
-    behavior: SnackBarBehavior.floating,
-    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-  );
 
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // SnackBar snackBar = SnackBar(
+  //   content: Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         title,
+  //         style: TextStyle(
+  //           fontWeight: FontWeight.bold,
+  //           color: textColor,
+  //         ),
+  //       ),
+  //       const SizedBox(height: 2),
+  //       Text(
+  //         message,
+  //         style: TextStyle(color: textColor),
+  //       ),
+  //     ],
+  //   ),
+  //   backgroundColor: backgroundColor,
+  //   duration: duration,
+  //   behavior: SnackBarBehavior.floating,
+  //   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+  //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  // );
+
+    Flushbar(
+    title: title,
+    message: message,
+    duration: duration,
+    backgroundColor: backgroundColor,
+    flushbarPosition: FlushbarPosition.TOP, // This shows it at top
+    margin: const EdgeInsets.all(8),
+    borderRadius: BorderRadius.circular(8),
+    titleColor: textColor,
+    messageColor: textColor,
+  ).show(context);
+
+
+  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
 
@@ -204,7 +219,7 @@ void navigateToPage(
 
 Widget commonButton(
   String title, {
-  Color? color = AppColors.primary,
+  Color color = AppColors.primary,
   Color textColor = AppColors.textPrimary,
   double textSize = 18,
   double width = double.infinity,
@@ -219,22 +234,20 @@ Widget commonButton(
   bool haveNextIcon = false,
 }) {
   return GestureDetector(
-    onTap: onTap,
+    onTap: isLoading ? null : onTap,
     child: Container(
       height: height,
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(boarderRadious)),
-        color: color,
+        color:isLoading?color.withOpacity(0.5): color,
         border: boarder,
       ),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child:
-              isLoading
-                  ? const CircularProgressIndicator()
-                  : FittedBox(
+               FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -242,7 +255,7 @@ Widget commonButton(
                         if (iconWidget != null && iconLeft) iconWidget,
                         commonText( 
                           textAlign: textalign,
-                          title,
+                         isLoading?"Loading...": title,
                           size: textSize,
                           color: textColor,
                           fontWeight: FontWeight.w500,

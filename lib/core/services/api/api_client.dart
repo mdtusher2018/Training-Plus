@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'api_exception.dart';
 
@@ -47,7 +48,7 @@ class ApiClient {
   dynamic _processResponse(http.Response response) {
     final statusCode = response.statusCode;
     final body = response.body.isNotEmpty ? jsonDecode(response.body) : null;
-
+log(response.body);
     if (statusCode >= 200 && statusCode < 300) return body;
 
     throw ApiException(statusCode, body?['message'] ?? 'Unknown error', data: body);
