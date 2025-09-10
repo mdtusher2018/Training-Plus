@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/services/localstorage/i_local_storage_service.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
@@ -12,12 +15,12 @@ class ApiService implements IApiService {
 
   Future<Map<String, String>> _getHeaders({Map<String, String>? extra}) async {
     final token = await _localStorage.getString(StorageKey.token);
+    log(token.toString());
     final headers = {
       'Content-Type': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
       if (token != null) 'SignUpToken': 'signUpToken $token',
       if (token != null) 'Forget-password': 'Forget-password $token',
-      if (token != null) 'Authorization': 'Bearer $token',
       if (extra != null) ...extra,
     };
     return headers;
@@ -57,4 +60,33 @@ class ApiService implements IApiService {
     final headers = await _getHeaders(extra: extraHeaders);
     return _client.delete(url, headers: headers);
   }
+
+
+
+ @override
+  Future<dynamic> multipart(
+    String endpoint, {
+    String method = 'POST',
+    Map<String, File>? files,
+    dynamic body,
+    String bodyFieldName = 'data', // field name for JSON body
+    Map<String, String>? extraHeaders,
+  }) async {
+    final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
+    final headers = await _getHeaders(extra: extraHeaders);
+    return _client.sendMultipart(
+      url,
+      method: method,
+      headers: headers,
+      files: files,
+      body: body,
+      bodyFieldName: bodyFieldName,
+    );
+  }
+
+
+
+
+
+
 }

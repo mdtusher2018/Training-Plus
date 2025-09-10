@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // <-- required for Clipboard
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class InviteFriendsView extends StatefulWidget {
-  const InviteFriendsView({super.key});
+class InviteFriendsView extends StatelessWidget {
+  const InviteFriendsView({super.key,required this.inviteCode});
 
-  @override
-  State<InviteFriendsView> createState() => _InviteFriendsViewState();
-}
 
-class _InviteFriendsViewState extends State<InviteFriendsView> {
-  final String inviteCode = "1H 1H 17 67"; // Example code
-
+  final String inviteCode ; 
+ // Example code
   @override
   Widget build(BuildContext context) {
     return Scaffold(

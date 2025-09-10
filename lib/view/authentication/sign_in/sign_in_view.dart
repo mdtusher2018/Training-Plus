@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/services/localstorage/storage_key.dart';
+import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
@@ -13,13 +15,19 @@ import 'package:training_plus/widgets/common_widgets.dart';
 class SigninView extends ConsumerWidget {
   SigninView({super.key});
 
-  final TextEditingController emailController = TextEditingController(text: "admin@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "hello123");
+  final TextEditingController emailController = TextEditingController(
+    text: "admin@gmail.com",
+  );
+  final TextEditingController passwordController = TextEditingController(
+    text: "hello123",
+  );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SignInState state = ref.watch(signInControllerProvider);
-    final SignInController controller = ref.read(signInControllerProvider.notifier);
+    final SignInController controller = ref.read(
+      signInControllerProvider.notifier,
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -75,7 +83,7 @@ class SigninView extends ConsumerWidget {
                   value: state.rememberMe,
                   label: "Remember me",
                   onChanged: (p0) {
-                    controller.toggleRememberMe(p0??false);
+                    controller.toggleRememberMe(p0 ?? false);
                   },
                 ),
               ),
@@ -84,10 +92,12 @@ class SigninView extends ConsumerWidget {
 
               // Sign In Button
               commonButton(
-                "Sign In",isLoading: state.isLoading,
+                "Sign In",
+                isLoading: state.isLoading,
                 onTap: () async {
                   if (emailController.text.isEmpty) {
-                    commonSnackbar(context: context,
+                    commonSnackbar(
+                      context: context,
                       title: "Empty",
                       message: "Please enter your email",
                       backgroundColor: AppColors.error,
@@ -95,7 +105,8 @@ class SigninView extends ConsumerWidget {
                     return;
                   }
                   if (passwordController.text.isEmpty) {
-                    commonSnackbar(context: context,
+                    commonSnackbar(
+                      context: context,
                       title: "Empty",
                       message: "Please enter your password",
                       backgroundColor: AppColors.error,
@@ -109,13 +120,25 @@ class SigninView extends ConsumerWidget {
                     // Here you call your API using repository
                     // Example: final response = await repository.signIn(email, password);
                     // On success:
-                       final user = await controller.signIn(email: emailController.text.trim(), password: passwordController.text.trim());
-                       if (user != null) {
-                      // Navigate to root view
-                      navigateToPage(context: context ,RootView(), clearStack: true);
+                    final user = await controller.signIn(
+                      email: emailController.text.trim(),
+                      password: passwordController.text.trim(),
+                    );
+                    if (user != null) {
+                      final localStorage = ref.read(localStorageProvider);
+                      await localStorage.saveString(
+                        StorageKey.token,
+                        user.accessToken,
+                      );
+                      navigateToPage(
+                        context: context,
+                        RootView(),
+                        clearStack: true,
+                      );
                     }
                   } catch (e) {
-                    commonSnackbar(context: context,
+                    commonSnackbar(
+                      context: context,
                       title: "Error",
                       message: e.toString(),
                       backgroundColor: AppColors.error,
@@ -129,7 +152,7 @@ class SigninView extends ConsumerWidget {
               const SizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  navigateToPage(context: context,ForgotPasswordView());
+                  navigateToPage(context: context, ForgotPasswordView());
                 },
                 child: commonText(
                   "Forgot the password?",
@@ -154,10 +177,11 @@ class SigninView extends ConsumerWidget {
                       color: AppColors.primary,
                       size: 14,
                       isBold: true,
-                      clickRecognized: TapGestureRecognizer()
-                        ..onTap = () {
-                          navigateToPage(context: context,SignupView());
-                        },
+                      clickRecognized:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              navigateToPage(context: context, SignupView());
+                            },
                     ),
                   ],
                 ),

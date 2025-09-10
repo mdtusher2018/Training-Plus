@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/localstorage/local_storage_service.dart';
 import 'package:training_plus/core/utils/theme.dart';
-import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
-import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Training Plus',
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      home: SignupView(),
+      home: SigninView(),
     );
   }
 }

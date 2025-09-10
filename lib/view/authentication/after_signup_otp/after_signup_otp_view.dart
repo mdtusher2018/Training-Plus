@@ -3,11 +3,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/services/localstorage/storage_key.dart';
+import 'package:training_plus/core/services/providers.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
-import 'package:training_plus/view/root_view.dart';
+import 'package:training_plus/view/personalization/view/Personalization_1.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class AfterSignUpOtpView extends ConsumerWidget {
@@ -34,7 +36,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
               commonText("Check your email", size: 21, isBold: true),
               const SizedBox(height: 8),
               commonText(
-                "We sent a password reset link to\nuser@example.com",
+                "We sent a password reset link to\n$email",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
@@ -92,32 +94,47 @@ class AfterSignUpOtpView extends ConsumerWidget {
               const SizedBox(height: 24),
 
               // Verify OTP Button
-              commonButton(
-                "Verify OTP",
-                isLoading: state.isLoading,
-                onTap: () async {
-                  String otp = controllers.map((c) => c.text).join();
+commonButton(
+  "Verify OTP",
+  isLoading: state.isLoading,
+  onTap: () async {
+    String otp = controllers.map((c) => c.text).join();
 
-                  final verified = await controller.verifyOtp(otp);
-                  if (!verified) {
-                    commonSnackbar(
-                      context: context,
-                      title: "Invalid",
-                      message: "Please enter a valid OTP.",
-                      backgroundColor: AppColors.error,
-                    );
-                    return;
-                  }
+    try {
+      // Call verifyOtp, which now returns AfterSignUpOTPModel
+      final response = await controller.verifyOtp(otp);
 
-                  navigateToPage(context: context, RootView(), clearStack: true);
-                  commonSnackbar(
-                    context: context,
-                    title: "Verified",
-                    message: "OTP verified successfully",
-                    backgroundColor: AppColors.success,
-                  );
-                },
-              ),
+      // Save accessToken to local storage
+      final localStorage = ref.read(localStorageProvider);
+      await localStorage.saveString(StorageKey.token, response.accessToken);
+
+      // Show success snackbar
+      commonSnackbar(
+        context: context,
+        title: "Verified",
+        message: "OTP verified successfully",
+        backgroundColor: AppColors.success,
+      );
+
+      // Navigate to next page and clear navigation stack
+      navigateToPage(
+        context: context,
+        Personalization1(),
+        clearStack: true,
+      );
+    } catch (e) {
+      // Extract and show the error message
+      final errorMsg = e.toString().replaceAll("Exception: ", "");
+      commonSnackbar(
+        context: context,
+        title: "Invalid",
+        message: errorMsg,
+        backgroundColor: AppColors.error,
+      );
+    }
+  },
+),
+
 
               const SizedBox(height: 24),
 

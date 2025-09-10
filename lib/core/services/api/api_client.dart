@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'api_exception.dart';
 
@@ -44,6 +45,45 @@ class ApiClient {
     final response = await _httpClient.delete(url, headers: headers);
     return _processResponse(response);
   }
+
+Future<dynamic> sendMultipart(
+  Uri url, {
+  String method = 'POST',
+  Map<String, String>? headers,
+  Map<String, File>? files,
+  dynamic body,
+  String bodyFieldName = 'data', // default field name for JSON body
+}) async {
+  final request = http.MultipartRequest(method.toUpperCase(), url);
+
+  if (headers != null) {
+    request.headers.addAll(headers);
+  }
+
+  if (files != null) {
+    files.forEach((fieldName, file) {
+      final multipartFile = http.MultipartFile.fromBytes(
+        fieldName,
+        file.readAsBytesSync(),
+        filename: file.path.split('/').last,
+      );
+      request.files.add(multipartFile);
+    });
+  }
+
+  // Add JSON body as a single field
+  if (body != null) {
+    request.fields[bodyFieldName] = jsonEncode(body);
+  }
+
+  // Send request
+  final streamedResponse = await request.send();
+  final response = await http.Response.fromStream(streamedResponse);
+
+  return _processResponse(response);
+}
+
+
 
   dynamic _processResponse(http.Response response) {
     final statusCode = response.statusCode;

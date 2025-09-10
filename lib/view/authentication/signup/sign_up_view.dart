@@ -17,11 +17,11 @@ import 'package:training_plus/widgets/common_widgets.dart';
 class SignupView extends ConsumerWidget {
   SignupView({super.key});
 
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController fullNameController = TextEditingController(text: "tusher");
+  final TextEditingController emailController = TextEditingController(text: "");
+  final TextEditingController passwordController = TextEditingController(text: "hello123");
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+      TextEditingController(text: "hello123");
 
   final List<TextEditingController> referralControllers = List.generate(
     6,
@@ -82,6 +82,7 @@ if (errorMessage != null) {
       password: passwordController.text.trim(),
       referralCode: referralCode,
     );
+    
     if (response != null) {
       // Usage in your code:
       final localStorage = ref.read(localStorageProvider);
@@ -242,12 +243,12 @@ if (errorMessage != null) {
   }
 
   void _showReferralCodeBottomSheet(
-    BuildContext context,
+    BuildContext context2,
     SignUpController controller,
     WidgetRef ref,
   ) {
     showModalBottomSheet(
-      context: context,
+      context: context2,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -315,7 +316,7 @@ if (errorMessage != null) {
                           } else {
                             Navigator.pop(context);
                             _validateAndSignup(
-                              context: context,
+                              context: context2,
                               referralCode: code,
                               controller: controller,
                               ref: ref,

@@ -30,12 +30,13 @@ class ForgotPasswordOtpController extends StateNotifier<ForgotPasswordOtpState> 
 
 
 Future<bool> resendOtp({required String email}) async {
-  state = state.copyWith(isLoading: true, isResend: true);
+  state = state.copyWith(isLoading: true);
   try {
     final response = await apiService.post(ApiEndpoints.resendOtp, {"email": email});
     log("Resend OTP Response: $response");
     state = state.copyWith(isLoading: false);
     if (response["statusCode"] == 200) {
+      state=state.copyWith(isResend: true);
       return true;
     }
     return false;

@@ -39,7 +39,7 @@ class ForgotPasswordOtpView extends ConsumerWidget {
               commonText("Check your email", size: 21, isBold: true),
               const SizedBox(height: 8),
               commonText(
-                "We sent a password reset link to\nuser@example.com",
+                "We sent a password reset link to\n$email",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,

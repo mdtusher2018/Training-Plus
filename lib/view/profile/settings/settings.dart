@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:training_plus/view/profile/change_password.dart';
+import 'package:training_plus/view/profile/settings/change_password/change_password_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SettingsView extends StatelessWidget {
