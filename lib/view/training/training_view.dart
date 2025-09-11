@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/view/home/workout_details.dart';
+import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/view/training/chooseYourSportChange.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -290,7 +290,7 @@ navigateToPage(context: context, ChooseYourSportChangeView());
                 tools.map((tool) {
                   return GestureDetector(
                     onTap: () {
-                      navigateToPage(context: context,WorkoutDetailPage());
+                      navigateToPage(context: context,WorkoutDetailPage(id: "",));
                     },
                     child: Container(
                       decoration: BoxDecoration(

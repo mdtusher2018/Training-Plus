@@ -1,5 +1,6 @@
 
   import 'package:flutter/material.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 Widget buildWorkoutCard(
@@ -9,7 +10,7 @@ Widget buildWorkoutCard(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
-          image: NetworkImage(imagePath),
+          image: NetworkImage(getFullImagePath(imagePath)),
           onError: (exception, stackTrace) => commonImageErrorWidget(),
           fit: BoxFit.cover,
         ),

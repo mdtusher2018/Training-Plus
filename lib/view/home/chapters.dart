@@ -1,44 +1,21 @@
 import 'package:flutter/material.dart';
 
 import 'package:training_plus/view/home/video_play_view.dart';
+import 'package:training_plus/view/home/workout_details/workout_details_model.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:training_plus/core/utils/colors.dart';
 
 class ChaptersPage extends StatefulWidget {
-  const ChaptersPage({super.key});
-
+  const ChaptersPage({super.key,required this.chapters});
+final List<Chapter> chapters;
   @override
   State<ChaptersPage> createState() => _ChaptersPageState();
 }
 
 class _ChaptersPageState extends State<ChaptersPage> {
-  final List<Chapter> chapters = [
-    Chapter(
-      title: 'Chapter 1',
-      videos: [
-        Video('Basic Touch Drills', '6 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-        Video('Close Control with Movement', '4 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-        Video('Basic Touch Drills', '5 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-      ],
-    ),
-    Chapter(
-      title: 'Chapter 2',
-      videos: [
-        Video('Ball Mastery Under Pressure', '10 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-        Video('First Touch Perfection', '7 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-        Video('Dribble & Turn Combos', '8 min',
-            'https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg', false),
-      ],
-    ),
-  ];
 
   bool get allDone =>
-      chapters.every((ch) => ch.videos.every((v) => v.completed));
+      widget. chapters.every((ch) => ch.videos.every((v) => v.completed));
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +26,13 @@ class _ChaptersPageState extends State<ChaptersPage> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-              itemCount: chapters.length,
+              itemCount:widget. chapters.length,
               itemBuilder: (context, ci) {
-                final chap = chapters[ci];
+                final chap = widget.chapters[ci];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    commonText(chap.title, size: 18, isBold: true),
+                    commonText(chap.name, size: 18, isBold: true),
                     const SizedBox(height: 8),
                     ...chap.videos.asMap().entries.map((entry) {
                       
@@ -109,7 +86,7 @@ class _ChaptersPageState extends State<ChaptersPage> {
                                             isBold: true,
                                             color: AppColors.textPrimary),
                                         const SizedBox(height: 4),
-                                        commonText(video.duration,
+                                        commonText(video.duration.toStringAsFixed(2),
                                             size: 12,
                                             color: AppColors.textSecondary),
                                       ],
@@ -197,17 +174,3 @@ class _ChaptersPageState extends State<ChaptersPage> {
   }
 }
 
-// Models
-class Chapter {
-  final String title;
-  final List<Video> videos;
-  Chapter({required this.title, required this.videos});
-}
-
-class Video {
-  final String title;
-  final String duration;
-  final String thumbnail;
-  bool completed;
-  Video(this.title, this.duration, this.thumbnail, this.completed);
-}

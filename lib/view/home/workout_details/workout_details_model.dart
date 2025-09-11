@@ -1,0 +1,139 @@
+class WorkoutResponse {
+  final String status;
+  final int statusCode;
+  final String message;
+  final WorkoutData data;
+  final List<dynamic> errors;
+
+  WorkoutResponse({
+    required this.status,
+    required this.statusCode,
+    required this.message,
+    required this.data,
+    required this.errors,
+  });
+
+  factory WorkoutResponse.fromJson(Map<String, dynamic> json) {
+    return WorkoutResponse(
+      status: json['status'],
+      statusCode: json['statusCode'],
+      message: json['message'],
+      data: WorkoutData.fromJson(json['data']),
+      errors: json['errors'] ?? [],
+    );
+  }
+}
+
+class WorkoutData {
+  final String type;
+  final Workout attributes;
+
+  WorkoutData({required this.type, required this.attributes});
+
+  factory WorkoutData.fromJson(Map<String, dynamic> json) {
+    return WorkoutData(
+      type: json['type'],
+      attributes: Workout.fromJson(json['attributes']),
+    );
+  }
+}
+
+class Workout {
+  final String id;
+  final String title;
+  final String sports;
+  final String description;
+  final String thumbnail;
+  final double duration;
+  final String previewVideo;
+  final String userType;
+  final String skillLevel;
+  final String ageGroup;
+  final String goal;
+  final List<Chapter> chapters;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
+
+  Workout({
+    required this.id,
+    required this.title,
+    required this.sports,
+    required this.description,
+    required this.thumbnail,
+    required this.duration,
+    required this.previewVideo,
+    required this.userType,
+    required this.skillLevel,
+    required this.ageGroup,
+    required this.goal,
+    required this.chapters,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  factory Workout.fromJson(Map<String, dynamic> json) {
+    return Workout(
+      id: json['_id'],
+      title: json['title'],
+      sports: json['sports'],
+      description: json['description'],
+      thumbnail: json['thumbnail'],
+      duration: (json['duration'] as num).toDouble(),
+      previewVideo: json['previewVideo'],
+      userType: json['userType'],
+      skillLevel: json['skillLevel'],
+      ageGroup: json['ageGroup'],
+      goal: json['goal'],
+      chapters: (json['chapters'] as List)
+          .map((c) => Chapter.fromJson(c))
+          .toList(),
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+      v: json['__v'],
+    );
+  }
+}
+
+class Chapter {
+  final String name;
+  final List<Video> videos;
+
+  Chapter({required this.name, required this.videos});
+
+  factory Chapter.fromJson(Map<String, dynamic> json) {
+    return Chapter(
+      name: json['name'],
+      videos: (json['videos'] as List)
+          .map((v) => Video.fromJson(v))
+          .toList(),
+    );
+  }
+}
+
+class Video {
+  final String title;
+  final String thumbnail;
+  final String videoUrl;
+  final double duration;
+  bool completed;
+
+  Video({
+    required this.title,
+    required this.thumbnail,
+    required this.videoUrl,
+    required this.duration,
+    required this.completed,
+  });
+
+  factory Video.fromJson(Map<String, dynamic> json) {
+    return Video(
+      title: json['title'],
+      thumbnail: json['thumbnail'],
+      videoUrl: json['videoUrl'],
+      duration: (json['duration'] as num).toDouble(),
+      completed: json["completed"]??false
+    );
+  }
+}

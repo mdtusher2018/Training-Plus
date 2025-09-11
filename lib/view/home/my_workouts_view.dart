@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
-import 'package:training_plus/view/home/workout_details.dart';
+import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class MyWorkoutsView extends StatefulWidget {
@@ -37,7 +37,7 @@ class _MyWorkoutsViewState extends State<MyWorkoutsView> {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              navigateToPage(context: context,WorkoutDetailPage());
+              navigateToPage(context: context,WorkoutDetailPage(id: "",));
             },
             child: SizedBox(
               height: 230,

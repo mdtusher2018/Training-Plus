@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class RecentSessionCard extends StatelessWidget {
@@ -51,7 +52,7 @@ class RecentSessionCard extends StatelessWidget {
               child: Row(
                 children: [
                   Image.network(
-                    tagImageUrl,
+                    getFullImagePath(tagImageUrl),
                     width: 16,
                     height: 16,
                     errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported),

@@ -302,10 +302,13 @@ alignment: Alignment.center,
       children: [
         Icon(Icons.broken_image, size: iconSize, color: Colors.grey),
    
-        commonText(
-          message,textAlign: TextAlign.center,
-          isBold: true
-
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: commonText(
+            message,textAlign: TextAlign.center,
+            isBold: true
+          
+          ),
         ),
       ],
     ),

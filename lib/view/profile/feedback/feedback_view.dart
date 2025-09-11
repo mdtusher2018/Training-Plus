@@ -6,13 +6,16 @@ import 'package:training_plus/view/profile/profile_providers.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class FeedbackView extends ConsumerWidget {
-  const FeedbackView({super.key});
+   FeedbackView({super.key});
+
+    final feedbackController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(feedbackControllerProvider);
     final controller = ref.read(feedbackControllerProvider.notifier);
-    final feedbackController = TextEditingController();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -60,10 +63,11 @@ class FeedbackView extends ConsumerWidget {
                 itemSize: 36,
                 unratedColor: Colors.grey.shade300,
                 itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star_purple500_sharp,
-                  color: Colors.amber,
-                ),
+                itemBuilder:
+                    (context, _) => const Icon(
+                      Icons.star_purple500_sharp,
+                      color: Colors.amber,
+                    ),
                 onRatingUpdate: controller.updateRating,
               ),
 
@@ -80,26 +84,46 @@ class FeedbackView extends ConsumerWidget {
               state.isLoading
                   ? const CircularProgressIndicator()
                   : commonButton(
-                      "Submit",
-                      onTap: () async {
-                        await controller.submitFeedback(feedbackController.text);
+                    "Submit",
+                    onTap: () async {
+                      if (state.rating == 0.0 ||
+                          feedbackController.text.isEmpty) {
+                        commonSnackbar(
+                          context: context,
+                          title: "Empty",
+                          message: "Please provide a rating and feedback.",
+                          backgroundColor: AppColors.error,
+                        );
+                        return;
+                      }
 
-                        // if (state.error != null) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(content: Text(state.error!)),
-                        //   );
-                        // } else  {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     const SnackBar(
-                        //         content:
-                        //             Text("Feedback submitted successfully!")),
-                        //   );
-                        //   feedbackController.clear();
-                        //   controller.updateRating(0.0);
-                        //   Navigator.pop(context);
-                        // }
-                      },
-                    ),
+                      final response = await controller.submitFeedback(
+                        feedbackController.text,
+                      );
+
+                  
+
+                      if (response != null) {
+                        feedbackController.clear();
+                        controller.updateRating(0.0);
+                        Navigator.pop(context);
+                        commonSnackbar(
+                          context: context,
+                          title: "Success",
+                          message: "Feedback submitted successfully!",
+                          backgroundColor: AppColors.success
+                        );
+                        return;
+                      } else {
+                        commonSnackbar(
+                          context: context,
+                          title: "Error",
+                          message: "Unknown error occoured.",
+                          backgroundColor: AppColors.error,
+                        );
+                      }
+                    },
+                  ),
             ],
           ),
         ),

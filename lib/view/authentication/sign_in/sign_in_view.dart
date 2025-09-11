@@ -16,7 +16,7 @@ class SigninView extends ConsumerWidget {
   SigninView({super.key});
 
   final TextEditingController emailController = TextEditingController(
-    text: "admin@gmail.com",
+    text: "bb@example.com",
   );
   final TextEditingController passwordController = TextEditingController(
     text: "hello123",
