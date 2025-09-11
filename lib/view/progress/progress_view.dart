@@ -29,26 +29,45 @@ class ProgressView extends ConsumerWidget {
         backgroundColor: AppColors.boxBG,
         title: commonText("Progress", size: 20, fontWeight: FontWeight.bold),
       ),
-      body:(state.isLoading)?Center(child: CircularProgressIndicator(),): SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTrainingActivityChart(state: state, controller: controller),
-            const SizedBox(height: 16),
-            _buildSportsActivityChart(state: state, controller: controller),
-            const SizedBox(height: 16),
-            _buildGoalsSection(goals: state.progress!.mygoal),
-            const SizedBox(height: 16),
-            _buildRecentSessions(context: context,sessions: state.progress!.recentTraining),
-            const SizedBox(height: 16),
-            _buildAchievements(context: context,achievements: state.progress!.achievements),
-            const SizedBox(height: 20),
-            _buildSetGoalsButton(context),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+      body:
+          (state.isLoading || state.progress == null)
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTrainingActivityChart(
+                      state: state,
+                      controller: controller,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildSportsActivityChart(
+                      state: state,
+                      controller: controller,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildGoalsSection(goals: state.progress!.mygoal),
+                    const SizedBox(height: 16),
+                    _buildRecentSessions(
+                      context: context,
+                      sessions: state.progress!.recentTraining,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildAchievements(
+                      context: context,
+                      achievements: state.progress!.achievements,
+                    ),
+                    const SizedBox(height: 20),
+                    _buildSetGoalsButton(
+                      context,
+                      state: state,
+                      controller: controller,
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
     );
   }
 
@@ -164,93 +183,100 @@ class ProgressView extends ConsumerWidget {
   }
 
   Widget _buildSportsActivityChart({
-  required ProgressState state,
-  required ProgressController controller,
-}) {
-    if (state.progress?.pieChart == null ) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Center(child: CircularProgressIndicator()),
-    );
-  }
-  if (state.progress!.pieChart.data.isEmpty) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Center(child: Text("No sports activity data")),
-    );
-  }
-
-  final pieChart = state.progress!.pieChart;
-  final total = pieChart.data.fold<int>(0, (sum, item) => sum + item.totalCompleted);
-
-  // Define colors dynamically (or keep a fixed palette)
-  final colors = [
-    Colors.amber.shade200,
-    Colors.amber.shade400,
-    Colors.amber.shade600,
-    Colors.brown.shade400,
-    Colors.yellow.shade300,
-    Colors.yellow.shade600,
-  ];
-
-  return Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            commonText("Sports Activity", size: 14, fontWeight: FontWeight.w600),
-          ],
+    required ProgressState state,
+    required ProgressController controller,
+  }) {
+    if (state.progress?.pieChart == null) {
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
         ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 150,
-          child: PieChart(
-            PieChartData(
-              sectionsSpace: 0,
-              centerSpaceRadius: 40,
-              sections: List.generate(pieChart.data.length, (index) {
-                final item = pieChart.data[index];
-                final color = colors[index % colors.length];
-                final value = total == 0 ? 0 : (item.totalCompleted / total) * 100;
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+    if (state.progress!.pieChart.data.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Center(child: Text("No sports activity data")),
+      );
+    }
 
-                return PieChartSectionData(
-                  color: color,
-                  value: value as double,
-                  title: '',
-                );
-              }),
+    final pieChart = state.progress!.pieChart;
+    final total = pieChart.data.fold<int>(
+      0,
+      (sum, item) => sum + item.totalCompleted,
+    );
+
+    // Define colors dynamically (or keep a fixed palette)
+    final colors = [
+      Colors.amber.shade200,
+      Colors.amber.shade400,
+      Colors.amber.shade600,
+      Colors.brown.shade400,
+      Colors.yellow.shade300,
+      Colors.yellow.shade600,
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              commonText(
+                "Sports Activity",
+                size: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            height: 150,
+            child: PieChart(
+              PieChartData(
+                sectionsSpace: 0,
+                centerSpaceRadius: 40,
+                sections: List.generate(pieChart.data.length, (index) {
+                  final item = pieChart.data[index];
+                  final color = colors[index % colors.length];
+                  final value =
+                      total == 0 ? 0 : (item.totalCompleted / total) * 100;
+
+                  return PieChartSectionData(
+                    color: color,
+                    value: value as double,
+                    title: '',
+                  );
+                }),
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 12,
-          alignment: WrapAlignment.center,
-          runSpacing: 6,
-          children: List.generate(pieChart.data.length, (index) {
-            final item = pieChart.data[index];
-            final color = colors[index % colors.length];
-            return _buildDot(item.label, color);
-          }),
-        ),
-      ],
-    ),
-  );
-}
-
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 12,
+            alignment: WrapAlignment.center,
+            runSpacing: 6,
+            children: List.generate(pieChart.data.length, (index) {
+              final item = pieChart.data[index];
+              final color = colors[index % colors.length];
+              return _buildDot(item.label, color);
+            }),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildDot(String label, Color color) {
     return Row(
@@ -267,119 +293,116 @@ class ProgressView extends ConsumerWidget {
     );
   }
 
-  Widget _buildGoalsSection({
-  required List<MyGoal> goals
-  }) {
+  Widget _buildGoalsSection({required List<MyGoal> goals}) {
+    if (goals.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: commonText("No goals found", size: 14),
+      );
+    }
 
-     if (goals.isEmpty) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: commonText("No goals found", size: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          commonText("Goals", size: 14, fontWeight: FontWeight.w600),
+          const SizedBox(height: 12),
+          ...goals.map((goal) {
+            double percent = goal.progress / goal.target;
+            String title =
+                "${goal.timeFrame[0].toUpperCase()}${goal.timeFrame.substring(1)} ${goal.sports} Goals";
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      commonText(title, size: 12),
+                      commonText(
+                        "${goal.progress}/${goal.target} Sessions",
+                        size: 12,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  LinearProgressIndicator(
+                    value: percent,
+                    backgroundColor: AppColors.boxBG,
+                    color: AppColors.primary,
+                    minHeight: 16,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ],
+      ),
     );
   }
 
-  return Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        commonText("Goals", size: 14, fontWeight: FontWeight.w600),
-        const SizedBox(height: 12),
-        ...goals.map((goal) {
-          double percent = goal.progress / goal.target;
-          String title =
-              "${goal.timeFrame[0].toUpperCase()}${goal.timeFrame.substring(1)} ${goal.sports} Goals";
+  Widget _buildRecentSessions({
+    required BuildContext context,
+    required List<RecentTraining> sessions,
+  }) {
+    if (sessions.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.mainBG,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
+        ),
+        child: commonText("No recent sessions found", size: 14),
+      );
+    }
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    commonText(title, size: 12),
-                    commonText(
-                      "${goal.progress}/${goal.target} Sessions",
-                      size: 12,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                LinearProgressIndicator(
-                  value: percent,
-                  backgroundColor: AppColors.boxBG,
-                  color: AppColors.primary,
-                  minHeight: 16,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
-    ),
-  );
-  }
-Widget _buildRecentSessions({
-  required BuildContext context,
-  required List<RecentTraining> sessions,
-}) {
-  if (sessions.isEmpty) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.mainBG,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
       ),
-      child: commonText("No recent sessions found", size: 14),
-    );
-  }
-
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      color: AppColors.mainBG,
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            commonText(
-              "Recent Sessions",
-              size: 14,
-              fontWeight: FontWeight.w600,
-            ),
-            const Spacer(),
-            TextButton(
-              onPressed: () {
-                navigateToPage(context: context, RecentSessionsView());
-              },
-              child: Row(
-                children: [
-                  commonText("See all", size: 12),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              commonText(
+                "Recent Sessions",
+                size: 14,
+                fontWeight: FontWeight.w600,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 6),
-        ...sessions.map(
-          (session) {
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  navigateToPage(context: context, RecentSessionsView());
+                },
+                child: Row(
+                  children: [
+                    commonText("See all", size: 12),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.arrow_forward),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          ...sessions.map((session) {
             // Format updatedAt to something like "Today | 20 Min"
             final now = DateTime.now();
             final difference = now.difference(session.updatedAt);
@@ -389,7 +412,8 @@ Widget _buildRecentSessions({
             } else if (difference.inDays == 1) {
               timeLabel = "Yesterday | ${session.watchTime}";
             } else {
-              timeLabel = "${difference.inDays} days ago | ${session.watchTime}";
+              timeLabel =
+                  "${difference.inDays} days ago | ${session.watchTime}";
             }
 
             return Padding(
@@ -404,119 +428,132 @@ Widget _buildRecentSessions({
                 },
               ),
             );
-          },
-        ).toList(),
-      ],
-    ),
-  );
-}
+          }).toList(),
+        ],
+      ),
+    );
+  }
 
-Widget _buildAchievements({
-  required BuildContext context,
-  required List<Achievement> achievements,
-}) {
-  if (achievements.isEmpty) {
+  Widget _buildAchievements({
+    required BuildContext context,
+    required List<Achievement> achievements,
+  }) {
+    if (achievements.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.mainBG,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
+        ),
+        child: commonText("No achievements yet", size: 14),
+      );
+    }
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: AppColors.mainBG,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
       ),
-      child: commonText("No achievements yet", size: 14),
-    );
-  }
-
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(
-      color: AppColors.mainBG,
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            commonText("Achievements", size: 14, fontWeight: FontWeight.w600),
-            const Spacer(),
-            TextButton(
-              onPressed: () {
-                navigateToPage(context: context, AllAchivmentView());
-              },
-              child: Row(
-                children: [
-                  commonText("See all", size: 12),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.arrow_forward),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              commonText("Achievements", size: 14, fontWeight: FontWeight.w600),
+              const Spacer(),
+              TextButton(
+                onPressed: () {
+                  navigateToPage(context: context, AllAchivmentView());
+                },
+                child: Row(
+                  children: [
+                    commonText("See all", size: 12),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.arrow_forward),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: achievements.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1,
+            ],
           ),
-          itemBuilder: (_, i) {
-            final achievement = achievements[i];
-            return Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primary),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  achievement.badgeImage.isNotEmpty
-                      ? Image.network(
+          const SizedBox(height: 12),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: achievements.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 1,
+            ),
+            itemBuilder: (_, i) {
+              final achievement = achievements[i];
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    achievement.badgeImage.isNotEmpty
+                        ? Image.network(
                           getFullImagePath(achievement.badgeImage),
                           width: 60,
                           height: 60,
                           fit: BoxFit.contain,
                         )
-                      : Image.asset(
+                        : Image.asset(
                           "assest/images/progress/achivment.png",
                           width: 60,
                           height: 60,
                         ),
-                  const SizedBox(height: 8),
-                  commonText(
-                    achievement.badgeName,
-                    size: 13,
-                    fontWeight: FontWeight.w600,
-                    textAlign: TextAlign.center,
-                  ),
-                  commonText(
-                    achievement.description,
-                    size: 11,
-                    color: AppColors.textSecondary,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-      ],
-    ),
-  );
-}
+                    const SizedBox(height: 8),
+                    commonText(
+                      achievement.badgeName,
+                      size: 13,
+                      fontWeight: FontWeight.w600,
+                      textAlign: TextAlign.center,
+                    ),
+                    commonText(
+                      achievement.description,
+                      size: 11,
+                      color: AppColors.textSecondary,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
+  }
 
-  Widget _buildSetGoalsButton(BuildContext context) {
+  Widget _buildSetGoalsButton(
+    BuildContext context, {
+    required ProgressState state,
+    required ProgressController controller,
+  }) {
     return GestureDetector(
       onTap: () {
-        showSetGoalBottomSheet(context);
+        if (state.categories.isEmpty) {
+          controller.fetchCategories().then((value) {
+            showSetGoalBottomSheet(
+              context,
+              state: state,
+              controller: controller,
+            );
+          });
+        } else {
+          showSetGoalBottomSheet(context, state: state, controller: controller);
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(14),
@@ -547,22 +584,18 @@ Widget _buildAchievements({
     );
   }
 
-  void showSetGoalBottomSheet(BuildContext context) {
+  void showSetGoalBottomSheet(
+    BuildContext context, {
+    required ProgressState state,
+    required ProgressController controller,
+  }) {
     final TextEditingController targetController = TextEditingController();
 
-    final List<String> sportsList = [
-      "Soccer",
-      "Basketball",
-      "Yoga",
-      "Swimming",
-    ];
-    final List<String> timeFrameList = [
-      "This Week",
-      "This Month",
-      "Next Month",
-    ];
+    final List<String> timeFrameList = ["Weekly", "Monthly"];
 
-    String? selectedSport = sportsList.first;
+    // Initial selected values
+    String? selectedSportId =
+        state.categories.isNotEmpty ? state.categories.first.id : null;
     String? selectedTimeFrame = timeFrameList.first;
 
     showModalBottomSheet(
@@ -602,11 +635,26 @@ Widget _buildAchievements({
                         ),
                         const SizedBox(height: 8),
                         commonDropdown<String>(
-                          items: sportsList,
-                          value: selectedSport,
+                          items:
+                              state.categories
+                                  .map((c) => c.name)
+                                  .toList(), // map names
+                          value:
+                              selectedSportId != null
+                                  ? state.categories
+                                      .firstWhere(
+                                        (c) => c.id == selectedSportId,
+                                      )
+                                      .name
+                                  : null,
                           hint: "Select Sports",
                           onChanged: (value) {
-                            setState(() => selectedSport = value);
+                            final category = state.categories.firstWhere(
+                              (c) => c.name == value,
+                            );
+                            setState(() {
+                              selectedSportId = category.id;
+                            });
                           },
                         ),
 
@@ -643,15 +691,34 @@ Widget _buildAchievements({
                         /// Set Goal Button
                         commonButton(
                           "Set Goal",
-                          onTap: () {
-                            Navigator.pop(context);
+                          onTap: () async {
+                            if (selectedSportId != null &&
+                                targetController.text.isNotEmpty) {
+                              final response = await controller.setGoal(
+                                context: context,
+                                sportId: selectedSportId!,
+                                target:
+                                    int.tryParse(targetController.text) ?? 0,
+                                timeFrame: selectedTimeFrame!,
+                              );
+                              Navigator.pop(context);
+                              commonSnackbar(
+                                context: context,
+                                title: response["title"].toString(),
+                                message: response["massage"].toString(),
+                              );
+                            }
                           },
                         ),
 
                         const SizedBox(height: 32),
                       ],
                     ),
-                    Positioned(top: 0, right: 0, child: commonCloseButton()),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: commonCloseButton(context),
+                    ),
                   ],
                 ),
               );

@@ -41,5 +41,6 @@ static const String sportsCategory="/category/all";
   static const String homePage="home";
 
   static String progress="progress/full-progress";
+  static const String addGoal="/goal/add";
   static String workoutDetails(String id)=>"workout/workout-details/$id";
 }

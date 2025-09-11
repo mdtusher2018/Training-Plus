@@ -297,7 +297,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
             Positioned(
               top: 0,
               right: 0,
-              child: commonCloseButton()),
+              child: commonCloseButton(context)),
           ],
         ),
       ),
@@ -423,7 +423,7 @@ void showCommentsBottomSheet(BuildContext context) {
         
         Positioned(
           top: 10,right: 10,
-          child: commonCloseButton())
+          child: commonCloseButton(context))
           ],
         ),
       );

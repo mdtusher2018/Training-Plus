@@ -151,7 +151,7 @@ class _ChaptersPageState extends State<ChaptersPage> {
               
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [commonCloseButton()],),
+                children: [commonCloseButton(context)],),
               Image.asset("assest/images/home/tophy.png",width: 70,),
               const SizedBox(height: 16),
               commonText("Workout\nComplete", size: 20, isBold: true, textAlign: TextAlign.center),

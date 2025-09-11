@@ -580,7 +580,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                   const SizedBox(height: 16),
                 ],
               ),
-              Positioned(right: 0, top: 0, child: commonCloseButton())
+              Positioned(right: 0, top: 0, child: commonCloseButton(context))
             ],
           ),
         );

@@ -551,10 +551,10 @@ AppBar authAppBar(String title) {
 }
 
 
-Widget commonCloseButton(){
+Widget commonCloseButton(BuildContext context){
   return GestureDetector(
     onTap: () {
-      // pop
+      Navigator.pop(context);
     },
     child: Container(
       padding: EdgeInsets.all(6),

@@ -236,7 +236,7 @@ void _showFoodNotFoundSheet() {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                commonCloseButton(),
+                commonCloseButton(context),
               ],
             ),
             commonText(
@@ -383,7 +383,7 @@ void _showManualEntrySheet() {
           ),
        Positioned(
         top: 8,right: 16,
-        child: commonCloseButton())
+        child: commonCloseButton(context))
        
         ],
       );

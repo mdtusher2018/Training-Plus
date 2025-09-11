@@ -9,6 +9,7 @@ final progressControllerProvider =
 
     final controller = ProgressController(apiService: apiService);
     controller.fetchProgress(); 
+    controller.fetchCategories();
     return controller;
   },
 );

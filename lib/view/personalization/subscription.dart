@@ -165,7 +165,7 @@ class _SubscriptionViewState extends State<SubscriptionView> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(children: [commonCloseButton()],mainAxisAlignment: MainAxisAlignment.end,),
+              Row(children: [commonCloseButton(context)],mainAxisAlignment: MainAxisAlignment.end,),
              
               const SizedBox(height: 12),
               commonText(

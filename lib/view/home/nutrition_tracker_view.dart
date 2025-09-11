@@ -481,7 +481,7 @@ void showSetGoalsBottomSheet(BuildContext context) {
        
        Positioned(
         top: 10,right: 16,
-        child: commonCloseButton())
+        child: commonCloseButton(context))
         ],
       );
     },
