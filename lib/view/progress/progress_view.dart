@@ -317,7 +317,11 @@ class ProgressView extends ConsumerWidget {
           commonText("Goals", size: 14, fontWeight: FontWeight.w600),
           const SizedBox(height: 12),
           ...goals.map((goal) {
-            double percent = goal.progress / goal.target;
+            
+           double percent = (goal.target == 0) 
+    ? 1.0 
+    : goal.progress / goal.target;
+
             String title =
                 "${goal.timeFrame[0].toUpperCase()}${goal.timeFrame.substring(1)} ${goal.sports} Goals";
 
@@ -597,7 +601,7 @@ class ProgressView extends ConsumerWidget {
     String? selectedSportId =
         state.categories.isNotEmpty ? state.categories.first.id : null;
     String? selectedTimeFrame = timeFrameList.first;
-
+ bool isLoading=false;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -605,6 +609,9 @@ class ProgressView extends ConsumerWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
+
+
+        
         return Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -614,6 +621,7 @@ class ProgressView extends ConsumerWidget {
           ),
           child: StatefulBuilder(
             builder: (context, setState) {
+             
               return SingleChildScrollView(
                 child: Stack(
                   children: [
@@ -691,7 +699,11 @@ class ProgressView extends ConsumerWidget {
                         /// Set Goal Button
                         commonButton(
                           "Set Goal",
+                          isLoading: isLoading,
                           onTap: () async {
+                            setState((){
+                              isLoading=true;
+                            });
                             if (selectedSportId != null &&
                                 targetController.text.isNotEmpty) {
                               final response = await controller.setGoal(
@@ -706,7 +718,9 @@ class ProgressView extends ConsumerWidget {
                                 context: context,
                                 title: response["title"].toString(),
                                 message: response["massage"].toString(),
+                                backgroundColor: response['title']=="Successful"?AppColors.success:AppColors.error
                               );
+                              isLoading=false;
                             }
                           },
                         ),

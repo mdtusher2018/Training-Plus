@@ -15,10 +15,12 @@ class ProgressResponse {
 
   factory ProgressResponse.fromJson(Map<String, dynamic> json) {
     return ProgressResponse(
-      status: json['status'],
-      statusCode: json['statusCode'],
-      message: json['message'],
-      data: ProgressData.fromJson(json['data']),
+      status: json['status'] ?? "",
+      statusCode: json['statusCode'] ?? 0,
+      message: json['message'] ?? "",
+      data: json['data'] != null
+          ? ProgressData.fromJson(json['data'])
+          : ProgressData.empty(),
       errors: json['errors'] ?? [],
     );
   }
@@ -32,10 +34,17 @@ class ProgressData {
 
   factory ProgressData.fromJson(Map<String, dynamic> json) {
     return ProgressData(
-      type: json['type'],
-      attributes: ProgressAttributes.fromJson(json['attributes']),
+      type: json['type'] ?? "",
+      attributes: json['attributes'] != null
+          ? ProgressAttributes.fromJson(json['attributes'])
+          : ProgressAttributes.empty(),
     );
   }
+
+  factory ProgressData.empty() => ProgressData(
+        type: "",
+        attributes: ProgressAttributes.empty(),
+      );
 }
 
 class ProgressAttributes {
@@ -55,19 +64,31 @@ class ProgressAttributes {
 
   factory ProgressAttributes.fromJson(Map<String, dynamic> json) {
     return ProgressAttributes(
-      progressChart: ProgressChart.fromJson(json['progressChart']),
-      pieChart: PieChartResponse.fromJson(json['pieChart']),
-      mygoal: (json['mygoal'] as List)
+      progressChart: json['progressChart'] != null
+          ? ProgressChart.fromJson(json['progressChart'])
+          : ProgressChart.empty(),
+      pieChart: json['pieChart'] != null
+          ? PieChartResponse.fromJson(json['pieChart'])
+          : PieChartResponse.empty(),
+      mygoal: (json['mygoal'] as List<dynamic>? ?? [])
           .map((e) => MyGoal.fromJson(e))
           .toList(),
-      achievements: (json['achievements'] as List)
+      achievements: (json['achievements'] as List<dynamic>? ?? [])
           .map((e) => Achievement.fromJson(e))
           .toList(),
-      recentTraining: (json['recentTraining'] as List)
+      recentTraining: (json['recentTraining'] as List<dynamic>? ?? [])
           .map((e) => RecentTraining.fromJson(e))
           .toList(),
     );
   }
+
+  factory ProgressAttributes.empty() => ProgressAttributes(
+        progressChart: ProgressChart.empty(),
+        pieChart: PieChartResponse.empty(),
+        mygoal: [],
+        achievements: [],
+        recentTraining: [],
+      );
 }
 
 class ProgressChart {
@@ -78,14 +99,16 @@ class ProgressChart {
 
   factory ProgressChart.fromJson(Map<String, dynamic> json) {
     return ProgressChart(
-      weekly: (json['weekly'] as List)
+      weekly: (json['weekly'] as List<dynamic>? ?? [])
           .map((e) => ChartItem.fromJson(e))
           .toList(),
-      monthly: (json['monthly'] as List)
+      monthly: (json['monthly'] as List<dynamic>? ?? [])
           .map((e) => ChartItem.fromJson(e))
           .toList(),
     );
   }
+
+  factory ProgressChart.empty() => ProgressChart(weekly: [], monthly: []);
 }
 
 class ChartItem {
@@ -96,8 +119,8 @@ class ChartItem {
 
   factory ChartItem.fromJson(Map<String, dynamic> json) {
     return ChartItem(
-      label: json['label'],
-      totalCompleted: json['totalCompleted'],
+      label: json['label'] ?? "",
+      totalCompleted: json['totalCompleted'] ?? 0,
     );
   }
 }
@@ -110,12 +133,14 @@ class PieChartResponse {
 
   factory PieChartResponse.fromJson(Map<String, dynamic> json) {
     return PieChartResponse(
-      totalCount: json['totalCount'],
-      data: (json['data'] as List)
+      totalCount: json['totalCount'] ?? 0,
+      data: (json['data'] as List<dynamic>? ?? [])
           .map((e) => ChartItem.fromJson(e))
           .toList(),
     );
   }
+
+  factory PieChartResponse.empty() => PieChartResponse(totalCount: 0, data: []);
 }
 
 class MyGoal {
@@ -135,11 +160,11 @@ class MyGoal {
 
   factory MyGoal.fromJson(Map<String, dynamic> json) {
     return MyGoal(
-      id: json['_id'],
-      target: json['target'],
-      progress: json['progress'],
-      timeFrame: json['timeFrame'],
-      sports: json['sports'],
+      id: json['_id'] ?? "",
+      target: json['target'] ?? 0,
+      progress: json['progress'] ?? 0,
+      timeFrame: json['timeFrame'] ?? "",
+      sports: json['sports'] ?? "",
     );
   }
 }
@@ -157,9 +182,9 @@ class Achievement {
 
   factory Achievement.fromJson(Map<String, dynamic> json) {
     return Achievement(
-      badgeName: json['badgeName'],
-      badgeImage: json['badgeImage'],
-      description: json['description'],
+      badgeName: json['badgeName'] ?? "",
+      badgeImage: json['badgeImage'] ?? "",
+      description: json['description'] ?? "",
     );
   }
 }
@@ -189,15 +214,17 @@ class RecentTraining {
 
   factory RecentTraining.fromJson(Map<String, dynamic> json) {
     return RecentTraining(
-      id: json['_id'],
-      watchTime: json['watchTime'],
-      isCompleted: json['isCompleted'],
-      updatedAt: DateTime.parse(json['updatedAt']),
-      workoutName: json['workoutName'],
+      id: json['_id'] ?? "",
+      watchTime: json['watchTime'] ?? "",
+      isCompleted: json['isCompleted'] ?? false,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt']) ?? DateTime.now()
+          : DateTime.now(),
+      workoutName: json['workoutName'] ?? "",
       thumbnail: json['thumbnail'],
-      skillLevel: json['skillLevel'],
-      workoutId: json['workoutId'],
-      sportsname: json['sportsname'],
+      skillLevel: json['skillLevel'] ?? "",
+      workoutId: json['workoutId'] ?? "",
+      sportsname: json['sportsname'] ?? "",
     );
   }
 }
