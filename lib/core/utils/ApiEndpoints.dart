@@ -36,11 +36,22 @@ static const String sportsCategory="/category/all";
   static const String updateProfile="users/update";
   static const String faq="fandq";
   static const String addFeedback="feedback/add";
+  static const String badgeShelf="ucm/my-achievements";
 
   //home page
   static const String homePage="home";
 
   static String progress="progress/full-progress";
   static const String addGoal="/goal/add";
-  static String workoutDetails(String id)=>"workout/workout-details/$id";
+
+  static String staticContent(String type)=>"static-contents?type=$type";
+  static String workoutDetails(String id)=>"workout/details-userend/68c24dc9555d706af606fe19";
+  static const String completeVideo="uvm";
+
+  static const String startWorkout="uwm/start";
+  static String finishedWorkout(String id)=>"uwm/finish/68bcffa45750d11c1c381ad2";
+
+
+  static const String recentSessions="uwm/mytraining";
+
 }

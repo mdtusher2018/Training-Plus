@@ -5,11 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/view/progress/all_achivment_view.dart';
-import 'package:training_plus/view/progress/progress_controller.dart';
-import 'package:training_plus/view/progress/progress_models.dart';
+import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
+import 'package:training_plus/view/progress/common_used_models/recent_training_model.dart';
+import 'package:training_plus/view/progress/progress/progress_controller.dart';
+import 'package:training_plus/view/progress/progress/progress_models.dart';
 import 'package:training_plus/view/progress/progress_provider.dart';
-import 'package:training_plus/view/progress/recentSessionsView.dart';
+import 'package:training_plus/view/progress/all_recent_sessions/recentSessionsView.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -30,44 +31,68 @@ class ProgressView extends ConsumerWidget {
         title: commonText("Progress", size: 20, fontWeight: FontWeight.bold),
       ),
       body:
-          (state.isLoading || state.progress == null)
-              ? Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTrainingActivityChart(
-                      state: state,
-                      controller: controller,
+          RefreshIndicator(
+            onRefresh: () async{
+              await controller.fetchProgress();
+            },
+            child:(state.progress==null)?const Center(child: CircularProgressIndicator()) : (state.progress == null && state.isLoading)
+      // Full-screen loader for first load
+      ? const Center(child: CircularProgressIndicator())
+      : state.error != null
+          // Show error in a scrollable ListView so RefreshIndicator works
+          ? ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Center(
+                    child: commonText(
+                      state.error!,
+                      size: 16,
+                      color: AppColors.error,
                     ),
-                    const SizedBox(height: 16),
-                    _buildSportsActivityChart(
-                      state: state,
-                      controller: controller,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildGoalsSection(goals: state.progress!.mygoal),
-                    const SizedBox(height: 16),
-                    _buildRecentSessions(
-                      context: context,
-                      sessions: state.progress!.recentTraining,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildAchievements(
-                      context: context,
-                      achievements: state.progress!.achievements,
-                    ),
-                    const SizedBox(height: 20),
-                    _buildSetGoalsButton(
-                      context,
-                      state: state,
-                      controller: controller,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                  ),
                 ),
-              ),
+              ],
+            )
+          // Normal loaded state
+          : SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTrainingActivityChart(
+                        state: state,
+                        controller: controller,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildSportsActivityChart(
+                        state: state,
+                        controller: controller,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildGoalsSection(goals: state.progress!.mygoal),
+                      const SizedBox(height: 16),
+                      _buildRecentSessions(
+                        context: context,
+                        sessions: state.progress!.recentTraining,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildAchievements(
+                        context: context,
+                        achievements: state.progress!.achievements,
+                      ),
+                      const SizedBox(height: 20),
+                      _buildSetGoalsButton(
+                        context,
+                        state: state,
+                        controller: controller,
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+          ),
     );
   }
 
@@ -470,7 +495,7 @@ class ProgressView extends ConsumerWidget {
               const Spacer(),
               TextButton(
                 onPressed: () {
-                  navigateToPage(context: context, AllAchivmentView());
+                  navigateToPage(context: context, BadgeShelfView());
                 },
                 child: Row(
                   children: [
@@ -701,11 +726,12 @@ class ProgressView extends ConsumerWidget {
                           "Set Goal",
                           isLoading: isLoading,
                           onTap: () async {
-                            setState((){
-                              isLoading=true;
-                            });
+                          
                             if (selectedSportId != null &&
                                 targetController.text.isNotEmpty) {
+                                    setState((){
+                              isLoading=true;
+                            });
                               final response = await controller.setGoal(
                                 context: context,
                                 sportId: selectedSportId!,
@@ -720,7 +746,17 @@ class ProgressView extends ConsumerWidget {
                                 message: response["massage"].toString(),
                                 backgroundColor: response['title']=="Successful"?AppColors.success:AppColors.error
                               );
+                         setState((){
                               isLoading=false;
+                            });
+                            }else{
+                                    commonSnackbar(
+                                context: context,
+                                title: "Empty",
+                                message: "Please Enter Target",
+                                backgroundColor: AppColors.error
+                              );
+                         
                             }
                           },
                         ),

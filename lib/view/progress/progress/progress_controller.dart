@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
-import 'package:training_plus/view/progress/progress_models.dart';
+import 'package:training_plus/view/progress/progress/progress_models.dart';
 
 // Define the states
 class ProgressState {

@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/view/profile/profile_providers.dart';
+
+import 'package:training_plus/widgets/common_widgets.dart';
+
+class TermsOfServiceView extends ConsumerStatefulWidget {
+  const TermsOfServiceView({super.key});
+
+  @override
+  ConsumerState<TermsOfServiceView> createState() => _TermsOfServiceViewState();
+}
+
+class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
+ @override
+  void initState() {
+    super.initState();
+    // ✅ fetch once after widget is mounted
+    Future.microtask(() {
+      ref.read(staticContentControllerProvider.notifier).fetchStaticContent("privacy-policy");
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(staticContentControllerProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: commonText(
+          'Terms of service',
+          size: 21,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await ref.read(staticContentControllerProvider.notifier).fetchStaticContent("privacy-policy");
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(16),
+          child: Builder(
+            builder: (context) {
+              if (state.isLoading && (state.content == null || state.content!.content.isEmpty)) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {
+                return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Center(
+                    child: commonText(
+                      state.error!,
+                      size: 16,
+                      color:  AppColors.error,
+                    ),
+                  ),
+                ),
+              ],
+            );
+              }
+              if (state.content != null) {
+                return  Html(
+              data: state.content!.content,
+              style: {
+                "body": Style(fontSize: FontSize.medium),
+              },
+            );
+              }
+              return const Center(child: Text("No content available"));
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

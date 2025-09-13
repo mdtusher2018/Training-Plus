@@ -3,7 +3,7 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/community_view.dart';
 import 'package:training_plus/view/home/home/home_page_view.dart';
 import 'package:training_plus/view/profile/profile/profile_view.dart';
-import 'package:training_plus/view/progress/progress_view.dart';
+import 'package:training_plus/view/progress/progress/progress_view.dart';
 import 'package:training_plus/view/training/training_view.dart';
 
 class RootView extends StatefulWidget {

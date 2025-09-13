@@ -97,14 +97,20 @@ class Workout {
 }
 
 class Chapter {
+  final String id;
   final String name;
   final List<Video> videos;
 
-  Chapter({required this.name, required this.videos});
+  Chapter({
+    required this.id,
+    required this.name,
+    required this.videos,
+  });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
     return Chapter(
-      name: json['name'],
+      id: json['_id']??"",
+      name: json['name']??"",
       videos: (json['videos'] as List)
           .map((v) => Video.fromJson(v))
           .toList(),
@@ -113,27 +119,30 @@ class Chapter {
 }
 
 class Video {
+  final String id;
   final String title;
   final String thumbnail;
   final String videoUrl;
   final double duration;
-  bool completed;
+  bool watched;
 
   Video({
+    required this.id,
     required this.title,
     required this.thumbnail,
     required this.videoUrl,
     required this.duration,
-    required this.completed,
+    required this.watched,
   });
 
   factory Video.fromJson(Map<String, dynamic> json) {
     return Video(
-      title: json['title'],
-      thumbnail: json['thumbnail'],
-      videoUrl: json['videoUrl'],
-      duration: (json['duration'] as num).toDouble(),
-      completed: json["completed"]??false
+      id: json['_id']??"",
+      title: json['title']??"",
+      thumbnail: json['thumbnail']??"",
+      videoUrl: json['videoUrl']??"",
+      duration: (json['duration']??0 as num).toDouble(),
+      watched: json['watched'] ?? false,
     );
   }
 }
