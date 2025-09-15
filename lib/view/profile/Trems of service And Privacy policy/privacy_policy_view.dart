@@ -14,18 +14,19 @@ class PrivacyPolicyView extends ConsumerStatefulWidget {
 }
 
 class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
+  final String contentType="terms-of-condition";
   @override
   void initState() {
     super.initState();
     // ✅ fetch once after widget is mounted
     Future.microtask(() {
-      ref.read(staticContentControllerProvider.notifier).fetchStaticContent("terms-of-condition");
+      ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent(contentType);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(staticContentControllerProvider);
+    final state = ref.watch(staticContentControllerProvider(contentType));
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +44,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(staticContentControllerProvider.notifier).fetchStaticContent("terms-of-condition");
+          await ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent("terms-of-condition");
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),

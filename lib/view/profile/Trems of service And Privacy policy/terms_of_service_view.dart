@@ -14,18 +14,19 @@ class TermsOfServiceView extends ConsumerStatefulWidget {
 }
 
 class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
+  final String contentType="privacy-policy";
  @override
   void initState() {
     super.initState();
     // ✅ fetch once after widget is mounted
     Future.microtask(() {
-      ref.read(staticContentControllerProvider.notifier).fetchStaticContent("privacy-policy");
+      ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent(contentType);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(staticContentControllerProvider);
+    final state = ref.watch(staticContentControllerProvider(contentType));
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +44,7 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(staticContentControllerProvider.notifier).fetchStaticContent("privacy-policy");
+          await ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent(contentType);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -55,7 +56,7 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
               }
               if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {
                 return ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
+              
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,

@@ -34,7 +34,7 @@ static const String sportsCategory="/category/all";
   static const String getProfile="users/user-details";
 
   static const String updateProfile="users/update";
-  static const String faq="fandq";
+  static const String faq="fandq/all";
   static const String addFeedback="feedback/add";
   static const String badgeShelf="ucm/my-achievements";
 

@@ -30,7 +30,7 @@ class FaqResponse {
   });
 
   factory FaqResponse.fromJson(Map<String, dynamic> json) {
-    final attributes = json['data']?['attributes'];
+    final attributes = json['data']?['attributes']['result'];
     final faqList = <FaqAttribute>[];
 
     if (attributes != null && attributes is List) {
@@ -42,7 +42,7 @@ class FaqResponse {
     }
 
     return FaqResponse(
-      status: json['status'] ?? 0,
+      status: json['statusCode'] ?? 0,
       message: json['message'] ?? '',
       data: faqList,
       errors: json['errors'] != null ? List<dynamic>.from(json['errors']) : null,

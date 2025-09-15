@@ -32,7 +32,25 @@ class FaqView extends ConsumerWidget {
         },
         child: faqState.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stack) => Center(child: Text('Error: $error')),
+          error: (error, stack) {
+                     return ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Center(
+                    child: commonText(
+                      "Error: $error",
+                      size: 16,
+                      color:  AppColors.error,
+                    ),
+                  ),
+                ),
+              ],
+            );
+              
+          },
           data: (faqList) {
             final Set<int> expandedIndexes = {};
         

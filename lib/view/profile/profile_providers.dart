@@ -37,9 +37,9 @@ final feedbackControllerProvider =
     });
 
 final staticContentControllerProvider =
-    StateNotifierProvider<StaticContentController, StaticContentState>((ref) {
+    StateNotifierProvider.family<StaticContentController, StaticContentState,String>((ref,contentType) {
       final apiService = ref.watch(apiServiceProvider);
-      return StaticContentController(apiService: apiService);
+      return StaticContentController(apiService: apiService,contentType: contentType);
     });
 
 /// Provider

@@ -30,8 +30,9 @@ class StaticContentState {
 
 class StaticContentController extends StateNotifier<StaticContentState> {
   final IApiService apiService;
+  String contentType;
 
-  StaticContentController({required this.apiService}) : super(StaticContentState());
+  StaticContentController({required this.apiService,required this.contentType}) : super(StaticContentState());
 
   /// Fetch static content
   Future<void> fetchStaticContent(String type) async {
