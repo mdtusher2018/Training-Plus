@@ -13,13 +13,9 @@ import 'package:training_plus/widgets/common_widgets.dart';
 class CommunityView extends ConsumerWidget {
   const CommunityView({Key? key}) : super(key: key);
 
-
-
-
-
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-       final state = ref.watch(communityControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(communityControllerProvider);
     final controller = ref.read(communityControllerProvider.notifier);
     return Scaffold(
       backgroundColor: AppColors.boxBG,
@@ -36,11 +32,11 @@ class CommunityView extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _activeChallengesSection(context),
-        
+
             _myPostsSection(context),
-     
+
             _leaderboardSection(context),
-  
+
             _communityFeedSection(context),
           ],
         ),
@@ -48,72 +44,73 @@ class CommunityView extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         onPressed: () {
-          navigateToPage(context: context,CommunityPostView());
+          navigateToPage(context: context, CommunityPostView());
         },
         shape: CircleBorder(),
         child: const Icon(Icons.add),
       ),
     );
-  
-  
   }
 
   Widget _activeChallengesSection(BuildContext context) {
-
-  final List<Map<String, dynamic>> challenges = [
-    {
-      'title': "7 Day Soccer Challenge",
-      'status': "Joined",
-      'participants': 234,
-      'daysLeft': 3,
-      'progress': 5 / 7,
-    },
-    {
-      'title': "Wellness Week",
-      'status': "Join",
-      'participants': 189,
-      'daysLeft': 3,
-      'progress': null,
-    },
-    {
-      'title': "21 Day Meditation Challenge",
-      'status': "Join",
-      'participants': 234,
-      'daysLeft': 3,
-      'progress': null,
-    },
-  ];
-
+    final List<Map<String, dynamic>> challenges = [
+      {
+        'title': "7 Day Soccer Challenge",
+        'status': "Joined",
+        'participants': 234,
+        'daysLeft': 3,
+        'progress': 5 / 7,
+      },
+      {
+        'title': "Wellness Week",
+        'status': "Join",
+        'participants': 189,
+        'daysLeft': 3,
+        'progress': null,
+      },
+      {
+        'title': "21 Day Meditation Challenge",
+        'status': "Join",
+        'participants': 234,
+        'daysLeft': 3,
+        'progress': null,
+      },
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("Active Challenges",onTap: () {
-          navigateToPage(context: context,ActiveChallengesView());
-        },),
+        sectionHeader(
+          "Active Challenges",
+          onTap: () {
+            navigateToPage(context: context, ActiveChallengesView());
+          },
+        ),
         const SizedBox(height: 12),
-   ListView.builder(
-    shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-        itemCount: challenges.length,
-        itemBuilder: (context, index) {
-          final challenge = challenges[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: challengeCard(
-              challenge['title'],
-              challenge['status'],
-              challenge['participants'],
-              challenge['daysLeft'],
-              challenge['progress'],
-              onTap: () {
-                showChallengeDetailsBottomSheet(context,isJoined: challenge['progress']==null);
-              },
-            ),
-          );
-        },
-      ),
-    
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: challenges.length,
+          itemBuilder: (context, index) {
+            final challenge = challenges[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: challengeCard(
+                challenge['title'],
+                challenge['status'],
+                challenge['participants'],
+                challenge['daysLeft'],
+                challenge['progress'],
+                onTap: () {
+                  showChallengeDetailsBottomSheet(
+                    context,
+                    isJoined: challenge['progress'] == null,
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ],
     );
   }
@@ -128,9 +125,12 @@ class CommunityView extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionHeader("My Posts",onTap: () {
-          navigateToPage(context: context,MyPostsView());
-        },),
+        sectionHeader(
+          "My Posts",
+          onTap: () {
+            navigateToPage(context: context, MyPostsView());
+          },
+        ),
         const SizedBox(height: 12),
         ListView.separated(
           shrinkWrap: true,
@@ -145,7 +145,7 @@ class CommunityView extends ConsumerWidget {
               context: context,
               myPost: true,
               ontap: () {
-                showCommentsBottomSheet(context);                
+                showCommentsBottomSheet(context);
               },
             );
           },
@@ -153,7 +153,6 @@ class CommunityView extends ConsumerWidget {
       ],
     );
   }
-
 
   Widget _leaderboardSection(BuildContext context) {
     final leaders = [
@@ -167,17 +166,24 @@ class CommunityView extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16,),
-        sectionHeader("This Week Leaderboard",onTap: () {
-          navigateToPage(context: context,LeaderboardView());
-        },),
+        SizedBox(height: 16),
+        sectionHeader(
+          "This Week Leaderboard",
+          onTap: () {
+            navigateToPage(context: context, LeaderboardView());
+          },
+        ),
         const SizedBox(height: 12),
         ...leaders.asMap().entries.map((entry) {
           final index = entry.key;
           final name = entry.value[0];
           final points = entry.value[1];
-          return leaderboardCard(points: points as num, index: index, name: name as String);
-        })
+          return leaderboardCard(
+            points: points as num,
+            index: index,
+            name: name as String,
+          );
+        }),
       ],
     );
   }
@@ -192,10 +198,13 @@ class CommunityView extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16,),
-        sectionHeader("Community Feed",onTap: () {
-          navigateToPage(context: context,CommunityFeedView());
-        },),
+        SizedBox(height: 16),
+        sectionHeader(
+          "Community Feed",
+          onTap: () {
+            navigateToPage(context: context, CommunityFeedView());
+          },
+        ),
         const SizedBox(height: 12),
         ListView.separated(
           itemCount: communityPosts.length,
@@ -210,7 +219,7 @@ class CommunityView extends ConsumerWidget {
               tag: post["tag"],
               context: context,
               ontap: () {
-                showCommentsBottomSheet(context);                
+                showCommentsBottomSheet(context);
               },
             );
           },
@@ -218,8 +227,4 @@ class CommunityView extends ConsumerWidget {
       ],
     );
   }
-
-
-
-
 }
