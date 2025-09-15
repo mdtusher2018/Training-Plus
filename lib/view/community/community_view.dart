@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/CommunityPostView.dart';
 import 'package:training_plus/view/community/active_challenges_view.dart';
+import 'package:training_plus/view/community/community_controller.dart';
 import 'package:training_plus/view/community/community_feed_view.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/leaderboard_view.dart';
@@ -31,7 +32,7 @@ class CommunityView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _activeChallengesSection(context),
+            _activeChallengesSection(context,state),
 
             _myPostsSection(context),
 
@@ -52,7 +53,7 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _activeChallengesSection(BuildContext context) {
+  Widget _activeChallengesSection(BuildContext context,CommunityState state) {
     final List<Map<String, dynamic>> challenges = [
       {
         'title': "7 Day Soccer Challenge",
@@ -92,19 +93,19 @@ class CommunityView extends ConsumerWidget {
           physics: NeverScrollableScrollPhysics(),
           itemCount: challenges.length,
           itemBuilder: (context, index) {
-            final challenge = challenges[index];
+            final challenge = state.data!.activeChallenge[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: challengeCard(
-                challenge['title'],
-                challenge['status'],
-                challenge['participants'],
-                challenge['daysLeft'],
-                challenge['progress'],
+                challenge.challengeName,
+                challenge.isJoined? "Joined":"Join",
+                challenge.point,
+                challenge.days,
+                challenge.progress.toDouble(),
                 onTap: () {
                   showChallengeDetailsBottomSheet(
                     context,
-                    isJoined: challenge['progress'] == null,
+                    isJoined: challenge.isJoined,
                   );
                 },
               ),

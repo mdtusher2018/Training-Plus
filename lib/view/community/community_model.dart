@@ -75,7 +75,7 @@ class ActiveChallenge {
   final int days;
   final int point;
   final bool isJoined;
-  final int progress;
+  final num progress;
   final String? createdAt;
   final String? expiredAt;
 
@@ -99,7 +99,7 @@ class ActiveChallenge {
       days: json["days"] ?? 0,
       point: json["point"] ?? 0,
       isJoined: json["isJoined"] ?? false,
-      progress: json["progress"] ?? 0,
+      progress: json["progress"] ?? 0.0,
       createdAt: json["createdAt"],
       expiredAt: json["expiredAt"],
     );
