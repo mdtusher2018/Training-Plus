@@ -54,4 +54,13 @@ static const String sportsCategory="/category/all";
 
   static const String recentSessions="uwm/mytraining";
 
+  //training 
+  static const String training="training/training";
+  static const String changeCurrentTraining="users/change-currentTrainning";
+
+
+//community
+static const String community="community";
+
+
 }

@@ -191,7 +191,7 @@ void navigateToPage(
     required BuildContext context,
   bool replace = false,
   bool clearStack = false,
-  Function? onTap,
+  Function(dynamic)? onPopCallback,
   Duration duration = const Duration(milliseconds: 600),
 }) {
   PageRouteBuilder route = PageRouteBuilder(
@@ -208,12 +208,12 @@ void navigateToPage(
 
   if (clearStack) {
     Navigator.of(context).pushAndRemoveUntil(route, (route) => false)
-        .then((value) => onTap?.call(value));
+        .then((value) => onPopCallback?.call(value));
   } else if (replace) {
     Navigator.of(context).pushReplacement(route)
-        .then((value) => onTap?.call(value));
+        .then((value) => onPopCallback?.call(value));
   } else {
-    Navigator.of(context).push(route).then((value) => onTap?.call(value));
+    Navigator.of(context).push(route).then((value) => onPopCallback?.call(value));
   }
 }
 

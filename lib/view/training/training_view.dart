@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/common_used_models/recent_training_model.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/view/training/chooseYourSportChange.dart';
+import 'package:training_plus/view/training/training_controller.dart';
+import 'package:training_plus/view/training/training_model.dart';
+import 'package:training_plus/view/training/training_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class TrainingView extends StatefulWidget {
+class TrainingView extends ConsumerStatefulWidget {
   const TrainingView({super.key});
 
   @override
-  State<TrainingView> createState() => _TrainingViewState();
+  ConsumerState<TrainingView> createState() => _TrainingViewState();
 }
 
-class _TrainingViewState extends State<TrainingView> {
+class _TrainingViewState extends ConsumerState<TrainingView> {
   int selectedTab = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // fetch data on mount
+    Future.microtask(() {
+      ref.read(trainingControllerProvider.notifier).fetchTrainings();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(trainingControllerProvider);
+    final controller = ref.read(trainingControllerProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: commonText("Training", size: 21, fontWeight: FontWeight.bold),
@@ -24,94 +40,59 @@ class _TrainingViewState extends State<TrainingView> {
         backgroundColor: AppColors.mainBG,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildCurrentTrainingCard(),
+      body: RefreshIndicator(
+        onRefresh: () async => controller.fetchTrainings(),
+        child: state.isLoading && state.attributes == null
+            ? const Center(child: CircularProgressIndicator())
+            : state.error != null && state.attributes == null
+                ? ListView(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: Center(
+                          child: commonText(
+                            state.error!,
+                            size: 16,
+                            color: AppColors.error,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : ListView(
+                    padding: const EdgeInsets.all(16),
+                    
+                    children:
+                     
+                       [
+                        _buildCurrentTrainingCard(controller: controller),
 
-            const SizedBox(height: 16),
-            _buildTabs(),
+                        const SizedBox(height: 16),
+                        _buildTabs(),
 
-            const SizedBox(height: 16),
-            if (selectedTab == 0)
-              _buildTrainingList(
-                sessions: [
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Image for Soccer
-                    "title": "Ball Control Mastery",
-                    "level": "Intermediate",
-                    "duration": "25 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Passing Precision",
-                    "level": "Advanced",
-                    "duration": "30 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Dribbling Drills",
-                    "level": "Advanced",
-                    "duration": "45 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Shooting Accuracy",
-                    "level": "Beginner",
-                    "duration": "20 min",
-                  },
-                ],
-              ),
+                        const SizedBox(height: 16),
+                        if (selectedTab == 0)
+                          _buildTrainingList(
+                            sessions: state.attributes?.myTrainings ?? [],
+                          ),
 
-            if (selectedTab == 1)
-              _buildTrainingList(
-                sessions: [
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image for Basketball
-                    "title": "Dribble Mastery",
-                    "level": "Advanced",
-                    "duration": "35 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Passing Precision",
-                    "level": "Intermediate",
-                    "duration": "25 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Shooting Accuracy",
-                    "level": "Advanced",
-                    "duration": "30 min",
-                  },
-                  {
-                    "image":
-                        "https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg", // Same image
-                    "title": "Defensive Drills",
-                    "level": "Intermediate",
-                    "duration": "40 min",
-                  },
-                ],
-              ),
+                        if (selectedTab == 1)
+                          _buildTrainingList(
+                            sessions: (state.attributes?.myTrainings ?? [])
+                                .where((t) => t.isCompleted)
+                                .toList(),
+                          ),
 
-            const SizedBox(height: 24),
-            _buildWellnessToolkit(),
-          ],
-        ),
+                        const SizedBox(height: 24),
+                        _buildWellnessToolkit(state.attributes?.wellness ?? []),
+                      ],
+                    
+                  ),
       ),
     );
   }
 
-  Widget _buildCurrentTrainingCard() {
+  Widget _buildCurrentTrainingCard({required TrainingController controller}) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -131,10 +112,11 @@ class _TrainingViewState extends State<TrainingView> {
           ),
           GestureDetector(
             onTap: () {
-navigateToPage(context: context, ChooseYourSportChangeView());
+              controller.fetchCategories();
+              navigateToPage(context: context, ChooseYourSportChangeView());//show a dialog on pop need to added
             },
             child: Container(
-              padding: EdgeInsets.all(4),
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 border: Border.all(width: 1, style: BorderStyle.solid),
@@ -167,7 +149,6 @@ navigateToPage(context: context, ChooseYourSportChangeView());
               child: Center(
                 child: commonText(
                   "My Trainings",
-
                   size: 14,
                   fontWeight: FontWeight.w600,
                 ),
@@ -188,7 +169,6 @@ navigateToPage(context: context, ChooseYourSportChangeView());
               child: Center(
                 child: commonText(
                   "Completed",
-
                   size: 14,
                   fontWeight: FontWeight.w600,
                 ),
@@ -200,16 +180,25 @@ navigateToPage(context: context, ChooseYourSportChangeView());
     );
   }
 
-  Widget _buildTrainingList({required List<Map<String, String>> sessions}) {
+  Widget _buildTrainingList({required List<RecentTraining> sessions}) {
+    if (sessions.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: commonText("No trainings found", size: 14),
+        ),
+      );
+    }
+
     return Column(
       children: sessions.map((session) => _buildTrainingCard(session)).toList(),
     );
   }
 
-  Widget _buildTrainingCard(Map<String, String> session) {
+  Widget _buildTrainingCard(RecentTraining session) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
@@ -220,7 +209,7 @@ navigateToPage(context: context, ChooseYourSportChangeView());
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             child: Image.network(
-              session["image"]!,
+              session.thumbnail??"https://www.nbc.com/sites/nbcblog/files/styles/scale_862/public/2024/07/paris-2024-olympics-soccer.jpg",
               width: 100,
               height: 90,
               fit: BoxFit.cover,
@@ -234,19 +223,19 @@ navigateToPage(context: context, ChooseYourSportChangeView());
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   commonText(
-                    session["title"]!,
+                    session.workoutName,
                     size: 16,
                     fontWeight: FontWeight.bold,
                   ),
                   const SizedBox(height: 4),
                   commonText(
-                    session["level"]!,
+                    session.skillLevel,
                     size: 14,
                     color: AppColors.green,
                   ),
                   const SizedBox(height: 4),
                   commonText(
-                    session["duration"]!,
+                    "${session.watchTime} sec",
                     size: 13,
                     color: AppColors.textSecondary,
                   ),
@@ -259,13 +248,13 @@ navigateToPage(context: context, ChooseYourSportChangeView());
     );
   }
 
-  Widget _buildWellnessToolkit() {
-    final tools = [
-      {"title": "Breathing", "subtitle": "5 min"},
-      {"title": "Meditation", "subtitle": "5 min"},
-      {"title": "Journaling", "subtitle": "5 min"},
-      {"title": "Mobility", "subtitle": "5 min"},
-    ];
+  Widget _buildWellnessToolkit(List<Wellness> wellnessList) {
+    if (wellnessList.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        child: commonText("No wellness toolkit available", size: 14),
+      );
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -273,7 +262,7 @@ navigateToPage(context: context, ChooseYourSportChangeView());
         border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -285,37 +274,39 @@ navigateToPage(context: context, ChooseYourSportChangeView());
             crossAxisCount: 2,
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
-            childAspectRatio: 2.5,
-            children:
-                tools.map((tool) {
-                  return GestureDetector(
-                    onTap: () {
-                      navigateToPage(context: context,WorkoutDetailPage(id: "",));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.boxBG,
-                        borderRadius: BorderRadius.circular(12),
+            childAspectRatio: 2,
+            children: wellnessList.map((tool) {
+              return GestureDetector(
+                onTap: () {
+                  navigateToPage(context: context, WorkoutDetailPage(id: tool.id));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.boxBG,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: commonText(
+                          tool.title,
+                          size: 14,
+                    maxline: 2,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          commonText(
-                            tool["title"]!,
-                            size: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          commonText(
-                            "${tool["subtitle"]!} exercises",
-                            size: 12,
-                            color: AppColors.textSecondary,
-                          ),
-                        ],
+                      commonText(
+                        "${tool.duration} min",
+                        size: 12,
+                        color: AppColors.textSecondary,
                       ),
-                    ),
-                  );
-                }).toList(),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
           ),
         ],
       ),

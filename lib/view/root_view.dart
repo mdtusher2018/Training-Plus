@@ -67,6 +67,7 @@ class _RootViewState extends State<RootView> {
       backgroundColor: AppColors.boxBG,
       body: PageView(
         controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
         children: _pages,
         onPageChanged: (index) {
           setState(() {

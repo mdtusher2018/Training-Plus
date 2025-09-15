@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/CommunityPostView.dart';
 import 'package:training_plus/view/community/active_challenges_view.dart';
 import 'package:training_plus/view/community/community_feed_view.dart';
+import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/leaderboard_view.dart';
 import 'package:training_plus/view/community/my_posts_view.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class CommunityView extends StatelessWidget {
+class CommunityView extends ConsumerWidget {
   const CommunityView({Key? key}) : super(key: key);
 
 
@@ -16,7 +18,9 @@ class CommunityView extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+       final state = ref.watch(communityControllerProvider);
+    final controller = ref.read(communityControllerProvider.notifier);
     return Scaffold(
       backgroundColor: AppColors.boxBG,
       appBar: AppBar(

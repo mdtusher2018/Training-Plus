@@ -1,121 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/view/training/training_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class ChooseYourSportChangeView extends StatelessWidget {
-  ChooseYourSportChangeView({super.key});
-
-  // Changed to hold only one selected sport
-  final ValueNotifier<String?> selectedSport = ValueNotifier<String?>(null);
-
-  final List<Map<String, String>> sportsList = [
-    {"title": "Soccer", "emoji": "assest/images/personalization/soccer.png"},
-    {"title": "Football", "emoji": "assest/images/personalization/football.png"},
-    {"title": "Basketball", "emoji": "assest/images/personalization/basketball.png"},
-    {"title": "Weight Lifting", "emoji": "assest/images/personalization/weightlifting.png"},
-    {"title": "Running", "emoji": "assest/images/personalization/running.png"},
-    {"title": "Yoga", "emoji": "assest/images/personalization/yoga.png"},
-  ];
+class ChooseYourSportChangeView extends ConsumerWidget {
+  const ChooseYourSportChangeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(trainingControllerProvider);
+    final controller = ref.read(trainingControllerProvider.notifier);
+
     return Scaffold(
       backgroundColor: AppColors.mainBG,
-      appBar: AppBar(leading: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Icon(Icons.arrow_back_ios_new)),),
+
+      appBar: AppBar(
+        title: commonText(
+          "Choose your sports",
+          size: 22,
+          isBold: true,
+          textAlign: TextAlign.center,
+        ),
+        bottom: PreferredSize(preferredSize: Size.fromHeight(16), child:   Center(
+                child: commonText(
+                  "Select the sports you're\ninterested in.",
+                  size: 14,
+                  textAlign: TextAlign.center,
+                  color: AppColors.textSecondary,
+                ),
+              ),),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            controller.changeCategory();
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back_ios_new),
+        ),
+      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    commonText(
-                      "Choose your sports",
-                      size: 22,
-                      isBold: true,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 6),
-                    commonText(
-                      "Select the sports you're\ninterested in.",
-                      size: 14,
-                      textAlign: TextAlign.center,
-                      color: AppColors.textSecondary,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-              Expanded(
-                child: ValueListenableBuilder<String?>(
-                  valueListenable: selectedSport,
-                  builder: (context, selected, _) {
-                    return GridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      children: sportsList.map((sport) {
-                        final isSelected = selected == sport['title'];
-                        return GestureDetector(
-                          onTap: () {
-                            // Only allow one selection
-                            selectedSport.value = isSelected ? null : sport['title']!;
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? const Color(0xFFFFFBEF)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: isSelected
-                                    ? AppColors.primary
-                                    : Colors.grey.shade300,
-                                width: 1.5,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchCategories();
+          },
+          child:
+              state.isLoading && state.categories.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : state.error != null
+                  ? Center(child: Text('Error: ${state.error}'))
+                  : state.categories.isEmpty
+                  ? const Center(child: Text("No categories found"))
+                  : GridView.count(
+                    padding: EdgeInsets.all(16),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    children:
+                        state.categories.map((category) {
+                          // Only one sport can be selected
+                          final isSelected =
+                              state.sport != null &&
+                              state.sport == category.name;
+                
+                          return GestureDetector(
+                            onTap: () {
+                              // Set the selected sport
+                              controller.updateSport(
+                                sport: category.name,
+                                sportId: category.id,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    isSelected
+                                        ? const Color(0xFFFFFBEF)
+                                        : Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color:
+                                      isSelected
+                                          ? AppColors.primary
+                                          : Colors.grey.shade300,
+                                  width: 1.5,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(
+                                      0.03,
+                                    ),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.03),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                )
-                              ],
+                              padding: const EdgeInsets.only(
+                                bottom: 14,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: CommonImage(
+                                      imagePath: category.image,
+                                      isAsset: false,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  commonText(
+                                    category.name,
+                                    size: 10,
+                                    isBold: true,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CommonImage(
-                                  imagePath: sport['emoji']!,
-                                  width: 50,
-                                  isAsset: true,
-                                ),
-                                const SizedBox(height: 16),
-                                commonText(
-                                  sport['title']!,
-                                  size: 18,
-                                  isBold: true,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
+                          );
+                        }).toList(),
+                  ),
         ),
       ),
     );

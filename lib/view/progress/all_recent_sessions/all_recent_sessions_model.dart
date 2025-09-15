@@ -1,4 +1,4 @@
-import 'package:training_plus/view/progress/common_used_models/recent_training_model.dart';
+import 'package:training_plus/common_used_models/recent_training_model.dart';
 
 class AllRecentSessionResponse {
   final String status;
