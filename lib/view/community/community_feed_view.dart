@@ -65,6 +65,12 @@ class _CommunityFeedViewState extends State<CommunityFeedView> {
           final post = communityPosts[index];
           return postCard(
             user: post["user"]!,
+            caption: "",
+            commentCount: 0,
+            isLikedByMe: false,
+            userImage: "",
+      
+            likeCount: 0,
             time: post["time"]!,
             tag: post["tag"],
             context: context,

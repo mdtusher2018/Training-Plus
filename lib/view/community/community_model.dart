@@ -144,12 +144,12 @@ class MyPost {
   factory MyPost.fromJson(Map<String, dynamic> json) {
     return MyPost(
       id: json["_id"] ?? "",
-      author: Author.fromJson(json["author"]),
+      author: Author.fromJson(json["author"]??{}),
       caption: json["caption"] ?? "",
       category: json["category"] ?? "",
       likeCount: json["likeCount"] ?? 0,
       commentCount: json["commentCount"] ?? 0,
-      createdAt: json["createdAt"] ?? "",
+      createdAt: json["createdAt"] ?? "2025-09-16T01:47:16.889Z",
       isLiked: json["isLiked"] ?? false,
     );
   }
@@ -196,7 +196,7 @@ class Leaderboard {
   final String id;
   final String weekStart;
   final String weekEnd;
-  final List<dynamic> topUsers;
+  final List<LeaderboardUser> topUsers;
   final String createdAt;
   final String updatedAt;
 
@@ -214,7 +214,10 @@ class Leaderboard {
       id: json["_id"] ?? "",
       weekStart: json["weekStart"] ?? "",
       weekEnd: json["weekEnd"] ?? "",
-      topUsers: json["topUsers"] ?? [],
+      topUsers: (json["topUsers"] as List<dynamic>?)
+              ?.map((e) => LeaderboardUser.fromJson(e))
+              .toList() ??
+          [],
       createdAt: json["createdAt"] ?? "",
       updatedAt: json["updatedAt"] ?? "",
     );
@@ -225,12 +228,45 @@ class Leaderboard {
       "_id": id,
       "weekStart": weekStart,
       "weekEnd": weekEnd,
-      "topUsers": topUsers,
+      "topUsers": topUsers.map((e) => e.toJson()).toList(),
       "createdAt": createdAt,
       "updatedAt": updatedAt,
     };
   }
 }
+
+class LeaderboardUser {
+  final String id;
+  final String fullName;
+  final String image;
+  final int points;
+
+  LeaderboardUser({
+    required this.id,
+    required this.fullName,
+    required this.image,
+    required this.points,
+  });
+
+  factory LeaderboardUser.fromJson(Map<String, dynamic> json) {
+    return LeaderboardUser(
+      id: json["_id"] ?? "",
+      fullName: json["fullName"] ?? "",
+      image: json["image"] ?? "",
+      points: json["points"] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "_id": id,
+      "fullName": fullName,
+      "image": image,
+      "points": points,
+    };
+  }
+}
+
 
 class Feed {
   final String id;

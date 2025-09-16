@@ -5,6 +5,7 @@ import 'package:training_plus/view/community/CommunityPostView.dart';
 import 'package:training_plus/view/community/active_challenges_view.dart';
 import 'package:training_plus/view/community/community_controller.dart';
 import 'package:training_plus/view/community/community_feed_view.dart';
+import 'package:training_plus/view/community/community_model.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/leaderboard_view.dart';
 import 'package:training_plus/view/community/my_posts_view.dart';
@@ -27,19 +28,53 @@ class CommunityView extends ConsumerWidget {
         elevation: 0,
         title: commonText("Community", size: 20, isBold: true),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _activeChallengesSection(context,state),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchCommunity();
+        },
+        child: Builder(
+          builder: (context) {
+            if (state.data == null && state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }else
+            if (state.error != null) {
+              return ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: Center(
+                      child: commonText(
+                        state.error!,
+                        size: 16,
+                        color: AppColors.error,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+else if(state.data!=null){
+       
+            
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              children: [
+                _activeChallengesSection(context, state),
 
-            _myPostsSection(context),
+                _myPostsSection(context,state),
 
-            _leaderboardSection(context),
+                _leaderboardSection(context,state),
 
-            _communityFeedSection(context),
-          ],
+                _communityFeedSection(context),
+              ],
+            );
+            
+            
+            }else{
+              return const SizedBox.shrink();
+            }
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -53,30 +88,8 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _activeChallengesSection(BuildContext context,CommunityState state) {
-    final List<Map<String, dynamic>> challenges = [
-      {
-        'title': "7 Day Soccer Challenge",
-        'status': "Joined",
-        'participants': 234,
-        'daysLeft': 3,
-        'progress': 5 / 7,
-      },
-      {
-        'title': "Wellness Week",
-        'status': "Join",
-        'participants': 189,
-        'daysLeft': 3,
-        'progress': null,
-      },
-      {
-        'title': "21 Day Meditation Challenge",
-        'status': "Join",
-        'participants': 234,
-        'daysLeft': 3,
-        'progress': null,
-      },
-    ];
+  Widget _activeChallengesSection(BuildContext context, CommunityState state) {
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,21 +104,21 @@ class CommunityView extends ConsumerWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: challenges.length,
+          itemCount: state.data!.activeChallenge.length,
           itemBuilder: (context, index) {
             final challenge = state.data!.activeChallenge[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: challengeCard(
-                challenge.challengeName,
-                challenge.isJoined? "Joined":"Join",
-                challenge.point,
-                challenge.days,
-                challenge.progress.toDouble(),
+                title: challenge.challengeName,
+                isJoined: challenge.isJoined,
+                points: challenge.point,
+                count: challenge.count,
+                days: challenge.days,
                 onTap: () {
                   showChallengeDetailsBottomSheet(
                     context,
-                    isJoined: challenge.isJoined,
+                    isJoined: !challenge.isJoined,
                   );
                 },
               ),
@@ -116,12 +129,8 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _myPostsSection(BuildContext context) {
-    final List<Map<String, dynamic>> myPosts = [
-      {"user": "You", "time": "1 Day Ago"},
-      {"user": "You", "time": "1 Day Ago"},
-      // Add more posts here if needed
-    ];
+  Widget _myPostsSection(BuildContext context, CommunityState state) {
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,13 +145,18 @@ class CommunityView extends ConsumerWidget {
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: myPosts.length,
+          itemCount: state.data!.mypost.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            final post = myPosts[index];
+            MyPost post = state.data!.mypost[index];
             return postCard(
-              user: post['user'],
-              time: post['time'],
+              user: post.author.fullName,
+              time: post.createdAt,
+              caption: post.caption,
+              likeCount: post.likeCount,
+              commentCount: post.commentCount,
+              isLikedByMe: post.isLiked,
+              userImage: post.author.image,              
               context: context,
               myPost: true,
               ontap: () {
@@ -155,14 +169,8 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _leaderboardSection(BuildContext context) {
-    final leaders = [
-      ["Jordan Lee", 1350],
-      ["Sarah Smith", 1270],
-      ["Morgan Davis", 1210],
-      ["Jamie Brown", 1150],
-      ["Casey Taylor", 1050],
-    ];
+  Widget _leaderboardSection(BuildContext context,CommunityState state) {
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,16 +183,24 @@ class CommunityView extends ConsumerWidget {
           },
         ),
         const SizedBox(height: 12),
-        ...leaders.asMap().entries.map((entry) {
-          final index = entry.key;
-          final name = entry.value[0];
-          final points = entry.value[1];
-          return leaderboardCard(
-            points: points as num,
-            index: index,
-            name: name as String,
-          );
-        }),
+        ListView.separated(
+          itemCount: state.data!.leaderboard.topUsers.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final user = state.data!.leaderboard.topUsers[index];
+            return leaderboardCard(
+              index:  index + 1,
+              name: user.fullName,
+              points: user.points,
+              image: user.image,
+              
+            );
+          },
+        ),
+
+
       ],
     );
   }
@@ -217,6 +233,12 @@ class CommunityView extends ConsumerWidget {
             return postCard(
               user: post["user"]!,
               time: post["time"]!,
+              isLikedByMe: false,
+              userImage: "",
+
+              commentCount: 0,
+              likeCount: 0,
+              caption: "",
               tag: post["tag"],
               context: context,
               ontap: () {

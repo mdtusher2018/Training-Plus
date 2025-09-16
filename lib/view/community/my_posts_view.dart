@@ -51,6 +51,12 @@ class _MyPostsViewState extends State<MyPostsView> {
           final post = myPosts[index];
           return postCard(
             user: post['user'],
+            caption: "",
+            commentCount: 0,
+            isLikedByMe: false,
+            likeCount: 0,
+            userImage: "",
+            
             time: post['time'],
             context: context,
             myPost: true,

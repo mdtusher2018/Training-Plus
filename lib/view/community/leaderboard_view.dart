@@ -63,7 +63,7 @@ class _LeaderboardViewState extends State<LeaderboardView> {
               final index = entry.key;
               final name = entry.value[0];
               final points = entry.value[1];
-              return leaderboardCard(points: points as num, index: index, name: name as String);
+              return leaderboardCard(points: points as num, index: index, name: name as String,image: "");
             })
           ],
               ),

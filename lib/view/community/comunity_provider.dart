@@ -6,5 +6,6 @@ final communityControllerProvider =
     StateNotifierProvider<CommunityController, CommunityState>((ref) {
   final apiService = ref.read(apiServiceProvider); // your ApiService provider
   final controller=CommunityController(apiService);
+  controller.fetchCommunity();
   return controller;
 });

@@ -89,11 +89,11 @@ class _ActiveChallengesViewState extends State<ActiveChallengesView> {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: challengeCard(
-              challenge['title'],
-              challenge['status'],
-              challenge['participants'],
-              challenge['daysLeft'],
-              challenge['progress'],
+              title:  challenge['title'],
+              isJoined:  challenge['status'],
+              count:  challenge['participants'],
+              days:  challenge['daysLeft'],
+              points:  challenge['progress'],
               onTap: () {
                 showChallengeDetailsBottomSheet(context,isJoined: challenge['progress']==null);
               },
