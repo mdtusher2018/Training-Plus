@@ -36,8 +36,7 @@ class CommunityView extends ConsumerWidget {
           builder: (context) {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
-            }else
-            if (state.error != null) {
+            } else if (state.error != null) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
@@ -53,25 +52,25 @@ class CommunityView extends ConsumerWidget {
                   ),
                 ],
               );
-            }
-else if(state.data!=null){
-       
-            
-            return ListView(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                _activeChallengesSection(context, state),
+            } else if (state.data != null) {
+              return ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  if (state.data!.activeChallenge.isNotEmpty)
+                    _activeChallengesSection(context, state),
 
-                _myPostsSection(context,state),
+                  if (state.data!.mypost.isNotEmpty)
+                    _myPostsSection(context, state),
 
-                _leaderboardSection(context,state),
+                  if (state.data!.leaderboard.topUsers.isNotEmpty)
+                    _leaderboardSection(context, state),
 
-                _communityFeedSection(context),
-              ],
-            );
-            
-            
-            }else{
+                  if (state.data!.feed.isNotEmpty)
+                    _communityFeedSection(context, state),
+                  SizedBox(height: 24),
+                ],
+              );
+            } else {
               return const SizedBox.shrink();
             }
           },
@@ -89,8 +88,6 @@ else if(state.data!=null){
   }
 
   Widget _activeChallengesSection(BuildContext context, CommunityState state) {
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -130,8 +127,6 @@ else if(state.data!=null){
   }
 
   Widget _myPostsSection(BuildContext context, CommunityState state) {
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -156,7 +151,7 @@ else if(state.data!=null){
               likeCount: post.likeCount,
               commentCount: post.commentCount,
               isLikedByMe: post.isLiked,
-              userImage: post.author.image,              
+              userImage: post.author.image,
               context: context,
               myPost: true,
               ontap: () {
@@ -169,9 +164,7 @@ else if(state.data!=null){
     );
   }
 
-  Widget _leaderboardSection(BuildContext context,CommunityState state) {
-
-
+  Widget _leaderboardSection(BuildContext context, CommunityState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -191,27 +184,18 @@ else if(state.data!=null){
           itemBuilder: (context, index) {
             final user = state.data!.leaderboard.topUsers[index];
             return leaderboardCard(
-              index:  index + 1,
+              index: index + 1,
               name: user.fullName,
               points: user.points,
               image: user.image,
-              
             );
           },
         ),
-
-
       ],
     );
   }
 
-  Widget _communityFeedSection(BuildContext context) {
-    final List<Map<String, String>> communityPosts = [
-      {"user": "Michael Carter", "time": "1hr Ago", "tag": "Soccer"},
-      {"user": "Emily Rivera", "time": "1hr Ago", "tag": "Yoga"},
-      // Add more posts if needed
-    ];
-
+  Widget _communityFeedSection(BuildContext context, CommunityState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -224,22 +208,22 @@ else if(state.data!=null){
         ),
         const SizedBox(height: 12),
         ListView.separated(
-          itemCount: communityPosts.length,
+          itemCount: state.data!.feed.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            final post = communityPosts[index];
+            final post = state.data!.feed[index];
             return postCard(
-              user: post["user"]!,
-              time: post["time"]!,
-              isLikedByMe: false,
-              userImage: "",
+              user: post.authorName,
+              userImage: post.authorImage,
+              time: post.createdAt,
+              isLikedByMe: post.isLiked,
 
-              commentCount: 0,
-              likeCount: 0,
-              caption: "",
-              tag: post["tag"],
+              commentCount: post.commentCount,
+              likeCount: post.likeCount,
+              caption: post.caption,
+              tag: post.category,
               context: context,
               ontap: () {
                 showCommentsBottomSheet(context);
