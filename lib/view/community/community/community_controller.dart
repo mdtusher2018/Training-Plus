@@ -42,7 +42,7 @@ class CommunityController extends StateNotifier<CommunityState> {
 
       if (response != null && response['statusCode'] == 200) {
         final community =
-            CommunityResponse.fromJson(response); // parse JSON to model
+            CommunityResponseModel.fromJson(response); // parse JSON to model
         state = state.copyWith(
           isLoading: false,
           data: community.data,

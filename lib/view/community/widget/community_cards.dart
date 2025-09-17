@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/community_edit_post_view.dart';
+import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 Widget challengeCard({
@@ -90,11 +92,20 @@ Widget postCard({
   required num likeCount,
   required num commentCount,
   required bool isLikedByMe,
+  
   String? tag,
   bool myPost = false,
   required Function()? ontap,
   required BuildContext context,
+  required WidgetRef ref,
+  required String id,
 }) {
+
+  final isLiked = ref.watch(postLikeControllerProvider(id));
+  final controller = ref.read(postLikeControllerProvider(id).notifier);
+
+
+
   return Container(
     padding: const EdgeInsets.all(12),
     decoration: BoxDecoration(
@@ -160,7 +171,14 @@ Widget postCard({
         const SizedBox(height: 12),
         Row(
           children: [
-            Icon((isLikedByMe)?Icons.favorite:Icons.favorite_border, size: 16,color: isLikedByMe?AppColors.error:AppColors.black,),
+                 InkWell(
+              onTap: () => controller.toggleLike(), // directly toggle
+              child: Icon(
+                isLiked ? Icons.favorite : Icons.favorite_border,
+                size: 16,
+                color: isLiked ? AppColors.error : AppColors.black,
+              ),
+            ),
             const SizedBox(width: 4),
             commonText((likeCount as int) .toString(), size: 12),
             const SizedBox(width: 16),

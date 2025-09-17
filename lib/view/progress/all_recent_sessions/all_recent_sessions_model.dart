@@ -1,3 +1,4 @@
+import 'package:training_plus/common_used_models/pagination_model.dart';
 import 'package:training_plus/common_used_models/recent_training_model.dart';
 
 class AllRecentSessionResponse {
@@ -58,29 +59,6 @@ class RecentSessionAttributes {
           .map((e) => RecentTraining.fromJson(e))
           .toList(),
       pagination: Pagination.fromJson(json['pagination']),
-    );
-  }
-}
-
-class Pagination {
-  final int totalResults;
-  final int totalPages;
-  final int currentPage;
-  final int limit;
-
-  Pagination({
-    required this.totalResults,
-    required this.totalPages,
-    required this.currentPage,
-    required this.limit,
-  });
-
-  factory Pagination.fromJson(Map<String, dynamic> json) {
-    return Pagination(
-      totalResults: json['totalResults'] ?? 0,
-      totalPages: json['totalPages'] ?? 0,
-      currentPage: json['currentPage'] ?? 0,
-      limit: json['limit'] ?? 0,
     );
   }
 }

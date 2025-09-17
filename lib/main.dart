@@ -4,6 +4,7 @@ import 'package:training_plus/core/services/localstorage/local_storage_service.d
 import 'package:training_plus/core/utils/theme.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorageService.init(); // initialize SharedPreferences

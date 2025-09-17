@@ -1,3 +1,5 @@
+import '../../common_used_models/pagination_model.dart';
+
 class SportsCategoryResponse {
   final String status;
   final int statusCode;
@@ -85,25 +87,3 @@ class CategoryItem {
   }
 }
 
-class Pagination {
-  final int totalResults;
-  final int totalPage;
-  final int currentPage;
-  final int limit;
-
-  Pagination({
-    required this.totalResults,
-    required this.totalPage,
-    required this.currentPage,
-    required this.limit,
-  });
-
-  factory Pagination.fromJson(Map<String, dynamic> json) {
-    return Pagination(
-      totalResults: json['totalResults'] ?? 0,
-      totalPage: json['totalPage'] ?? 0,
-      currentPage: json['currentPage'] ?? 0,
-      limit: json['limit'] ?? 0,
-    );
-  }
-}

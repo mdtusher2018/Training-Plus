@@ -1,11 +1,8 @@
 class ApiEndpoints {
   static const String baseUrl =
-      'http://206.162.244.133:8041/api/v1/'; // Replace with actual base URL
+      'http://147.93.29.184:8041/api/v1/'; // Replace with actual base URL
   static const String baseImageUrl =
-      'http://206.162.244.133:8041'; // Replace with actual base image URL
-
-  
-
+      'http://147.93.29.184:8041'; // Replace with actual base image URL
 
   // static const String baseUrl =
   //     'http://10.10.10.33:8041/api/v1/';
@@ -23,44 +20,54 @@ class ApiEndpoints {
   static const String resetPassword = "auth/reset-password";
   static const String resendOtp = "auth/resend-otp";
 
-//personalization
-static const String sportsCategory="/category/all";
+  //personalization
+  static const String sportsCategory = "/category/all";
 
-
-  //profile 
+  //profile
   static const String changePassword = "auth/change-password";
 
-  static const String completeProfile="users/complete";
-  static const String getProfile="users/user-details";
+  static const String completeProfile = "users/complete";
+  static const String getProfile = "users/user-details";
 
-  static const String updateProfile="users/update";
-  static const String faq="fandq/all";
-  static const String addFeedback="feedback/add";
-  static const String badgeShelf="ucm/my-achievements";
+  static const String updateProfile = "users/update";
+  static const String faq = "fandq/all";
+  static const String addFeedback = "feedback/add";
+  static const String badgeShelf = "ucm/my-achievements";
 
   //home page
-  static const String homePage="home";
+  static const String homePage = "home";
 
-  static String progress="progress/full-progress";
-  static const String addGoal="/goal/add";
+  static String progress = "progress/full-progress";
+  static const String addGoal = "/goal/add";
 
-  static String staticContent(String type)=>"static-contents?type=$type";
-  static String workoutDetails(String id)=>"workout/details-userend/68c24dc9555d706af606fe19";
-  static const String completeVideo="uvm";
+  static String staticContent(String type) => "static-contents?type=$type";
+  static String workoutDetails(String id) =>
+      "workout/details-userend/68c24dc9555d706af606fe19";
+  static const String completeVideo = "uvm";
 
-  static const String startWorkout="uwm/start";
-  static String finishedWorkout(String id)=>"uwm/finish/68bcffa45750d11c1c381ad2";
+  static const String startWorkout = "uwm/start";
+  static String finishedWorkout(String id) =>
+      "uwm/finish/68bcffa45750d11c1c381ad2";
 
+  static const String recentSessions = "uwm/mytraining";
 
-  static const String recentSessions="uwm/mytraining";
+  //training
+  static const String training = "training/training";
+  static const String changeCurrentTraining = "users/change-currentTrainning";
 
-  //training 
-  static const String training="training/training";
-  static const String changeCurrentTraining="users/change-currentTrainning";
+  //community
+  static const String community = "community";
+  static String activeChallenges({required int page, required int limit}) =>
+      "challenge/active?page=$page&limit=$limit";
+  static const String joinChallenge = "ucm/join";
+  static const String leaderboard = "leaderboard";
 
+  static String feed({required int page, required int limit}) =>
+      "post/feed?limit=$limit&page=$page";
 
-//community
-static const String community="community";
+  static String myPosts = "post/my-post";
 
+  static String createPost="post/add";
 
+  static String likePost="like/add";
 }

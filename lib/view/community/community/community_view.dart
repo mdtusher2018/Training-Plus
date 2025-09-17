@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/view/community/CommunityPostView.dart';
-import 'package:training_plus/view/community/active_challenges_view.dart';
-import 'package:training_plus/view/community/community_controller.dart';
-import 'package:training_plus/view/community/community_feed_view.dart';
-import 'package:training_plus/view/community/community_model.dart';
+import 'package:training_plus/view/community/post_create/CommunityPostCreateView.dart';
+import 'package:training_plus/view/community/active_challenges/active_challenges_view.dart';
+import 'package:training_plus/view/community/community/community_controller.dart';
+import 'package:training_plus/view/community/comunity_feed/community_feed_view.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
-import 'package:training_plus/view/community/leaderboard_view.dart';
-import 'package:training_plus/view/community/my_posts_view.dart';
+import 'package:training_plus/view/community/leaderboard/leaderboard_view.dart';
+import 'package:training_plus/view/community/my_all_post/my_posts_view.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -56,17 +55,17 @@ class CommunityView extends ConsumerWidget {
               return ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  if (state.data!.activeChallenge.isNotEmpty)
+                  // if (state.data!.activeChallenge.isNotEmpty)
                     _activeChallengesSection(context, state),
 
-                  if (state.data!.mypost.isNotEmpty)
-                    _myPostsSection(context, state),
+                  // if (state.data!.mypost.isNotEmpty)
+                    _myPostsSection(context, state,ref),
 
-                  if (state.data!.leaderboard.topUsers.isNotEmpty)
+                  // if (state.data!.leaderboard.topUsers.isNotEmpty)
                     _leaderboardSection(context, state),
 
-                  if (state.data!.feed.isNotEmpty)
-                    _communityFeedSection(context, state),
+                  // if (state.data!.feed.isNotEmpty)
+                    _communityFeedSection(context, state,ref),
                   SizedBox(height: 24),
                 ],
               );
@@ -126,7 +125,7 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _myPostsSection(BuildContext context, CommunityState state) {
+  Widget _myPostsSection(BuildContext context, CommunityState state,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -143,8 +142,9 @@ class CommunityView extends ConsumerWidget {
           itemCount: state.data!.mypost.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
-            MyPost post = state.data!.mypost[index];
+            final post = state.data!.mypost[index];
             return postCard(
+              id: post.id,ref: ref,
               user: post.author.fullName,
               time: post.createdAt,
               caption: post.caption,
@@ -184,7 +184,7 @@ class CommunityView extends ConsumerWidget {
           itemBuilder: (context, index) {
             final user = state.data!.leaderboard.topUsers[index];
             return leaderboardCard(
-              index: index + 1,
+              index: index ,
               name: user.fullName,
               points: user.points,
               image: user.image,
@@ -195,7 +195,7 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _communityFeedSection(BuildContext context, CommunityState state) {
+  Widget _communityFeedSection(BuildContext context, CommunityState state,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -215,6 +215,7 @@ class CommunityView extends ConsumerWidget {
           itemBuilder: (context, index) {
             final post = state.data!.feed[index];
             return postCard(
+              id: post.id,ref: ref,
               user: post.authorName,
               userImage: post.authorImage,
               time: post.createdAt,
