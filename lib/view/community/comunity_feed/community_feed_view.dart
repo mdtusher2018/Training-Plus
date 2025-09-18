@@ -72,8 +72,8 @@ class CommunityFeedView extends ConsumerWidget {
                 }
 
                 final post = state.feed[index];
-                return postCard(
-                  id: post.id,ref: ref,
+                return PostCard(
+                  id: post.id,
                   user: post.authorName,
                   caption: post.caption,
                   commentCount: post.commentCount,
@@ -81,9 +81,9 @@ class CommunityFeedView extends ConsumerWidget {
                   userImage: post.authorImage,
                   likeCount: post.likeCount,
                   time: timeAgo(post.createdAt),
-                  tag: post.category,
-                  context: context,
-                  ontap: () {
+                  catagory: post.category,
+                  
+                  onTap: () {
                     showCommentsBottomSheet(context);
                   },
                 );

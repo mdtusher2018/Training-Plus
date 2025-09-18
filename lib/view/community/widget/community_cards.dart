@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/view/community/community_edit_post_view.dart';
+import 'package:training_plus/view/community/post_create_edit/community_edit_post_view.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -84,121 +84,142 @@ Widget challengeCard({
   );
 }
 
-Widget postCard({
-  required String user,
-  required String userImage,
-  required String time,
-  required String caption,
-  required num likeCount,
-  required num commentCount,
-  required bool isLikedByMe,
-  
-  String? tag,
-  bool myPost = false,
-  required Function()? ontap,
-  required BuildContext context,
-  required WidgetRef ref,
-  required String id,
-}) {
+class PostCard extends ConsumerWidget {
+  final String id;
+  final String user;
+  final String userImage;
+  final String time;
+  final String caption;
+  final int likeCount;
+  final int commentCount;
+  final bool isLikedByMe;
+  final String catagory;
 
-  final isLiked = ref.watch(postLikeControllerProvider(id));
-  final controller = ref.read(postLikeControllerProvider(id).notifier);
+  final bool myPost;
+  final VoidCallback? onTap;
 
+  const PostCard({
+    super.key,
+    required this.id,
+    required this.user,
+    required this.userImage,
+    required this.time,
+    required this.caption,
+    required this.likeCount,
+    required this.commentCount,
+    required this.isLikedByMe,
+    required this.catagory,
+    this.myPost = false,
+    this.onTap,
+  });
 
-
-  return Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                getFullImagePath(userImage),
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+  final state = ref.watch(
+    postLikeControllerProvider((id: id, isLiked: isLikedByMe, likeCount: likeCount)),
+  );
+  final controller = ref.read(
+    postLikeControllerProvider((id: id, isLiked: isLikedByMe, likeCount: likeCount)).notifier,
+  );
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage(getFullImagePath(userImage)),
               ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  commonText(user, size: 14, isBold: true),
-                  commonText(timeAgo(time), size: 12, color: AppColors.textSecondary),
-                ],
-              ),
-            ),
-
-            if (tag != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppColors.primary),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    commonText(user, size: 14, isBold: true),
+                    commonText(timeAgo(time),
+                        size: 12, color: AppColors.textSecondary),
+                  ],
                 ),
-                child: commonText(tag, size: 12),
               ),
-            if (myPost) ...[
-              SizedBox(width: 6),
-              GestureDetector(
-                onTap: () {
-                  navigateToPage(context: context, EditPostView());
-                },
-                child: Icon(Icons.edit),
+              if (!myPost)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: AppColors.primary),
+                  ),
+                  child: commonText(catagory, size: 12),
+                ),
+              if (myPost) ...[
+                const SizedBox(width: 6),
+                GestureDetector(
+                  onTap: () {
+                    navigateToPage( context:context, CommunityEditPostView(caption: caption,id: id,category: catagory,));
+                  },
+                  child: const Icon(Icons.edit),
+                ),
+                const SizedBox(width: 4),
+                GestureDetector(
+                  onTap: () {
+                    showDeletePostDialog(context);
+                  },
+                  child: const Icon(Icons.delete_outline_rounded),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Caption
+          commonText(
+            caption,
+            size: 13,
+            maxline: 4,
+          ),
+          const SizedBox(height: 12),
+
+          // Like & Comment Row
+          Row(
+            children: [
+              InkWell(
+                onTap: () => controller.toggleLike(),
+                child: Icon(
+                  state.isLiked ? Icons.favorite : Icons.favorite_border,
+                  size: 16,
+                  color: state.isLiked ? AppColors.error : AppColors.black,
+                ),
               ),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
+              commonText(state.likeCount.toString(), size: 12),
+              const SizedBox(width: 16),
               GestureDetector(
-                onTap: () {
-                  showDeletePostDialog(context);
-                },
-                child: Icon(Icons.delete_outline_rounded),
+                onTap: onTap,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.mode_comment_outlined, size: 16),
+                    const SizedBox(width: 4),
+                    commonText(commentCount.toString(), size: 12),
+                  ],
+                ),
               ),
             ],
-          ],
-        ),
-        const SizedBox(height: 12),
-        commonText(
-          caption,
-          size: 13,
-          maxline: 4,
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-                 InkWell(
-              onTap: () => controller.toggleLike(), // directly toggle
-              child: Icon(
-                isLiked ? Icons.favorite : Icons.favorite_border,
-                size: 16,
-                color: isLiked ? AppColors.error : AppColors.black,
-              ),
-            ),
-            const SizedBox(width: 4),
-            commonText((likeCount as int) .toString(), size: 12),
-            const SizedBox(width: 16),
-            GestureDetector(
-              onTap: ontap,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.mode_comment_outlined, size: 16),
-                  const SizedBox(width: 4),
-                  commonText((commentCount as int).toString(), size: 12),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
+          ),
+        ],
+      ),
+    );
+  }
 }
+
 
 Widget leaderboardCard({
   required num points,

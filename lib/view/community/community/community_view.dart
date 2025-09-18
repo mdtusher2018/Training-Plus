@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/view/community/post_create/CommunityPostCreateView.dart';
+import 'package:training_plus/view/community/post_create_edit/CommunityPostCreateView.dart';
 import 'package:training_plus/view/community/active_challenges/active_challenges_view.dart';
 import 'package:training_plus/view/community/community/community_controller.dart';
 import 'package:training_plus/view/community/comunity_feed/community_feed_view.dart';
@@ -143,8 +143,8 @@ class CommunityView extends ConsumerWidget {
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             final post = state.data!.mypost[index];
-            return postCard(
-              id: post.id,ref: ref,
+            return PostCard(
+              id: post.id,
               user: post.author.fullName,
               time: post.createdAt,
               caption: post.caption,
@@ -152,9 +152,9 @@ class CommunityView extends ConsumerWidget {
               commentCount: post.commentCount,
               isLikedByMe: post.isLiked,
               userImage: post.author.image,
-              context: context,
+              catagory: post.category,
               myPost: true,
-              ontap: () {
+              onTap: () {
                 showCommentsBottomSheet(context);
               },
             );
@@ -214,8 +214,8 @@ class CommunityView extends ConsumerWidget {
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             final post = state.data!.feed[index];
-            return postCard(
-              id: post.id,ref: ref,
+            return PostCard(
+              id: post.id,
               user: post.authorName,
               userImage: post.authorImage,
               time: post.createdAt,
@@ -224,9 +224,9 @@ class CommunityView extends ConsumerWidget {
               commentCount: post.commentCount,
               likeCount: post.likeCount,
               caption: post.caption,
-              tag: post.category,
-              context: context,
-              ontap: () {
+              catagory: post.category,
+              
+              onTap: () {
                 showCommentsBottomSheet(context);
               },
             );

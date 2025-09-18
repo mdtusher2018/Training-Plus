@@ -7,7 +7,7 @@ import 'package:training_plus/view/community/comunity_feed/community_feed_contro
 import 'package:training_plus/view/community/leaderboard/leaderboard_controller.dart';
 import 'package:training_plus/view/community/like_comment_controller.dart';
 import 'package:training_plus/view/community/my_all_post/community_my_post_controller.dart';
-import 'package:training_plus/view/community/post_create/community_post_create_controller.dart';
+import 'package:training_plus/view/community/post_create_edit/community_post_create_edit_controller.dart';
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, CommunityState>((ref) {
@@ -108,18 +108,24 @@ final myPostScrollControllerProvider = Provider.autoDispose<ScrollController>((r
 
 
 // ------------------- Provider -------------------
-final communityPostCreateProvider =
-    StateNotifierProvider<CategoriesController, CategoriesState>((ref) {
+final communityPostEditCreateProvider =
+    StateNotifierProvider<CommunityPostCreateEditController, CommunityPostCreateEditState>((ref) {
   final apiService = ref.read(apiServiceProvider);
-  return CategoriesController(apiService);
+  return CommunityPostCreateEditController(apiService);
 });
 
 
-
-final postLikeControllerProvider =
-    StateNotifierProvider.family.autoDispose<PostLikeController, bool, String>(
-  (ref, postId) {
-    final apiService = ref.read(apiServiceProvider); // assuming you have this
-    return PostLikeController(apiService: apiService, postId: postId);
+final postLikeControllerProvider = StateNotifierProvider.family<
+    PostLikeController, PostLikeState, ({String id, bool isLiked, int likeCount})>(
+  (ref, args) {
+    final apiService = ref.read(apiServiceProvider);
+    return PostLikeController(
+      apiService: apiService,
+      postId: args.id,
+      initialLiked: args.isLiked,
+      initialCount: args.likeCount,
+    );
   },
 );
+
+

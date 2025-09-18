@@ -70,8 +70,9 @@ class MyPostsView extends ConsumerWidget {
                 final post = state.posts[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
-                  child: postCard(
-                    id: post.id,ref: ref,
+                  child: PostCard(
+                    
+                    id: post.id,
                     user: post.author.fullName,
                     caption: post.caption,
                     commentCount: post.commentCount,
@@ -79,9 +80,9 @@ class MyPostsView extends ConsumerWidget {
                     likeCount: post.likeCount,
                     userImage: post.author.image,
                     time: post.createdAt, // you can format with timeAgo()
-                    context: context,
+                   catagory: post.category,
                     myPost: true,
-                    ontap: () {
+                    onTap: () {
                       showCommentsBottomSheet(context);
                     },
                   ),

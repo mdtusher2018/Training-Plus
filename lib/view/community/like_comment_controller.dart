@@ -2,34 +2,56 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 
-// 1️⃣ Provider for each post
+
+class PostLikeState {
+  final bool isLiked;
+  final int likeCount;
+
+  PostLikeState({required this.isLiked, required this.likeCount});
+
+  PostLikeState copyWith({bool? isLiked, int? likeCount}) {
+    return PostLikeState(
+      isLiked: isLiked ?? this.isLiked,
+      likeCount: likeCount ?? this.likeCount,
+    );
+  }
+}
 
 
-class PostLikeController extends StateNotifier<bool> {
+
+
+class PostLikeController extends StateNotifier<PostLikeState> {
   final IApiService apiService;
   final String postId;
 
-  // default state is false
   PostLikeController({
     required this.apiService,
     required this.postId,
-    bool initial = false,
-  }) : super(initial);
+    required bool initialLiked,
+    required int initialCount,
+  }) : super(PostLikeState(isLiked: initialLiked, likeCount: initialCount));
 
-  // toggle like/unlike
   Future<void> toggleLike() async {
     final previous = state;
-    state = !state; // optimistic update
+
+    // Optimistic update
+    state = state.copyWith(
+      isLiked: !previous.isLiked,
+      likeCount: previous.isLiked
+          ? previous.likeCount - 1
+          : previous.likeCount + 1,
+    );
 
     try {
-      final response = await apiService.post(ApiEndpoints.likePost, {"post": postId});
+      final response =
+          await apiService.post(ApiEndpoints.likePost, {"post": postId});
 
-      // optionally check API response success
-      if (response == null || response["statusCode"] != 200) {
-        state = previous; // revert on failure
+      if (response == null || response["statusCode"] != 201) {
+        // revert if API fails
+        state = previous;
       }
     } catch (e) {
-      state = previous; // revert on exception
+      state = previous;
     }
   }
 }

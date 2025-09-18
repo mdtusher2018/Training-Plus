@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,15 +6,56 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class CommunityPostView extends ConsumerWidget {
-  CommunityPostView({super.key});
+class CommunityEditPostView extends ConsumerStatefulWidget {
+  final String caption, id, category;
 
-  final TextEditingController _postController = TextEditingController();
+  const CommunityEditPostView({
+    super.key,
+    required this.category,
+    required this.caption,
+    required this.id,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(communityPostCreateProvider);
-    final controller = ref.read(communityPostCreateProvider.notifier);
+  ConsumerState<CommunityEditPostView> createState() =>
+      _CommunityEditPostViewState();
+}
+
+class _CommunityEditPostViewState
+    extends ConsumerState<CommunityEditPostView> {
+  late final TextEditingController _postController;
+
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _postController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_isInitialized) {
+      _postController.text = widget.caption;
+      final controller = ref.read(communityPostEditCreateProvider.notifier);
+      controller.selectSport(widget.category); // add a helper to select by name
+      _isInitialized = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    _postController.dispose();
+    controller.clearSport();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(communityPostEditCreateProvider);
+    final controller = ref.read(communityPostEditCreateProvider.notifier);
 
     return Scaffold(
       backgroundColor: AppColors.boxBG,
@@ -26,7 +68,7 @@ class CommunityPostView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Community Post", size: 20, isBold: true),
+        title: commonText("Edit Post", size: 20, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -52,10 +94,10 @@ class CommunityPostView extends ConsumerWidget {
                   runSpacing: 8,
                   children: List.generate(state.categories.length, (index) {
                     final tag = state.categories[index];
-                    final isSelected = tag.id == state.sportId;
+                    final isSelected = tag.name == state.sport;
 
                     return GestureDetector(
-                      onTap: () => controller.selectSport(tag),
+                      onTap: () => controller.selectSport(tag.name),
                       child: Chip(
                         backgroundColor:
                             isSelected ? AppColors.primary : Colors.white,
@@ -93,7 +135,7 @@ class CommunityPostView extends ConsumerWidget {
                     );
                     return;
                   }
-                  if (state.sportId == null) {
+                  if (state.sport == null) {
                     commonSnackbar(
                       title: "Oops",
                       message: "Please select a sport category.",
@@ -104,7 +146,7 @@ class CommunityPostView extends ConsumerWidget {
 
                   final result = await controller.createPost(
                     caption: _postController.text.trim(),
-                    categoryId: state.sport!,
+                    category: state.sport!,
                   );
 
                   if (result["title"] == "Success") {

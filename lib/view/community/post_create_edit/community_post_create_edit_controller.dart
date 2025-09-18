@@ -5,59 +5,56 @@ import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
 
 // ------------------- State -------------------
-class CategoriesState {
+class CommunityPostCreateEditState {
   final bool isLoading;
   final String? error;
-  final String? sport; // Selected sport name
-  final String? sportId; // Selected sport ID
+  final String? sport;
   final List<CategoryItem> categories;
 
-  CategoriesState({
+  CommunityPostCreateEditState({
     this.isLoading = false,
     this.error,
     this.sport,
-    this.sportId,
     this.categories = const [],
   });
 
-  CategoriesState copyWith({
+  CommunityPostCreateEditState copyWith({
     bool? isLoading,
     String? error,
     String? sport,
-    String? sportId,
     List<CategoryItem>? categories,
   }) {
-    return CategoriesState(
+    return CommunityPostCreateEditState(
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       sport: sport ?? this.sport,
-      sportId: sportId ?? this.sportId,
       categories: categories ?? this.categories,
     );
   }
 }
 
 // ------------------- Controller -------------------
-class CategoriesController extends StateNotifier<CategoriesState> {
+class CommunityPostCreateEditController extends StateNotifier<CommunityPostCreateEditState> {
   final IApiService apiService;
 
-  CategoriesController(this.apiService) : super(CategoriesState()) {
+  CommunityPostCreateEditController(this.apiService) : super(CommunityPostCreateEditState()) {
     fetchCategories(); // fetch once at init
   }
 
   /// Select a single sport (stores both ID & name)
-  void selectSport(CategoryItem category) {
-    if (state.sportId == category.id) {
-      // Unselect if the same category is tapped
-      state = state.copyWith(sport: null, sportId: null);
+  void selectSport(String selectedSport) {
+        log("Selected sport: ${selectedSport})");
+    if (state.sport == selectedSport) {
+
+      state = state.copyWith(sport: null);
     } else {
-      state = state.copyWith(sport: category.name, sportId: category.id);
+      state = state.copyWith(sport: selectedSport);
     }
-    log("Selected sport: ${state.sport} (ID: ${state.sportId})");
+
   }
 
   void clearSport() {
-    state = state.copyWith(sport: "", sportId: "");
+    state = state.copyWith(sport: "");
   }
 
   /// Fetch categories from API
@@ -91,14 +88,14 @@ class CategoriesController extends StateNotifier<CategoriesState> {
   /// Create a new post
   Future<Map<String, String>> createPost({
     required String caption,
-    required String categoryId,
+    required String category,
   }) async {
-    log(categoryId);
+    log(category);
     state = state.copyWith(isLoading: true, error: null);
     try {
       final response = await apiService.post(ApiEndpoints.createPost, {
         "caption": caption,
-        "category": categoryId,
+        "category": category,
       });
 
       if (response != null && response["statusCode"] == 201) {
