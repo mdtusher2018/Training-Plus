@@ -83,9 +83,7 @@ class CommunityFeedView extends ConsumerWidget {
                   time: timeAgo(post.createdAt),
                   catagory: post.category,
                   
-                  onTap: () {
-                    showCommentsBottomSheet(context);
-                  },
+             
                 );
               },
             );

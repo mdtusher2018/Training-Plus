@@ -1,17 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-
 class CommunityEditPostView extends ConsumerStatefulWidget {
-  final String caption, id, category;
+  final String caption, id;
+  final String catagory;
 
   const CommunityEditPostView({
     super.key,
-    required this.category,
+    required this.catagory,
     required this.caption,
     required this.id,
   });
@@ -23,33 +22,18 @@ class CommunityEditPostView extends ConsumerStatefulWidget {
 
 class _CommunityEditPostViewState
     extends ConsumerState<CommunityEditPostView> {
-  late final TextEditingController _postController;
-
-  bool _isInitialized = false;
+  final TextEditingController _postController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _postController = TextEditingController();
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (!_isInitialized) {
-      _postController.text = widget.caption;
+    // Run only once after the widget is inserted in the tree
+    Future.microtask(() {
       final controller = ref.read(communityPostEditCreateProvider.notifier);
-      controller.selectSport(widget.category); // add a helper to select by name
-      _isInitialized = true;
-    }
-  }
-
-  @override
-  void dispose() {
-    _postController.dispose();
-    controller.clearSport();
-    super.dispose();
+      controller.selectSport(widget.catagory);
+      _postController.text = widget.caption;
+    });
   }
 
   @override
@@ -92,8 +76,7 @@ class _CommunityEditPostViewState
                 child: Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: List.generate(state.categories.length, (index) {
-                    final tag = state.categories[index];
+                  children: state.categories.map((tag) {
                     final isSelected = tag.name == state.sport;
 
                     return GestureDetector(
@@ -110,14 +93,13 @@ class _CommunityEditPostViewState
                         label: commonText(
                           tag.name,
                           size: 13,
-                          color:
-                              isSelected
-                                  ? AppColors.textPrimary
-                                  : AppColors.textSecondary,
+                          color: isSelected
+                              ? AppColors.textPrimary
+                              : AppColors.textSecondary,
                         ),
                       ),
                     );
-                  }),
+                  }).toList(),
                 ),
               ),
 
@@ -125,7 +107,7 @@ class _CommunityEditPostViewState
 
               // Share Button
               commonButton(
-                state.isLoading ? "Posting..." : "Share Post",
+                 state.isLoading ? "Updating" : "Update Post",
                 onTap: () async {
                   if (_postController.text.trim().isEmpty) {
                     commonSnackbar(
@@ -144,7 +126,8 @@ class _CommunityEditPostViewState
                     return;
                   }
 
-                  final result = await controller.createPost(
+                  final result = await controller.updatePost(
+                    postId: widget.id,
                     caption: _postController.text.trim(),
                     category: state.sport!,
                   );
@@ -160,11 +143,10 @@ class _CommunityEditPostViewState
                     );
                   } else {
                     controller.clearSport();
-
                     commonSnackbar(
                       title: result["title"].toString(),
                       message: result["message"].toString(),
-                      backgroundColor: AppColors.success,
+                      backgroundColor: AppColors.error,
                       context: context,
                     );
                   }

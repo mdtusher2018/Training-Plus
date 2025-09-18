@@ -8,6 +8,7 @@ import 'package:training_plus/view/community/leaderboard/leaderboard_controller.
 import 'package:training_plus/view/community/like_comment_controller.dart';
 import 'package:training_plus/view/community/my_all_post/community_my_post_controller.dart';
 import 'package:training_plus/view/community/post_create_edit/community_post_create_edit_controller.dart';
+import 'package:training_plus/view/community/post_details/post_details_controller.dart';
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, CommunityState>((ref) {
@@ -127,5 +128,15 @@ final postLikeControllerProvider = StateNotifierProvider.family<
     );
   },
 );
+
+
+
+final postDetailsProvider = StateNotifierProvider.family<PostDetailsController, PostDetailsState, String>((ref, postId) {
+  final apiService = ref.read(apiServiceProvider);
+  final controller = PostDetailsController(apiService);
+  controller.fetchPostDetails(postId);
+  return controller;
+});
+
 
 

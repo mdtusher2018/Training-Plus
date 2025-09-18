@@ -115,4 +115,45 @@ class CommunityPostCreateEditController extends StateNotifier<CommunityPostCreat
       state = state.copyWith(isLoading: false);
     }
   }
+
+
+Future<Map<String, String>> updatePost({
+  required String postId,
+  required String caption,
+  required String category,
+}) async {
+  log("Updating post: $postId with category: $category");
+  state = state.copyWith(isLoading: true, error: null);
+
+  try {
+    final response = await apiService.put(
+      ApiEndpoints.updatePost(postId), 
+      {
+        "caption": caption,
+        "category": category,
+      },
+    );
+
+    if (response != null && response["statusCode"] == 200) {
+      return {
+        "title": "Success",
+        "message": response["message"] ?? "Post updated successfully",
+      };
+    } else {
+      return {
+        "title": "Error",
+        "message": response?["message"] ?? "Failed to update post",
+      };
+    }
+  } catch (e) {
+    return {"title": "Error", "message": e.toString()};
+  } finally {
+    state = state.copyWith(isLoading: false);
+  }
+}
+
+
+
+
+
 }

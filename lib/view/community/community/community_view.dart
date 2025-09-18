@@ -154,9 +154,7 @@ class CommunityView extends ConsumerWidget {
               userImage: post.author.image,
               catagory: post.category,
               myPost: true,
-              onTap: () {
-                showCommentsBottomSheet(context);
-              },
+        
             );
           },
         ),
@@ -226,9 +224,7 @@ class CommunityView extends ConsumerWidget {
               caption: post.caption,
               catagory: post.category,
               
-              onTap: () {
-                showCommentsBottomSheet(context);
-              },
+          
             );
           },
         ),

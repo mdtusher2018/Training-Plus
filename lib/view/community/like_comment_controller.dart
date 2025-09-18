@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
@@ -54,4 +56,35 @@ class PostLikeController extends StateNotifier<PostLikeState> {
       state = previous;
     }
   }
+
+  /// Post a comment
+  Future<Map<String, String>> postComment(String text) async {
+    if (text.trim().isEmpty) {
+      return {"title": "Error", "message": "Comment cannot be empty"};
+    }
+
+    try {
+      final response = await apiService.post(ApiEndpoints.commentPost, {
+        "post": postId,
+        "text": text,
+      });
+log(response.toString());
+      if (response != null && response["statusCode"] == 201) {
+        return {
+          "title": "Success",
+          "message": response["message"] ?? "Comment posted successfully",
+        };
+      } else {
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to post comment",
+        };
+      }
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    }
+  }
+
+
+
 }

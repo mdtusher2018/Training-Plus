@@ -65,9 +65,16 @@ class ApiEndpoints {
   static String feed({required int page, required int limit}) =>
       "post/feed?limit=$limit&page=$page";
 
-  static String myPosts = "post/my-post";
+  static const String myPosts = "post/my-post";
 
-  static String createPost="post/add";
+  static const String createPost="post/add";
 
-  static String likePost="like/add";
+  static const String likePost="like/add";
+
+  static const String commentPost="comment/add";
+
+  static String postDetails(String postId) => "post/details/$postId";
+
+  static String updatePost(String postId)=> "post/update/$postId";
+  
 }
