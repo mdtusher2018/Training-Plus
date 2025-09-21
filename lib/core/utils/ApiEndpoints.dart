@@ -42,12 +42,12 @@ class ApiEndpoints {
 
   static String staticContent(String type) => "static-contents?type=$type";
   static String workoutDetails(String id) =>
-      "workout/details-userend/68c24dc9555d706af606fe19";
+      "workout/details-userend/$id";
   static const String completeVideo = "uvm";
 
   static const String startWorkout = "uwm/start";
   static String finishedWorkout(String id) =>
-      "uwm/finish/68bcffa45750d11c1c381ad2";
+      "uwm/finish/$id";
 
   static const String recentSessions = "uwm/mytraining";
 
@@ -72,6 +72,12 @@ class ApiEndpoints {
   static const String likePost="like/add";
 
   static const String commentPost="comment/add";
+
+  static String nutritionTracker="food-goal/progress";
+
+  static String setFoodGoal="food-goal/add";
+
+  static String myWorkout({required int page, required int limit})=>"workout/suggestions?limit=$limit&page=$page";
 
   static String postDetails(String postId) => "post/details/$postId";
 

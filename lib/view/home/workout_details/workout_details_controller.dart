@@ -102,7 +102,7 @@ Future<Map<String, String>> startWorkout() async {
 Future<Map<String, String>> finishWorkout() async {
   try {
     state = state.copyWith(endWorkout: true); // mark loading
-    final response = await apiService.post(
+    final response = await apiService.put(
       ApiEndpoints.finishedWorkout(state.workout?.id ?? ""),
       {"sports": state.workout?.sports},
     );

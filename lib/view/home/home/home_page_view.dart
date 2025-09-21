@@ -3,8 +3,8 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/home/home_page_controller.dart';
 import 'package:training_plus/view/home/home/widget/home_page_banner.dart';
 import 'package:training_plus/view/home/home_providers.dart';
-import 'package:training_plus/view/home/my_workouts_view.dart';
-import 'package:training_plus/view/home/nutrition_tracker_view.dart';
+import 'package:training_plus/view/home/my_workouts/my_workouts_view.dart';
+import 'package:training_plus/view/home/nutrition_tracker/nutrition_tracker_view.dart';
 import 'package:training_plus/view/home/running_gps_view.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
@@ -20,27 +20,61 @@ class HomePageView extends ConsumerWidget {
     final state = ref.watch(homeControllerProvider);
     final controller = ref.read(homeControllerProvider.notifier);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (state.response == null && !state.isLoading) {
-        controller.fetchHomeData();
-      }
-    });
 
     return Scaffold(
       backgroundColor: AppColors.mainBG,
       body: SafeArea(
-        child: (state.isLoading && (state.response == null ||state.response!.data == null))
-            ? const Center(child: CircularProgressIndicator())
-            : state.error != null
-                ? Center(child: Text("Error: ${state.error}"))
-                : state.response == null ||state.response!.data == null
-                    ? const Center(child: Text("No data found"))
-                    : RefreshIndicator(
-                      onRefresh: () async{
-                        await controller.fetchHomeData();
-                      },
-                      child: _buildContent(context, state)),
-      ),
+  child: Builder(
+    builder: (context) {
+      if (state.isLoading && state.response == null) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      if (state.error != null) {
+        return RefreshIndicator(
+          onRefresh: () async => await controller.fetchHomeData(),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Center(
+                  child: commonText(
+                    state.error!,
+                    size: 16,
+                    color: AppColors.error,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+
+      if (state.response == null || state.response!.data == null) {
+        return RefreshIndicator(
+          onRefresh: () async => await controller.fetchHomeData(),
+          child: ListView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: const [
+              SizedBox(
+                height: 400,
+                child: Center(child: Text("No data found")),
+              ),
+            ],
+          ),
+        );
+      }
+
+      // ✅ Actual Data Loaded
+      return RefreshIndicator(
+        onRefresh: () async => await controller.fetchHomeData(),
+        child: _buildContent(context, state),
+      );
+    },
+  ),
+),
+
     );
   }
 
@@ -190,7 +224,7 @@ class HomePageView extends ConsumerWidget {
                     navigateToPage(context: context, WorkoutDetailPage(id: workout.id,));
                   },
                   child: buildWorkoutCard(workout.skillLevel, workout.title,
-                      "25 min", workout.thumbnail),
+                      workout.watchTime.toStringAsFixed(2), workout.thumbnail),
                 );
               },
             ),

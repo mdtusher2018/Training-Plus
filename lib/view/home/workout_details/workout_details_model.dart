@@ -51,8 +51,8 @@ class Workout {
   final String ageGroup;
   final String goal;
   final List<Chapter> chapters;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String createdAt;
+  final String updatedAt;
   final int v;
 
   Workout({
@@ -75,22 +75,22 @@ class Workout {
 
   factory Workout.fromJson(Map<String, dynamic> json) {
     return Workout(
-      id: json['_id'],
-      title: json['title'],
-      sports: json['sports'],
-      description: json['description'],
-      thumbnail: json['thumbnail'],
-      duration: (json['duration'] as num).toDouble(),
-      previewVideo: json['previewVideo'],
-      userType: json['userType'],
-      skillLevel: json['skillLevel'],
-      ageGroup: json['ageGroup'],
-      goal: json['goal'],
+      id: json['_id']??"",
+      title: json['title']??"",
+      sports: json['sports']??"",
+      description: json['description']??"",
+      thumbnail: json['thumbnail']??"",
+      duration: (json['duration']??0 as num).toDouble(),
+      previewVideo: json['previewVideo']??"",
+      userType: json['userType']??"",
+      skillLevel: json['skillLevel']??"",
+      ageGroup: json['ageGroup']??"",
+      goal: json['goal']??"",
       chapters: (json['chapters'] as List)
-          .map((c) => Chapter.fromJson(c))
+          .map((c) => Chapter.fromJson(c??{}))
           .toList(),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      createdAt: json['createdAt']??"",
+      updatedAt: json['updatedAt']??"",
       v: json['__v'],
     );
   }

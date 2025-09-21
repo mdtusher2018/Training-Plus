@@ -1,3 +1,6 @@
+
+import 'package:training_plus/common_used_models/workout_preview_model.dart';
+
 class HomeResponse {
   final String status;
   final int statusCode;
@@ -23,7 +26,7 @@ class HomeResponse {
   /// Expose nested models instead of only flat fields
   _User? get user => data?.attributes.user;
   _Goal? get goal => data?.attributes.goal;
-  List<_Workout> get workouts => data?.attributes.workout ?? [];
+  List<WorkoutPreviewModel> get workouts => data?.attributes.workout ?? [];//was not nessasary but makes access easy for developers
   List<Quote> get quotes => data?.attributes.quotes ?? [];
   int get achievementCount => data?.attributes.achievementCount ?? 0;
 }
@@ -46,7 +49,7 @@ class _Data {
 class _Attributes {
   final _User user;
   final _Goal goal;
-  final List<_Workout> workout;
+  final List<WorkoutPreviewModel> workout;
   final int achievementCount;
   final List<Quote> quotes;
 
@@ -63,7 +66,7 @@ class _Attributes {
       user: _User.fromJson(json['user'] ?? {}),
       goal: _Goal.fromJson(json['goal'] ?? {}),
       workout: (json['workout'] as List<dynamic>? ?? [])
-          .map((e) => _Workout.fromJson(e))
+          .map((e) => WorkoutPreviewModel.fromJson(e))
           .toList(),
       achievementCount: json['achievementCount'] ?? 0,
       quotes: (json['quots'] as List<dynamic>? ?? [])
@@ -112,31 +115,6 @@ class _Goal {
   }
 }
 
-class _Workout {
-  final String id;
-  final String title;
-  final String thumbnail;
-  final String previewVideo;
-  final String skillLevel;
-
-  _Workout({
-    required this.id,
-    required this.title,
-    required this.thumbnail,
-    required this.previewVideo,
-    required this.skillLevel,
-  });
-
-  factory _Workout.fromJson(Map<String, dynamic> json) {
-    return _Workout(
-      id: json['_id'] ?? '',
-      title: json['title'] ?? '',
-      thumbnail: json['thumbnail'] ?? '',
-      previewVideo: json['previewVideo'] ?? '',
-      skillLevel: json['skillLevel'] ?? '',
-    );
-  }
-}
 
 class Quote {
   final String id;
