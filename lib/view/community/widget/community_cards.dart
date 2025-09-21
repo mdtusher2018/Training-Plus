@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/view/community/like_comment_controller.dart';
+import 'package:training_plus/view/community/post_like_comment_delete/post_like_comment_delete_controller.dart';
 import 'package:training_plus/view/community/post_create_edit/community_edit_post_view.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/post_details/post_details_view.dart';
@@ -98,7 +98,7 @@ class PostCard extends ConsumerWidget {
   final String catagory;
 
   final bool myPost;
-  final VoidCallback? onTap;
+  final WidgetRef parentRef;
 
   const PostCard({
     super.key,
@@ -112,17 +112,28 @@ class PostCard extends ConsumerWidget {
     required this.isLikedByMe,
     required this.catagory,
     this.myPost = false,
-    this.onTap,
+    required this.parentRef,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  final state = ref.watch(
-    postLikeControllerProvider((id: id, isLiked: isLikedByMe, likeCount: likeCount)),
-  );
-  final controller = ref.read(
-    postLikeControllerProvider((id: id, isLiked: isLikedByMe, likeCount: likeCount)).notifier,
-  );
+    final state = ref.watch(
+      postLikeDeleteControllerProvider((
+        id: id,
+        isLiked: isLikedByMe,
+        likeCount: likeCount,
+        commentCount: commentCount,
+      )),
+    );
+    final controller = ref.read(
+      postLikeDeleteControllerProvider((
+        id: id,
+        isLiked: isLikedByMe,
+        likeCount: likeCount,
+        commentCount: commentCount,
+      )).notifier,
+    );
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -130,13 +141,12 @@ class PostCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           navigateToPage(PostDetailsPage(postId: id), context: context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          
             Row(
               children: [
                 CircleAvatar(
@@ -149,15 +159,20 @@ class PostCard extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       commonText(user, size: 14, isBold: true),
-                      commonText(timeAgo(time),
-                          size: 12, color: AppColors.textSecondary),
+                      commonText(
+                        timeAgo(time),
+                        size: 12,
+                        color: AppColors.textSecondary,
+                      ),
                     ],
                   ),
                 ),
                 if (!myPost)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6),
@@ -169,14 +184,21 @@ class PostCard extends ConsumerWidget {
                   const SizedBox(width: 6),
                   GestureDetector(
                     onTap: () {
-                      navigateToPage( context:context, CommunityEditPostView(caption: caption,id: id,catagory: catagory,));
+                      navigateToPage(
+                        context: context,
+                        CommunityEditPostView(
+                          caption: caption,
+                          id: id,
+                          catagory: catagory,
+                        ),
+                      );
                     },
                     child: const Icon(Icons.edit),
                   ),
                   const SizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
-                      showDeletePostDialog(context);
+                      showDeletePostDialog(context, id, controller, parentRef);
                     },
                     child: const Icon(Icons.delete_outline_rounded),
                   ),
@@ -184,15 +206,11 @@ class PostCard extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 12),
-        
+
             // Caption
-            commonText(
-              caption,
-              size: 13,
-              maxline: 4,
-            ),
+            commonText(caption, size: 13, maxline: 4),
             const SizedBox(height: 12),
-        
+
             // Like & Comment Row
             Row(
               children: [
@@ -208,8 +226,15 @@ class PostCard extends ConsumerWidget {
                 commonText(state.likeCount.toString(), size: 12),
                 const SizedBox(width: 16),
                 GestureDetector(
-                  onTap: (){
-                    showCommentsBottomSheet(context,state,controller);
+                  onTap: () {
+                    showCommentsBottomSheet(
+                      context: context,
+                      id: id,
+                      isLikedByMe: isLikedByMe,
+                      likeCount: likeCount,
+                      commentCount: commentCount,
+                      parentRef: parentRef,
+                    );
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -229,12 +254,11 @@ class PostCard extends ConsumerWidget {
   }
 }
 
-
 Widget leaderboardCard({
   required num points,
   required num index,
   required String name,
-  required String image
+  required String image,
 }) {
   // Image URLs for top 3 ranks
   final trophyImages = [
@@ -268,9 +292,7 @@ Widget leaderboardCard({
         const SizedBox(width: 8),
         CircleAvatar(
           radius: 16,
-          backgroundImage: NetworkImage(
-            getFullImagePath(image),
-          ),
+          backgroundImage: NetworkImage(getFullImagePath(image)),
         ),
         const SizedBox(width: 12),
         Expanded(child: commonText(name, size: 14)),
@@ -398,151 +420,204 @@ void showChallengeDetailsBottomSheet(
   );
 }
 
-void showCommentsBottomSheet(BuildContext context,PostLikeState state,PostLikeController controller) {
+void showCommentsBottomSheet({
+  required BuildContext context,
+  required String id,
+  required int likeCount,
+  required int commentCount,
+  required bool isLikedByMe,
+  required WidgetRef parentRef,
+}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     backgroundColor: AppColors.white,
     builder: (context) {
-      final TextEditingController _commentController = TextEditingController();
+      final TextEditingController _commentTextEditingController =
+          TextEditingController();
 
-      final List<Map<String, String>> comments = List.generate(
-        4,
-        (_) => {
-          "name": "Maude Hall",
-          "time": "14 min",
-          "comment":
-              "That's a fantastic new app feature. You and your team did an excellent job of incorporating user testing feedback.",
-          "image":
-              "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=500",
-        },
-      );
-
-      return Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Stack(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.85,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(child: commonText("Comments", size: 18, isBold: true)),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: comments.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final comment = comments[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 20,
-                                backgroundImage: NetworkImage(
-                                  comment["image"]!,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+      return Consumer(
+        builder: (context, ref, _) {
+          final state = ref.watch(
+            postLikeDeleteControllerProvider((
+              id: id,
+              isLiked: isLikedByMe,
+              likeCount: likeCount,
+              commentCount: commentCount,
+            )),
+          );
+          final controller = ref.read(
+            postLikeDeleteControllerProvider((
+              id: id,
+              isLiked: isLikedByMe,
+              likeCount: likeCount,
+              commentCount: commentCount,
+            )).notifier,
+          );
+          controller.fetchCommentsByPostId();
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.85,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: commonText("Comments", size: 18, isBold: true),
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: ListView.separated(
+                          itemCount: state.comments.length,
+                          separatorBuilder:
+                              (_, __) => const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            final comment = state.comments[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: NetworkImage(
+                                      getFullImagePath(comment.user.image),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        commonText(
-                                          comment["name"]!,
-                                          size: 14,
-                                          fontWeight: FontWeight.w600,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            commonText(
+                                              comment.user.fullName,
+                                              size: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            commonText(
+                                              timeAgo(comment.createdAt),
+                                              size: 12,
+                                              color: AppColors.textSecondary,
+                                            ),
+                                          ],
                                         ),
+                                        const SizedBox(height: 6),
                                         commonText(
-                                          comment["time"]!,
-                                          size: 12,
-                                          color: AppColors.textSecondary,
+                                          comment.text,
+                                          size: 13,
+                                          color: AppColors.textPrimary,
+                                          maxline: 5,
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 6),
-                                    commonText(
-                                      comment["comment"]!,
-                                      size: 13,
-                                      color: AppColors.textPrimary,
-                                      maxline: 5,
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Stack(
-                    children: [
-                      commonTextField(
-                        hintText: "Type your comment here",
-                        controller: _commentController,
-                        minLine: 4,
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.postComment(_commentController.text);
+                            );
                           },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.grey.withOpacity(0.5),
-                              ),
-                            ),
-                            child: commonText(
-                              "Send",
-                              size: 16,
-                              color: AppColors.white,
-                            ),
-                          ),
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      Stack(
+                        children: [
+                          commonTextField(
+                            hintText: "Type your comment here",
+                            controller: _commentTextEditingController,
+                            minLine: 4,
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            right: 10,
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (_commentTextEditingController.text
+                                    .trim()
+                                    .isEmpty) {
+                                  return;
+                                }
+
+                                final result = await controller.postComment(
+                                  _commentTextEditingController.text,
+                                  ref: ref,
+                                  parentRef: parentRef,
+                                );
+
+                                if (result["title"] == "Success") {
+                                  _commentTextEditingController.clear();
+                                } else {
+                                  commonSnackbar(
+                                    title: result["title"]!,
+                                    message: result["message"]!,
+                                    context: context,
+                                    backgroundColor: AppColors.error,
+                                  );
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey.withOpacity(0.5),
+                                  ),
+                                ),
+                                child: commonText(
+                                  "Send",
+                                  size: 16,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
-                  SizedBox(height: 8),
-                ],
-              ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: commonCloseButton(context),
+                ),
+              ],
             ),
-
-            Positioned(top: 10, right: 10, child: commonCloseButton(context)),
-          ],
-        ),
+          );
+        },
       );
     },
   );
 }
 
-Future<void> showDeletePostDialog(BuildContext context) async {
+Future<void> showDeletePostDialog(
+  BuildContext context,
+  String id,
+  PostLikeCommentDeleteController controller,
+  WidgetRef parentRef,
+) async {
   showDialog(
     context: context,
     builder: (context) {
@@ -578,6 +653,7 @@ Future<void> showDeletePostDialog(BuildContext context) async {
                   height: 40,
                   width: 100,
                   onTap: () {
+                    controller.deletePost(postId: id, parentRef: parentRef);
                     Navigator.pop(context);
                   },
                 ),

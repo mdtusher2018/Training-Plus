@@ -75,6 +75,8 @@ class ApiEndpoints {
 
   static String postDetails(String postId) => "post/details/$postId";
 
-  static String updatePost(String postId)=> "post/update/$postId";
+  static String updatePost(String postId)=> "post/edit/$postId";
+  static String deletePost(String postId)=> "post/$postId";
+  static String getCommentByPostId(String postId)=>"post/comments/$postId";
   
 }

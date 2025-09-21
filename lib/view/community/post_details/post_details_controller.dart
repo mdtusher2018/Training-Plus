@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/view/home/home_providers.dart';
 import 'post_details_model.dart';
 
 // ------------------- State -------------------
@@ -55,8 +58,9 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
   }
 
   /// Add a comment to the post
-  Future<Map<String, String>> addComment(String postId, String text) async {
+  Future<Map<String, String>> addComment(String postId, String text,{required WidgetRef ref}) async {
     try {
+        final homePageState = ref.watch(homeControllerProvider);
       final response = await apiService.post(ApiEndpoints.commentPost, {
         "post": postId,
         "text": text,
@@ -71,16 +75,21 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
         text: text,
         createdAt: response['data']['attributes']['createdAt'] ?? DateTime.now().toIso8601String(),
         updatedAt: response['data']['attributes']['updatedAt'] ?? DateTime.now().toIso8601String(),
-        userFullName: "You",
-        userImage: "", // optionally use logged-in user's image
+        userFullName: homePageState.response?.user?.fullName??"You",
+        userImage: homePageState.response?.user?.image??"", 
       );
 
         final updatedComments = [
           newComment,
           ...?state.postDetails?.comments,
         ];
+        
 
-        final updatedPost = state.postDetails?.copyWith(comments: updatedComments);
+final commentCount=(state.postDetails?.commentCount??0)+1;
+
+        final updatedPost = state.postDetails?.copyWith(comments: updatedComments,commentCount: commentCount);
+
+log(updatedPost!.commentCount.toString());
 
         state = state.copyWith(postDetails: updatedPost);
 

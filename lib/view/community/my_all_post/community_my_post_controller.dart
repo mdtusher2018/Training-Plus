@@ -1,3 +1,4 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/common_used_models/my_post_model.dart';
 import 'package:training_plus/common_used_models/pagination_model.dart';
@@ -93,6 +94,36 @@ class MyPostController extends StateNotifier<MyPostState> {
       );
     }
   }
+
+
+
+
+void deletePost({
+  required String postId,
+})  {
+      final updatedPosts = state.posts.where((p) => p.id != postId).toList();
+      state = state.copyWith(posts: updatedPosts);
+}
+
+
+
+void incrementCommentCount({required String postId, required int count}) {
+  final updatedPosts = state.posts.map((p) {
+    if (p.id == postId) {
+      
+      return p.copyWith(commentCount: p.commentCount+1);
+    }
+    return p;
+  }).toList();
+
+  state = state.copyWith(posts: updatedPosts);
+}
+
+
+
+
+
+
 
   Future<void> fetchMorePosts() async {
     if (!state.hasMore || state.isFetchingMore) return;

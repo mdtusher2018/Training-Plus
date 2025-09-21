@@ -31,19 +31,28 @@ class MyPost {
       isLiked: json["isLiked"] ?? false,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "_id": id,
-      "author": author.toJson(),
-      "caption": caption,
-      "category": category,
-      "likeCount": likeCount,
-      "commentCount": commentCount,
-      "createdAt": createdAt,
-      "isLiked": isLiked,
-    };
+  MyPost copyWith({
+    String? id,
+    Author? author,
+    String? caption,
+    String? category,
+    int? likeCount,
+    int? commentCount,
+    String? createdAt,
+    bool? isLiked,
+  }) {
+    return MyPost(
+      id: id ?? this.id,
+      author: author ?? this.author,
+      caption: caption ?? this.caption,
+      category: category ?? this.category,
+      likeCount: likeCount ?? this.likeCount,
+      commentCount: commentCount ?? this.commentCount,
+      createdAt: createdAt ?? this.createdAt,
+      isLiked: isLiked ?? this.isLiked,
+    );
   }
+
 }
 class Author {
   final String fullName;

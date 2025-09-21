@@ -9,11 +9,7 @@ class CommunityState {
   final String? error;
   final CommunityData? data;
 
-  CommunityState({
-    this.isLoading = false,
-    this.error,
-    this.data,
-  });
+  CommunityState({this.isLoading = false, this.error, this.data});
 
   CommunityState copyWith({
     bool? isLoading,
@@ -41,12 +37,10 @@ class CommunityController extends StateNotifier<CommunityState> {
       final response = await apiService.get(ApiEndpoints.community);
 
       if (response != null && response['statusCode'] == 200) {
-        final community =
-            CommunityResponseModel.fromJson(response); // parse JSON to model
-        state = state.copyWith(
-          isLoading: false,
-          data: community.data,
-        );
+        final community = CommunityResponseModel.fromJson(
+          response,
+        ); // parse JSON to model
+        state = state.copyWith(isLoading: false, data: community.data);
       } else {
         final errorMsg =
             response != null && response['message'] != null
@@ -58,5 +52,23 @@ class CommunityController extends StateNotifier<CommunityState> {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+
+  void deletePost({required String postId}) {
+    final updatedPosts =
+        state.data!.mypost.where((p) => p.id != postId).toList();
+    state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
+  }
+
+void incrementCommentCount({required String postId, required int count}) {
+  final updatedPosts = state.data!.mypost.map((p) {
+    if (p.id == postId) {
+      
+      return p.copyWith(commentCount: p.commentCount+1);
+    }
+    return p;
+  }).toList();
+
+  state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
 }
 
+}

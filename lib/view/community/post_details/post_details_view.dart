@@ -30,10 +30,10 @@ class PostDetailsPage extends ConsumerWidget {
     final post = postState.postDetails!;
     
   final likeState = ref.watch(
-    postLikeControllerProvider((id: post.id, isLiked: post.isLiked, likeCount: post.likeCount)),
+    postLikeDeleteControllerProvider((id: post.id, isLiked: post.isLiked, likeCount: post.likeCount,commentCount:post.commentCount )),
   );
   final likeController = ref.read(
-    postLikeControllerProvider((id: post.id, isLiked: post.isLiked, likeCount: post.likeCount)).notifier,
+    postLikeDeleteControllerProvider((id: post.id, isLiked: post.isLiked, likeCount: post.likeCount,commentCount: post.commentCount)).notifier,
   );
 
 
@@ -172,6 +172,7 @@ Stack(
           final result = await postController.addComment(
             post.id,
             commentController.text.trim(),
+            ref: ref
           );
 
           commentController.clear();

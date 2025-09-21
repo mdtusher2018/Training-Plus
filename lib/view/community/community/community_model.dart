@@ -24,15 +24,6 @@ class CommunityResponseModel {
       data: CommunityData.fromJson(json["data"]["attributes"]),
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "status": status,
-      "statusCode": statusCode,
-      "message": message,
-      "data": {"attributes": data.toJson()},
-    };
-  }
 }
 
 class CommunityData {
@@ -64,12 +55,20 @@ class CommunityData {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "activeChallenge": activeChallenge.map((e) => e.toJson()).toList(),
-      "mypost": mypost.map((e) => e.toJson()).toList(),
-      "leaderboard": leaderboard.toJson(),
-      "feed": feed.map((e) => e.toJson()).toList(),
-    };
+  CommunityData copyWith({
+    List<ActiveChallenge>? activeChallenge,
+    List<MyPost>? mypost,
+    Leaderboard? leaderboard,
+    List<Feed>? feed,
+  }) {
+    return CommunityData(
+      activeChallenge: activeChallenge ?? this.activeChallenge,
+      mypost: mypost ?? this.mypost,
+      leaderboard: leaderboard ?? this.leaderboard,
+      feed: feed ?? this.feed,
+    );
   }
+
+
+
 }

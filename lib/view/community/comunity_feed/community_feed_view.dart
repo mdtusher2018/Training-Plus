@@ -82,6 +82,7 @@ class CommunityFeedView extends ConsumerWidget {
                   likeCount: post.likeCount,
                   time: timeAgo(post.createdAt),
                   catagory: post.category,
+                  parentRef: ref,
                   
              
                 );

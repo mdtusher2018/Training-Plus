@@ -154,7 +154,7 @@ class CommunityView extends ConsumerWidget {
               userImage: post.author.image,
               catagory: post.category,
               myPost: true,
-        
+        parentRef: ref,
             );
           },
         ),
@@ -223,7 +223,8 @@ class CommunityView extends ConsumerWidget {
               likeCount: post.likeCount,
               caption: post.caption,
               catagory: post.category,
-              
+              parentRef: ref,
+         
           
             );
           },

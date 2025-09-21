@@ -21,10 +21,5 @@ class MyPostResponseModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "result": posts.map((e) => e.toJson()).toList(),
-      "pagination": pagination.toJson(),
-    };
-  }
+
 }

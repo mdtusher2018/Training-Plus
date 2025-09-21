@@ -5,7 +5,7 @@ import 'package:training_plus/view/community/active_challenges/active_challenges
 import 'package:training_plus/view/community/community/community_controller.dart';
 import 'package:training_plus/view/community/comunity_feed/community_feed_controller.dart';
 import 'package:training_plus/view/community/leaderboard/leaderboard_controller.dart';
-import 'package:training_plus/view/community/like_comment_controller.dart';
+import 'package:training_plus/view/community/post_like_comment_delete/post_like_comment_delete_controller.dart';
 import 'package:training_plus/view/community/my_all_post/community_my_post_controller.dart';
 import 'package:training_plus/view/community/post_create_edit/community_post_create_edit_controller.dart';
 import 'package:training_plus/view/community/post_details/post_details_controller.dart';
@@ -116,15 +116,15 @@ final communityPostEditCreateProvider =
 });
 
 
-final postLikeControllerProvider = StateNotifierProvider.family<
-    PostLikeController, PostLikeState, ({String id, bool isLiked, int likeCount})>(
+final postLikeDeleteControllerProvider = StateNotifierProvider.family<
+    PostLikeCommentDeleteController, PostLikeState, ({String id, bool isLiked, int likeCount,int commentCount})>(
   (ref, args) {
     final apiService = ref.read(apiServiceProvider);
-    return PostLikeController(
+    return PostLikeCommentDeleteController(
       apiService: apiService,
       postId: args.id,
       initialLiked: args.isLiked,
-      initialCount: args.likeCount,
+      initialCount: args.likeCount,initialCommentCount: args.commentCount
     );
   },
 );

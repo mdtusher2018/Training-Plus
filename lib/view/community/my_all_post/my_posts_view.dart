@@ -82,7 +82,8 @@ class MyPostsView extends ConsumerWidget {
                     time: post.createdAt, // you can format with timeAgo()
                    catagory: post.category,
                     myPost: true,
-            
+                    
+            parentRef: ref,
                   ),
                 );
               },
