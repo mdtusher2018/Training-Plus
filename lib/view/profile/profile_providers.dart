@@ -7,6 +7,7 @@ import 'package:training_plus/view/profile/faq/faq_controller.dart';
 import 'package:training_plus/view/profile/faq/faq_model.dart';
 import 'package:training_plus/view/profile/feedback/feedback_controller.dart';
 import 'package:training_plus/view/profile/profile/profile_controller.dart';
+import 'package:training_plus/view/profile/running_history/running_history_controller.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_controller.dart';
 
 final changePasswordControllerProvider =
@@ -50,3 +51,13 @@ final badgeShelfProvider =
       controller.fetchBadges();
       return controller;
     });
+
+
+/// Running History Provider
+final runningHistoryControllerProvider =
+    StateNotifierProvider<RunningHistoryController, RunningHistoryState>((ref) {
+  final apiService = ref.watch(apiServiceProvider);
+  final controller = RunningHistoryController(apiService: apiService);
+  controller.fetchHistory(); // automatically fetch on init
+  return controller;
+});

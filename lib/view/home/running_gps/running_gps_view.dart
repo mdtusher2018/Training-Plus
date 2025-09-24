@@ -1,24 +1,32 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:latlong2/latlong.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class RunningTrackerPage extends StatefulWidget {
+import '../home_providers.dart';
+
+class RunningTrackerPage extends ConsumerStatefulWidget {
   const RunningTrackerPage({super.key});
+
   @override
-  State<RunningTrackerPage> createState() => _RunningTrackerPageState();
+  ConsumerState<RunningTrackerPage> createState() => _RunningTrackerPageState();
 }
 
-class _RunningTrackerPageState extends State<RunningTrackerPage> {
+class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
   Duration elapsedTime = Duration.zero;
   double distance = 0.0; // in km
   String pace = "--"; // min/km
@@ -37,7 +45,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
   final GlobalKey _mapKey = GlobalKey();
 
   void _fitMapToRoute() {
-    if (_routePoints.length<2) return;
+    if (_routePoints.length < 2) return;
 
     final bounds = LatLngBounds.fromPoints(_routePoints);
     mapController.fitCamera(
@@ -49,15 +57,55 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
     );
   }
 
+
+Future<String> _getPlaceName(LatLng location) async {
+  try {
+    log(location.longitude.toString());
+    log(location.latitude.toString());
+
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      location.latitude,
+      location.longitude,
+    );
+
+    if (placemarks.isNotEmpty) {
+      final place = placemarks.first;
+
+      // Safely handle nulls
+      final locality = place.locality ?? place.subLocality ?? "";
+      final country = place.country ?? "";
+
+      if (locality.isNotEmpty && country.isNotEmpty) {
+        return "$locality, $country";
+      } else if (country.isNotEmpty) {
+        return country;
+      }
+    }
+  } catch (e) {
+    log("Error fetching place name: $e");
+  }
+  return "Unknown place";
+}
+
+
+
+
+  Future<File> _bytesToFile(Uint8List bytes) async {
+    final tempDir = await getTemporaryDirectory();
+    final file = File("${tempDir.path}/run_map.png");
+    await file.writeAsBytes(bytes);
+    return file;
+  }
+
   Future<Uint8List?> _captureMap() async {
     try {
-      if(_mapKey.currentContext!=null){
-      RenderRepaintBoundary boundary =
-          _mapKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      if (_mapKey.currentContext != null) {
+        RenderRepaintBoundary boundary =
+            _mapKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
 
-      final image = await boundary.toImage(pixelRatio: 3.0);
-      final byteData = await image.toByteData(format: ImageByteFormat.png);
-      return byteData?.buffer.asUint8List();
+        final image = await boundary.toImage(pixelRatio: 3.0);
+        final byteData = await image.toByteData(format: ImageByteFormat.png);
+        return byteData?.buffer.asUint8List();
       }
     } catch (e) {
       debugPrint("Error capturing map: $e");
@@ -74,7 +122,6 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -226,13 +273,6 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
     );
   }
 
-  String _formatDuration(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String h = twoDigits(d.inHours);
-    String m = twoDigits(d.inMinutes.remainder(60));
-    String s = twoDigits(d.inSeconds.remainder(60));
-    return "$h:$m:$s";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +294,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   additionalOptions: {'apiKey': apiKey},
                 ),
-                if (_routePoints.length>2)
+                if (_routePoints.length > 2)
                   PolylineLayer(
                     polylines: [
                       Polyline(
@@ -325,7 +365,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     commonText(
-                      _formatDuration(elapsedTime),
+                      formatDuration(elapsedTime),
                       size: 28,
                       isBold: true,
                     ),
@@ -363,30 +403,44 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                         ),
                         const SizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () async {
+                          
                           _pauseRun();
-
-                          // Fit map to show the route
                           _fitMapToRoute();
 
-                          // Wait a moment to allow camera to adjust
                           await Future.delayed(
                             const Duration(milliseconds: 500),
                           );
 
-                         final imageBytes=  await _captureMap();
-                          // if (imageBytes != null) {
-                          //   // You can save it, share it, or show a preview
-                          //   // Example: open a dialog with the screenshot
-                          //   showDialog(
-                          //     context: context,
-                          //     builder:
-                          //         (ctx) => AlertDialog(
-                          //           content: Image.memory(imageBytes),
-                          //         ),
-                          //   );
-                          // }
+                          final imageBytes = await _captureMap();
 
-                          _showRunCompleteSheet(context);
+                          if (imageBytes != null) {
+                            final file = await _bytesToFile(
+                              imageBytes,
+                            ); // helper to save Uint8List as File
+  final placeName = await _getPlaceName(_currentLocation??LatLng(-122.084, 37.4219983));
+                            final result = await ref
+                                .read(runningGpsControllerProvider.notifier)
+                                .postRunningData(
+                                  body: {
+                                    "place":placeName ,
+                                    "distance": distance,
+                                    "time": elapsedTime.inSeconds,
+                                    "pace": pace,
+                                  },
+                                  image: file,
+                                );
+
+                            if (result["success"] == true) {
+                              _showRunCompleteSheet(context);
+                            } else {
+                              commonSnackbar(
+                                context: context,
+                                title: "Error",backgroundColor: AppColors.error,
+                                message:
+                                    result["message"] ?? "Something went wrong",
+                              );
+                            }
+                          }
                         }),
                       ],
                     ),
@@ -394,17 +448,6 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                   ],
                 ),
               ),
-            ),
-          ),
-
-          // Inside Stack (probably at the bottom-right corner)
-          Positioned(
-            bottom: 150,
-            right: 16,
-            child: FloatingActionButton(
-              backgroundColor: Colors.purple,
-              child: const Icon(Icons.bug_report),
-              onPressed: _showDebugData,
             ),
           ),
         ],
@@ -461,7 +504,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                   commonText("Great Workout !", size: 16),
                   const SizedBox(height: 12),
                   commonText(
-                    _formatDuration(elapsedTime),
+                    formatDuration(elapsedTime),
                     size: 26,
                     isBold: true,
                     color: Colors.black,
@@ -486,7 +529,7 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                     width: double.infinity,
                     onTap: () {
                       Share.share(
-                        "🏃‍♂️ Running Complete!\nTime: ${_formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
+                        "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
                       );
                     },
                   ),
@@ -505,10 +548,12 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
                     ),
                     width: double.infinity,
                     onTap: () {
-                  Navigator.pop(context);
- navigateToPage(RunningTrackerPage(), context: context,replace: true);
-
-
+                      Navigator.pop(context);
+                      navigateToPage(
+                        RunningTrackerPage(),
+                        context: context,
+                        replace: true,
+                      );
                     },
                   ),
                   const SizedBox(height: 16),
@@ -521,37 +566,6 @@ class _RunningTrackerPageState extends State<RunningTrackerPage> {
       },
     ).then((value) {
       _stopRun();
-    },);
-  }
-
-  void _showDebugData() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Debug Data"),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Current Location: $_currentLocation"),
-                Text("Start Location: $_startLocation"),
-                Text("Last Location: $_lastLocation"),
-                Text("Distance: ${distance.toStringAsFixed(2)} km"),
-                Text("Pace: $pace min/km"),
-                Text("Elapsed Time: ${_formatDuration(elapsedTime)}"),
-                Text("Is Running: $isRunning"),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Close"),
-            ),
-          ],
-        );
-      },
-    );
+    });
   }
 }

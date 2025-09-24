@@ -77,6 +77,8 @@ class ApiEndpoints {
 
   static String setFoodGoal="food-goal/add";
 
+  static String runningGps="running/create-run";
+
   static String myWorkout({required int page, required int limit})=>"workout/suggestions?limit=$limit&page=$page";
 
   static String postDetails(String postId) => "post/details/$postId";
@@ -84,5 +86,9 @@ class ApiEndpoints {
   static String updatePost(String postId)=> "post/edit/$postId";
   static String deletePost(String postId)=> "post/$postId";
   static String getCommentByPostId(String postId)=>"post/comments/$postId";
+
+  static String runningHistory({required int page, required int limit}) {
+    return "running/history?page=$page&limit=$limit";
+  }
   
 }

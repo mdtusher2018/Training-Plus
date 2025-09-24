@@ -137,9 +137,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    commonText(_formatDuration(position), size: 12),
+                    commonText(formatDuration(position), size: 12),
                     commonText(
-                        "-" + _formatDuration(duration - position),
+                        "-" + formatDuration(duration - position),
                         size: 12),
                   ],
                 ),
@@ -211,7 +211,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     );
   }
 
-  String _formatDuration(Duration d) {
+  String formatDuration(Duration d) {
     final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
     return "$m:$s";

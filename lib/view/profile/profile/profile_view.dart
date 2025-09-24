@@ -6,7 +6,7 @@ import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/view/profile/ContactUsView.dart';
 import 'package:training_plus/view/profile/faq/FaqView.dart';
-import 'package:training_plus/view/profile/RunningHistoryView.dart';
+import 'package:training_plus/view/profile/running_history/RunningHistoryView.dart';
 import 'package:training_plus/view/profile/profile/edit_profile_view.dart';
 import 'package:training_plus/view/profile/feedback/feedback_view.dart';
 import 'package:training_plus/view/profile/invite_friends_view.dart';

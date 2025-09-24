@@ -5,7 +5,7 @@ import 'package:training_plus/view/home/home/widget/home_page_banner.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/my_workouts/my_workouts_view.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_tracker_view.dart';
-import 'package:training_plus/view/home/running_gps_view.dart';
+import 'package:training_plus/view/home/running_gps/running_gps_view.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/view/notification/notification_view.dart';

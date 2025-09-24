@@ -77,3 +77,10 @@ String timeAgo(String timestamp) {
 
 
 
+  String formatDuration(Duration d) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String h = twoDigits(d.inHours);
+    String m = twoDigits(d.inMinutes.remainder(60));
+    String s = twoDigits(d.inSeconds.remainder(60));
+    return "$h:$m:$s";
+  }
