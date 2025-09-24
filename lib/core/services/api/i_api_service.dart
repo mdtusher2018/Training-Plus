@@ -11,7 +11,8 @@ abstract class IApiService {
     String method = 'POST',
     Map<String, File>? files,
     Map<String,dynamic> body,
-    String bodyFieldName = 'data', // field name for JSON body
+    String bodyFieldName = 'data',
     Map<String, String>? extraHeaders,
   });
+
 }

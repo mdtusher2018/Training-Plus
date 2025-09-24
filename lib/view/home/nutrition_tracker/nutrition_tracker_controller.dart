@@ -1,3 +1,5 @@
+
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
@@ -55,41 +57,44 @@ class NutritionTrackerController extends StateNotifier<NutritionTrackerState> {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+
   /// Set food goals
-Future<Map<String, String>> setFoodGoal({
-  required int calories,
-  required int proteins,
-  required int carbs,
-  required int fats,
-}) async {
-  state=state.copyWith(isLoading: true);
-  try {
-    final body = {
-      "calories": calories,
-      "proteins": proteins,
-      "carbs": carbs,
-      "fats": fats,
-    };
-
-    final response = await apiService.post(ApiEndpoints.setFoodGoal, body);
-
-    if (response != null && response["statusCode"] == 201) {
-
-      return {
-        "title": "Success",
-        "message": response["message"] ?? "Food goal set successfully",
+  Future<Map<String, String>> setFoodGoal({
+    required int calories,
+    required int proteins,
+    required int carbs,
+    required int fats,
+  }) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      final body = {
+        "calories": calories,
+        "proteins": proteins,
+        "carbs": carbs,
+        "fats": fats,
       };
-    } else {
-      return {
-        "title": "Error",
-        "message": response?["message"] ?? "Failed to set food goal",
-      };
+
+      final response = await apiService.post(ApiEndpoints.setFoodGoal, body);
+
+      if (response != null && response["statusCode"] == 201) {
+        return {
+          "title": "Success",
+          "message": response["message"] ?? "Food goal set successfully",
+        };
+      } else {
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to set food goal",
+        };
+      }
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    } finally {
+      state = state.copyWith(isLoading: false);
     }
-  } catch (e) {
-    return {"title": "Error", "message": e.toString()};
-  }finally{
-    state=state.copyWith(isLoading: false);
   }
-}
+
+  ///============================================================================send scan data in openfoodfats
+
 
 }
