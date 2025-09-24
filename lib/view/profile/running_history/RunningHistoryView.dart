@@ -12,7 +12,7 @@ class RunningHistoryView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(runningHistoryControllerProvider);
     final controller = ref.read(runningHistoryControllerProvider.notifier);
-
+ final scrollController = ref.watch(runningHistoryScrollControllerProvider); // << added
     return Scaffold(
       backgroundColor: AppColors.boxBG,
       appBar: AppBar(
@@ -72,6 +72,7 @@ class RunningHistoryView extends ConsumerWidget {
 
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
+                controller: scrollController,
                 itemCount: runs.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {

@@ -79,6 +79,10 @@ class ApiEndpoints {
 
   static String runningGps="running/create-run";
 
+  static String shareRunning="running/share";
+
+  static String completedTrainings="uwm/complete-list";
+
   static String myWorkout({required int page, required int limit})=>"workout/suggestions?limit=$limit&page=$page";
 
   static String postDetails(String postId) => "post/details/$postId";

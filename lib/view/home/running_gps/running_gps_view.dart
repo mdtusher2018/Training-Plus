@@ -57,38 +57,34 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     );
   }
 
+  Future<String> _getPlaceName(LatLng location) async {
+    try {
+      log(location.longitude.toString());
+      log(location.latitude.toString());
 
-Future<String> _getPlaceName(LatLng location) async {
-  try {
-    log(location.longitude.toString());
-    log(location.latitude.toString());
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        location.latitude,
+        location.longitude,
+      );
 
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-      location.latitude,
-      location.longitude,
-    );
+      if (placemarks.isNotEmpty) {
+        final place = placemarks.first;
 
-    if (placemarks.isNotEmpty) {
-      final place = placemarks.first;
+        // Safely handle nulls
+        final locality = place.locality ?? place.subLocality ?? "";
+        final country = place.country ?? "";
 
-      // Safely handle nulls
-      final locality = place.locality ?? place.subLocality ?? "";
-      final country = place.country ?? "";
-
-      if (locality.isNotEmpty && country.isNotEmpty) {
-        return "$locality, $country";
-      } else if (country.isNotEmpty) {
-        return country;
+        if (locality.isNotEmpty && country.isNotEmpty) {
+          return "$locality, $country";
+        } else if (country.isNotEmpty) {
+          return country;
+        }
       }
+    } catch (e) {
+      log("Error fetching place name: $e");
     }
-  } catch (e) {
-    log("Error fetching place name: $e");
+    return "Unknown place";
   }
-  return "Unknown place";
-}
-
-
-
 
   Future<File> _bytesToFile(Uint8List bytes) async {
     final tempDir = await getTemporaryDirectory();
@@ -273,7 +269,6 @@ Future<String> _getPlaceName(LatLng location) async {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -403,7 +398,9 @@ Future<String> _getPlaceName(LatLng location) async {
                         ),
                         const SizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () async {
-                          
+                          if (!isRunning && _routePoints.isEmpty) {
+                            return;
+                          }
                           _pauseRun();
                           _fitMapToRoute();
 
@@ -417,12 +414,14 @@ Future<String> _getPlaceName(LatLng location) async {
                             final file = await _bytesToFile(
                               imageBytes,
                             ); // helper to save Uint8List as File
-  final placeName = await _getPlaceName(_currentLocation??LatLng(-122.084, 37.4219983));
+                            final placeName = await _getPlaceName(
+                              _currentLocation ?? LatLng(-122.084, 37.4219983),
+                            );
                             final result = await ref
                                 .read(runningGpsControllerProvider.notifier)
                                 .postRunningData(
                                   body: {
-                                    "place":placeName ,
+                                    "place": placeName,
                                     "distance": distance,
                                     "time": elapsedTime.inSeconds,
                                     "pace": pace,
@@ -431,11 +430,12 @@ Future<String> _getPlaceName(LatLng location) async {
                                 );
 
                             if (result["success"] == true) {
-                              _showRunCompleteSheet(context);
+                              _showRunCompleteSheet(context, image: file);
                             } else {
                               commonSnackbar(
                                 context: context,
-                                title: "Error",backgroundColor: AppColors.error,
+                                title: "Error",
+                                backgroundColor: AppColors.error,
                                 message:
                                     result["message"] ?? "Something went wrong",
                               );
@@ -476,7 +476,7 @@ Future<String> _getPlaceName(LatLng location) async {
     );
   }
 
-  void _showRunCompleteSheet(BuildContext context) {
+  void _showRunCompleteSheet(BuildContext context, {required File image}) {
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -527,10 +527,22 @@ Future<String> _getPlaceName(LatLng location) async {
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
                     width: double.infinity,
-                    onTap: () {
-                      Share.share(
-                        "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
-                      );
+                    onTap: () async {
+                      ref
+                          .read(runningGpsControllerProvider.notifier)
+                          .shareRunningData();
+                      if (await image.exists()) {
+                        await Share.shareXFiles(
+                          [XFile(image.path)],
+                          text:
+                              "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
+                        );
+                      } else {
+                        // fallback if image not available
+                        Share.share(
+                          "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 16),

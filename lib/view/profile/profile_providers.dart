@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/services/providers.dart';
@@ -58,6 +59,21 @@ final runningHistoryControllerProvider =
     StateNotifierProvider<RunningHistoryController, RunningHistoryState>((ref) {
   final apiService = ref.watch(apiServiceProvider);
   final controller = RunningHistoryController(apiService: apiService);
-  controller.fetchHistory(); // automatically fetch on init
+  controller.fetchHistory();
+  return controller;
+});
+
+/// Scroll controller for running history pagination
+final runningHistoryScrollControllerProvider =
+    Provider.autoDispose<ScrollController>((ref) {
+  final controller = ScrollController();
+  controller.addListener(() {
+    if (controller.position.pixels >=
+        controller.position.maxScrollExtent - 100) {
+      final notifier = ref.read(runningHistoryControllerProvider.notifier);
+      notifier.fetchHistory(loadMore: true);
+    }
+  });
+
   return controller;
 });

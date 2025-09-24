@@ -73,4 +73,9 @@ class RunningGpsController extends StateNotifier<RunningGpsState> {
   }
 }
 
+
+void shareRunningData(){
+  apiService.get(ApiEndpoints.shareRunning);
+}
+
 }

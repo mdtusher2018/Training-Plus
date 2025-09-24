@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
+import 'package:training_plus/view/training/compleated_training_model.dart';
 import 'package:training_plus/view/training/training_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,38 +11,47 @@ class TrainingState {
   final bool isLoading;
   final TrainingAttributes? attributes;
   final List<CategoryItem> categories;
-    final String? sport; // Single sport
+  final String? sport; // Single sport
   final String? sportId; // Single sport
   final String? error;
 
+  /// ✅ New field for completed workouts
+  final WorkoutHistoryResponse? completedWorkouts;
+
   TrainingState({
     this.isLoading = false,
-
     this.attributes,
     this.categories = const [],
-        this.sport,
+    this.sport,
     this.sportId,
     this.error,
+
+    this.completedWorkouts, // <-- added
   });
 
   TrainingState copyWith({
     bool? isLoading,
     TrainingAttributes? attributes,
     List<CategoryItem>? categories,
-        String? sport,
+    String? sport,
     String? sportId,
     String? error,
+
+    WorkoutHistoryResponse? completedWorkouts, // <-- added
   }) {
     return TrainingState(
       isLoading: isLoading ?? this.isLoading,
-      categories: categories ?? this.categories,
-            sport: sport ?? this.sport,
-      sportId: sportId??this.sportId,
       attributes: attributes ?? this.attributes,
-      error: error,
+      categories: categories ?? this.categories,
+      sport: sport ?? this.sport,
+      sportId: sportId ?? this.sportId,
+      error: error ?? this.error,
+
+      completedWorkouts: completedWorkouts ?? this.completedWorkouts, // <-- added
     );
   }
 }
+
 
 class TrainingController extends StateNotifier<TrainingState> {
   final IApiService apiService;
@@ -71,6 +81,59 @@ class TrainingController extends StateNotifier<TrainingState> {
       state = state.copyWith(isLoading: false, error: "Error: ${e.toString()}");
     }
   }
+
+
+  /// Fetch completed trainings (with pagination)
+  Future<void> fetchCompletedTrainings({bool loadMore = false}) async {
+    try {
+      if (loadMore &&
+          state.completedWorkouts != null &&
+          state.completedWorkouts!.pagination.currentPage >=
+              state.completedWorkouts!.pagination.totalPages) {
+        return; // no more pages
+      }
+
+      state = state.copyWith(isLoading: true, error: null);
+
+      final page = loadMore
+          ? state.completedWorkouts!.pagination.currentPage + 1
+          : 1;
+
+      final response =
+          await apiService.get("${ApiEndpoints.completedTrainings}?page=$page");
+
+      if (response != null && response['statusCode'] == 200) {
+        final workoutHistoryResponse =
+            WorkoutHistoryResponse.fromJson(response);
+
+        if (loadMore && state.completedWorkouts != null) {
+          // merge results
+          final merged = state.completedWorkouts!.copyWith(
+            result: [
+              ...state.completedWorkouts!.result,
+              ...workoutHistoryResponse.result
+            ],
+            pagination: workoutHistoryResponse.pagination,
+          );
+          state =
+              state.copyWith(isLoading: false, completedWorkouts: merged);
+        } else {
+          state = state.copyWith(
+              isLoading: false, completedWorkouts: workoutHistoryResponse);
+        }
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: response?['message'] ?? "Failed to fetch completed workouts",
+        );
+      }
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: "Error: $e");
+    }
+  }
+
+
+
 
 
 void updateSport({
