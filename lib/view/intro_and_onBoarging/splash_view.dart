@@ -1,17 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/services/localstorage/storage_key.dart';
+import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
+import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
-
-class SplashView extends StatefulWidget {
+class SplashView extends ConsumerStatefulWidget {
   const SplashView({super.key});
 
   @override
-  State<SplashView> createState() => _SplashViewState();
+  ConsumerState<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
+class _SplashViewState extends ConsumerState<SplashView> with TickerProviderStateMixin {
   late AnimationController _fadeInController;
   late Animation<double> _fadeInAnimation;
 
@@ -27,12 +30,16 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
     _fadeInAnimation = CurvedAnimation(parent: _fadeInController, curve: Curves.easeIn);
     _fadeInController.forward();
 
-    // Navigate to onboarding with fade transition after delay
-    Timer(const Duration(seconds: 3), () {
-      navigateToPage(context: context,
-        const OnboardingView(),
-  
-      );
+    // Navigate after delay
+    Timer(const Duration(seconds: 3), () async {
+      final localStorage = ref.read(localStorageProvider);
+      final token = await localStorage.getString(StorageKey.token);
+
+      if (token != null && token.isNotEmpty) {
+        navigateToPage(RootView(), context: context, clearStack: true);
+      } else {
+        navigateToPage(const OnboardingView(), context: context, clearStack: true);
+      }
     });
   }
 

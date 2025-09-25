@@ -90,9 +90,14 @@ class ApiEndpoints {
   static String updatePost(String postId)=> "post/edit/$postId";
   static String deletePost(String postId)=> "post/$postId";
   static String getCommentByPostId(String postId)=>"post/comments/$postId";
+  
+  static String nutrationAdd="nutration/add";
+
+  static String notifications({required int page, required int limit})=>"notifications/notification-userend?page=$page&limit=$limit";
 
   static String runningHistory({required int page, required int limit}) {
     return "running/history?page=$page&limit=$limit";
+    
   }
   
 }

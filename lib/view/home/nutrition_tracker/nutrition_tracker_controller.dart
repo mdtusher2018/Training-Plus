@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_traker_model.dart';
+import 'package:training_plus/widgets/common_widgets.dart';
 
 /// State for Nutrition Tracker
 class NutritionTrackerState {
@@ -55,41 +59,82 @@ class NutritionTrackerController extends StateNotifier<NutritionTrackerState> {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+
   /// Set food goals
-Future<Map<String, String>> setFoodGoal({
-  required int calories,
-  required int proteins,
-  required int carbs,
-  required int fats,
-}) async {
-  state=state.copyWith(isLoading: true);
-  try {
+  Future<Map<String, String>> setFoodGoal({
+    required int calories,
+    required int proteins,
+    required int carbs,
+    required int fats,
+  }) async {
+    state = state.copyWith(isLoading: true);
+    try {
+      final body = {
+        "calories": calories,
+        "proteins": proteins,
+        "carbs": carbs,
+        "fats": fats,
+      };
+
+      final response = await apiService.post(ApiEndpoints.setFoodGoal, body);
+
+      if (response != null && response["statusCode"] == 201) {
+        return {
+          "title": "Success",
+          "message": response["message"] ?? "Food goal set successfully",
+        };
+      } else {
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to set food goal",
+        };
+      }
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  ///============================================================================send scan data in openfoodfats
+
+  final TextEditingController mealNameController = TextEditingController();
+  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController proteinsController = TextEditingController();
+  final TextEditingController carbsController = TextEditingController();
+  final TextEditingController fatController = TextEditingController();
+  Future sendScanDataToBackend({context}) async {
+    state = state.copyWith(isLoading: true);
     final body = {
-      "calories": calories,
-      "proteins": proteins,
-      "carbs": carbs,
-      "fats": fats,
+      "mealName": mealNameController.text,
+      "calories": int.parse(caloriesController.text),
+      "proteins": double.parse(proteinsController.text),
+      "carbs": double.parse(carbsController.text),
+      "fats": double.parse(fatController.text),
     };
 
-    final response = await apiService.post(ApiEndpoints.setFoodGoal, body);
+    try {
+      final response = await apiService.post(ApiEndpoints.nutrationAdd, body);
+      log("=========response===$response");
 
-    if (response != null && response["statusCode"] == 201) {
-
-      return {
-        "title": "Success",
-        "message": response["message"] ?? "Food goal set successfully",
-      };
-    } else {
-      return {
-        "title": "Error",
-        "message": response?["message"] ?? "Failed to set food goal",
-      };
+      if (response["statusCode"] == 201) {
+        Navigator.pop(context);
+        commonSnackbar(
+          context: context,
+          title: "Success",
+          message: "Nutration successfully Added",
+        );
+        mealNameController.clear();
+        caloriesController.clear();
+        proteinsController.clear();
+        carbsController.clear();
+        fatController.clear();
+      } else {}
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    }finally{
+      
+    state = state.copyWith(isLoading: false);
     }
-  } catch (e) {
-    return {"title": "Error", "message": e.toString()};
-  }finally{
-    state=state.copyWith(isLoading: false);
   }
-}
-
 }

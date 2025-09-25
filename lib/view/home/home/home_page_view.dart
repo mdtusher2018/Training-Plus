@@ -139,7 +139,7 @@ class HomePageView extends ConsumerWidget {
           Row(
             children: [
               Expanded(child:  _buildStatCard(
-                  "assest/images/home/days.png", "7 Days", "Streak")),
+                  "assest/images/home/days.png", "${response.streakCount} Days", "Streak")),
               Expanded(child: _buildStatCard("assest/images/home/workout.png",
                   "${response.data!.attributes.user.workoutCount}", "Workouts")),
             ],

@@ -24,8 +24,6 @@ class _CameraViewState extends State<CameraView>
   void initState() {
     super.initState();
     _setupCamera();
-
-    // Animation for scanning line
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -64,11 +62,9 @@ class _CameraViewState extends State<CameraView>
                 if (snapshot.connectionState == ConnectionState.done) {
                   return Stack(
                     children: [
-                      // Live camera preview
-                      Positioned.fill(
-                        child: CameraPreview(_controller!),
-                      ),
-                      // Dark overlay with transparent scanning area
+                      // Positioned.fill(
+                      //   child: CameraPreview(_controller!),
+                      // ),
                       _buildScannerOverlay(context),
 
                       // Cancel button

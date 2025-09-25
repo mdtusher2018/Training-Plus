@@ -28,7 +28,8 @@ class HomeResponse {
   _Goal? get goal => data?.attributes.goal;
   List<WorkoutPreviewModel> get workouts => data?.attributes.workout ?? [];//was not nessasary but makes access easy for developers
   List<Quote> get quotes => data?.attributes.quotes ?? [];
-  int get achievementCount => data?.attributes.achievementCount ?? 0;
+  num get achievementCount => data?.attributes.achievementCount ?? 0;
+  num get streakCount => data?.attributes.streak ?? 0;
 }
 
 /// Private models
@@ -50,13 +51,15 @@ class _Attributes {
   final _User user;
   final _Goal goal;
   final List<WorkoutPreviewModel> workout;
-  final int achievementCount;
+  final num achievementCount;
+  final num streak;
   final List<Quote> quotes;
 
   _Attributes({
     required this.user,
     required this.goal,
     required this.workout,
+    required this.streak,
     required this.achievementCount,
     required this.quotes,
   });
@@ -69,6 +72,7 @@ class _Attributes {
           .map((e) => WorkoutPreviewModel.fromJson(e))
           .toList(),
       achievementCount: json['achievementCount'] ?? 0,
+      streak: json['streak']??0,
       quotes: (json['quots'] as List<dynamic>? ?? [])
           .map((e) => Quote.fromJson(e))
           .toList(),
