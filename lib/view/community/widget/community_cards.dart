@@ -326,8 +326,10 @@ Widget sectionHeader(String title, {required Function()? onTap}) {
 }
 
 void showChallengeDetailsBottomSheet(
-  BuildContext context, {
+  BuildContext context,  {
   required bool isJoined,
+  required WidgetRef ref,
+  required challengeId,required days, required condition
 }) {
   showModalBottomSheet(
     context: context,
@@ -388,28 +390,32 @@ void showChallengeDetailsBottomSheet(
 
                   const SizedBox(height: 30),
                   if (isJoined)
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Join Challenge action
-                          Navigator.pop(context);
-                        },
-                        child: commonText(
-                          "Join Challenge",
-                          size: 15,
+                  commonButton("Join Challenge",boarderRadious: 8,onTap: () async{
+                    final response=await ref.read(activeChallengeControllerProvider.notifier)
+                    .joinChallenge(challengeId: challengeId, day: days, condition: condition,ref: ref);
+                  if (response["title"] == "Success") {
+                    
+                      Navigator.of(context).pop();
+                      commonSnackbar(
+                        context: context,
+                        title: response["title"]!,
+                         message:  response["message"]!,
+                        backgroundColor: AppColors.success
+                      );
 
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                
+                    } else {
+                      // ❌ Show error snackbar
+                      commonSnackbar(
+                        context: context,
+                        title: response["title"]!,
+                         message:  response["message"]!,
+                        backgroundColor: AppColors.error
+                      );
+                    }
+
+                  },),
+               
                 ],
               ),
 

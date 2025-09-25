@@ -52,11 +52,12 @@ class WorkoutController extends StateNotifier<WorkoutState> {
     }
   }
 
-Future<Map<String, String>> completeVideo(String videoId) async {
+Future<Map<String, String>> completeVideo(String videoId,num watchTime) async {
   try {
     final response = await apiService.post(ApiEndpoints.completeVideo, {
       "workout": state.workout?.id,
       "video": videoId,
+      "watchTime" : watchTime
     });
 
     if (response != null && response['statusCode'] == 201) {

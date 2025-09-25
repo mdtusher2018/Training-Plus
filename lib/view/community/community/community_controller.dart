@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/common_used_models/active_challenge_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'community_model.dart'; // <- your model file
@@ -70,5 +71,27 @@ void incrementCommentCount({required String postId, required int count}) {
 
   state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
 }
+
+  void markChallengeJoined(String challengeId) {
+    final updatedChallenges = state.data!.activeChallenge.map((challenge) {
+      if (challenge.id == challengeId) {
+        return ActiveChallenge(
+          id: challenge.id,
+          challengeName: challenge.challengeName,
+          count: challenge.count,
+          days: challenge.days,
+          point: challenge.point,
+          isJoined: true, // ✅ Update flag here
+          progress: challenge.progress,
+          createdAt: challenge.createdAt,
+          expiredAt: challenge.expiredAt,
+        );
+      }
+      return challenge;
+    }).toList();
+
+    state = state.copyWith(data: state.data!.copyWith(activeChallenge: updatedChallenges));
+  }
+
 
 }

@@ -1,8 +1,5 @@
 /// Enum to define all keys in a type-safe way
-enum StorageKey {
-  token,
-  rememberMe,
-}
+enum StorageKey { token, rememberMe, savedLoginsKey }
 
 extension StorageKeyExtension on StorageKey {
   String get key {
@@ -11,6 +8,8 @@ extension StorageKeyExtension on StorageKey {
         return 'token';
       case StorageKey.rememberMe:
         return 'rememberMe';
+      case StorageKey.savedLoginsKey:
+        return "saved_logins";
     }
   }
 }

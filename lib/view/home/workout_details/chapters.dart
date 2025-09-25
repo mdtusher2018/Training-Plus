@@ -53,7 +53,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
 
                             if (result == true) {
                               final response = await controller.completeVideo(
-                                video.id,
+                                video.id,video.duration
                               );
 
                               if (response['title'] == "Success") {

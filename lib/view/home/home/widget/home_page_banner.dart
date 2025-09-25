@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/home/home/home_page_model.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -67,10 +66,9 @@ class _QuoteBannerState extends State<QuoteBanner> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  getFullImagePath(quote.image),
-                  fit: BoxFit.cover,
-                ),
+                child: CommonImage(imagePath: quote.image, fit: BoxFit.cover,)
+                
+              
               ),
               Container(
                 decoration: BoxDecoration(

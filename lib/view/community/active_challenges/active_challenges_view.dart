@@ -59,12 +59,11 @@ class ActiveChallengesView extends ConsumerWidget {
               physics: AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16),
               itemCount:
-               state.hasMore
-                  ? state.challenges.length + 1
-                  : state.challenges.length,
+                  state.hasMore
+                      ? state.challenges.length + 1
+                      : state.challenges.length,
               itemBuilder: (context, index) {
                 if (index == state.challenges.length) {
-                  
                   return const Padding(
                     padding: EdgeInsets.all(16),
                     child: Center(child: CircularProgressIndicator()),
@@ -84,6 +83,10 @@ class ActiveChallengesView extends ConsumerWidget {
                       showChallengeDetailsBottomSheet(
                         context,
                         isJoined: !challenge.isJoined,
+                        ref: ref,
+                        challengeId: challenge.id,
+                        days: challenge.days,
+                        condition: challenge.challengeName,
                       );
                     },
                   ),

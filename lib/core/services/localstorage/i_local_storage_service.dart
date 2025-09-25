@@ -8,4 +8,7 @@ abstract class ILocalStorageService {
   Future<bool?> getBool(StorageKey key);
   Future<void> remove(StorageKey key);
   Future<void> clearAll();
+    Future<Map<String, String>> getSavedLogins();
+  Future<void> saveLogin(String email, String password);
+  Future<void> removeLogin(String email);
 }

@@ -56,7 +56,7 @@ class CommunityView extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   // if (state.data!.activeChallenge.isNotEmpty)
-                    _activeChallengesSection(context, state),
+                    _activeChallengesSection(context, state,ref),
 
                   // if (state.data!.mypost.isNotEmpty)
                     _myPostsSection(context, state,ref),
@@ -86,7 +86,7 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _activeChallengesSection(BuildContext context, CommunityState state) {
+  Widget _activeChallengesSection(BuildContext context, CommunityState state,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -114,7 +114,10 @@ class CommunityView extends ConsumerWidget {
                 onTap: () {
                   showChallengeDetailsBottomSheet(
                     context,
-                    isJoined: !challenge.isJoined,
+                    isJoined: !challenge.isJoined,ref: ref,
+                    challengeId: challenge.id,
+                    days: challenge.days,
+                    condition: challenge.challengeName
                   );
                 },
               ),

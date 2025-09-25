@@ -5,6 +5,7 @@ import 'package:training_plus/common_used_models/pagination_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/community/active_challenges/active_challenges_model.dart';
+import 'package:training_plus/view/community/comunity_provider.dart';
 
 class ActiveChallengeState {
   final bool isLoading;
@@ -104,23 +105,53 @@ class ActiveChallengeController extends StateNotifier<ActiveChallengeState> {
     }
   }
 
+
+  void markChallengeJoined(String challengeId) {
+    final updatedChallenges = state.challenges.map((challenge) {
+      if (challenge.id == challengeId) {
+        return ActiveChallenge(
+          id: challenge.id,
+          challengeName: challenge.challengeName,
+          count: challenge.count,
+          days: challenge.days,
+          point: challenge.point,
+          isJoined: true, // ✅ Update flag here
+          progress: challenge.progress,
+          createdAt: challenge.createdAt,
+          expiredAt: challenge.expiredAt,
+        );
+      }
+      return challenge;
+    }).toList();
+
+    state = state.copyWith(challenges: updatedChallenges);
+  }
+
+
+
   /// Join a challenge (example)
   Future<Map<String, String>> joinChallenge({
     required String challengeId,
     required num day,
-    required sportId,
+    required condition,
+    required WidgetRef ref
   }) async {
     try {
       final response = await apiService.post(ApiEndpoints.joinChallenge, {
         "challenge": challengeId,
         "days": day,
-        "sports": sportId,
+        "condition" : "run"
       });
 
       if (response != null && response["statusCode"] == 201) {
+        markChallengeJoined(challengeId);
+        
+          ref.read(communityControllerProvider.notifier).markChallengeJoined(challengeId);
+        
         return {
           "title": "Success",
           "message": response["message"] ?? "Challenge joined successfully",
+
         };
       } else {
         return {

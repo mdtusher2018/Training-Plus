@@ -40,4 +40,35 @@ class LocalStorageService implements ILocalStorageService {
   Future<void> clearAll() async {
     await _prefs?.clear();
   }
+
+  @override
+  Future<Map<String, String>> getSavedLogins() async {
+    final data = _prefs?.getString(StorageKey.savedLoginsKey.key);
+    if (data == null || data.isEmpty) return {};
+    final entries = data.split(";;");
+    return {
+      for (var e in entries)
+        if (e.contains("||")) e.split("||")[0]: e.split("||")[1],
+    };
+  }
+
+  @override
+  Future<void> saveLogin(String email, String password) async {
+    final logins = await getSavedLogins();
+    logins[email] = password; // overwrite if exists
+    final serialized =
+        logins.entries.map((e) => "${e.key}||${e.value}").join(";;");
+    await _prefs?.setString(StorageKey.savedLoginsKey.key, serialized);
+  }
+
+  @override
+  Future<void> removeLogin(String email) async {
+    final logins = await getSavedLogins();
+    logins.remove(email);
+    final serialized =
+        logins.entries.map((e) => "${e.key}||${e.value}").join(";;");
+    await _prefs?.setString(StorageKey.savedLoginsKey.key, serialized);
+  }
+
+
 }

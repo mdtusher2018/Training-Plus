@@ -12,9 +12,14 @@ import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-class SigninView extends ConsumerWidget {
-  SigninView({super.key});
+class SigninView extends ConsumerStatefulWidget {
+  const SigninView({super.key});
 
+  @override
+  ConsumerState<SigninView> createState() => _SigninViewState();
+}
+
+class _SigninViewState extends ConsumerState<SigninView> {
   final TextEditingController emailController = TextEditingController(
     text: "bb@example.com",
   );
@@ -23,7 +28,28 @@ class SigninView extends ConsumerWidget {
   );
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+
+    // Automatically show saved accounts bottom sheet if there are saved logins
+    Future.microtask(() async {
+      final controller = ref.read(signInControllerProvider.notifier);
+      final state = ref.read(signInControllerProvider);
+      final localStorage = ref.read(localStorageProvider);
+      final savedLogins = await localStorage.getSavedLogins();
+      if (savedLogins.isNotEmpty) {
+        showSavedAccountsBottomSheet(
+          context,
+          ref: ref,
+          authController: controller,
+          isRememberMeChecked: ValueNotifier(state.rememberMe),state: state
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final SignInState state = ref.watch(signInControllerProvider);
     final SignInController controller = ref.read(
       signInControllerProvider.notifier,
@@ -130,6 +156,12 @@ class SigninView extends ConsumerWidget {
                         StorageKey.token,
                         user.accessToken,
                       );
+                      if (state.rememberMe) {
+                        await localStorage.saveLogin(
+                          emailController.text.trim(),
+                          passwordController.text.trim(),
+                        );
+                      }
                       navigateToPage(
                         context: context,
                         RootView(),
@@ -190,6 +222,141 @@ class SigninView extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void showSavedAccountsBottomSheet(
+    BuildContext context, {
+    required WidgetRef ref,
+    required SignInController authController,
+    required SignInState state,
+    required ValueNotifier<bool> isRememberMeChecked,
+  }) async {
+    final localStorage = ref.read(localStorageProvider);
+
+    final savedLogins = await localStorage.getSavedLogins();
+    if (savedLogins.isEmpty) return;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      backgroundColor: AppColors.white,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Column(
+              children: [
+                Container(
+                  width: 50,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    const Icon(Icons.person, color: AppColors.primary),
+                    const SizedBox(width: 8),
+                    commonText("Select an account", size: 16, isBold: true),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children:
+                        savedLogins.entries.map((entry) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.account_circle_rounded,
+                                color: AppColors.primary,
+                                size: 30,
+                              ),
+                              title: commonText(
+                                entry.key,
+                                size: 14,
+                                isBold: true,
+                              ),
+                              subtitle: const Text("••••••••"),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.redAccent,
+                                ),
+                                onPressed: () async {
+                                  await localStorage.removeLogin(entry.key);
+                                  Navigator.pop(context);
+                                  // Refresh the bottomsheet
+                                  showSavedAccountsBottomSheet(
+                                    context,
+                                    ref: ref,
+                                    authController: authController,
+                                    isRememberMeChecked: isRememberMeChecked,
+                                    state: state,
+                                  );
+                                },
+                              ),
+                              onTap: () async {
+                                authController.setLoading(true);
+
+                                try {
+                                  final user = await authController.signIn(
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text.trim(),
+                                  );
+                                  if (user != null) {
+                                    final localStorage = ref.read(
+                                      localStorageProvider,
+                                    );
+                                    await localStorage.saveString(
+                                      StorageKey.token,
+                                      user.accessToken,
+                                    );
+                                    if (state.rememberMe) {
+                                      await localStorage.saveLogin(
+                                        emailController.text.trim(),
+                                        passwordController.text.trim(),
+                                      );
+                                    }
+                                    navigateToPage(
+                                      context: context,
+                                      RootView(),
+                                      clearStack: true,
+                                    );
+                                  }
+                                } catch (e) {
+                                  commonSnackbar(
+                                    context: context,
+                                    title: "Error",
+                                    message: e.toString(),
+                                    backgroundColor: AppColors.error,
+                                  );
+                                } finally {
+                                  authController.setLoading(false);
+                                }
+                              },
+                            ),
+                          );
+                        }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

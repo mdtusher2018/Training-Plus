@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/common_used_models/recent_training_model.dart';
 import 'package:training_plus/view/progress/progress/progress_controller.dart';
@@ -521,39 +520,40 @@ class ProgressView extends ConsumerWidget {
             itemBuilder: (_, i) {
               final achievement = achievements[i];
               return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primary),
-                  borderRadius: BorderRadius.circular(12),
-                ),
+            decoration: BoxDecoration(
+                color: const Color(0xFFFFFDEE),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.primary, width: 1),
+              ),
                 padding: const EdgeInsets.all(12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    achievement.badgeImage.isNotEmpty
-                        ? Image.network(
-                          getFullImagePath(achievement.badgeImage),
-                          width: 60,
-                          height: 60,
-                          fit: BoxFit.contain,
-                        )
-                        : Image.asset(
-                          "assest/images/progress/achivment.png",
-                          width: 60,
-                          height: 60,
-                        ),
+                      Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: CommonImage(
+                        imagePath: achievement.badgeImage,
+                        isAsset: false,
+                        height: 80,
+                      ),
+                    ),
+                  ),
                     const SizedBox(height: 8),
-                    commonText(
-                      achievement.badgeName,
-                      size: 13,
-                      fontWeight: FontWeight.w600,
-                      textAlign: TextAlign.center,
-                    ),
-                    commonText(
-                      achievement.description,
-                      size: 11,
-                      color: AppColors.textSecondary,
-                      textAlign: TextAlign.center,
-                    ),
+                      const SizedBox(height: 8),
+                  commonText(
+                    achievement.badgeName,
+                    size: 14,
+                    isBold: true,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 4),
+                  commonText(
+                    achievement.description,
+                    size: 12,
+                    color: Colors.grey.shade800,
+                    textAlign: TextAlign.center,
+                  ),
                   ],
                 ),
               );
