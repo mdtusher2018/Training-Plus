@@ -1,9 +1,11 @@
+import 'dart:developer';
 
-
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_traker_model.dart';
+import 'package:training_plus/widgets/common_widgets.dart';
 
 /// State for Nutrition Tracker
 class NutritionTrackerState {
@@ -96,5 +98,43 @@ class NutritionTrackerController extends StateNotifier<NutritionTrackerState> {
 
   ///============================================================================send scan data in openfoodfats
 
+  final TextEditingController mealNameController = TextEditingController();
+  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController proteinsController = TextEditingController();
+  final TextEditingController carbsController = TextEditingController();
+  final TextEditingController fatController = TextEditingController();
+  Future sendScanDataToBackend({context}) async {
+    state = state.copyWith(isLoading: true);
+    final body = {
+      "mealName": mealNameController.text,
+      "calories": int.parse(caloriesController.text),
+      "proteins": double.parse(proteinsController.text),
+      "carbs": double.parse(carbsController.text),
+      "fats": double.parse(fatController.text),
+    };
 
+    try {
+      final response = await apiService.post(ApiEndpoints.nutrationAdd, body);
+      log("=========response===$response");
+
+      if (response["statusCode"] == 201) {
+        Navigator.pop(context);
+        commonSnackbar(
+          context: context,
+          title: "Success",
+          message: "Nutration successfully Added",
+        );
+        mealNameController.clear();
+        caloriesController.clear();
+        proteinsController.clear();
+        carbsController.clear();
+        fatController.clear();
+      } else {}
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    }finally{
+      
+    state = state.copyWith(isLoading: false);
+    }
+  }
 }

@@ -444,10 +444,12 @@ Widget commonTextField({
   double boarderWidth=1.0,
   TextInputType keyboardType = TextInputType.number,
   void Function(String)? onChanged,
+  bool readOnly = false
 }) {
   return SizedBox(
  
-    child: TextField(
+    child: TextFormField(
+      readOnly: readOnly,
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,

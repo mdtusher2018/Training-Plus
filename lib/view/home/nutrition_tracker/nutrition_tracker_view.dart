@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/barcode_scanner_page.dart';
-import 'package:training_plus/view/home/camera_view.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_tracker_controller.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_traker_model.dart';

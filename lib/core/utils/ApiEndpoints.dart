@@ -1,13 +1,13 @@
 class ApiEndpoints {
-  static const String baseUrl =
-      'http://147.93.29.184:8041/api/v1/'; // Replace with actual base URL
-  static const String baseImageUrl =
-      'http://147.93.29.184:8041'; // Replace with actual base image URL
-
   // static const String baseUrl =
-  //     'http://10.10.10.33:8041/api/v1/';
+  //     'http://206.162.244.133:8041/api/v1/'; // Replace with actual base URL
   // static const String baseImageUrl =
-  //     'http://10.10.10.33:8041';
+  //     'http://206.162.244.133:8041'; // Replace with actual base image URL
+
+  static const String baseUrl =
+      'http://10.10.10.33:8043/api/v1/';
+  static const String baseImageUrl =
+      'http://10.10.10.33:8043';
 
   //authentication
   static const String signin = "auth/signin";
@@ -86,9 +86,12 @@ class ApiEndpoints {
   static String updatePost(String postId)=> "post/edit/$postId";
   static String deletePost(String postId)=> "post/$postId";
   static String getCommentByPostId(String postId)=>"post/comments/$postId";
+  
+  static String nutrationAdd="nutration/add";
 
   static String runningHistory({required int page, required int limit}) {
     return "running/history?page=$page&limit=$limit";
+    
   }
   
 }
