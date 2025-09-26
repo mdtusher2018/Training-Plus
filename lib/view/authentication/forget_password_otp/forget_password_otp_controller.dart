@@ -60,10 +60,10 @@ Future<bool> resendOtp({required String email}) async {
       final response = await apiService.post(
         ApiEndpoints.forgetPasswordOTP, // make sure endpoint exists
         {
-          "email": email,
           "otp": otp,
           "purpose":(state.isResend)?"resend-otp": "forget-password",
         },
+        
       );
 
       log("Forgot Password OTP Response: $response");

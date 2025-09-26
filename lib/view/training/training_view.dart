@@ -51,7 +51,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
           }
         },
         child:
-            state.isLoading && state.attributes == null
+             state.attributes == null && state.isLoading 
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null && state.attributes == null
                 ? ListView(

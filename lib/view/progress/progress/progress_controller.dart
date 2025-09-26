@@ -32,7 +32,7 @@ class ProgressState {
       isLoading: isLoading ?? this.isLoading,
       progress: progress ?? this.progress,
       categories: categories ?? this.categories,
-      error: error ?? this.error,
+      error: error ,
       isMonthly: isMonthly ?? this.isMonthly,
     );
   }

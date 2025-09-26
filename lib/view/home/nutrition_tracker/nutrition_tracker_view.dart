@@ -33,7 +33,9 @@ class NutritionTrackerPage extends ConsumerWidget {
         title: commonText("Nutrition Tracker", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          await controller.fetchNutritionTracker();
+        },
         child: Builder(
           builder: (context) {
             return state.data == null && state.isLoading
@@ -148,7 +150,7 @@ class NutritionTrackerPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildOverallProgress(int overallPercent) {
+  Widget _buildOverallProgress(num overallPercent) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -249,7 +251,7 @@ class NutritionTrackerPage extends ConsumerWidget {
   }
 
   Widget _buildDetailedStats(DetailedProgress detailed) {
-    String getProgressStatus(int percentage) {
+    String getProgressStatus(num percentage) {
       if (percentage < 30) {
         return "Getting Started";
       } else if (percentage >= 30 && percentage < 100) {

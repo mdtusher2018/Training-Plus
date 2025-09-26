@@ -1,13 +1,13 @@
 class ApiEndpoints {
-  // static const String baseUrl =
-  //     'http://206.162.244.133:8041/api/v1/'; // Replace with actual base URL
-  // static const String baseImageUrl =
-  //     'http://206.162.244.133:8041'; // Replace with actual base image URL
-
   static const String baseUrl =
-      'http://10.10.10.33:8043/api/v1/';
+      'http://206.162.244.133:8043/api/v1/'; // Replace with actual base URL
   static const String baseImageUrl =
-      'http://10.10.10.33:8043';
+      'http://206.162.244.133:8043'; // Replace with actual base image URL
+
+  // static const String baseUrl =
+  //     'http://10.10.10.33:8043/api/v1/';
+  // static const String baseImageUrl =
+  //     'http://10.10.10.33:8043';
 
   //authentication
   static const String signin = "auth/signin";

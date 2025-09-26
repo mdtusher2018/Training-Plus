@@ -5,14 +5,14 @@ class ForgetPasswordModel {
   final int statusCode;
   final String message;
   final String type; // from data.type
-  final String attributes;
+  final String forgetToken;
 
   ForgetPasswordModel({
     required this.status,
     required this.statusCode,
     required this.message,
     required this.type,
-    required this.attributes
+    required this.forgetToken
   });
 
   factory ForgetPasswordModel.fromJson(Map<String, dynamic> json) {
@@ -21,7 +21,7 @@ class ForgetPasswordModel {
       statusCode: json['statusCode'] ?? 0,
       message: json['message'] ?? '',
       type: json['data']?['type'] ?? '',
-      attributes: json['data']?['attributes']??''
+      forgetToken: json['data']?['attributes']??''
     );
   }
 }

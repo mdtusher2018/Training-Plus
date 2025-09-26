@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/services/localstorage/storage_key.dart';
+import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
@@ -66,12 +68,21 @@ class ForgotPasswordView extends ConsumerWidget {
                   }
 
                   try {
-                    final response =
-                        await controller.forgetPassword(email: email);
+                    final response = await controller.forgetPassword(
+                      email: email,
+                    );
 
                     if (response != null) {
-                      // ✅ Success → Go to OTP screen
-                      navigateToPage(context: context, ForgotPasswordOtpView(email: email,));
+                      final localStorage = ref.read(localStorageProvider);
+                      await localStorage.saveString(
+                        StorageKey.token,
+                        response.forgetToken,
+                      );
+
+                      navigateToPage(
+                        context: context,
+                        ForgotPasswordOtpView(email: email),
+                      );
                       commonSnackbar(
                         context: context,
                         title: "OTP Sent",

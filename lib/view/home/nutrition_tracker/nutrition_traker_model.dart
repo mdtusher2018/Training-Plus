@@ -1,6 +1,6 @@
 class NutritionTrackerResponse {
   final String status;
-  final int statusCode;
+  final num statusCode;
   final String message;
   final NutritionData data;
 
@@ -33,7 +33,7 @@ class NutritionTrackerResponse {
 class NutritionData {
   final QuickTodayGain quickTodayGain;
   final DetailedProgress detailedProgress;
-  final int overallPercent;
+  final num overallPercent;
   final List<TodayMeal> todayMeals;
 
   NutritionData({
@@ -66,10 +66,10 @@ class NutritionData {
 
 class QuickTodayGain {
   final String? id;
-  final int calories;
-  final int proteins;
-  final int carbs;
-  final int fats;
+  final num calories;
+  final num proteins;
+  final num carbs;
+  final num fats;
 
   QuickTodayGain({
     this.id,
@@ -133,10 +133,10 @@ class DetailedProgress {
 }
 
 class ProgressItem {
-  final int goal;
-  final int gain;
-  final int percentage;
-  final int remaining;
+  final num goal;
+  final num gain;
+  final num percentage;
+  final num remaining;
 
   ProgressItem({
     required this.goal,
@@ -168,10 +168,10 @@ class TodayMeal {
   final String id;
   final String user;
   final String mealName;
-  final int calories;
-  final int proteins;
-  final int carbs;
-  final int fats;
+  final num calories;
+  final num proteins;
+  final num carbs;
+  final num fats;
   final DateTime createdAt;
   final DateTime updatedAt;
 

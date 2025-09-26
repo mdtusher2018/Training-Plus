@@ -31,7 +31,7 @@ class RunningHistoryView extends ConsumerWidget {
         },
         child: Builder(
           builder: (context) {
-            if (state.isLoading && state.data == null) {
+            if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
               return ListView(

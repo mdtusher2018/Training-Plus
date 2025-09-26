@@ -22,7 +22,7 @@ class StaticContentState {
     return StaticContentState(
       isLoading: isLoading ?? this.isLoading,
       content: content ?? this.content,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }

@@ -26,7 +26,7 @@ class HomePageView extends ConsumerWidget {
       body: SafeArea(
   child: Builder(
     builder: (context) {
-      if (state.isLoading && state.response == null) {
+      if ( state.response == null && state.isLoading) {
         return const Center(child: CircularProgressIndicator());
       }
 

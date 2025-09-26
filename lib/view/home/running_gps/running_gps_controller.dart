@@ -20,7 +20,7 @@ class RunningGpsState {
   }) {
     return RunningGpsState(
       isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }

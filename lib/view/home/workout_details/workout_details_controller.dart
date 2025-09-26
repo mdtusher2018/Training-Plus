@@ -17,7 +17,7 @@ class WorkoutState {
     return WorkoutState(
       isLoading: isLoading ?? this.isLoading,
       workout: workout ?? this.workout,
-      error: error ?? this.error,
+      error: error,
       startWorkout: startWorkout?? this.startWorkout,
       endWorkout: endWorkout?? this.endWorkout
     );

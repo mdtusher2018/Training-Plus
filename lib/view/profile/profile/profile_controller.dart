@@ -1,5 +1,5 @@
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
@@ -24,7 +24,7 @@ class ProfileState {
     return ProfileState(
       isLoading: isLoading ?? this.isLoading,
       profile: profile ?? this.profile,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }
@@ -37,14 +37,19 @@ class ProfileController extends StateNotifier<ProfileState> {
 
   /// Fetch profile from API
   Future<void> fetchProfile() async {
+    
     try {
+      log("profile fatching=====>>>>>>");
       state = state.copyWith(isLoading: true, error: null);
+      
+    log(state.error.toString());
 
       final response = await apiService.get(ApiEndpoints.getProfile); // Replace with actual endpoint
 
       if (response != null && response['statusCode'] == 200) {
+        log("data recived===>>>>>");
         final profileModel = ProfileModel.fromJson(response);
-        state = state.copyWith(profile: profileModel, isLoading: false);
+        state = state.copyWith(profile: profileModel, isLoading: false,error: null);
       } else {
         state = state.copyWith(
           error: response['message'] ?? 'Failed to fetch profile',
@@ -57,6 +62,8 @@ class ProfileController extends StateNotifier<ProfileState> {
         isLoading: false,
       );
     }
+
+    log(state.error.toString());
   }
 
  /// Update profile via API (only when user clicks save)

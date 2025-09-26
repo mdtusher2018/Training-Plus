@@ -31,173 +31,218 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
 
     return Scaffold(
       body:
-          workoutState.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : workoutState.error != null
-              ? Center(child: Text(workoutState.error!))
-              : workoutState.workout == null
-              ? const Center(child: Text("No workout data"))
-              : Stack(
-                children: [
-                  Column(
-                    children: [
-                      // HEADER VIDEO
-                      SizedBox(
-                        height: 280,
-                        child: commonVideoPlayer(
-                          videoUrl: workoutState.workout!.previewVideo,
+          RefreshIndicator(
+            onRefresh: () async{
+              await workoutController.fetchWorkout(widget.id);
+            },
+            child: (workoutState.workout==null && workoutState.isLoading)
+                ? const Center(child: CircularProgressIndicator())
+                : workoutState.error != null
+                ?  ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Center(
+                        child: commonText(
+                          workoutState.error!,
+                          size: 16,
+                          color: AppColors.error,
                         ),
                       ),
-
-                      // DETAILS
-                      Expanded(
-                        child: SingleChildScrollView(
+                    ),
+                  ],
+                )
+                : workoutState.workout == null
+                ?  ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Center(
+                        child: commonText(
+                          "No workout data",
+                          size: 16,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                
+                
+               
+                : Column(
+                  children: [
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          ListView(
+                            children: [
+                              // HEADER VIDEO
+                              SizedBox(
+                                height: 280,
+                                child: commonVideoPlayer(
+                                  videoUrl: workoutState.workout!.previewVideo,
+                                ),
+                              ),
+                                  
+                              // DETAILS
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      // Title & Share
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: commonText(
+                                              workoutState.workout!.title,
+                                              size: 20,
+                                              isBold: true,
+                                              color: AppColors.textPrimary,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // share action
+                                            },
+                                            child: const Icon(
+                                              Icons.share,
+                                              size: 24,
+                                              color: AppColors.textPrimary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                  
+                                      const SizedBox(height: 8),
+                                  
+                                      // Level
+                                      commonText(
+                                        workoutState.workout!.skillLevel,
+                                        size: 16,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                  
+                                      const SizedBox(height: 8),
+                                  
+                                      // Duration Row
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.access_time,
+                                            size: 16,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          commonText(
+                                            "${workoutState.workout!.duration.toStringAsFixed(0)} min",
+                                            size: 14,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 12),
+                                  
+                                      // About Header
+                                      commonText(
+                                        "About this training",
+                                        size: 16,
+                                        isBold: true,
+                                        color: AppColors.textPrimary,
+                                      ),
+                                      const SizedBox(height: 8),
+                                  
+                                      // Description
+                                      commonText(
+                                        workoutState.workout!.description,
+                                        size: 14,
+                                        color: AppColors.textSecondary,
+                                        softwarp: true,
+                                        maxline: 10,
+                                      ),
+                                  
+                                      const SizedBox(height: 24),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                                  
+                              
+                            ],
+                          ),
+                                  
+                          Positioned(
+                            top: 56,
+                            left: 24,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                 
+                 // START WORKOUT BUTTON
+                        Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,
                             vertical: 12,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Title & Share
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: commonText(
-                                      workoutState.workout!.title,
-                                      size: 20,
-                                      isBold: true,
-                                      color: AppColors.textPrimary,
-                                    ),
+                          child: commonButton(
+                            "Start Workout",
+                            isLoading: workoutState.startWorkout,
+                            width: double.infinity,
+                            onTap: () async {
+                              final response =
+                                  await workoutController.startWorkout();
+                              if (response['title'] == "Success") {
+                                navigateToPage(
+                                  context: context,
+                                  ChaptersPage(
+                                    chapters: workoutState.workout!.chapters,
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      // share action
-                                    },
-                                    child: const Icon(
-                                      Icons.share,
-                                      size: 24,
-                                      color: AppColors.textPrimary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 8),
-
-                              // Level
-                              commonText(
-                                workoutState.workout!.skillLevel,
-                                size: 16,
-                                color: AppColors.textPrimary,
-                              ),
-
-                              const SizedBox(height: 8),
-
-                              // Duration Row
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.access_time,
-                                    size: 16,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  commonText(
-                                    "${workoutState.workout!.duration.toStringAsFixed(0)} min",
-                                    size: 14,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-
-                              // About Header
-                              commonText(
-                                "About this training",
-                                size: 16,
-                                isBold: true,
-                                color: AppColors.textPrimary,
-                              ),
-                              const SizedBox(height: 8),
-
-                              // Description
-                              commonText(
-                                workoutState.workout!.description,
-                                size: 14,
-                                color: AppColors.textSecondary,
-                                softwarp: true,
-                                maxline: 10,
-                              ),
-
-                              const SizedBox(height: 24),
-                            ],
+                                );
+                                commonSnackbar(
+                                  context: context,
+                                  title: response['title']!,
+                                  message: response['message']!,
+                                  backgroundColor:
+                                      response['title'] == "Success"
+                                          ? AppColors.success
+                                          : AppColors.error,
+                                );
+                              } else {
+                                commonSnackbar(
+                                  context: context,
+                                  title: response['title']!,
+                                  message: response['message']!,
+                                  backgroundColor:
+                                      response['title'] == "Success"
+                                          ? AppColors.success
+                                          : AppColors.error,
+                                );
+                              }
+                            },
                           ),
                         ),
-                      ),
-
-                      // START WORKOUT BUTTON
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        child: commonButton(
-                          "Start Workout",
-                          isLoading: workoutState.startWorkout,
-                          width: double.infinity,
-                          onTap: () async {
-                            final response =
-                                await workoutController.startWorkout();
-                            if (response['title'] == "Success") {
-                              navigateToPage(
-                                context: context,
-                                ChaptersPage(
-                                  chapters: workoutState.workout!.chapters,
-                                ),
-                              );
-                              commonSnackbar(
-                                context: context,
-                                title: response['title']!,
-                                message: response['message']!,
-                                backgroundColor:
-                                    response['title'] == "Success"
-                                        ? AppColors.success
-                                        : AppColors.error,
-                              );
-                            } else {
-                              commonSnackbar(
-                                context: context,
-                                title: response['title']!,
-                                message: response['message']!,
-                                backgroundColor:
-                                    response['title'] == "Success"
-                                        ? AppColors.success
-                                        : AppColors.error,
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Positioned(
-                    top: 56,
-                    left: 24,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: AppColors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        SizedBox(height: 16,)
+                  ],
+                ),
+          ),
     );
   }
 }

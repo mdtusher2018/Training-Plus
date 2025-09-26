@@ -25,7 +25,7 @@ class PostDetailsState {
   }) {
     return PostDetailsState(
       isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+      error: error,
       postDetails: postDetails ?? this.postDetails,
     );
   }

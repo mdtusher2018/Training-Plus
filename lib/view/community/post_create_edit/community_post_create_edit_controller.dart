@@ -26,7 +26,7 @@ class CommunityPostCreateEditState {
   }) {
     return CommunityPostCreateEditState(
       isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+      error: error,
       sport: sport ?? this.sport,
       categories: categories ?? this.categories,
     );

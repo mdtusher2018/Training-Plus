@@ -23,7 +23,7 @@ class NutritionTrackerState {
     return NutritionTrackerState(
       isLoading: isLoading ?? this.isLoading,
       data: data ?? this.data,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }
@@ -103,14 +103,16 @@ class NutritionTrackerController extends StateNotifier<NutritionTrackerState> {
   final TextEditingController proteinsController = TextEditingController();
   final TextEditingController carbsController = TextEditingController();
   final TextEditingController fatController = TextEditingController();
+
   Future sendScanDataToBackend({context}) async {
     state = state.copyWith(isLoading: true);
+    
     final body = {
       "mealName": mealNameController.text,
-      "calories": int.parse(caloriesController.text),
-      "proteins": double.parse(proteinsController.text),
-      "carbs": double.parse(carbsController.text),
-      "fats": double.parse(fatController.text),
+      "calories": num.tryParse(caloriesController.text)??0.0,
+      "proteins": num.tryParse(proteinsController.text)??0.0,
+      "carbs": num.tryParse(carbsController.text)??0.0,
+      "fats": num.tryParse(fatController.text)??0.0,
     };
 
     try {

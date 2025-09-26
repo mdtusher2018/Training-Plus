@@ -45,7 +45,7 @@ class TrainingState {
       categories: categories ?? this.categories,
       sport: sport ?? this.sport,
       sportId: sportId ?? this.sportId,
-      error: error ?? this.error,
+      error: error,
 
       completedWorkouts: completedWorkouts ?? this.completedWorkouts, // <-- added
     );

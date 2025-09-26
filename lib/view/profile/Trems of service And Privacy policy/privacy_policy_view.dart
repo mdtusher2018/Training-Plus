@@ -51,7 +51,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
           padding: const EdgeInsets.all(16),
           child: Builder(
             builder: (context) {
-               if (state.isLoading && (state.content == null || state.content!.content.isEmpty)) {
+               if ((state.content == null || state.content!.content.isEmpty) && state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {

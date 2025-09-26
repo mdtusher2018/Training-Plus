@@ -22,7 +22,7 @@ class BadgeShelfState {
     return BadgeShelfState(
       isLoading: isLoading ?? this.isLoading,
       badges: badges ?? this.badges,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }

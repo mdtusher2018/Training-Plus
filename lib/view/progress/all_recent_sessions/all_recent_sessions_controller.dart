@@ -24,7 +24,7 @@ class RecentSessionsState {
     return RecentSessionsState(
       isLoading: isLoading ?? this.isLoading,
       sessions: sessions ?? this.sessions,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }

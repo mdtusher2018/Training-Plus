@@ -5,7 +5,6 @@ import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/session_reset.dart';
-import 'package:training_plus/main.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/view/profile/ContactUsView.dart';
@@ -43,184 +42,204 @@ class ProfileView extends ConsumerWidget {
 
       body: SafeArea(
         child:
-            state.isLoading || state.profile == null
-                ? Center(child: CircularProgressIndicator())
-                : state.error != null
-                ? Center(child: Text(state.error!))
-                : ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+            RefreshIndicator(
+              onRefresh: () async{
+                await controller.fetchProfile();
+              },
+              child: state.profile == null && state.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : state.error != null
+                  ?ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+               
                   children: [
-                    // Profile Avatar
-                    Center(
-                      child: ClipOval(
-                        child: Image.network(
-                          getFullImagePath(state.profile!.attributes.image),
-                          width: 100,
-                          height: 100,
-                          fit:
-                              BoxFit
-                                  .cover, // ensures the image fills the circle
-                          errorBuilder:
-                              (context, error, stackTrace) => Container(
-                                width: 100,
-                                height: 100,
-                                color: Colors.grey[300],
-                                child: Icon(
-                                  Icons.person,
-                                  size: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Container(
-                              width: 100,
-                              height: 100,
-                              alignment: Alignment.center,
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                              ),
-                            );
-                          },
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Center(
+                        child: commonText(
+                          state.error!,
+                          size: 16,
+                          color: AppColors.error,
                         ),
                       ),
-                    ),
-
-                    SizedBox(height: 12),
-                    Center(
-                      child: Text(
-                        state.profile!.attributes.fullName,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Reward Tier Card
-                    rewardTierCard(state.profile!.attributes.points),
-
-                    const SizedBox(height: 30),
-
-                    // Sections
-                    _sectionHeader("General"),
-                    sectionTile(
-                      "Edit Profile",
-                      "assest/images/profile/edit_profile.png",
-                      onTap: () {
-                        navigateToPage(context: context, EditProfileView());
-                      },
-                    ),
-                    sectionTile(
-                      "Settings",
-                      "assest/images/profile/settings.png",
-                      onTap: () {
-                        navigateToPage(context: context, SettingsView());
-                      },
-                    ),
-                    sectionTile(
-                      "Redeem Points",
-                      "assest/images/profile/redeem_points.png",
-                      onTap: () {
-                        navigateToPage(context: context, RedeemPointsview());
-                      },
-                    ),
-                    sectionTile(
-                      "Running History",
-                      "assest/images/profile/running_history.png",
-                      onTap: () {
-                        navigateToPage(context: context, RunningHistoryView());
-                      },
-                    ),
-                    sectionTile(
-                      "Badge Shelf",
-                      "assest/images/profile/badge_shelf.png",
-                      onTap: () {
-                        navigateToPage(context: context, BadgeShelfView());
-                      },
-                    ),
-                    sectionTile(
-                      "My Subscription",
-                      "assest/images/profile/my_subscription.png",
-                      onTap: () {
-                        navigateToPage(context: context, MySubscriptionView());
-                      },
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    _sectionHeader("Support & Help"),
-                    sectionTile(
-                      "Feedback",
-                      "assest/images/profile/feedback.png",
-                      onTap: () {
-                        navigateToPage(context: context, FeedbackView());
-                      },
-                    ),
-                    sectionTile(
-                      "FAQ",
-                      "assest/images/profile/faq.png",
-                      onTap: () {
-                        navigateToPage(context: context, FaqView());
-                      },
-                    ),
-                    sectionTile(
-                      "Contact Us",
-                      "assest/images/profile/contact_us.png",
-                      onTap: () {
-                        navigateToPage(context: context, ContactUsView());
-                      },
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    _sectionHeader("Legal"),
-                    sectionTile(
-                      "Terms of Service",
-                      "assest/images/profile/terms_of_service.png",
-                      onTap: () {
-                        navigateToPage(context: context, TermsOfServiceView());
-                      },
-                    ),
-                    sectionTile(
-                      "Privacy Policy",
-                      "assest/images/profile/privacy_policy.png",
-                      onTap: () {
-                        navigateToPage(context: context, PrivacyPolicyView());
-                      },
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    _sectionHeader("Others"),
-                    sectionTile(
-                      "Invite Friends",
-                      "assest/images/profile/invite_friends.png",
-                      onTap: () {
-                        navigateToPage(
-                          context: context,
-                          InviteFriendsView(
-                            inviteCode: state.profile!.attributes.referralCode,
-                          ),
-                        );
-                      },
-                    ),
-                    sectionTile(
-                      "Logout",
-                      "assest/images/profile/logout.png",
-                      onTap: () {
-                        showLogoutAccountDialog(context, ref);
-                      },
-                      textColor: Colors.red.shade700,
                     ),
                   ],
-                ),
+                )
+                  : ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    children: [
+                      // Profile Avatar
+                      Center(
+                        child: ClipOval(
+                          child: Image.network(
+                            getFullImagePath(state.profile!.attributes.image),
+                            width: 100,
+                            height: 100,
+                            fit:
+                                BoxFit
+                                    .cover, // ensures the image fills the circle
+                            errorBuilder:
+                                (context, error, stackTrace) => Container(
+                                  width: 100,
+                                  height: 100,
+                                  color: Colors.grey[300],
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(
+                                width: 100,
+                                height: 100,
+                                alignment: Alignment.center,
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes!
+                                          : null,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+              
+                      SizedBox(height: 12),
+                      Center(
+                        child: Text(
+                          state.profile!.attributes.fullName,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+              
+                      // Reward Tier Card
+                      rewardTierCard(state.profile!.attributes.points),
+              
+                      const SizedBox(height: 30),
+              
+                      // Sections
+                      _sectionHeader("General"),
+                      sectionTile(
+                        "Edit Profile",
+                        "assest/images/profile/edit_profile.png",
+                        onTap: () {
+                          navigateToPage(context: context, EditProfileView());
+                        },
+                      ),
+                      sectionTile(
+                        "Settings",
+                        "assest/images/profile/settings.png",
+                        onTap: () {
+                          navigateToPage(context: context, SettingsView());
+                        },
+                      ),
+                      sectionTile(
+                        "Redeem Points",
+                        "assest/images/profile/redeem_points.png",
+                        onTap: () {
+                          navigateToPage(context: context, RedeemPointsview());
+                        },
+                      ),
+                      sectionTile(
+                        "Running History",
+                        "assest/images/profile/running_history.png",
+                        onTap: () {
+                          navigateToPage(context: context, RunningHistoryView());
+                        },
+                      ),
+                      sectionTile(
+                        "Badge Shelf",
+                        "assest/images/profile/badge_shelf.png",
+                        onTap: () {
+                          navigateToPage(context: context, BadgeShelfView());
+                        },
+                      ),
+                      sectionTile(
+                        "My Subscription",
+                        "assest/images/profile/my_subscription.png",
+                        onTap: () {
+                          navigateToPage(context: context, MySubscriptionView());
+                        },
+                      ),
+              
+                      const SizedBox(height: 24),
+              
+                      _sectionHeader("Support & Help"),
+                      sectionTile(
+                        "Feedback",
+                        "assest/images/profile/feedback.png",
+                        onTap: () {
+                          navigateToPage(context: context, FeedbackView());
+                        },
+                      ),
+                      sectionTile(
+                        "FAQ",
+                        "assest/images/profile/faq.png",
+                        onTap: () {
+                          navigateToPage(context: context, FaqView());
+                        },
+                      ),
+                      sectionTile(
+                        "Contact Us",
+                        "assest/images/profile/contact_us.png",
+                        onTap: () {
+                          navigateToPage(context: context, ContactUsView());
+                        },
+                      ),
+              
+                      const SizedBox(height: 24),
+              
+                      _sectionHeader("Legal"),
+                      sectionTile(
+                        "Terms of Service",
+                        "assest/images/profile/terms_of_service.png",
+                        onTap: () {
+                          navigateToPage(context: context, TermsOfServiceView());
+                        },
+                      ),
+                      sectionTile(
+                        "Privacy Policy",
+                        "assest/images/profile/privacy_policy.png",
+                        onTap: () {
+                          navigateToPage(context: context, PrivacyPolicyView());
+                        },
+                      ),
+              
+                      const SizedBox(height: 24),
+              
+                      _sectionHeader("Others"),
+                      sectionTile(
+                        "Invite Friends",
+                        "assest/images/profile/invite_friends.png",
+                        onTap: () {
+                          navigateToPage(
+                            context: context,
+                            InviteFriendsView(
+                              inviteCode: state.profile!.attributes.referralCode,
+                            ),
+                          );
+                        },
+                      ),
+                      sectionTile(
+                        "Logout",
+                        "assest/images/profile/logout.png",
+                        onTap: () {
+                          showLogoutAccountDialog(context, ref);
+                        },
+                        textColor: Colors.red.shade700,
+                      ),
+                    ],
+                  ),
+            ),
       ),
     );
   }
@@ -294,13 +313,13 @@ class ProfileView extends ConsumerWidget {
                       // Clear the saved token
                       final localStorage = ref.read(localStorageProvider);
                       await localStorage.remove(StorageKey.token);
-                      final _providerScopeKey = GlobalKey();
-                      runApp(
-                        ProviderScope(
-                          key: _providerScopeKey,
-                          child: const MyApp(),
-                        ),
-                      );
+                      // final _providerScopeKey = GlobalKey();
+                      // runApp(
+                      //   ProviderScope(
+                      //     key: _providerScopeKey,
+                      //     child: const MyApp(),
+                      //   ),
+                      // );
       resetSession(ref);
                       navigateToPage(
                         context: context,
