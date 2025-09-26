@@ -1,13 +1,14 @@
-
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+
+import 'dart:convert';
 
 String getFullImagePath(String imagePath) {
   if (imagePath.isEmpty) {
     return "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg";
   }
-if(imagePath.contains("public")){
-imagePath=  imagePath.replaceFirst("public", "");
-}
+  if (imagePath.contains("public")) {
+    imagePath = imagePath.replaceFirst("public", "");
+  }
 
   if (imagePath.startsWith('http')) {
     return imagePath;
@@ -18,36 +19,7 @@ imagePath=  imagePath.replaceFirst("public", "");
   return '${ApiEndpoints.baseImageUrl}/$imagePath';
 }
 
-// String formatEstimateTime(String estimateTime) {
-//   // Case 1: Already in minutes or hours (like "25 mins", "1 hour")
-//   if (!estimateTime.contains(":")) {
-//     return estimateTime;
-//   }
-//   try {
-//     // Parse HH:mm:ss format
-//     final parts = estimateTime.split(":").map(int.parse).toList();
-//     int hours = parts[0];
-//     int minutes = parts[1];
-//     if (hours > 0 && minutes > 0) {
-//       return "$hours h $minutes mins";
-//     } else if (hours > 0) {
-//       return "$hours h";
-//     } else {
-//       return "$minutes mins";
-//     }
-//   } catch (e) {
-//     // Fallback for malformed time
-//     return estimateTime;
-//   }
-// }
-
-
-
 String timeAgo(String timestamp) {
-
-
-
-
   DateTime? dateTime = DateTime.tryParse(timestamp);
   if (dateTime == null) {
     return 'Invalid date';
@@ -74,13 +46,26 @@ String timeAgo(String timestamp) {
   }
 }
 
+String formatDuration(Duration d) {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String h = twoDigits(d.inHours);
+  String m = twoDigits(d.inMinutes.remainder(60));
+  String s = twoDigits(d.inSeconds.remainder(60));
+  return "$h:$m:$s";
+}
 
+Map<String, dynamic>? decodeJwtPayload(String token) {
+  try {
+    final parts = token.split('.');
+    if (parts.length != 3) return null;
 
+    final payload = parts[1];
+    final normalized = base64Url.normalize(payload);
+    final payloadBytes = base64Url.decode(normalized);
+    final payloadString = utf8.decode(payloadBytes);
 
-  String formatDuration(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String h = twoDigits(d.inHours);
-    String m = twoDigits(d.inMinutes.remainder(60));
-    String s = twoDigits(d.inSeconds.remainder(60));
-    return "$h:$m:$s";
+    return json.decode(payloadString) as Map<String, dynamic>;
+  } catch (e) {
+    return null;
   }
+}

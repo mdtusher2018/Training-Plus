@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
+
 class SplashView extends ConsumerStatefulWidget {
   const SplashView({super.key});
 
@@ -14,7 +16,8 @@ class SplashView extends ConsumerStatefulWidget {
   ConsumerState<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends ConsumerState<SplashView> with TickerProviderStateMixin {
+class _SplashViewState extends ConsumerState<SplashView>
+    with TickerProviderStateMixin {
   late AnimationController _fadeInController;
   late Animation<double> _fadeInAnimation;
 
@@ -27,7 +30,10 @@ class _SplashViewState extends ConsumerState<SplashView> with TickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    _fadeInAnimation = CurvedAnimation(parent: _fadeInController, curve: Curves.easeIn);
+    _fadeInAnimation = CurvedAnimation(
+      parent: _fadeInController,
+      curve: Curves.easeIn,
+    );
     _fadeInController.forward();
 
     // Navigate after delay
@@ -36,9 +42,26 @@ class _SplashViewState extends ConsumerState<SplashView> with TickerProviderStat
       final token = await localStorage.getString(StorageKey.token);
 
       if (token != null && token.isNotEmpty) {
-        navigateToPage(RootView(), context: context, clearStack: true);
+        final decoded = decodeJwtPayload(token);
+        if (decoded != null &&
+            decoded.containsKey("isLoginToken") &&
+            decoded['isLoginToken']) {
+          navigateToPage(RootView(), context: context, clearStack: true);
+        } else {
+          // Token exists but doesn't have loginToken
+          navigateToPage(
+            const OnboardingView(),
+            context: context,
+            clearStack: true,
+          );
+        }
       } else {
-        navigateToPage(const OnboardingView(), context: context, clearStack: true);
+        // No token stored
+        navigateToPage(
+          const OnboardingView(),
+          context: context,
+          clearStack: true,
+        );
       }
     });
   }

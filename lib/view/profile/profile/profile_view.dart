@@ -6,6 +6,7 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/session_reset.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
+import 'package:training_plus/view/personalization/subscription/subscription.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/view/profile/ContactUsView.dart';
 import 'package:training_plus/view/profile/faq/FaqView.dart';
@@ -13,7 +14,6 @@ import 'package:training_plus/view/profile/running_history/RunningHistoryView.da
 import 'package:training_plus/view/profile/profile/edit_profile_view.dart';
 import 'package:training_plus/view/profile/feedback/feedback_view.dart';
 import 'package:training_plus/view/profile/invite_friends_view.dart';
-import 'package:training_plus/view/profile/my_subscription_view.dart';
 import 'package:training_plus/view/profile/Trems%20of%20service%20And%20Privacy%20policy/privacy_policy_view.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
 import 'package:training_plus/view/profile/redeemPointsView.dart';
@@ -41,30 +41,45 @@ class ProfileView extends ConsumerWidget {
       ),
 
       body: SafeArea(
-        child:
-            RefreshIndicator(
-              onRefresh: () async{
-                await controller.fetchProfile();
-              },
-              child: state.profile == null && state.isLoading
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchProfile();
+          },
+          child:
+              state.profile == null && state.isLoading
                   ? Center(child: CircularProgressIndicator())
-                  : state.error != null
-                  ?ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-               
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          state.error!,
-                          size: 16,
-                          color: AppColors.error,
+                  : state.profile == null
+                  ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: Center(
+                          child: commonText(
+                            "No data Found",
+                            size: 16,
+                            color: AppColors.error,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  )
+                  : state.error != null
+                  ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: Center(
+                          child: commonText(
+                            state.error!,
+                            size: 16,
+                            color: AppColors.error,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                   : ListView(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
@@ -100,7 +115,8 @@ class ProfileView extends ConsumerWidget {
                                       loadingProgress.expectedTotalBytes != null
                                           ? loadingProgress
                                                   .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes!
+                                              loadingProgress
+                                                  .expectedTotalBytes!
                                           : null,
                                 ),
                               );
@@ -108,7 +124,7 @@ class ProfileView extends ConsumerWidget {
                           ),
                         ),
                       ),
-              
+
                       SizedBox(height: 12),
                       Center(
                         child: Text(
@@ -120,12 +136,12 @@ class ProfileView extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-              
+
                       // Reward Tier Card
                       rewardTierCard(state.profile!.attributes.points),
-              
+
                       const SizedBox(height: 30),
-              
+
                       // Sections
                       _sectionHeader("General"),
                       sectionTile(
@@ -153,7 +169,10 @@ class ProfileView extends ConsumerWidget {
                         "Running History",
                         "assest/images/profile/running_history.png",
                         onTap: () {
-                          navigateToPage(context: context, RunningHistoryView());
+                          navigateToPage(
+                            context: context,
+                            RunningHistoryView(),
+                          );
                         },
                       ),
                       sectionTile(
@@ -167,12 +186,15 @@ class ProfileView extends ConsumerWidget {
                         "My Subscription",
                         "assest/images/profile/my_subscription.png",
                         onTap: () {
-                          navigateToPage(context: context, MySubscriptionView());
+                          navigateToPage(
+                            context: context,
+                            SubscriptionView(),
+                          );
                         },
                       ),
-              
+
                       const SizedBox(height: 24),
-              
+
                       _sectionHeader("Support & Help"),
                       sectionTile(
                         "Feedback",
@@ -195,15 +217,18 @@ class ProfileView extends ConsumerWidget {
                           navigateToPage(context: context, ContactUsView());
                         },
                       ),
-              
+
                       const SizedBox(height: 24),
-              
+
                       _sectionHeader("Legal"),
                       sectionTile(
                         "Terms of Service",
                         "assest/images/profile/terms_of_service.png",
                         onTap: () {
-                          navigateToPage(context: context, TermsOfServiceView());
+                          navigateToPage(
+                            context: context,
+                            TermsOfServiceView(),
+                          );
                         },
                       ),
                       sectionTile(
@@ -213,9 +238,9 @@ class ProfileView extends ConsumerWidget {
                           navigateToPage(context: context, PrivacyPolicyView());
                         },
                       ),
-              
+
                       const SizedBox(height: 24),
-              
+
                       _sectionHeader("Others"),
                       sectionTile(
                         "Invite Friends",
@@ -224,7 +249,8 @@ class ProfileView extends ConsumerWidget {
                           navigateToPage(
                             context: context,
                             InviteFriendsView(
-                              inviteCode: state.profile!.attributes.referralCode,
+                              inviteCode:
+                                  state.profile!.attributes.referralCode,
                             ),
                           );
                         },
@@ -239,7 +265,7 @@ class ProfileView extends ConsumerWidget {
                       ),
                     ],
                   ),
-            ),
+        ),
       ),
     );
   }
@@ -320,7 +346,7 @@ class ProfileView extends ConsumerWidget {
                       //     child: const MyApp(),
                       //   ),
                       // );
-      resetSession(ref);
+                      resetSession(ref);
                       navigateToPage(
                         context: context,
                         SigninView(),

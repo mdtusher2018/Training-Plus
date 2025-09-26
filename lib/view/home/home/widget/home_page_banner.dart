@@ -70,29 +70,29 @@ class _QuoteBannerState extends State<QuoteBanner> {
                 
               
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: AnimatedOpacity(
-                    opacity: 1.0,
-                    duration: const Duration(milliseconds: 800),
-                    child: commonText(
-                      quote.text,
-                      size: 14,
-                      color: Colors.white,
-                      textAlign: TextAlign.center,
-                      isBold: true,
-                      maxline: 5,
-                    ),
-                  ),
-                ),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(12),
+              //     color: Colors.black.withOpacity(0.3),
+              //   ),
+              // ),
+              // Center(
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 12),
+              //     child: AnimatedOpacity(
+              //       opacity: 1.0,
+              //       duration: const Duration(milliseconds: 800),
+              //       child: commonText(
+              //         quote.text,
+              //         size: 14,
+              //         color: Colors.white,
+              //         textAlign: TextAlign.center,
+              //         isBold: true,
+              //         maxline: 5,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

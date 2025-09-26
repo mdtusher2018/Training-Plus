@@ -1,0 +1,257 @@
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/view/personalization/personalization_provider.dart';
+import 'package:training_plus/widgets/common_widgets.dart';
+
+class SubscriptionView extends ConsumerStatefulWidget {
+  const SubscriptionView({super.key});
+
+  @override
+  ConsumerState<SubscriptionView> createState() => _SubscriptionViewState();
+}
+
+class _SubscriptionViewState extends ConsumerState<SubscriptionView>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(subscriptionControllerProvider);
+
+    return Scaffold(
+      backgroundColor: AppColors.mainBG,
+      appBar: AppBar(
+        centerTitle: true,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back_ios_new),
+        ),
+        title: commonText(
+          "Subscriptions",
+          size: 20,
+          isBold: true,
+          color: AppColors.black,
+        ),
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: AppColors.primary,
+          unselectedLabelColor: Colors.grey,
+          tabs: [
+            Tab(
+              child: commonText(
+                "Subscriptions",
+                color:
+                    (_tabController.index == 0)
+                        ? AppColors.primary
+                        : AppColors.black,
+                isBold: true,
+              ),
+            ),
+            Tab(child: commonText("My Subscription")),
+          ],
+        ),
+      ),
+
+      body:
+          state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : state.error != null
+              ? Center(child: commonText(state.error!, color: AppColors.error))
+              : TabBarView(
+                controller: _tabController,
+                children: [
+                  /// Subscriptions Tab (vertical list)
+                  _buildSubscriptions(state),
+
+                  /// My Subscription Tab
+                  _buildMySubscription(state),
+                ],
+              ),
+    );
+  }
+
+  Widget _buildSubscriptions(dynamic state) {
+    if (state.plans.isEmpty) {
+      return Center(child: commonText("No subscription plans found"));
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: state.plans.length,
+      itemBuilder: (context, index) {
+        final plan = state.plans[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: _buildPlanCard(
+            title: plan.planName,
+            price: "${plan.price}/mo",
+            features: {
+              "Access to All Sports": true,
+              "Workout Tracking": true,
+              "Community Leaderboards": true,
+              "Nutrition Tracker": plan.nutritionTracker,
+              "Running Tracker": plan.runningTracker,
+              "Mental Performance Tools": true,
+              "Customize Weekly Goals": true,
+            },
+            isPro: plan.planName == "Sport Pro",
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildMySubscription(dynamic state) {
+    final mySub = state.mySubscription;
+
+    if (mySub == null) {
+      return Center(child: commonText("No active subscription found"));
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: _buildPlanCard(
+        title: mySub.planName,
+        price: "${mySub.subscription.price}/mo",
+        features: {
+          "Access to All Sports": true,
+          "Workout Tracking": true,
+          "Community Leaderboards": true,
+          "Nutrition Tracker": mySub.subscription.nutritionTracker,
+          "Running Tracker": mySub.subscription.runningTracker,
+          "Mental Performance Tools": true,
+          "Customize Weekly Goals": true,
+        },
+        isPro: mySub.planName == "Sport Pro",
+      ),
+    );
+  }
+
+  Widget _buildPlanCard({
+    required String title,
+    required String price,
+    required Map<String, bool> features,
+    required bool isPro,
+  }) {
+    return Container(
+      // constraints: const BoxConstraints(minHeight: 460),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          commonText(title, size: 22, isBold: true),
+          const SizedBox(height: 16),
+
+          /// Features list
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: features.length,
+            itemBuilder: (context, i) {
+              final key = features.keys.elementAt(i);
+              final available = features[key]!;
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          commonText(key, size: 14),
+                          if (isPro && key == "Access to All Sports")
+                            GestureDetector(
+                              onTap: () {
+                                _showInfoBottomSheet(context);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Icon(Icons.info_outline, size: 18),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(
+                      available ? Icons.check : Icons.lock_outline,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+
+          const SizedBox(height: 16),
+
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: commonButton(
+              price,
+              width: double.infinity,
+              onTap: () {
+                // TODO: Navigate to payment/activation
+              },
+            ),
+          ),
+          if (isPro)
+            Center(child: commonText("Start 7 day free trial", size: 14)),
+        ],
+      ),
+    );
+  }
+
+  void _showInfoBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [commonCloseButton(context)],
+              ),
+              const SizedBox(height: 12),
+              commonText(
+                "Sport Pro currently features\n3 additional sports.",
+                size: 15,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

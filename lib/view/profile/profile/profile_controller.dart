@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/enums.dart';
 import 'package:training_plus/view/profile/profile/profile_model.dart';
 
 class ProfileState {
@@ -10,11 +11,7 @@ class ProfileState {
   final ProfileModel? profile;
   final String? error;
 
-  ProfileState({
-    this.isLoading = false,
-    this.profile,
-    this.error,
-  });
+  ProfileState({this.isLoading = false, this.profile, this.error});
 
   ProfileState copyWith({
     bool? isLoading,
@@ -37,19 +34,18 @@ class ProfileController extends StateNotifier<ProfileState> {
 
   /// Fetch profile from API
   Future<void> fetchProfile() async {
-    
     try {
-      log("profile fatching=====>>>>>>");
       state = state.copyWith(isLoading: true, error: null);
-      
-    log(state.error.toString());
 
-      final response = await apiService.get(ApiEndpoints.getProfile); // Replace with actual endpoint
+      final response = await apiService.get(ApiEndpoints.getProfile);
 
       if (response != null && response['statusCode'] == 200) {
-        log("data recived===>>>>>");
         final profileModel = ProfileModel.fromJson(response);
-        state = state.copyWith(profile: profileModel, isLoading: false,error: null);
+        state = state.copyWith(
+          profile: profileModel,
+          isLoading: false,
+          error: null,
+        );
       } else {
         state = state.copyWith(
           error: response['message'] ?? 'Failed to fetch profile',
@@ -57,16 +53,13 @@ class ProfileController extends StateNotifier<ProfileState> {
         );
       }
     } catch (e) {
-      state = state.copyWith(
-        error: e.toString(),
-        isLoading: false,
-      );
+      state = state.copyWith(error: e.toString(), isLoading: false);
     }
 
     log(state.error.toString());
   }
 
- /// Update profile via API (only when user clicks save)
+  /// Update profile via API (only when user clicks save)
   Future<void> updateProfile({
     required String name,
     required String email,
@@ -74,22 +67,25 @@ class ProfileController extends StateNotifier<ProfileState> {
     required String ageGroup,
     required String skillLevel,
     required String goal,
-    File? image
+    File? image,
   }) async {
     try {
       state = state.copyWith(isLoading: true, error: null);
-
       final payload = {
         "fullName": name,
         "email": email,
-        "userType": userType,
-        "ageGroup": ageGroup,
-        "skillLevel": skillLevel,
-        "goal": goal,
+        "userType": roleMap[userType] ?? "",
+        "ageGroup": ageGroupMap[ageGroup] ?? "",
+        "skillLevel": skillLevelMap[skillLevel] ?? "",
+        "goal": goalMap[goal] ?? "",
       };
 
-      final response =
-          await apiService.multipart(ApiEndpoints.updateProfile, body:payload, files:{if(image!=null) "profileImage":image},method: "PUT" );
+      final response = await apiService.multipart(
+        ApiEndpoints.updateProfile,
+        body: payload,
+        files: {if (image != null) "profileImage": image},
+        method: "PUT",
+      );
 
       if (response != null && response['statusCode'] == 200) {
         final updatedProfile = ProfileModel.fromJson(response);
@@ -101,13 +97,7 @@ class ProfileController extends StateNotifier<ProfileState> {
         );
       }
     } catch (e) {
-      state = state.copyWith(
-        error: e.toString(),
-        isLoading: false,
-      );
+      state = state.copyWith(error: e.toString(), isLoading: false);
     }
   }
-
-
-
 }
