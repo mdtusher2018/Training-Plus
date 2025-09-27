@@ -28,18 +28,18 @@ class InviteFriendsView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            const SizedBox(height: 16),
+            commonSizedBox(height: 16),
             CommonImage(
               imagePath: "assest/images/profile/invite_friends_image.png",
               isAsset: true,
             ),
-            const SizedBox(height: 24),
+            commonSizedBox(height: 24),
             commonText(
               "Just share this code with\nyour friends",
               size: 21,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            commonSizedBox(height: 24),
             Row(
               children: [
                 Expanded(
@@ -51,7 +51,7 @@ class InviteFriendsView extends StatelessWidget {
                     boarderColor: Colors.grey.withOpacity(0.5),
                   ),
                 ),
-                const SizedBox(width: 16),
+                commonSizedBox(width: 16),
                 commonButton(
                   "Copy",
                   width: 80,

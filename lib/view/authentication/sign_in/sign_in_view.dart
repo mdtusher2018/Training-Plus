@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
@@ -64,21 +65,20 @@ class _SigninViewState extends ConsumerState<SigninView> {
               Center(
                 child: Column(
                   children: [
-                    CommonImage(
-                      imagePath: ImagePaths.logo,
-                      isAsset: true,
-                      width: 240,
-                    ),
-                    const SizedBox(height: 8),
+                     Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: CommonImage(imagePath: ImagePaths.logo, isAsset: true),
+              ),
+                    commonSizedBox(height: 8),
                     commonText("Welcome back!", size: 21, isBold: true),
-                    const SizedBox(height: 4),
+                    commonSizedBox(height: 4),
                     commonText(
                       "Enter your details and login to your account.",
                       size: 14,
                       textAlign: TextAlign.center,
                       color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 24),
+                    commonSizedBox(height: 24),
                   ],
                 ),
               ),
@@ -90,7 +90,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Password
               commonTextfieldWithTitle(
@@ -114,7 +114,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Sign In Button
               commonButton(
@@ -181,7 +181,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 },
               ),
 
-              const SizedBox(height: 12),
+              commonSizedBox(height: 12),
               GestureDetector(
                 onTap: () {
                   navigateToPage(context: context, ForgotPasswordView());
@@ -192,7 +192,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                   isBold: true,
                 ),
               ),
-              const SizedBox(height: 32),
+              commonSizedBox(height: 32),
 
               // Sign Up Prompt
               Center(
@@ -259,15 +259,15 @@ class _SigninViewState extends ConsumerState<SigninView> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 12),
+                commonSizedBox(height: 12),
                 Row(
                   children: [
                     const Icon(Icons.person, color: AppColors.primary),
-                    const SizedBox(width: 8),
+                    commonSizedBox(width: 8),
                     commonText("Select an account", size: 16, isBold: true),
                   ],
                 ),
-                const SizedBox(height: 12),
+                commonSizedBox(height: 12),
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,

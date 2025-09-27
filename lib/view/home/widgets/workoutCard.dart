@@ -45,7 +45,7 @@ Widget buildWorkoutCard(
               children: [
                 const Icon(Icons.access_time,
                     size: 12, color: Colors.white),
-                const SizedBox(width: 4),
+                commonSizedBox(width: 4),
                 Expanded(child: commonText(time, size: 12, color: Colors.white)),
               ],
             ),

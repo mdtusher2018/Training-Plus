@@ -34,7 +34,7 @@ class Personalization5 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 5),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
 
               Center(
                 child: Column(
@@ -45,7 +45,7 @@ class Personalization5 extends ConsumerWidget {
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 6),
+                    commonSizedBox(height: 6),
                     commonText(
                       "Select the goal you want to achieve.",
                       size: 14,
@@ -55,7 +55,7 @@ class Personalization5 extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               Expanded(
                 child: GridView.count(
@@ -102,7 +102,7 @@ class Personalization5 extends ConsumerWidget {
                               width: 50,
                               isAsset: true,
                             ),
-                            const SizedBox(height: 16),
+                            commonSizedBox(height: 16),
                             commonText(
                               goal['title']!,
                               size: 14,
@@ -117,7 +117,7 @@ class Personalization5 extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 12),
+              commonSizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -129,7 +129,7 @@ class Personalization5 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  commonSizedBox(width: 10),
                   Expanded(
                     child: commonButton(
                       "Next ",

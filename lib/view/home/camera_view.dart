@@ -242,7 +242,7 @@ void _showFoodNotFoundSheet() {
           
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 8),
+            commonSizedBox(height: 8),
             commonText(
               "Add Manually",
               size: 16,
@@ -250,7 +250,7 @@ void _showFoodNotFoundSheet() {
               color: AppColors.black,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            commonSizedBox(height: 20),
             commonButton(
               "Add Manually",
               iconLeft: true,
@@ -264,7 +264,7 @@ void _showFoodNotFoundSheet() {
                 _showManualEntrySheet();
               },
             ),
-            const SizedBox(height: 10),
+            commonSizedBox(height: 10),
           ],
         ),
       );
@@ -310,14 +310,14 @@ void _showManualEntrySheet() {
                   
                   ),
                 ),
-                const SizedBox(height: 20),
+                commonSizedBox(height: 20),
           
                
                 commonTextField(
                   controller: mealNameController,
                   hintText: "Meal Name (e.g., Grilled Chicken)"
                 ),
-                const SizedBox(height: 16),
+                commonSizedBox(height: 16),
           
                 // Calories & Proteins
                 Row(
@@ -329,7 +329,7 @@ void _showManualEntrySheet() {
                             hintText: "Calories"
                           ),
                     ),
-                    const SizedBox(width: 12),
+                    commonSizedBox(width: 12),
                     Expanded(
                       child:    commonTextField(
                             controller: proteinsController,
@@ -339,7 +339,7 @@ void _showManualEntrySheet() {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                commonSizedBox(height: 16),
           
                 // Carbs & Fat
                 Row(
@@ -351,7 +351,7 @@ void _showManualEntrySheet() {
                            hintText: "Carbs (g)"
                           ),
                     ),
-                    const SizedBox(width: 12),
+                    commonSizedBox(width: 12),
                     Expanded(
                       child:  commonTextField(
                             controller: fatController,
@@ -361,7 +361,7 @@ void _showManualEntrySheet() {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                commonSizedBox(height: 20),
           
                 // Add Food Data Button
                 commonButton(

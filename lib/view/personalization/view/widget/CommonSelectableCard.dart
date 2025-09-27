@@ -42,7 +42,7 @@ class CommonSelectableCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (emoji != null) Text(emoji!, style: const TextStyle(fontSize: 30)),
-          const SizedBox(height: 4),
+          commonSizedBox(height: 4),
           commonText(title, size: 15, isBold: true, textAlign: TextAlign.center),
           if (subtitle != null)
             Padding(

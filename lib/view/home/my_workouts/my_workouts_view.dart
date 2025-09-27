@@ -79,7 +79,7 @@ class MyWorkoutsView extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 itemCount: workouts.length + (state.isLoading ? 1 : 0),
                 separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
+                    commonSizedBox(height: 10),
                 itemBuilder: (context, index) {
                   if (index >= workouts.length) {
                     // Bottom loader for pagination

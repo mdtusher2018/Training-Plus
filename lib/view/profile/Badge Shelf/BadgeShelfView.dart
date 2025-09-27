@@ -86,14 +86,14 @@ class BadgeShelfView extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  commonSizedBox(height: 8),
                   commonText(
                     badge.badgeName,
                     size: 14,
                     isBold: true,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText(
                     badge.description,
                     size: 12,

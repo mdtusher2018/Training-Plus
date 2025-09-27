@@ -40,7 +40,7 @@ class Personalization1 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 1),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
               Center(
                 child: commonText(
                   "What Describes you best?",
@@ -49,12 +49,12 @@ class Personalization1 extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               Expanded(
                 child: ListView.separated(
                   itemCount: roles.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 14),
+                  separatorBuilder: (_, __) => commonSizedBox(height: 14),
                   itemBuilder: (context, index) {
                     final role = roles[index];
                     final isSelected = state.userType == role['title'];
@@ -90,13 +90,13 @@ class Personalization1 extends ConsumerWidget {
                               width: 50,
                               isAsset: true,
                             ),
-                            const SizedBox(width: 14),
+                            commonSizedBox(width: 14),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 commonText(role['title']!,
                                     size: 15, isBold: true),
-                                const SizedBox(height: 4),
+                                commonSizedBox(height: 4),
                                 commonText(role['subtitle']!,
                                     size: 13, color: AppColors.textSecondary),
                               ],
@@ -109,7 +109,7 @@ class Personalization1 extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
               commonButton(
                 "Next",
                 iconWidget: const Icon(Icons.arrow_forward),

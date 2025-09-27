@@ -3,6 +3,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 
@@ -30,39 +31,41 @@ class AfterSignUpOtpView extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             children: [
-              const SizedBox(height: 40),
-              CommonImage(imagePath: ImagePaths.forgetPasswordImage, isAsset: true),
-              const SizedBox(height: 12),
+              commonSizedBox(height: 20),
+
+                 Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: CommonImage(imagePath: ImagePaths.forgetPasswordImage, isAsset: true),
+              ),
+              commonSizedBox(height: 12),
               commonText("Check your email", size: 21, isBold: true),
-              const SizedBox(height: 8),
+              commonSizedBox(height: 8),
               commonText(
                 "We sent a password reset link to\n$email",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // OTP input fields
               Row(
+                spacing: 8.w,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   6,
                   (index) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: buildOTPTextField(
-                        controllers[index],
-                        index,
-                        context,
-                  
-                     
-                      ),
+                    child: buildOTPTextField(
+                      controllers[index],
+                      index,
+                      context,
+                                      
+                                         
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               commonRichText(
                 textAlign: TextAlign.center,
@@ -91,7 +94,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
                 ],
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Verify OTP Button
 commonButton(
@@ -136,7 +139,7 @@ commonButton(
 ),
 
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               GestureDetector(
                 onTap: () => Navigator.pop(context),

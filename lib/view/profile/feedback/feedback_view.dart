@@ -39,7 +39,7 @@ class FeedbackView extends ConsumerWidget {
                   child: commonText("How are you feeling?", isBold: true),
                 ),
               ),
-              const SizedBox(height: 6),
+              commonSizedBox(height: 6),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: commonText(
@@ -49,10 +49,10 @@ class FeedbackView extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
 
               commonText("How are we doing?", size: 18, isBold: true),
-              const SizedBox(height: 12),
+              commonSizedBox(height: 12),
 
               RatingBar.builder(
                 initialRating: state.rating,
@@ -71,7 +71,7 @@ class FeedbackView extends ConsumerWidget {
                 onRatingUpdate: controller.updateRating,
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               commonTextfieldWithTitle(
                 "Write your answer",
@@ -79,7 +79,7 @@ class FeedbackView extends ConsumerWidget {
                 feedbackController,
                 maxLine: 4,
               ),
-              const SizedBox(height: 50),
+              commonSizedBox(height: 50),
 
               state.isLoading
                   ? const CircularProgressIndicator()

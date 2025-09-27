@@ -98,7 +98,7 @@ class HomePageView extends ConsumerWidget {
                   height: 50,
                 ),
               ),
-              const SizedBox(width: 10),
+              commonSizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,14 +126,14 @@ class HomePageView extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+          commonSizedBox(height: 20),
 
           /// ===== Motivational Banner (from API Quotes) =====
   
   QuoteBanner(quotes: response.quotes),
 
 
-          const SizedBox(height: 20),
+          commonSizedBox(height: 20),
 
           /// ===== Stats Grid =====
           Row(
@@ -153,7 +153,7 @@ class HomePageView extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+          commonSizedBox(height: 20),
 
           /// ===== Quick Actions =====
           Row(
@@ -168,7 +168,7 @@ class HomePageView extends ConsumerWidget {
                       imagePath: "assest/images/home/running_track.png"),
                 ),
               ),
-              const SizedBox(width: 12),
+              commonSizedBox(width: 12),
               Expanded(
                 child: GestureDetector(
                   onTap: () {
@@ -186,7 +186,7 @@ class HomePageView extends ConsumerWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+          commonSizedBox(height: 20),
 
           /// ===== My Workouts =====
           Row(
@@ -208,14 +208,14 @@ class HomePageView extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
 
           SizedBox(
             height: 280,
             child: ListView.separated(
               itemCount: response.workouts.length,
               separatorBuilder: (context, index) =>
-                  const SizedBox(width: 10),
+                  commonSizedBox(width: 10),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 final workout = response.workouts[index];
@@ -256,7 +256,7 @@ class HomePageView extends ConsumerWidget {
               padding: const EdgeInsets.all(8),
               child: Image.asset(icon),
             ),
-            const SizedBox(width: 10),
+            commonSizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +295,7 @@ class HomePageView extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(imagePath, height: 32, width: 32),
-          const SizedBox(width: 6),
+          commonSizedBox(width: 6),
           Expanded(
               child: commonText(label,
                   size: 14, color: Colors.white, isBold: true, maxline: 2)),

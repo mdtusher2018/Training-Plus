@@ -36,9 +36,9 @@
 //         mainAxisSize: MainAxisSize.min,
 //         children: [
 //           Image.asset("assest/images/notification/notification.png",width: 120,),
-//           const SizedBox(height: 24),
+//           commonSizedBox(height: 24),
 //           commonText("There’s no notifications", size: 21, isBold: true),
-//           const SizedBox(height: 8),
+//           commonSizedBox(height: 8),
 //           commonText(
 //             "Your notifications will\nappear on this page.",
 //             size: 16,
@@ -67,7 +67,7 @@
 //           child: Row(
 //             children: [
 //               Icon(Icons.notifications_active, color: AppColors.primary, size: 28),
-//               const SizedBox(width: 12),
+//               commonSizedBox(width: 12),
 //               Expanded(
 //                 child: Column(
 //                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +77,7 @@
 //                       size: 16,
 //                       fontWeight: FontWeight.w500,
 //                     ),
-//                     const SizedBox(height: 4),
+//                     commonSizedBox(height: 4),
 //                     commonText(
 //                       _formatDate(notif.createdAt),
 //                       size: 12,
@@ -170,9 +170,9 @@ class NotificationsView extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset("assest/images/notification/notification.png", width: 120),
-          const SizedBox(height: 24),
+          commonSizedBox(height: 24),
           commonText("There’s no notifications", size: 21, isBold: true),
-          const SizedBox(height: 8),
+          commonSizedBox(height: 8),
           commonText(
             "Your notifications will\nappear on this page.",
             size: 16,
@@ -209,7 +209,7 @@ class NotificationsView extends ConsumerWidget {
             children: [
               const Icon(Icons.notifications_active,
                   color: AppColors.primary, size: 28),
-              const SizedBox(width: 12),
+              commonSizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,7 +219,7 @@ class NotificationsView extends ConsumerWidget {
                       size: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    const SizedBox(height: 4),
+                    commonSizedBox(height: 4),
                     commonText(
                       timeAgo(notif.createdAt),
                       size: 12,

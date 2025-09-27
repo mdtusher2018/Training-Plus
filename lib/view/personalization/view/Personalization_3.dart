@@ -29,7 +29,7 @@ class Personalization3 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 3),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
               Center(
                 child: commonText(
                   "What's your skill\nlevel?",
@@ -38,12 +38,12 @@ class Personalization3 extends ConsumerWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               Expanded(
                 child: ListView.separated(
                   itemCount: skills.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 14),
+                  separatorBuilder: (_, __) => commonSizedBox(height: 14),
                   itemBuilder: (context, index) {
                     final skill = skills[index];
                     final isSelected = state.skillLevel == skill['title'];
@@ -77,7 +77,7 @@ class Personalization3 extends ConsumerWidget {
                           children: [
                             commonText(skill['title']!,
                                 size: 15, isBold: true),
-                            const SizedBox(height: 4),
+                            commonSizedBox(height: 4),
                             commonText(skill['subtitle']!,
                                 size: 13, color: AppColors.textSecondary),
                           ],
@@ -88,7 +88,7 @@ class Personalization3 extends ConsumerWidget {
                 ),
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
               Row(
                 children: [
                   Expanded(
@@ -100,7 +100,7 @@ class Personalization3 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  commonSizedBox(width: 10),
                   Expanded(
                     child: commonButton(
                       "Next ",

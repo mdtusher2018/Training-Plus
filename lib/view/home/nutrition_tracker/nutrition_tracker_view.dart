@@ -115,17 +115,17 @@ class NutritionTrackerPage extends ConsumerWidget {
                           : state.data!.overallPercent,
                     ),
 
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Quick Stat (quickTodayGain)
                     _buildQuickStats(state.data!.quickTodayGain),
 
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Detailed Stats
                     _buildDetailedStats(state.data!.detailedProgress),
 
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Today's Meals
                     _buildMealsList(state.data!.todayMeals),
@@ -164,7 +164,7 @@ class NutritionTrackerPage extends ConsumerWidget {
           Row(
             children: [
               const Icon(Icons.trending_up, color: AppColors.primary, size: 30),
-              const SizedBox(width: 6),
+              commonSizedBox(width: 6),
               commonText(
                 "Today's Progress",
                 size: 16,
@@ -173,7 +173,7 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          commonSizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -190,7 +190,7 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          commonSizedBox(height: 6),
           LinearProgressIndicator(
             value: overallPercent / 100.0,
             color: Colors.yellow.shade700,
@@ -364,7 +364,7 @@ class NutritionTrackerPage extends ConsumerWidget {
             color: color,
             fontWeight: FontWeight.w800,
           ),
-          const SizedBox(height: 2),
+          commonSizedBox(height: 2),
           commonText(label, size: 14, color: color),
         ],
       ),
@@ -436,7 +436,7 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          commonSizedBox(height: 6),
           LinearProgressIndicator(
             value: progress,
             color: statusColor,
@@ -444,7 +444,7 @@ class NutritionTrackerPage extends ConsumerWidget {
             minHeight: 12,
             borderRadius: BorderRadius.circular(8),
           ),
-          const SizedBox(height: 10),
+          commonSizedBox(height: 10),
         ],
       ),
     );
@@ -467,9 +467,9 @@ class NutritionTrackerPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonText(title, size: 14, isBold: true),
-          const SizedBox(height: 2),
+          commonSizedBox(height: 2),
           commonText(time, size: 12, color: AppColors.textSecondary),
-          const SizedBox(height: 8),
+          commonSizedBox(height: 8),
           Wrap(spacing: 6, children: stats),
         ],
       ),
@@ -533,7 +533,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                             isBold: true,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        commonSizedBox(height: 20),
 
                         commonTextfieldWithTitle(
                           "Daily Calories",
@@ -541,7 +541,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                           hintText: "Set your daily calories intake",
                           keyboardType: TextInputType.number,
                         ),
-                        const SizedBox(height: 16),
+                        commonSizedBox(height: 16),
 
                         commonTextfieldWithTitle(
                           "Daily Protein",
@@ -549,7 +549,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                           hintText: "Set your daily protein intake",
                           keyboardType: TextInputType.number,
                         ),
-                        const SizedBox(height: 16),
+                        commonSizedBox(height: 16),
 
                         commonTextfieldWithTitle(
                           "Daily Carbs",
@@ -557,7 +557,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                           hintText: "Set your daily carbs intake",
                           keyboardType: TextInputType.number,
                         ),
-                        const SizedBox(height: 16),
+                        commonSizedBox(height: 16),
 
                         commonTextfieldWithTitle(
                           "Daily Fats",
@@ -565,7 +565,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                           hintText: "Set your daily fats intake",
                           keyboardType: TextInputType.number,
                         ),
-                        const SizedBox(height: 24),
+                        commonSizedBox(height: 24),
 
                         commonButton(
                           "Set Goal",
@@ -594,7 +594,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                             );
                           },
                         ),
-                        const SizedBox(height: 16),
+                        commonSizedBox(height: 16),
                       ],
                     );
                   },

@@ -3,6 +3,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 
@@ -17,38 +18,40 @@ import 'package:training_plus/widgets/common_widgets.dart';
 class SignupView extends ConsumerWidget {
   SignupView({super.key});
 
-  final TextEditingController fullNameController = TextEditingController(text: "tusher");
+  final TextEditingController fullNameController = TextEditingController(
+    text: "tusher",
+  );
   final TextEditingController emailController = TextEditingController(text: "");
-  final TextEditingController passwordController = TextEditingController(text: "hello123");
-  final TextEditingController confirmPasswordController =
-      TextEditingController(text: "hello123");
+  final TextEditingController passwordController = TextEditingController(
+    text: "hello123",
+  );
+  final TextEditingController confirmPasswordController = TextEditingController(
+    text: "hello123",
+  );
 
   final List<TextEditingController> referralControllers = List.generate(
     6,
     (index) => TextEditingController(),
   );
 
+  String? validateSignupForm({
+    required String name,
+    required String email,
+    required String password,
+    required String confirmPassword,
+  }) {
+    if (name.isEmpty) return "Full name cannot be empty";
+    if (email.isEmpty) return "Email cannot be empty";
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      return "Enter a valid email";
+    }
+    if (password.isEmpty) return "Password cannot be empty";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (confirmPassword.isEmpty) return "Confirm password cannot be empty";
+    if (password != confirmPassword) return "Passwords do not match";
 
-String? validateSignupForm({
-  required String name,
-  required String email,
-  required String password,
-  required String confirmPassword,
-}) {
-  if (name.isEmpty) return "Full name cannot be empty";
-  if (email.isEmpty) return "Email cannot be empty";
-  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-    return "Enter a valid email";
+    return null;
   }
-  if (password.isEmpty) return "Password cannot be empty";
-  if (password.length < 6) return "Password must be at least 6 characters";
-  if (confirmPassword.isEmpty) return "Confirm password cannot be empty";
-  if (password != confirmPassword) return "Passwords do not match";
-
-  return null; 
-}
-
-
 
   void _validateAndSignup({
     String? referralCode,
@@ -56,24 +59,22 @@ String? validateSignupForm({
     required SignUpController controller,
     required WidgetRef ref,
   }) async {
+    final errorMessage = validateSignupForm(
+      name: fullNameController.text.trim(),
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+      confirmPassword: confirmPasswordController.text.trim(),
+    );
 
-final errorMessage = validateSignupForm(
-  name: fullNameController.text.trim(),
-  email: emailController.text.trim(),
-  password: passwordController.text.trim(),
-  confirmPassword: confirmPasswordController.text.trim(),
-);
-
-if (errorMessage != null) {
-  commonSnackbar(
-    context: context,
-    title: "Error",
-    message: errorMessage,
-    backgroundColor: AppColors.error,
-  );
-  return;
-}
-  
+    if (errorMessage != null) {
+      commonSnackbar(
+        context: context,
+        title: "Error",
+        message: errorMessage,
+        backgroundColor: AppColors.error,
+      );
+      return;
+    }
 
     // Call the SignUp API via the provider
     final response = await controller.signUp(
@@ -82,12 +83,15 @@ if (errorMessage != null) {
       password: passwordController.text.trim(),
       referralCode: referralCode,
     );
-    
+
     if (response != null) {
       // Usage in your code:
       final localStorage = ref.read(localStorageProvider);
       await localStorage.saveString(StorageKey.token, response.signUpToken);
-      navigateToPage(context: context, AfterSignUpOtpView(email: emailController.text.trim(),));
+      navigateToPage(
+        context: context,
+        AfterSignUpOtpView(email: emailController.text.trim()),
+      );
     }
   }
 
@@ -99,24 +103,23 @@ if (errorMessage != null) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: Column(
             children: [
-              CommonImage(
-                imagePath: ImagePaths.logo,
-                isAsset: true,
-                width: 240,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: CommonImage(imagePath: ImagePaths.logo, isAsset: true),
               ),
-              const SizedBox(height: 8),
+              commonSizedBox(height: 8),
               commonText("Create an account", size: 21),
-              const SizedBox(height: 4),
+              commonSizedBox(height: 4),
               commonText(
-                "Enter the following details\ncarefully to create your account",
+                "Enter the following details carefully to create your account",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Full Name
               commonTextfieldWithTitle(
@@ -124,7 +127,7 @@ if (errorMessage != null) {
                 fullNameController,
                 hintText: "Enter your full name",
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Email
               commonTextfieldWithTitle(
@@ -133,7 +136,7 @@ if (errorMessage != null) {
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Password
               commonTextfieldWithTitle(
@@ -144,7 +147,7 @@ if (errorMessage != null) {
                 issuffixIconVisible: true,
                 changePasswordVisibility: controller.togglePasswordVisibility,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Confirm Password
               commonTextfieldWithTitle(
@@ -156,7 +159,7 @@ if (errorMessage != null) {
                 changePasswordVisibility:
                     controller.toggleConfirmPasswordVisibility,
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               // Sign Up Button
               commonButton(
@@ -170,7 +173,7 @@ if (errorMessage != null) {
                   );
                 },
               ),
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Already a user?
               commonRichText(
@@ -194,7 +197,7 @@ if (errorMessage != null) {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Referral code
               Center(
@@ -210,7 +213,7 @@ if (errorMessage != null) {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               // T&Cs Disclaimer
               commonRichText(
@@ -218,7 +221,7 @@ if (errorMessage != null) {
                 parts: [
                   RichTextPart(
                     size: 16,
-                    text: "By continuing you agree to our\n",
+                    text: "By continuing you agree to our ",
                     color: AppColors.textPrimary,
                   ),
                   RichTextPart(
@@ -230,7 +233,7 @@ if (errorMessage != null) {
                   RichTextPart(
                     size: 16,
                     text:
-                        ". We use your data to offer\nyou a personalized experience.",
+                        ". We use your data to offer you a personalized experience.",
                     color: AppColors.textPrimary,
                   ),
                 ],
@@ -250,6 +253,10 @@ if (errorMessage != null) {
     showModalBottomSheet(
       context: context2,
       isScrollControlled: true,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.sizeOf(context2).width
+      ),
+      
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -262,8 +269,9 @@ if (errorMessage != null) {
                 Padding(
                   padding: MediaQuery.of(
                     ctx,
-                  ).viewInsets.add(const EdgeInsets.fromLTRB(24, 24, 24, 40)),
+                  ).viewInsets.add( EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 40.h)),
                   child: Column(
+                    spacing: 24.sp,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       commonText(
@@ -272,15 +280,15 @@ if (errorMessage != null) {
                         isBold: true,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 24),
+                    
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
                           6,
                           (index) => Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4.0,
+                              padding:  EdgeInsets.symmetric(
+                                horizontal: 4.0.w,
                               ),
                               child: buildOTPTextField(
                                 referralControllers[index],
@@ -291,7 +299,7 @@ if (errorMessage != null) {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                    
                       commonButton(
                         "Use Code",
                         onTap: () {
@@ -328,11 +336,11 @@ if (errorMessage != null) {
                   ),
                 ),
                 Positioned(
-                  top: 10,
-                  right: 10,
+                  top: 10.h,
+                  right: 10.w,
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.cancel_rounded, size: 30),
+                    child: Icon(Icons.cancel_rounded, size: 30.r),
                   ),
                 ),
               ],

@@ -47,7 +47,7 @@ Widget challengeCard({
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        commonSizedBox(height: 8),
         Row(
           children: [
             const Icon(
@@ -55,12 +55,12 @@ Widget challengeCard({
               size: 16,
               color: AppColors.primary,
             ),
-            const SizedBox(width: 4),
+            commonSizedBox(width: 4),
             Expanded(child: commonText("$points Points", size: 12)),
           ],
         ),
         if (isJoined) ...[
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -72,7 +72,7 @@ Widget challengeCard({
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          commonSizedBox(height: 4),
           LinearProgressIndicator(
             value: count.toDouble() / days.toDouble(),
             minHeight: 12,
@@ -153,7 +153,7 @@ class PostCard extends ConsumerWidget {
                   radius: 20,
                   backgroundImage: NetworkImage(getFullImagePath(userImage)),
                 ),
-                const SizedBox(width: 10),
+                commonSizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +181,7 @@ class PostCard extends ConsumerWidget {
                     child: commonText(catagory, size: 12),
                   ),
                 if (myPost) ...[
-                  const SizedBox(width: 6),
+                  commonSizedBox(width: 6),
                   GestureDetector(
                     onTap: () {
                       navigateToPage(
@@ -195,7 +195,7 @@ class PostCard extends ConsumerWidget {
                     },
                     child: const Icon(Icons.edit),
                   ),
-                  const SizedBox(width: 4),
+                  commonSizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       showDeletePostDialog(context, id, controller, parentRef);
@@ -205,11 +205,11 @@ class PostCard extends ConsumerWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
 
             // Caption
             commonText(caption, size: 13, maxline: 4),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
 
             // Like & Comment Row
             Row(
@@ -222,9 +222,9 @@ class PostCard extends ConsumerWidget {
                     color: state.isLiked ? AppColors.error : AppColors.black,
                   ),
                 ),
-                const SizedBox(width: 4),
+                commonSizedBox(width: 4),
                 commonText(state.likeCount.toString(), size: 12),
-                const SizedBox(width: 16),
+                commonSizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
                     showCommentsBottomSheet(
@@ -240,7 +240,7 @@ class PostCard extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(Icons.mode_comment_outlined, size: 16),
-                      const SizedBox(width: 4),
+                      commonSizedBox(width: 4),
                       commonText(commentCount.toString(), size: 12),
                     ],
                   ),
@@ -289,12 +289,12 @@ Widget leaderboardCard({
               child: commonText("${index + 1}", size: 16, isBold: true),
             ),
           ),
-        const SizedBox(width: 8),
+        commonSizedBox(width: 8),
         CircleAvatar(
           radius: 16,
           backgroundImage: NetworkImage(getFullImagePath(image)),
         ),
-        const SizedBox(width: 12),
+        commonSizedBox(width: 12),
         Expanded(child: commonText(name, size: 14)),
         commonText(
           "$points\nPoints",
@@ -357,7 +357,7 @@ void showChallengeDetailsBottomSheet(
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  commonSizedBox(height: 20),
                   Center(
                     child: commonText(
                       "Challenge Details",
@@ -365,30 +365,30 @@ void showChallengeDetailsBottomSheet(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  commonSizedBox(height: 16),
 
                   commonText(
                     "About This Challenge",
                     size: 16,
                     fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 8),
+                  commonSizedBox(height: 8),
                   commonText(
                     "Improve your soccer skills with daily drills and exercises. Perfect for players of all levels looking to enhance their technique and fitness.",
                     size: 14,
                     color: AppColors.textSecondary,
                   ),
-                  const SizedBox(height: 12),
+                  commonSizedBox(height: 12),
 
                   commonText("Time", size: 16, fontWeight: FontWeight.w600),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText("1 Week", size: 14),
                   SizedBox(height: 12),
                   commonText("Rewards", size: 16, fontWeight: FontWeight.w600),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText("Achievement Badge\n200 Points", size: 14),
 
-                  const SizedBox(height: 30),
+                  commonSizedBox(height: 30),
                   if (isJoined)
                   commonButton("Join Challenge",boarderRadious: 8,onTap: () async{
                     final response=await ref.read(activeChallengeControllerProvider.notifier)
@@ -484,12 +484,12 @@ void showCommentsBottomSheet({
                       Center(
                         child: commonText("Comments", size: 18, isBold: true),
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                       Expanded(
                         child: ListView.separated(
                           itemCount: state.comments.length,
                           separatorBuilder:
-                              (_, __) => const SizedBox(height: 12),
+                              (_, __) => commonSizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final comment = state.comments[index];
                             return Padding(
@@ -503,7 +503,7 @@ void showCommentsBottomSheet({
                                       getFullImagePath(comment.user.image),
                                     ),
                                   ),
-                                  const SizedBox(width: 12),
+                                  commonSizedBox(width: 12),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -525,7 +525,7 @@ void showCommentsBottomSheet({
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(height: 6),
+                                        commonSizedBox(height: 6),
                                         commonText(
                                           comment.text,
                                           size: 13,
@@ -541,7 +541,7 @@ void showCommentsBottomSheet({
                           },
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      commonSizedBox(height: 12),
                       Stack(
                         children: [
                           commonTextField(
@@ -600,7 +600,7 @@ void showCommentsBottomSheet({
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      commonSizedBox(height: 8),
                     ],
                   ),
                 ),

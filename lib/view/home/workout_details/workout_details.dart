@@ -122,7 +122,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         ],
                                       ),
                                   
-                                      const SizedBox(height: 8),
+                                      commonSizedBox(height: 8),
                                   
                                       // Level
                                       commonText(
@@ -131,7 +131,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         color: AppColors.textPrimary,
                                       ),
                                   
-                                      const SizedBox(height: 8),
+                                      commonSizedBox(height: 8),
                                   
                                       // Duration Row
                                       Row(
@@ -141,7 +141,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                             size: 16,
                                             color: AppColors.textSecondary,
                                           ),
-                                          const SizedBox(width: 4),
+                                          commonSizedBox(width: 4),
                                           commonText(
                                             "${workoutState.workout!.duration.toStringAsFixed(0)} min",
                                             size: 14,
@@ -149,7 +149,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 12),
+                                      commonSizedBox(height: 12),
                                   
                                       // About Header
                                       commonText(
@@ -158,7 +158,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         isBold: true,
                                         color: AppColors.textPrimary,
                                       ),
-                                      const SizedBox(height: 8),
+                                      commonSizedBox(height: 8),
                                   
                                       // Description
                                       commonText(
@@ -169,7 +169,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         maxline: 10,
                                       ),
                                   
-                                      const SizedBox(height: 24),
+                                      commonSizedBox(height: 24),
                                     ],
                                   ),
                                 ),

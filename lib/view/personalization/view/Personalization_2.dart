@@ -23,7 +23,7 @@ class Personalization2 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 2),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
 
               Center(
                 child: Column(
@@ -34,7 +34,7 @@ class Personalization2 extends ConsumerWidget {
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 6),
+                    commonSizedBox(height: 6),
                     commonText(
                       "Select the sport you're interested in.",
                       size: 14,
@@ -44,7 +44,7 @@ class Personalization2 extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               /// Categories Grid
               Expanded(
@@ -93,7 +93,7 @@ class Personalization2 extends ConsumerWidget {
                                               isAsset: false,
                                             ),
                                           ),
-                                          const SizedBox(height: 16),
+                                          commonSizedBox(height: 16),
                                           commonText(
                                             category.name,
                                             size: 10,
@@ -108,7 +108,7 @@ class Personalization2 extends ConsumerWidget {
                               ),
               ),
 
-              const SizedBox(height: 12),
+              commonSizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
@@ -120,7 +120,7 @@ class Personalization2 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  commonSizedBox(width: 10),
                   Expanded(
                     child: commonButton(
                       "Next ",

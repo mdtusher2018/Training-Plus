@@ -31,16 +31,16 @@ class CreateNewPasswordView extends ConsumerWidget {
                 imagePath: ImagePaths.resetPasswordImage,
                 isAsset: true,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
               commonText("Create new password", size: 21, isBold: true),
-              const SizedBox(height: 8),
+              commonSizedBox(height: 8),
               commonText(
                 "Your new password must be different\nto previously used passwords.",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              const SizedBox(height: 32),
+              commonSizedBox(height: 32),
 
               // Password Field
               commonTextfieldWithTitle(
@@ -51,7 +51,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                 issuffixIconVisible: true,
                 changePasswordVisibility: controller.togglePasswordVisibility,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Confirm Password Field
               commonTextfieldWithTitle(
@@ -63,7 +63,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                 changePasswordVisibility:
                     controller.toggleConfirmPasswordVisibility,
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
 
               // Continue Button
               commonButton(
@@ -123,7 +123,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                 },
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Back to sign in
               GestureDetector(

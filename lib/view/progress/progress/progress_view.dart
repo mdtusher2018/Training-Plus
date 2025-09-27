@@ -64,30 +64,30 @@ class ProgressView extends ConsumerWidget {
                         state: state,
                         controller: controller,
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                       _buildSportsActivityChart(
                         state: state,
                         controller: controller,
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                       _buildGoalsSection(goals: state.progress!.mygoal),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                       _buildRecentSessions(
                         context: context,
                         sessions: state.progress!.recentTraining,
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                       _buildAchievements(
                         context: context,
                         achievements: state.progress!.achievements,
                       ),
-                      const SizedBox(height: 20),
+                      commonSizedBox(height: 20),
                       _buildSetGoalsButton(
                         context,
                         state: state,
                         controller: controller,
                       ),
-                      const SizedBox(height: 20),
+                      commonSizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -143,7 +143,7 @@ class ProgressView extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          commonSizedBox(height: 16),
           SizedBox(
             height: 160,
             child: BarChart(
@@ -174,7 +174,7 @@ class ProgressView extends ConsumerWidget {
                             ),
                           );
                         }
-                        return const SizedBox.shrink();
+                        return commonSizedBox();
                       },
                     ),
                   ),
@@ -264,7 +264,7 @@ class ProgressView extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           SizedBox(
             height: 150,
             child: PieChart(
@@ -286,7 +286,7 @@ class ProgressView extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           Wrap(
             spacing: 12,
             alignment: WrapAlignment.center,
@@ -311,7 +311,7 @@ class ProgressView extends ConsumerWidget {
           height: 10,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: 6),
+        commonSizedBox(width: 6),
         commonText(label, size: 11),
       ],
     );
@@ -339,7 +339,7 @@ class ProgressView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonText("Goals", size: 14, fontWeight: FontWeight.w600),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           ...goals.map((goal) {
             
            double percent = (goal.target == 0) 
@@ -364,7 +364,7 @@ class ProgressView extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  commonSizedBox(height: 6),
                   LinearProgressIndicator(
                     value: percent,
                     backgroundColor: AppColors.boxBG,
@@ -422,14 +422,14 @@ class ProgressView extends ConsumerWidget {
                 child: Row(
                   children: [
                     commonText("See all", size: 12),
-                    const SizedBox(width: 4),
+                    commonSizedBox(width: 4),
                     const Icon(Icons.arrow_forward),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          commonSizedBox(height: 6),
           ...sessions.map((session) {
             // Format updatedAt to something like "Today | 20 Min"
             final now = DateTime.now();
@@ -499,14 +499,14 @@ class ProgressView extends ConsumerWidget {
                 child: Row(
                   children: [
                     commonText("See all", size: 12),
-                    const SizedBox(width: 4),
+                    commonSizedBox(width: 4),
                     const Icon(Icons.arrow_forward),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -539,15 +539,15 @@ class ProgressView extends ConsumerWidget {
                       ),
                     ),
                   ),
-                    const SizedBox(height: 8),
-                      const SizedBox(height: 8),
+                    commonSizedBox(height: 8),
+                      commonSizedBox(height: 8),
                   commonText(
                     achievement.badgeName,
                     size: 14,
                     isBold: true,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText(
                     achievement.description,
                     size: 12,
@@ -559,7 +559,7 @@ class ProgressView extends ConsumerWidget {
               );
             },
           ),
-          const SizedBox(height: 16),
+          commonSizedBox(height: 16),
         ],
       ),
     );
@@ -598,7 +598,7 @@ class ProgressView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assest/images/home/goals.png", height: 32, width: 32),
-            const SizedBox(width: 6),
+            commonSizedBox(width: 6),
             Expanded(
               child: commonText(
                 "Set Goals",
@@ -654,11 +654,11 @@ class ProgressView extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 16),
+                        commonSizedBox(height: 16),
                         Center(
                           child: commonText("Set Goal", size: 20, isBold: true),
                         ),
-                        const SizedBox(height: 24),
+                        commonSizedBox(height: 24),
 
                         /// Sports Dropdown
                         commonText(
@@ -666,7 +666,7 @@ class ProgressView extends ConsumerWidget {
                           size: 14,
                           fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(height: 8),
+                        commonSizedBox(height: 8),
                         commonDropdown<String>(
                           items:
                               state.categories
@@ -691,7 +691,7 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        const SizedBox(height: 24),
+                        commonSizedBox(height: 24),
 
                         /// Target TextField
                         commonTextfieldWithTitle(
@@ -701,7 +701,7 @@ class ProgressView extends ConsumerWidget {
                           keyboardType: TextInputType.number,
                         ),
 
-                        const SizedBox(height: 24),
+                        commonSizedBox(height: 24),
 
                         /// Time Frame Dropdown
                         commonText(
@@ -709,7 +709,7 @@ class ProgressView extends ConsumerWidget {
                           size: 14,
                           fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(height: 8),
+                        commonSizedBox(height: 8),
                         commonDropdown<String>(
                           items: timeFrameList,
                           value: selectedTimeFrame,
@@ -719,7 +719,7 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        const SizedBox(height: 32),
+                        commonSizedBox(height: 32),
 
                         /// Set Goal Button
                         commonButton(
@@ -761,7 +761,7 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        const SizedBox(height: 32),
+                        commonSizedBox(height: 32),
                       ],
                     ),
                     Positioned(

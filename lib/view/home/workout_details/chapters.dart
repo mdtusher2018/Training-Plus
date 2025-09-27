@@ -36,7 +36,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     commonText(chap.name, size: 18, isBold: true),
-                    const SizedBox(height: 8),
+                    commonSizedBox(height: 8),
                     ...chap.videos.asMap().entries.map((entry) {
                       final video = entry.value;
 
@@ -113,7 +113,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                           isBold: true,
                                           color: AppColors.textPrimary,
                                         ),
-                                        const SizedBox(height: 4),
+                                        commonSizedBox(height: 4),
                                         commonText(
                                           video.duration.toStringAsFixed(2),
                                           size: 12,
@@ -146,7 +146,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                         ),
                       );
                     }),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
                   ],
                 );
               },
@@ -216,14 +216,14 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                 children: [commonCloseButton(context)],
               ),
               Image.asset("assest/images/home/tophy.png", width: 70),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
               commonText(
                 "Workout\nComplete",
                 size: 20,
                 isBold: true,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               commonButton(
                 "Return Home",
@@ -233,7 +233,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
             ],
           ),
         );

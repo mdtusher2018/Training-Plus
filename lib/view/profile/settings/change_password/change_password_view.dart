@@ -125,7 +125,7 @@ class ChangePasswordScreen extends ConsumerWidget {
         height: double.infinity,
         child: Column(
           children: [
-            const SizedBox(height: 20),
+            commonSizedBox(height: 20),
 
             /// Current Password
             commonTextfieldWithTitle(
@@ -139,7 +139,7 @@ class ChangePasswordScreen extends ConsumerWidget {
                   controller.toggleCurrentPasswordVisibility,
             ),
 
-            const SizedBox(height: 15),
+            commonSizedBox(height: 15),
 
             /// New Password
             commonTextfieldWithTitle(
@@ -152,7 +152,7 @@ class ChangePasswordScreen extends ConsumerWidget {
               changePasswordVisibility: controller.toggleNewPasswordVisibility,
             ),
 
-            const SizedBox(height: 15),
+            commonSizedBox(height: 15),
 
             /// Confirm Password
             commonTextfieldWithTitle(
@@ -166,7 +166,7 @@ class ChangePasswordScreen extends ConsumerWidget {
                   controller.toggleConfirmPasswordVisibility,
             ),
 
-            const SizedBox(height: 40),
+            commonSizedBox(height: 40),
 
             commonButton(
               "Change Password",

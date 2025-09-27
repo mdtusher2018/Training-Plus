@@ -99,7 +99,7 @@
 //           crossAxisAlignment: CrossAxisAlignment.start,
 //           children: [
 //             commonText(title, size: 22, isBold: true),
-//             const SizedBox(height: 16),
+//             commonSizedBox(height: 16),
       
 //             // Features list
 //             ListView.builder(
@@ -119,7 +119,7 @@
                      
 //                       Expanded(
 //                         child: commonText(key, size: 14),
-//                       ), const SizedBox(width: 8),   Icon(
+//                       ), commonSizedBox(width: 8),   Icon(
 //                         available ? Icons.check : Icons.lock_outline,
 //                         size: 18,
                       
@@ -130,7 +130,7 @@
 //               },
 //             ),
       
-//             const SizedBox(height: 16),
+//             commonSizedBox(height: 16),
         
 //             Padding(
 //               padding: const EdgeInsets.all(16),

@@ -87,7 +87,7 @@ class _SplashViewState extends ConsumerState<SplashView>
                 width: 280,
                 isAsset: true,
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
               commonText(
                 "Train Strong. Live\nstrong",
                 size: 24,

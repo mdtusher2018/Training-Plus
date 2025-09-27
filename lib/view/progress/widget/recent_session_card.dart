@@ -38,7 +38,7 @@ class RecentSessionCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   commonText(title, size: 14, fontWeight: FontWeight.w600),
-                  const SizedBox(height: 6),
+                  commonSizedBox(height: 6),
                   commonText(subtitle, size: 12, color: AppColors.textSecondary),
                 ],
               ),

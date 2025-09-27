@@ -143,7 +143,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                         size: 12),
                   ],
                 ),
-                const SizedBox(height: 8),
+                commonSizedBox(height: 8),
 
                 // Buttons row
                 Row(

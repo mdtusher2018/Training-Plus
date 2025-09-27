@@ -61,7 +61,7 @@ class CommunityFeedView extends ConsumerWidget {
               itemCount: state.hasMore
                   ? state.feed.length + 1
                   : state.feed.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => commonSizedBox(height: 12),
               itemBuilder: (context, index) {
                 if (index == state.feed.length) {
                   // Show bottom loader when fetching more

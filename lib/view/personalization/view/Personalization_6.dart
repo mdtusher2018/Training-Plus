@@ -41,28 +41,28 @@ class Personalization6 extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                const SizedBox(height: 16),
+                commonSizedBox(height: 16),
                 commonText(
                   "Perfect! Let’s\nConfirm",
                   size: 22,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                commonSizedBox(height: 8),
                 commonText(
                   "You're all set!",
                   size: 20,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 8),
+                commonSizedBox(height: 8),
                 commonText(
                   "Here's your personalized\ntraining profile",
                   size: 14,
                   color: AppColors.textSecondary,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 24),
+                commonSizedBox(height: 24),
 
                 // Display summary cards
              Align(
@@ -78,7 +78,7 @@ class Personalization6 extends ConsumerWidget {
                 ],
                ),
              ),
-                const SizedBox(height: 8),
+                commonSizedBox(height: 8),
 
                 commonText(
                   "You can change these preferences anytime",
@@ -86,7 +86,7 @@ class Personalization6 extends ConsumerWidget {
                   color: AppColors.textSecondary,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 20),
+                commonSizedBox(height: 20),
 
                 // Buttons
                 Row(
@@ -102,7 +102,7 @@ class Personalization6 extends ConsumerWidget {
                         iconWidget: const Icon(Icons.arrow_back),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    commonSizedBox(width: 10),
                     Expanded(
                       child: commonButton(
                         "Complete",isLoading: state.isLoading,

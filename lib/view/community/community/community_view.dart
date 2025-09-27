@@ -70,7 +70,7 @@ class CommunityView extends ConsumerWidget {
                 ],
               );
             } else {
-              return const SizedBox.shrink();
+              return commonSizedBox();
             }
           },
         ),
@@ -96,7 +96,7 @@ class CommunityView extends ConsumerWidget {
             navigateToPage(context: context, ActiveChallengesView());
           },
         ),
-        const SizedBox(height: 12),
+        commonSizedBox(height: 12),
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -138,12 +138,12 @@ class CommunityView extends ConsumerWidget {
             navigateToPage(context: context, MyPostsView());
           },
         ),
-        const SizedBox(height: 12),
+        commonSizedBox(height: 12),
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: state.data!.mypost.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          separatorBuilder: (_, __) => commonSizedBox(height: 12),
           itemBuilder: (context, index) {
             final post = state.data!.mypost[index];
             return PostCard(
@@ -176,12 +176,12 @@ class CommunityView extends ConsumerWidget {
             navigateToPage(context: context, LeaderboardView());
           },
         ),
-        const SizedBox(height: 12),
+        commonSizedBox(height: 12),
         ListView.separated(
           itemCount: state.data!.leaderboard.topUsers.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          separatorBuilder: (_, __) => commonSizedBox(height: 12),
           itemBuilder: (context, index) {
             final user = state.data!.leaderboard.topUsers[index];
             return leaderboardCard(
@@ -207,12 +207,12 @@ class CommunityView extends ConsumerWidget {
             navigateToPage(context: context, CommunityFeedView());
           },
         ),
-        const SizedBox(height: 12),
+        commonSizedBox(height: 12),
         ListView.separated(
           itemCount: state.data!.feed.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          separatorBuilder: (_, __) => commonSizedBox(height: 12),
           itemBuilder: (context, index) {
             final post = state.data!.feed[index];
             return PostCard(

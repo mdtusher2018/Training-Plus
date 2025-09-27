@@ -53,7 +53,7 @@ class RecentSessionsView extends ConsumerWidget {
                   padding: const EdgeInsets.all(16.0),
                   itemCount: state.sessions.length,
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final session = state.sessions[index];
                     return RecentSessionCard(

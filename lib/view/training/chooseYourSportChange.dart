@@ -109,7 +109,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
                                       isAsset: false,
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
+                                  commonSizedBox(height: 16),
                                   commonText(
                                     category.name,
                                     size: 10,

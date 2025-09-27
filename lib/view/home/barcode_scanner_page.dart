@@ -183,7 +183,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                 isBold: true,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              commonSizedBox(height: 8),
               commonText(
                 "Add Manually",
                 size: 16,
@@ -191,7 +191,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                 color: AppColors.black,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              commonSizedBox(height: 20),
               commonButton(
                 "Add Manually",
                 iconLeft: true,
@@ -210,7 +210,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                   showManualEntrySheet(readOnly: false);
                 },
               ),
-              const SizedBox(height: 10),
+              commonSizedBox(height: 10),
             ],
           ),
         );
@@ -247,7 +247,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(child: commonText("Manual Entry", size: 18)),
-                      const SizedBox(height: 20),
+                      commonSizedBox(height: 20),
 
                       // Meal Name
                       commonTextField(
@@ -255,7 +255,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                         controller: controller.mealNameController,
                         hintText: "Meal Name (e.g., Grilled Chicken)",
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
 
                       // Calories & Proteins
                       Row(
@@ -268,7 +268,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                               hintText: "Calories",
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          commonSizedBox(width: 12),
                           Expanded(
                             child: commonTextField(
                               readOnly: readOnly,
@@ -279,7 +279,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      commonSizedBox(height: 16),
 
                       // Carbs & Fat
                       Row(
@@ -292,7 +292,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                               hintText: "Carbs (g)",
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          commonSizedBox(width: 12),
                           Expanded(
                             child: commonTextField(
                               readOnly: readOnly,
@@ -303,7 +303,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      commonSizedBox(height: 20),
 
                       // Add Food Data Button
                       commonButton(

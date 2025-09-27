@@ -161,7 +161,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonText(title, size: 22, isBold: true),
-          const SizedBox(height: 16),
+          commonSizedBox(height: 16),
 
           /// Features list
           ListView.builder(
@@ -194,7 +194,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                         ],
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    commonSizedBox(width: 8),
                     Icon(
                       available ? Icons.check : Icons.lock_outline,
                       size: 18,
@@ -205,7 +205,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
             },
           ),
 
-          const SizedBox(height: 16),
+          commonSizedBox(height: 16),
 
           Padding(
             padding: const EdgeInsets.all(16),
@@ -241,13 +241,13 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [commonCloseButton(context)],
               ),
-              const SizedBox(height: 12),
+              commonSizedBox(height: 12),
               commonText(
                 "Sport Pro currently features\n3 additional sports.",
                 size: 15,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              commonSizedBox(height: 30),
             ],
           ),
         );

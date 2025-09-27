@@ -135,12 +135,12 @@ class ProfileView extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      commonSizedBox(height: 20),
 
                       // Reward Tier Card
                       rewardTierCard(state.profile!.attributes.points),
 
-                      const SizedBox(height: 30),
+                      commonSizedBox(height: 30),
 
                       // Sections
                       _sectionHeader("General"),
@@ -193,7 +193,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      const SizedBox(height: 24),
+                      commonSizedBox(height: 24),
 
                       _sectionHeader("Support & Help"),
                       sectionTile(
@@ -218,7 +218,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      const SizedBox(height: 24),
+                      commonSizedBox(height: 24),
 
                       _sectionHeader("Legal"),
                       sectionTile(
@@ -239,7 +239,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      const SizedBox(height: 24),
+                      commonSizedBox(height: 24),
 
                       _sectionHeader("Others"),
                       sectionTile(

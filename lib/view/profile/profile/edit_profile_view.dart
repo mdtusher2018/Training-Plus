@@ -161,7 +161,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Full Name field
                     commonTextfieldWithTitle(
@@ -169,7 +169,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       nameController,
                       hintText: 'Enter your full name',
                     ),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Email field
                     commonTextfieldWithTitle(
@@ -177,7 +177,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       emailController,
                       hintText: 'Enter your email',
                     ),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // User Type
                     commonText('User Type', size: 14, isBold: true),
@@ -193,7 +193,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       },
                     ),
 
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Age Group
                     commonText('Age Group', size: 14, isBold: true),
@@ -209,7 +209,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       },
                     ),
 
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Skill Level
                     commonText('Skill Level', size: 14, isBold: true),
@@ -224,7 +224,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         setState(() => selectedSkillLevel = value);
                       },
                     ),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
 
                     // Goals
                     commonText('Goals', size: 14, isBold: true),
@@ -236,7 +236,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         setState(() => selectedGoal = value);
                       },
                     ),
-                    const SizedBox(height: 24),
+                    commonSizedBox(height: 24),
 
                     // Save button
                     commonButton(

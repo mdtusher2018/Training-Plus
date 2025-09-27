@@ -369,7 +369,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       size: 14,
                       color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 12),
+                    commonSizedBox(height: 12),
 
                     // Distance & Pace
                     Row(
@@ -379,7 +379,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         _statItem(pace, "Pace (min/km)"),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    commonSizedBox(height: 20),
 
                     // Play/Pause + Stop
                     Row(
@@ -396,7 +396,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                             }
                           },
                         ),
-                        const SizedBox(width: 20),
+                        commonSizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () async {
                           if (!isRunning && _routePoints.isEmpty) {
                             return;
@@ -444,7 +444,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         }),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    commonSizedBox(height: 10),
                   ],
                 ),
               ),
@@ -498,11 +498,11 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     width: 70,
                     height: 70,
                   ),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText("Running Complete", size: 18, isBold: true),
-                  const SizedBox(height: 4),
+                  commonSizedBox(height: 4),
                   commonText("Great Workout !", size: 16),
-                  const SizedBox(height: 12),
+                  commonSizedBox(height: 12),
                   commonText(
                     formatDuration(elapsedTime),
                     size: 26,
@@ -514,7 +514,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     size: 12,
                     color: AppColors.textSecondary,
                   ),
-                  const SizedBox(height: 12),
+                  commonSizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -522,7 +522,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       _statItem(pace, "Pace (min/km)"),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  commonSizedBox(height: 16),
                   commonButton(
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
@@ -545,7 +545,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       }
                     },
                   ),
-                  const SizedBox(height: 16),
+                  commonSizedBox(height: 16),
                   commonButton(
                     "  Start New Run",
                     color: Colors.transparent,
@@ -568,7 +568,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       );
                     },
                   ),
-                  const SizedBox(height: 16),
+                  commonSizedBox(height: 16),
                 ],
               ),
               Positioned(right: 0, top: 0, child: commonCloseButton(context)),

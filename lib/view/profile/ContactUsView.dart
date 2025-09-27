@@ -29,7 +29,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle email tap
               },
             ),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/whatsapp.png",
               label: "Whatsapp",
@@ -38,7 +38,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle WhatsApp tap
               },
             ),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/instagram.png",
               label: "Instagram",
@@ -49,7 +49,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle Instagram tap
               },
             ),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/facebook.png",
               label: "Facebook",
@@ -58,7 +58,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle Facebook tap
               },
             ),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/x.png",
               label: "X",
@@ -92,7 +92,7 @@ class ContactUsView extends StatelessWidget {
         child: Row(
           children: [
             CommonImage(imagePath: imagePath, isAsset: true, height: 36,width: 30,),
-            const SizedBox(width: 12),
+            commonSizedBox(width: 12),
             gradient != null
                 ? ShaderMask(
                     shaderCallback: (bounds) =>

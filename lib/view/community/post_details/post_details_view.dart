@@ -59,7 +59,7 @@ class PostDetailsPage extends ConsumerWidget {
                   radius: 20,
                   backgroundImage: NetworkImage(getFullImagePath(post.postAuthor.image)),
                 ),
-                const SizedBox(width: 10),
+                commonSizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,13 +81,13 @@ class PostDetailsPage extends ConsumerWidget {
               ],
             ),
 
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
 
             // Caption
             Align(
               alignment: Alignment.topLeft,
               child: commonText(post.caption, size: 14, maxline: 10)),
-            const SizedBox(height: 12),
+            commonSizedBox(height: 12),
 
             // Likes & Comments
             Row(
@@ -100,22 +100,22 @@ class PostDetailsPage extends ConsumerWidget {
                     color: likeState.isLiked ? AppColors.error : AppColors.black,
                   ),
                 ),
-                const SizedBox(width: 4),
+                commonSizedBox(width: 4),
                 commonText(likeState.likeCount.toString(), size: 12),
-                const SizedBox(width: 16),
+                commonSizedBox(width: 16),
                 const Icon(Icons.mode_comment_outlined, size: 18),
-                const SizedBox(width: 4),
+                commonSizedBox(width: 4),
                 commonText(post.commentCount.toString(), size: 12),
               ],
             ),
 
-            const SizedBox(height: 16),
+            commonSizedBox(height: 16),
 
             // Comments List
             Expanded(
               child: ListView.separated(
                 itemCount: post.comments.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, __) => commonSizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final comment = post.comments[index];
                   return Row(
@@ -125,7 +125,7 @@ class PostDetailsPage extends ConsumerWidget {
                         radius: 20,
                         backgroundImage: NetworkImage(getFullImagePath(comment.userImage)),
                       ),
-                      const SizedBox(width: 12),
+                      commonSizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +137,7 @@ class PostDetailsPage extends ConsumerWidget {
                                 commonText(timeAgo(comment.createdAt), size: 12, color: AppColors.textSecondary),
                               ],
                             ),
-                            const SizedBox(height: 4),
+                            commonSizedBox(height: 4),
                             commonText(comment.text, size: 13, color: AppColors.textPrimary, maxline: 5),
                           ],
                         ),
@@ -148,7 +148,7 @@ class PostDetailsPage extends ConsumerWidget {
               ),
             ),
 
-            const SizedBox(height: 8),
+            commonSizedBox(height: 8),
 
             // Add Comment Field
       // Comment Input with Send button on top of the field

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
@@ -20,27 +21,27 @@ class _OnboardingViewState extends State<OnboardingView>
   final List<Map<String, String>> onboardingData = [
     {
       "image": ImagePaths.onboarding1,
-      "title": "Welcome To Training Plus",
+      "title": "Welcome To\nTraining Plus",
       "subtitle":
-          "More Than Training. It’s a Way of Life. Your journey to peak performance starts now",
+          "More Than Training. It’s a Way\nof Life. Your journey to peak\nperformance starts now",
     },
     {
       "image": ImagePaths.onboarding2,
-      "title": "Elite, Multi-Sport Training",
+      "title": "Elite, Multi-Sport\nTraining",
       "subtitle":
-          "Access pro-level workout libraries for Soccer, Basketball, Running, and more. Real training for real results.",
+          "Access pro-level workout\nlibraries for Soccer, Basketball,\nRunning, and more. Real training\nfor real results.",
     },
     {
       "image": ImagePaths.onboarding3,
-      "title": "Train and Grow Together",
+      "title": "Train and Grow\nTogether",
       "subtitle":
-          "Join challenges, climb leaderboards, and get motivation from a global community of athletes.",
+          "Join challenges, climb\nleaderboards, and get motivation from\na global community of athletes.",
     },
     {
       "image": ImagePaths.onboarding4,
-      "title": "Your Extra Edge. Every Day.",
+      "title": "Your Extra Edge.\nEvery Day.",
       "subtitle":
-          "Create an account to start your free journey or log in to continue",
+          "Create an account to start your\nfree journey or log in to continue",
     },
   ];
 
@@ -94,40 +95,62 @@ class _OnboardingViewState extends State<OnboardingView>
                     width: double.infinity,
                     height: double.infinity,
                   ),
-                  SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        children: [
-                          const Spacer(),
-                          commonText(
-                            data["title"]!,
-                            size: 28,
-                            isBold: true,
-                            textAlign: TextAlign.center,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(height: 12),
-                          commonText(
-                            data["subtitle"]!,
-                            size: 16,
-                        
-                            textAlign: TextAlign.center,
-                            color: Colors.white.withOpacity(0.9),
-                          ),
-                          const SizedBox(height: 40),
-                          commonButton(
-                            (currentPage < totalPages - 1)
-                                ? "Next"
-                                : "Get Started",
-                            haveNextIcon: currentPage < totalPages - 1,
-                            onTap: _goToNextPage,
-                          ),
-                          const SizedBox(height: 50),
-                        ],
-                      ),
-                    ),
+               SafeArea(
+  child: Padding(
+    padding: EdgeInsets.symmetric(horizontal: 16.w), // responsive padding
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.8, // 🔑 limit width
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            spacing: 16.sp,
+            children: [
+              Flexible(
+                child: FittedBox(
+                  child: commonText(
+                    data["title"]!,
+                    maxline: 2,
+                    size: 28,
+                    isBold: true,
+                    textAlign: TextAlign.center,
+                    color: Colors.white,
                   ),
+                ),
+              ),
+            
+              Flexible(
+                child: FittedBox(
+                  child: commonText(
+                    data["subtitle"]!,
+                    size: 16,
+                    
+                    textAlign: TextAlign.center,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
+                ),
+              ),
+        
+              commonButton(
+                (currentPage < totalPages - 1)
+                    ? "Next"
+                    : "Get Started",
+                haveNextIcon: currentPage < totalPages - 1,
+                onTap: _goToNextPage,
+              ),
+     commonSizedBox(height: 24)
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
                   if(currentPage < totalPages - 1)Positioned(
                     top: 56,
                     right: 24,

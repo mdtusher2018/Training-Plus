@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
@@ -24,21 +25,24 @@ class ForgotPasswordView extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             children: [
-              const SizedBox(height: 40),
-              CommonImage(
-                imagePath: ImagePaths.resetPasswordImage,
-                isAsset: true,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: CommonImage(
+                  imagePath: ImagePaths.resetPasswordImage,
+                  isAsset: true,
+                ),
               ),
-              const SizedBox(height: 12),
+
+              commonSizedBox(height: 12),
               commonText("Forgot Password?", size: 21, isBold: true),
-              const SizedBox(height: 8),
+              commonSizedBox(height: 8),
               commonText(
                 "No worries, we’ll send you reset\ninstructions",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Email field
               commonTextfieldWithTitle(
@@ -48,7 +52,7 @@ class ForgotPasswordView extends ConsumerWidget {
                 keyboardType: TextInputType.emailAddress,
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Reset Password Button
               commonButton(
@@ -102,7 +106,7 @@ class ForgotPasswordView extends ConsumerWidget {
                 },
               ),
 
-              const SizedBox(height: 24),
+              commonSizedBox(height: 24),
 
               // Back to login
               GestureDetector(

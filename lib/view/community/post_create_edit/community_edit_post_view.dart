@@ -68,7 +68,7 @@ class _CommunityEditPostViewState
                 hintText:
                     "Share your training progress, achievement, or motivate others...",
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
 
               // Category chips
               Align(
@@ -103,7 +103,7 @@ class _CommunityEditPostViewState
                 ),
               ),
 
-              const SizedBox(height: 40),
+              commonSizedBox(height: 40),
 
               // Share Button
               commonButton(
@@ -152,7 +152,7 @@ class _CommunityEditPostViewState
                   }
                 },
               ),
-              const SizedBox(height: 16),
+              commonSizedBox(height: 16),
             ],
           ),
         ),

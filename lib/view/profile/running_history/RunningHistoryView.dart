@@ -74,7 +74,7 @@ class RunningHistoryView extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 controller: scrollController,
                 itemCount: runs.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, __) => commonSizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final run = runs[index];
 
@@ -106,7 +106,7 @@ class RunningHistoryView extends ConsumerWidget {
                             width: 60,
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        commonSizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +130,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 4),
+                              commonSizedBox(height: 4),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -141,7 +141,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 2),
+                              commonSizedBox(height: 2),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -153,7 +153,7 @@ class RunningHistoryView extends ConsumerWidget {
                                         size: 14,
                                         color: AppColors.textPrimary,
                                       ),
-                                      const SizedBox(width: 4),
+                                      commonSizedBox(width: 4),
                                       commonText(
                                         "${timeAgo(run.createdAt)} Ago",
                                         size: 12,

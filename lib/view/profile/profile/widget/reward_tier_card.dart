@@ -85,7 +85,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
 //               ),
 //             ),
 //             CommonImage(imagePath: "assest/images/profile/points.png",width: 24,isAsset: true,),
-//             const SizedBox(width: 4),
+//             commonSizedBox(width: 4),
 //             commonText(
 //               "$points POINTS",
 //               color: Colors.white,size: 14,
@@ -93,7 +93,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
 //             ),
 //           ],
 //         ),
-//         const SizedBox(height: 12),
+//         commonSizedBox(height: 12),
 //         ClipRRect(
 //           borderRadius: BorderRadius.circular(12),
 //           child: LinearProgressIndicator(
@@ -103,7 +103,7 @@ import 'package:training_plus/widgets/common_widgets.dart';
 //             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
 //           ),
 //         ),
-//         const SizedBox(height: 8),
+//         commonSizedBox(height: 8),
 //         Center(
 //           child: commonText(
 //             currentTier['desc'],
@@ -202,7 +202,7 @@ Widget rewardTierCard(int points) {
               width: 24,
               isAsset: true,
             ),
-            const SizedBox(width: 4),
+            commonSizedBox(width: 4),
             commonText(
               "$points POINTS",
               color: Colors.white,
@@ -211,7 +211,7 @@ Widget rewardTierCard(int points) {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        commonSizedBox(height: 12),
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: LinearProgressIndicator(
@@ -221,7 +221,7 @@ Widget rewardTierCard(int points) {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        const SizedBox(height: 8),
+        commonSizedBox(height: 8),
         Center(
           child: commonText(
             currentIndex == tiers.length - 1

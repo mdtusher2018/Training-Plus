@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/common_used_models/recent_training_model.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
@@ -39,6 +40,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
       appBar: AppBar(
         title: commonText("Training", size: 21, fontWeight: FontWeight.bold),
         centerTitle: true,
+        toolbarHeight: 60.h, // responsive height
         backgroundColor: AppColors.mainBG,
         elevation: 0,
       ),
@@ -69,12 +71,13 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                   ],
                 )
                 : ListView(
-                  padding: const EdgeInsets.all(16),
+                  
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   children: [
                     _buildCurrentTrainingCard(controller: controller),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
                     _buildTabs(),
-                    const SizedBox(height: 16),
+                    commonSizedBox(height: 16),
                     if (selectedTab == 0)
                       _buildTrainingList(
                         sessions: state.attributes?.myTrainings ?? [],
@@ -86,7 +89,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                         error: state.error,
                         scrollController: completedScrollController,
                       ),
-                    const SizedBox(height: 24),
+                    commonSizedBox(height: 24),
                     _buildWellnessToolkit(state.attributes?.wellness ?? []),
                   ],
                 ),
@@ -160,7 +163,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        commonSizedBox(width: 12),
         Expanded(
           child: GestureDetector(
             onTap: () async {
@@ -251,22 +254,27 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
       ),
       child: Row(
+        spacing: 16.w,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            child: CommonImage(
-              imagePath:
-                  session.thumbnail ??
-                  "https://via.placeholder.com/100x90.png?text=No+Image",
-              width: 100,
-              height: 90,
-              fit: BoxFit.cover,
+          Expanded(
+            flex: 1,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              child: CommonImage(
+                imagePath:
+                    session.thumbnail ??
+                    "https://via.placeholder.com/100x90.png?text=No+Image",
+            
+                   
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          const SizedBox(width: 12),
+          
           Expanded(
+            flex: 3,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding:  EdgeInsets.symmetric(vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -275,13 +283,13 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                     size: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 4),
+                
                   commonText(
                     session.skillLevel,
                     size: 14,
                     color: AppColors.green,
                   ),
-                  const SizedBox(height: 4),
+               
                   commonText(
                     "${session.watchTime} sec",
                     size: 13,
@@ -315,7 +323,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonText("Wellness Toolkit", size: 18, fontWeight: FontWeight.w600),
-          const SizedBox(height: 12),
+          commonSizedBox(height: 12),
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
