@@ -83,16 +83,17 @@ class ContactUsView extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 60,
+  
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade300),
         ),
         child: Row(
+          spacing: 16,
           children: [
             CommonImage(imagePath: imagePath, isAsset: true, height: 36,width: 30,),
-            commonSizedBox(width: 12),
+       
             gradient != null
                 ? ShaderMask(
                     shaderCallback: (bounds) =>

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:training_plus/core/utils/colors.dart';
@@ -114,7 +115,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         clipBehavior: Clip.none,
                         children: [
                           CircleAvatar(
-                            radius: 60,
+                            radius: 50.sp,
                             backgroundColor: Colors.grey[300],
                             backgroundImage:
                                 selectedImage != null

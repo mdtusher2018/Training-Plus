@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
@@ -12,7 +13,9 @@ class RunningHistoryView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(runningHistoryControllerProvider);
     final controller = ref.read(runningHistoryControllerProvider.notifier);
- final scrollController = ref.watch(runningHistoryScrollControllerProvider); // << added
+    final scrollController = ref.watch(
+      runningHistoryScrollControllerProvider,
+    ); // << added
     return Scaffold(
       backgroundColor: AppColors.boxBG,
       appBar: AppBar(
@@ -79,7 +82,7 @@ class RunningHistoryView extends ConsumerWidget {
                   final run = runs[index];
 
                   return Container(
-                    padding: const EdgeInsets.all(8),
+                    padding:  EdgeInsets.all(8.sp),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -95,15 +98,14 @@ class RunningHistoryView extends ConsumerWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
+                          
                           child: CommonImage(
-                            imagePath:
-                                run.image.isNotEmpty
-                                    ? getFullImagePath(run.image)
-                                    : "assest/images/profile/runing_map.png",
+                            imagePath: run.image,
+
                             isAsset: run.image.isEmpty,
                             fit: BoxFit.cover,
-                            height: 60,
                             width: 60,
+                            height: 60,
                           ),
                         ),
                         commonSizedBox(width: 12),
@@ -130,7 +132,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              commonSizedBox(height: 4),
+                    
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -141,7 +143,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              commonSizedBox(height: 2),
+                      
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

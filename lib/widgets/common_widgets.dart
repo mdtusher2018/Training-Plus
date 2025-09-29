@@ -358,11 +358,12 @@ Widget commonTextField({
       maxLines: minLine,
       enabled: enabled,
 
-      style: const TextStyle(fontSize: 14),
+      style: TextStyle(fontSize: 14.sp),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+        hintStyle: TextStyle(fontSize: 12.sp, color: AppColors.textSecondary),
         filled: true,
+        
         fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
@@ -404,37 +405,77 @@ Widget commonCheckbox({
   );
 }
 
+// Widget commonDropdown<T>({
+//   required List<T> items,
+//   required T? value,
+//   required String hint,
+//   required void Function(T?) onChanged,
+// }) {
+//   return Container(
+//     padding: EdgeInsets.symmetric(horizontal: 16.w),
+//     decoration: BoxDecoration(
+//       color: Colors.white,
+//       borderRadius: BorderRadius.circular(12.r),
+//       border: Border.all(color: Colors.grey.shade300),
+//     ),
+//     child: DropdownButton<T>(
+//       isExpanded: true,
+//       underline: SizedBox(),
+//       value: value,
+//       icon: Icon(Icons.keyboard_arrow_down_rounded),
+//       hint: commonText(hint, size: 14),
+//       borderRadius: BorderRadius.circular(8.r),
+//       items:
+//           items.map<DropdownMenuItem<T>>((T item) {
+//             return DropdownMenuItem<T>(
+              
+//               value: item,
+//               child: commonText(item.toString(), size: 14),
+//             );
+//           }).toList(),
+//       onChanged: onChanged,
+//     ),
+//   );
+// }
+
+
 Widget commonDropdown<T>({
   required List<T> items,
   required T? value,
   required String hint,
   required void Function(T?) onChanged,
+  double? itemHeight, // optional custom height
 }) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 16.w),
+    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(12.r),
-      border: Border.all(color: Colors.grey.shade300),
+      border: Border.all(color: Colors.grey.shade300, width: 1.w),
     ),
     child: DropdownButton<T>(
       isExpanded: true,
       underline: SizedBox(),
       value: value,
-      icon: Icon(Icons.keyboard_arrow_down_rounded),
-      hint: commonText(hint, size: 14),
+      icon: Icon(Icons.keyboard_arrow_down_rounded, size: 20.sp),
+      hint: commonText(hint, size: 14.sp),
       borderRadius: BorderRadius.circular(8.r),
-      items:
-          items.map<DropdownMenuItem<T>>((T item) {
-            return DropdownMenuItem<T>(
-              value: item,
-              child: commonText(item.toString(), size: 14),
-            );
-          }).toList(),
+      itemHeight: itemHeight ?? 48.h, // default item height, responsive
+      items: items.map<DropdownMenuItem<T>>((T item) {
+        return DropdownMenuItem<T>(
+          value: item,
+          child: commonText(item.toString(), size: 14),
+        );
+      }).toList(),
       onChanged: onChanged,
     ),
   );
 }
+
+
+
+
+
 
 AppBar authAppBar(String title) {
   return AppBar(

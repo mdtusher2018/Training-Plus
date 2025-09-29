@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
@@ -25,6 +26,7 @@ Widget challengeCard({
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 2.h,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,12 +49,12 @@ Widget challengeCard({
             ),
           ],
         ),
-        commonSizedBox(height: 8),
+    
         Row(
           children: [
-            const Icon(
+            Icon(
               Icons.radio_button_checked,
-              size: 16,
+              size: 16.sp,
               color: AppColors.primary,
             ),
             commonSizedBox(width: 4),
@@ -60,7 +62,7 @@ Widget challengeCard({
           ],
         ),
         if (isJoined) ...[
-          commonSizedBox(height: 12),
+     
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -72,11 +74,11 @@ Widget challengeCard({
               ),
             ],
           ),
-          commonSizedBox(height: 4),
+      
           LinearProgressIndicator(
             value: count.toDouble() / days.toDouble(),
-            minHeight: 12,
-            borderRadius: BorderRadius.circular(16),
+            minHeight: 12.sp,
+            borderRadius: BorderRadius.circular(16.r),
             backgroundColor: AppColors.boxBG,
             color: AppColors.primary,
           ),
@@ -135,10 +137,10 @@ class PostCard extends ConsumerWidget {
     );
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: InkWell(
         onTap: () {
@@ -150,7 +152,7 @@ class PostCard extends ConsumerWidget {
             Row(
               children: [
                 CircleAvatar(
-                  radius: 20,
+                  radius: 20.sp,
                   backgroundImage: NetworkImage(getFullImagePath(userImage)),
                 ),
                 commonSizedBox(width: 10),
@@ -169,16 +171,17 @@ class PostCard extends ConsumerWidget {
                 ),
                 if (!myPost)
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
+                    constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width*0.4),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.h,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(color: AppColors.primary),
                     ),
-                    child: commonText(catagory, size: 12),
+                    child: commonText(catagory, size: 12,maxline: 1),
                   ),
                 if (myPost) ...[
                   commonSizedBox(width: 6),
@@ -193,14 +196,14 @@ class PostCard extends ConsumerWidget {
                         ),
                       );
                     },
-                    child: const Icon(Icons.edit),
+                    child:  Icon(Icons.edit,size: 20.sp,),
                   ),
                   commonSizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       showDeletePostDialog(context, id, controller, parentRef);
                     },
-                    child: const Icon(Icons.delete_outline_rounded),
+                    child:  Icon(Icons.delete_outline_rounded,size: 20.sp,),
                   ),
                 ],
               ],
@@ -218,7 +221,7 @@ class PostCard extends ConsumerWidget {
                   onTap: () => controller.toggleLike(),
                   child: Icon(
                     state.isLiked ? Icons.favorite : Icons.favorite_border,
-                    size: 16,
+                    size: 16.sp,
                     color: state.isLiked ? AppColors.error : AppColors.black,
                   ),
                 ),
@@ -239,7 +242,7 @@ class PostCard extends ConsumerWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.mode_comment_outlined, size: 16),
+                       Icon(Icons.mode_comment_outlined, size: 16.sp),
                       commonSizedBox(width: 4),
                       commonText(commentCount.toString(), size: 12),
                     ],
@@ -281,6 +284,7 @@ Widget leaderboardCard({
             imagePath: trophyImages[index.toInt()],
             width: 32,
             isAsset: true,
+            fit: BoxFit.cover,
           )
         else
           SizedBox(
@@ -291,7 +295,7 @@ Widget leaderboardCard({
           ),
         commonSizedBox(width: 8),
         CircleAvatar(
-          radius: 16,
+          radius: 14.sp,
           backgroundImage: NetworkImage(getFullImagePath(image)),
         ),
         commonSizedBox(width: 12),
@@ -317,7 +321,7 @@ Widget sectionHeader(String title, {required Function()? onTap}) {
           mainAxisSize: MainAxisSize.min,
           children: [
             commonText("See all "),
-            const Icon(Icons.arrow_forward, size: 14, color: AppColors.primary),
+            Icon(Icons.arrow_forward, size: 16.sp, color: AppColors.primary),
           ],
         ),
       ),

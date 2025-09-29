@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
@@ -38,6 +39,7 @@ class ProfileView extends ConsumerWidget {
       appBar: AppBar(
         title: commonText("Profile", size: 21, isBold: true),
         centerTitle: true,
+        toolbarHeight: 70.h,
       ),
 
       body: SafeArea(
@@ -88,8 +90,8 @@ class ProfileView extends ConsumerWidget {
                         child: ClipOval(
                           child: Image.network(
                             getFullImagePath(state.profile!.attributes.image),
-                            width: 100,
-                            height: 100,
+                            width: 50.sp,
+                            height: 50.sp,
                             fit:
                                 BoxFit
                                     .cover, // ensures the image fills the circle
@@ -127,12 +129,12 @@ class ProfileView extends ConsumerWidget {
 
                       SizedBox(height: 12),
                       Center(
-                        child: Text(
+                        child: commonText(
                           state.profile!.attributes.fullName,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          
+                          size: 18,
+                          isBold: true
+                          
                         ),
                       ),
                       commonSizedBox(height: 20),
@@ -285,12 +287,12 @@ class ProfileView extends ConsumerWidget {
   }) {
     return ListTile(
       dense: true,
-      visualDensity: VisualDensity(vertical: -1),
-      contentPadding: EdgeInsets.zero,
+      
+      
       onTap: onTap,
       leading: CommonImage(imagePath: imagePath, isAsset: true, width: 28),
       title: commonText(title, size: 14, isBold: true),
-      trailing: const Icon(Icons.chevron_right, color: AppColors.primary),
+      trailing: Icon(Icons.chevron_right,size: 16.sp, color: AppColors.primary),
     );
   }
 

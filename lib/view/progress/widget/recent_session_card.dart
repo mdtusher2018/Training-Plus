@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -23,9 +24,9 @@ class RecentSessionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(8.r),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding:EdgeInsets.all(16.r),
         decoration: BoxDecoration(
      color: AppColors.boxBG,
           borderRadius: BorderRadius.circular(8),
@@ -44,18 +45,18 @@ class RecentSessionCard extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(4),
+              padding:  EdgeInsets.all(4.sp),
               decoration: BoxDecoration(
        color: AppColors.white,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(4.r),
               ),
               child: Row(
                 children: [
                   Image.network(
                     getFullImagePath(tagImageUrl),
-                    width: 16,
-                    height: 16,
-                    errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported),
+                    width: 16.sp,
+                    height: 16.sp,
+                    errorBuilder: (_, __, ___) => Icon(Icons.image_not_supported,size: 20.sp,),
                   ),
                   SizedBox(width: 4,),
                   commonText(tag,size: 12)

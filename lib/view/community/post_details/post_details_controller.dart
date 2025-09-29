@@ -60,6 +60,7 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
   /// Add a comment to the post
   Future<Map<String, String>> addComment(String postId, String text,{required WidgetRef ref}) async {
     try {
+      state=state.copyWith(isLoading: true);
         final homePageState = ref.watch(homeControllerProvider);
       final response = await apiService.post(ApiEndpoints.commentPost, {
         "post": postId,
@@ -99,6 +100,8 @@ log(updatedPost!.commentCount.toString());
       }
     } catch (e) {
       return {"title": "Error", "message": e.toString()};
+    }finally{
+      state=state.copyWith(isLoading: false);
     }
   }
 }

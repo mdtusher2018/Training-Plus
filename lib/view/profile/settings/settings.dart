@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -9,7 +10,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        elevation: 0,toolbarHeight: 60.h,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -19,62 +20,71 @@ class SettingsView extends StatelessWidget {
         centerTitle: true,
       ),
 
-      bottomSheet: SizedBox(
+      body: SizedBox(
         height: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Column(
-            children: [
-              commonSizedBox(height: 10),
-              // Security
-              _buildSettingOption(
-                icon: "assest/images/profile/lock_2.png",
-                title: "Change Password",
-          
-                haveArrow: true,
-                onTap: () {
-                  navigateToPage(context: context,ChangePasswordScreen());
-                },
-              ),
-
-              // Help
-              _buildSettingOption(
-                icon: "assest/images/profile/delete.png",
-                title: "Delete Account",
-             
-                onTap: () {
-                  showDeleteAccountDialog(context, () {
-                    // Navigator.pop(context);
-                    Navigator.pop(context);
-                  });
-                },
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            
+            _buildSettingOption(
+              icon: "assest/images/profile/lock_2.png",
+              title: "Change Password",
+        
+              haveArrow: true,
+              onTap: () {
+                navigateToPage(context: context,ChangePasswordScreen());
+              },
+            ),
+        
+            // Help
+            _buildSettingOption(
+              icon: "assest/images/profile/delete.png",
+              title: "Delete Account",
+           
+              onTap: () {
+                showDeleteAccountDialog(context, () {
+                  // Navigator.pop(context);
+                  Navigator.pop(context);
+                });
+              },
+            ),
+          ],
         ),
       ),
     );
   }
-
-  Widget _buildSettingOption({
-    required String icon,
-    required String title,
-    required VoidCallback onTap,
-    bool haveArrow = false,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-
-        child: ListTile(
-          leading: Image.asset(icon,width: 32,height: 32, ),
-          title: commonText(title, size: 16),
-          trailing: (haveArrow) ? Icon(Icons.arrow_forward_ios_outlined) : null,
-        ),
+Widget _buildSettingOption({
+  required String icon,
+  required String title,
+  required VoidCallback onTap,
+  bool haveArrow = false,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: ListTile(
+      leading: Image.asset(
+        icon,
+        width: 32.w, // responsive width
+        height: 32.w, // keep square, also responsive
+        fit: BoxFit.contain,
       ),
-    );
-  }
+      title: commonText(
+        title,
+        size: 16, // responsive text
+      ),
+      trailing: haveArrow
+          ? Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 18.sp, // responsive icon
+            )
+          : null,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 16.w, // responsive horizontal padding
+        vertical: 4.h,    // responsive vertical padding
+      ),
+      minLeadingWidth: 24.w, // ensures spacing scales well
+    ),
+  );
+}
 
   Future<void> showDeleteAccountDialog(
     BuildContext context,

@@ -22,6 +22,8 @@ const Map<String, String> ageGroupMap = {
   "Youth": "youth",
   "Teen": "teen",
   "Adult": "adult",
+  "Under 13 Years Old":"youth", "13–17 Years Old":"teen", 
+  "18+ Years Old":"adult"
 };
 
 

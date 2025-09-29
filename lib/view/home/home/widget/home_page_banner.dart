@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/view/home/home/home_page_model.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -44,7 +45,7 @@ class _QuoteBannerState extends State<QuoteBanner> {
     final quote = widget.quotes[_currentIndex];
 
     return SizedBox(
-      height: 160,
+      height: 100.sp,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 800),
         switchInCurve: Curves.easeIn,
@@ -58,41 +59,18 @@ class _QuoteBannerState extends State<QuoteBanner> {
         child: Container(
           key: ValueKey(quote.id),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
             color: Colors.transparent,
           ),
           child: Stack(
             fit: StackFit.expand,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 child: CommonImage(imagePath: quote.image, fit: BoxFit.cover,)
                 
               
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(12),
-              //     color: Colors.black.withOpacity(0.3),
-              //   ),
-              // ),
-              // Center(
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 12),
-              //     child: AnimatedOpacity(
-              //       opacity: 1.0,
-              //       duration: const Duration(milliseconds: 800),
-              //       child: commonText(
-              //         quote.text,
-              //         size: 14,
-              //         color: Colors.white,
-              //         textAlign: TextAlign.center,
-              //         isBold: true,
-              //         maxline: 5,
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
