@@ -90,7 +90,9 @@ class HomePageView extends ConsumerWidget {
               child: CommonImage(
                 imagePath: response.data!.attributes.user.image,
                 fit: BoxFit.cover,
-                width: 32.r,
+                width: 40.sp,
+                height: 32.sp,
+                
               ),
             ),
             commonSizedBox(width: 10),

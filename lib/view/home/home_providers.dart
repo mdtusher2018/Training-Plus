@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/providers.dart';
+import 'package:training_plus/view/home/Run_Details/run_details_controller.dart';
 import 'package:training_plus/view/home/my_workouts/my_workout_controller.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_tracker_controller.dart';
 import 'package:training_plus/view/home/running_gps/running_gps_controller.dart';
@@ -68,3 +69,12 @@ final runningGpsControllerProvider =
 });
 
 
+
+
+/// Provider
+final runShareDetailProvider =
+    StateNotifierProvider<RunDetailController, RunDetailState>(
+  (ref) { 
+      final apiService = ref.read(apiServiceProvider);
+    return RunDetailController(apiService: apiService);}
+);

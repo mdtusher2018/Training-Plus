@@ -15,12 +15,16 @@ class SubscriptionState {
   final List<SubscriptionPlan> plans;
   final MySubscriptionAttributes? mySubscription;
 
+  /// Track button-level loading
+  final Map<String, bool> buttonLoading;
+
   SubscriptionState({
     this.isLoading = false,
     this.currentIndex = 0,
     this.error,
     this.plans = const [],
     this.mySubscription,
+    this.buttonLoading = const {},
   });
 
   SubscriptionState copyWith({
@@ -29,6 +33,7 @@ class SubscriptionState {
     String? error,
     List<SubscriptionPlan>? plans,
     MySubscriptionAttributes? mySubscription,
+    Map<String, bool>? buttonLoading,
   }) {
     return SubscriptionState(
       isLoading: isLoading ?? this.isLoading,
@@ -36,6 +41,7 @@ class SubscriptionState {
       error: error,
       plans: plans ?? this.plans,
       mySubscription: mySubscription ?? this.mySubscription,
+      buttonLoading: buttonLoading ?? this.buttonLoading,
     );
   }
 }
@@ -114,7 +120,11 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
     required BuildContext context,
   }) async {
     try {
-      state = state.copyWith(isLoading: true, error: null);
+      // Set loading for this button only
+      state = state.copyWith(
+        buttonLoading: {...state.buttonLoading, subscriptionId: true},
+        error: null,
+      );
 
       final body = {
         "subscription": subscriptionId,
@@ -129,17 +139,24 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       if (response != null && response['statusCode'] == 200) {
         final sessionUrl = response['data']['attributes']['url'] as String;
 
-        state = state.copyWith(isLoading: false);
+        // Clear button loading
+        state = state.copyWith(
+          buttonLoading: {...state.buttonLoading, subscriptionId: false},
+        );
+
         navigateToPage(PaymentWebViewScreen(url: sessionUrl), context: context);
       } else {
         state = state.copyWith(
-          isLoading: false,
+          buttonLoading: {...state.buttonLoading, subscriptionId: false},
           error:
               response?['message'] ?? "Failed to create subscription session",
         );
       }
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: "Error: ${e.toString()}");
+      state = state.copyWith(
+        buttonLoading: {...state.buttonLoading, subscriptionId: false},
+        error: "Error: ${e.toString()}",
+      );
     }
   }
 }

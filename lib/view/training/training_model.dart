@@ -26,25 +26,28 @@ class TrainingResponse {
   }
 }
 
-
-
 class TrainingAttributes {
   final List<RecentTraining> myTrainings;
   final List<Wellness> wellness;
+  final String currentTrainning;
 
   TrainingAttributes({
     required this.myTrainings,
     required this.wellness,
+    required this.currentTrainning,
   });
 
   factory TrainingAttributes.fromJson(Map<String, dynamic> json) {
     return TrainingAttributes(
-      myTrainings: (json['myTrainings'] as List<dynamic>? ?? [])
-          .map((t) => RecentTraining.fromJson(t))
-          .toList(),
-      wellness: (json['wellness'] as List<dynamic>? ?? [])
-          .map((w) => Wellness.fromJson(w))
-          .toList(),
+      myTrainings:
+          (json['myTrainings'] as List<dynamic>? ?? [])
+              .map((t) => RecentTraining.fromJson(t))
+              .toList(),
+      wellness:
+          (json['wellness'] as List<dynamic>? ?? [])
+              .map((w) => Wellness.fromJson(w))
+              .toList(),
+      currentTrainning: json['currentTrainning']?['currentTrainning'] ?? "N/A",
     );
   }
 }
@@ -54,11 +57,7 @@ class Wellness {
   final String title;
   final int duration;
 
-  Wellness({
-    required this.id,
-    required this.title,
-    required this.duration,
-  });
+  Wellness({required this.id, required this.title, required this.duration});
 
   factory Wellness.fromJson(Map<String, dynamic> json) {
     return Wellness(

@@ -8,16 +8,9 @@ class RunningGpsState {
   final bool isLoading;
   final String? error;
 
-  RunningGpsState({
-    this.isLoading = false,
+  RunningGpsState({this.isLoading = false, this.error});
 
-    this.error,
-  });
-
-  RunningGpsState copyWith({
-    bool? isLoading,
-    String? error,
-  }) {
+  RunningGpsState copyWith({bool? isLoading, String? error}) {
     return RunningGpsState(
       isLoading: isLoading ?? this.isLoading,
       error: error,
@@ -25,57 +18,52 @@ class RunningGpsState {
   }
 }
 
-
 class RunningGpsController extends StateNotifier<RunningGpsState> {
   final IApiService apiService;
 
-  RunningGpsController({required this.apiService})
-      : super(RunningGpsState());
+  RunningGpsController({required this.apiService}) : super(RunningGpsState());
 
   /// Post GPS data
   Future<Map<String, dynamic>> postRunningData({
-  required Map<String, dynamic> body,
-  required File image,
-}) async {
-  try {
-    state = state.copyWith(isLoading: true, error: null);
+    required Map<String, dynamic> body,
+    required File image,
+  }) async {
+    try {
+      state = state.copyWith(isLoading: true, error: null);
 
-    final response = await apiService.multipart(
-      ApiEndpoints.runningGps,
-      body: body,
-      method: "POST",
-      files: {"image": image},
-    );
+      final response = await apiService.multipart(
+        ApiEndpoints.runningGps,
+        body: body,
+        method: "POST",
+        files: {"image": image},
+      );
 
-    if (response != null && response["statusCode"] == 201) {
-      state = state.copyWith(isLoading: false);
-      return {
-        "success": true,
-        "message": response["message"] ?? "Run saved successfully",
-      };
-    } else {
-      final errorMessage = response?["message"] ?? "Failed to post running data";
+      if (response != null && response["statusCode"] == 201) {
+        state = state.copyWith(isLoading: false);
+        return {
+          "success": true,
+          "message": response["message"] ?? "Run saved successfully",
+          "userId": response['data']['attributes']['user'],
+          "runId": response['data']['attributes']['_id'],
+          "imageUrl": response['data']['attributes']['image'],
+          "place":response['data']['attributes']['place']
+        };
+      } else {
+        final errorMessage =
+            response?["message"] ?? "Failed to post running data";
+        state = state.copyWith(isLoading: false, error: errorMessage);
+
+        return {"success": false, "message": errorMessage};
+      }
+    } catch (e) {
+      final errorMessage = e.toString();
       state = state.copyWith(isLoading: false, error: errorMessage);
 
-      return {
-        "success": false,
-        "message": errorMessage,
-      };
+      return {"success": false, "message": errorMessage};
     }
-  } catch (e) {
-    final errorMessage = e.toString();
-    state = state.copyWith(isLoading: false, error: errorMessage);
-
-    return {
-      "success": false,
-      "message": errorMessage,
-    };
   }
-}
 
-
-void shareRunningData(){
-  apiService.get(ApiEndpoints.shareRunning);
-}
-
+  void shareRunningData() {
+    apiService.get(ApiEndpoints.shareRunning);
+  }
 }

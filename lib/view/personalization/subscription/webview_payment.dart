@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/view/root_view.dart';
+import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebViewScreen extends StatelessWidget {
@@ -11,7 +13,7 @@ class PaymentWebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Complete Payment"),backgroundColor: AppColors.white,surfaceTintColor: Colors.transparent,),
+      appBar: AppBar(title: commonText("Complete Payment"),backgroundColor: AppColors.white,surfaceTintColor: Colors.transparent,centerTitle: true,),
       body: WebViewWidget(controller: WebViewController(onPermissionRequest: (request) {
         request.grant();
       },)
@@ -27,9 +29,8 @@ class PaymentWebViewScreen extends StatelessWidget {
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
         if (request.url.startsWith(ApiEndpoints.baseUrl+ApiEndpoints.paymentCompleate)) {
-                Navigator.popUntil(context, (route) {
-                  return true;
-                },);
+            navigateToPage(RootView(), context: context,clearStack: true);
+            commonSnackbar(context: context, title: "Sucess", message: "Package Activated Sucessfully",backgroundColor: AppColors.success);
         }
         return NavigationDecision.navigate;
       },

@@ -1,13 +1,13 @@
 class ApiEndpoints {
-  static const String baseUrl =
-      'http://206.162.244.133:8041/api/v1/'; // Replace with actual base URL
-  static const String baseImageUrl =
-      'http://206.162.244.133:8041'; // Replace with actual base image URL
-
   // static const String baseUrl =
-  //     'http://10.10.10.33:8043/api/v1/';
+  //     'http://206.162.244.133:8041/api/v1/'; // Replace with actual base URL
   // static const String baseImageUrl =
-  //     'http://10.10.10.33:8043';
+  //     'http://206.162.244.133:8041'; // Replace with actual base image URL
+
+  static const String baseUrl =
+      'http://10.10.10.33:8041/api/v1/';
+  static const String baseImageUrl =
+      'http://10.10.10.33:8041';
 
   //authentication
   static const String signin = "auth/signin";
@@ -104,7 +104,17 @@ class ApiEndpoints {
 
   static String runningHistory({required int page, required int limit}) {
     return "running/history?page=$page&limit=$limit";
-    
   }
+
+
+
+static String host="10.10.10.33";
+static int port=8041;
+
+
+static String runSharingUrl(String runId)=>"/running/$runId";
+
+static String getSharedRunDataUrl(String runId,String deviceSignature)=>"/running/$runId?deviceId=$deviceSignature";
+
   
 }

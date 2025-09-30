@@ -14,6 +14,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -399,7 +400,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         ),
                         commonSizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () async {
-                          
                           // if (!isRunning && _routePoints.isEmpty) {
                           //   return;
                           // }
@@ -432,7 +432,14 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                                 );
 
                             if (result["success"] == true) {
-                              _showRunCompleteSheet(context, image: file);
+                              _showRunCompleteSheet(
+                                context,
+                                image: file,
+                                userId: result["userId"]??"",
+                                runId: result["runId"]??"",
+                                imageUrl:result["imageUrl"]??"",
+                                place:result["place"]
+                              );
                             } else {
                               commonSnackbar(
                                 context: context,
@@ -478,7 +485,14 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     );
   }
 
-  void _showRunCompleteSheet(BuildContext context, {required File image}) {
+  void _showRunCompleteSheet(
+    BuildContext context, {
+    required File image,
+    required String runId,
+    required String userId,
+    required String imageUrl,
+    required String place
+  }) {
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -501,11 +515,11 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     width: 70.sp,
                     height: 70.sp,
                   ),
-               
+
                   commonText("Running Complete", size: 18, isBold: true),
-            
+
                   commonText("Great Workout !", size: 16),
-          
+
                   commonText(
                     formatDuration(elapsedTime),
                     size: 26,
@@ -517,7 +531,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     size: 12,
                     color: AppColors.textSecondary,
                   ),
-              
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -525,30 +539,27 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       _statItem(pace, "Pace (min/km)"),
                     ],
                   ),
-           
+
                   commonButton(
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
                     width: double.infinity,
                     onTap: () async {
-                      ref
-                          .read(runningGpsControllerProvider.notifier)
-                          .shareRunningData();
-                      if (await image.exists()) {
-                        await Share.shareXFiles(
-                          [XFile(image.path)],
-                          text:
-                              "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
-                        );
-                      } else {
-                        // fallback if image not available
-                        Share.share(
-                          "🏃‍♂️ Running Complete!\nTime: ${formatDuration(elapsedTime)}\nDistance: ${distance.toStringAsFixed(2)} km\nPace: $pace min/km",
-                        );
-                      }
-                    },
+    // 1️⃣ Share running data to backend (if needed)
+    // ref.read(runningGpsControllerProvider.notifier).shareRunningData();
+
+final Uri shareUri = Uri(
+  scheme: 'http',
+  host: "10.10.10.33",   // only the IP/domain
+  port: 8041,            // separate port
+  path: ApiEndpoints.runSharingUrl(runId),
+);
+
+      await Share.shareUri(shareUri);
+
+  },
                   ),
-            
+
                   commonButton(
                     "  Start New Run",
                     color: Colors.transparent,
@@ -571,7 +582,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       );
                     },
                   ),
-          
                 ],
               ),
               Positioned(right: 0, top: 0, child: commonCloseButton(context)),

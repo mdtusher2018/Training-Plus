@@ -74,7 +74,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                   
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   children: [
-                    _buildCurrentTrainingCard(controller: controller),
+                    _buildCurrentTrainingCard(controller: controller,state: state),
                     commonSizedBox(height: 16),
                     _buildTabs(),
                     commonSizedBox(height: 16),
@@ -97,7 +97,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
     );
   }
 
-  Widget _buildCurrentTrainingCard({required TrainingController controller}) {
+  Widget _buildCurrentTrainingCard({required TrainingController controller,required TrainingState state}) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -111,7 +111,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonText("Current Training", size: 18),
-                commonText("Soccer", size: 14, isBold: true),
+                commonText(state.attributes!.currentTrainning, size: 14, isBold: true),
               ],
             ),
           ),

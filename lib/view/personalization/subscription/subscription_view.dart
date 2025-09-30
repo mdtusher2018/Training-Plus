@@ -277,21 +277,37 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
 
           Padding(
             padding: const EdgeInsets.all(16),
-            child: commonButton(
-              (priceId!=null)?"$price/mo": "Activated",
-              width: double.infinity,
-              onTap: () {
-                if (priceId != null) {
-                  controller.purchaseSubscription(
-                    context: context,
-                    stripePriceId: priceId,
-                    subscriptionId: id,
-                  );
-                }
+            child: Consumer(
+              builder: (context, ref, _) {
+                final state = ref.watch(subscriptionControllerProvider);
+                final controller = ref.read(
+                  subscriptionControllerProvider.notifier,
+                );
+
+                // Check if this button is loading
+                final isLoadingButton = state.buttonLoading[id] ?? false;
+
+                return commonButton(
+                  isLoadingButton
+                      ? "Processing..." // or show a spinner if your button supports it
+                      : (priceId != null ? "$price/mo" : "Activated"),
+                  width: double.infinity,
+                  onTap:
+                      isLoadingButton || priceId == null
+                          ? null
+                          : () async {
+                            await controller.purchaseSubscription(
+                              context: context,
+                              stripePriceId: priceId,
+                              subscriptionId: id,
+                            );
+                          },
+                );
               },
             ),
           ),
-          if (isPro)
+
+          if (isPro && priceId != null)
             Center(child: commonText("Start 7 day free trial", size: 14)),
         ],
       ),
