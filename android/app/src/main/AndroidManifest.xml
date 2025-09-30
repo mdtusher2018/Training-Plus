@@ -42,24 +42,24 @@
 
 
 <!-- Universal link -->
-   <intent-filter android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
 
-        <!-- run -->
-        <data
-            android:scheme="https"
-            android:host="api.pianofesta.it"
-            android:pathPrefix="/share/run/" />
+    <!-- run -->
+    <data
+        android:scheme="http"
+        android:host="10.10.10.33"
+        android:pathPrefix="/running/" />
 
-        <!-- Event -->
-        <data
-            android:scheme="https"
-            android:host="api.pianofesta.it"
-            android:pathPrefix="/share/refarel/" />
+    <!-- Event -->
+    <data
+        android:scheme="http"
+        android:host="10.10.10.33"
+        android:pathPrefix="/share/refarel/" />
+</intent-filter>
 
-    </intent-filter>
 
 
 
