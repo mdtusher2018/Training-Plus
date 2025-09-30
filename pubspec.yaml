@@ -58,6 +58,8 @@ dependencies:
   flutter_barcode_scanner_plus: ^3.0.8
   flutter_screenutil: ^5.9.3
   jwt_decoder: ^2.0.1
+  app_links: ^6.4.1
+  webview_flutter: ^4.13.0
 
 dev_dependencies:
   flutter_test:

@@ -97,6 +97,9 @@ class ApiEndpoints {
 
   static String mySubscription="my-subscription/my-sub";
 
+  static String punchSubscription="my-subscription/payment";
+  static String paymentCompleate="my-subscription/complete?";
+
   static String notifications({required int page, required int limit})=>"notifications/notification-userend?page=$page&limit=$limit";
 
   static String runningHistory({required int page, required int limit}) {

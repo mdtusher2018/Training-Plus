@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
+import 'package:training_plus/view/personalization/subscription/subscription_controller.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SubscriptionView extends ConsumerStatefulWidget {
@@ -20,6 +20,13 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        ref
+            .read(subscriptionControllerProvider.notifier)
+            .switchTabs(_tabController.index);
+      }
+    });
   }
 
   @override
@@ -31,7 +38,11 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(subscriptionControllerProvider);
-
+    final controller = ref.read(subscriptionControllerProvider.notifier);
+    // Keep tab controller in sync with provider
+    if (_tabController.index != state.currentIndex) {
+      _tabController.index = state.currentIndex;
+    }
     return Scaffold(
       backgroundColor: AppColors.mainBG,
       appBar: AppBar(
@@ -52,18 +63,28 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
           controller: _tabController,
           labelColor: AppColors.primary,
           unselectedLabelColor: Colors.grey,
+
           tabs: [
             Tab(
               child: commonText(
                 "Subscriptions",
                 color:
-                    (_tabController.index == 0)
+                    (state.currentIndex == 0)
                         ? AppColors.primary
                         : AppColors.black,
                 isBold: true,
               ),
             ),
-            Tab(child: commonText("My Subscription")),
+            Tab(
+              child: commonText(
+                "My Subscription",
+                color:
+                    (state.currentIndex == 1)
+                        ? AppColors.primary
+                        : AppColors.black,
+                isBold: true,
+              ),
+            ),
           ],
         ),
       ),
@@ -72,21 +93,55 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
           state.isLoading
               ? const Center(child: CircularProgressIndicator())
               : state.error != null
-              ? Center(child: commonText(state.error!, color: AppColors.error))
+              ? RefreshIndicator(
+                onRefresh: () async {
+                  controller.refreshAll();
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      child: Center(
+                        child: commonText(
+                          state.error!,
+                          size: 16,
+                          color: AppColors.error,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
               : TabBarView(
                 controller: _tabController,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  /// Subscriptions Tab (vertical list)
-                  _buildSubscriptions(state),
+                  // Subscriptions Tab
+                  RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.refreshAll();
+                    },
+                    child: _buildSubscriptions(state, controller),
+                  ),
 
-                  /// My Subscription Tab
-                  _buildMySubscription(state),
+                  // My Subscription Tab
+                  RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.refreshAll();
+                    },
+                    child: _buildMySubscription(state, controller),
+                  ),
                 ],
               ),
     );
   }
 
-  Widget _buildSubscriptions(dynamic state) {
+  Widget _buildSubscriptions(
+    SubscriptionState state,
+    SubscriptionController controller,
+  ) {
     if (state.plans.isEmpty) {
       return Center(child: commonText("No subscription plans found"));
     }
@@ -99,8 +154,9 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
         return Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: _buildPlanCard(
+            id: plan.id,
             title: plan.planName,
-            price: "${plan.price}/mo",
+            price: plan.price,
             features: {
               "Access to All Sports": true,
               "Workout Tracking": true,
@@ -111,43 +167,57 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
               "Customize Weekly Goals": true,
             },
             isPro: plan.planName == "Sport Pro",
+            controller: controller,
+            priceId: plan.stripePriceId,
           ),
         );
       },
     );
   }
 
-  Widget _buildMySubscription(dynamic state) {
+  Widget _buildMySubscription(
+    SubscriptionState state,
+    SubscriptionController controller,
+  ) {
     final mySub = state.mySubscription;
 
     if (mySub == null) {
       return Center(child: commonText("No active subscription found"));
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: _buildPlanCard(
-        title: mySub.planName,
-        price: "${mySub.subscription.price}/mo",
-        features: {
-          "Access to All Sports": true,
-          "Workout Tracking": true,
-          "Community Leaderboards": true,
-          "Nutrition Tracker": mySub.subscription.nutritionTracker,
-          "Running Tracker": mySub.subscription.runningTracker,
-          "Mental Performance Tools": true,
-          "Customize Weekly Goals": true,
-        },
-        isPro: mySub.planName == "Sport Pro",
-      ),
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _buildPlanCard(
+            id: mySub.id,
+            title: mySub.planName,
+            price: mySub.subscription.price,
+            features: {
+              "Access to All Sports": true,
+              "Workout Tracking": true,
+              "Community Leaderboards": true,
+              "Nutrition Tracker": mySub.subscription.nutritionTracker,
+              "Running Tracker": mySub.subscription.runningTracker,
+              "Mental Performance Tools": true,
+              "Customize Weekly Goals": true,
+            },
+            isPro: mySub.planName == "Sport Pro",
+            controller: controller,
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildPlanCard({
+    required String id,
     required String title,
-    required String price,
+    required num price,
     required Map<String, bool> features,
     required bool isPro,
+    required SubscriptionController controller,
+    String? priceId,
   }) {
     return Container(
       // constraints: const BoxConstraints(minHeight: 460),
@@ -161,7 +231,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonText(title, size: 22, isBold: true),
-          commonSizedBox(height: 16),
+          commonSizedBox(height: 2),
 
           /// Features list
           ListView.builder(
@@ -205,15 +275,19 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
             },
           ),
 
-          commonSizedBox(height: 16),
-
           Padding(
             padding: const EdgeInsets.all(16),
             child: commonButton(
-              price,
+              (priceId!=null)?"$price/mo": "Activated",
               width: double.infinity,
               onTap: () {
-                // TODO: Navigate to payment/activation
+                if (priceId != null) {
+                  controller.purchaseSubscription(
+                    context: context,
+                    stripePriceId: priceId,
+                    subscriptionId: id,
+                  );
+                }
               },
             ),
           ),

@@ -7,7 +7,7 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/session_reset.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
-import 'package:training_plus/view/personalization/subscription/subscription.dart';
+import 'package:training_plus/view/personalization/subscription/subscription_view.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/view/profile/ContactUsView.dart';
 import 'package:training_plus/view/profile/faq/FaqView.dart';
@@ -185,7 +185,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
                       sectionTile(
-                        "My Subscription",
+                        "Subscription",
                         "assest/images/profile/my_subscription.png",
                         onTap: () {
                           navigateToPage(

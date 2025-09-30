@@ -1,19 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/subscription/my_subscription_model.dart';
 import 'package:training_plus/view/personalization/subscription/subscription_model.dart';
-
+import 'package:training_plus/view/personalization/subscription/webview_payment.dart';
+import 'package:training_plus/widgets/common_widgets.dart';
 
 // State class
 class SubscriptionState {
   final bool isLoading;
+  final int currentIndex;
   final String? error;
   final List<SubscriptionPlan> plans;
-  final MySubscriptionAttributes? mySubscription; // ✅ Active subscription
+  final MySubscriptionAttributes? mySubscription;
 
   SubscriptionState({
     this.isLoading = false,
+    this.currentIndex = 0,
     this.error,
     this.plans = const [],
     this.mySubscription,
@@ -21,24 +25,39 @@ class SubscriptionState {
 
   SubscriptionState copyWith({
     bool? isLoading,
+    int? currentIndex,
     String? error,
     List<SubscriptionPlan>? plans,
     MySubscriptionAttributes? mySubscription,
   }) {
     return SubscriptionState(
       isLoading: isLoading ?? this.isLoading,
+      currentIndex: currentIndex ?? this.currentIndex,
       error: error,
       plans: plans ?? this.plans,
       mySubscription: mySubscription ?? this.mySubscription,
     );
   }
 }
+
 // Notifier
 class SubscriptionController extends StateNotifier<SubscriptionState> {
   final IApiService apiService;
 
-  SubscriptionController(this.apiService) : super(SubscriptionState()){
+  SubscriptionController(this.apiService) : super(SubscriptionState()) {
     fetchSubscriptions();
+    fetchMySubscription();
+  }
+
+  void switchTabs(int index) {
+    state = state.copyWith(currentIndex: index);
+  }
+
+  Future<void> refreshAll() async {
+    state = state.copyWith(isLoading: true);
+    await fetchSubscriptions();
+    await fetchMySubscription();
+    state = state.copyWith(isLoading: false);
   }
 
   /// Fetch subscription plans
@@ -61,10 +80,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
         );
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: "Error: ${e.toString()}",
-      );
+      state = state.copyWith(isLoading: false, error: "Error: ${e.toString()}");
     }
   }
 
@@ -87,12 +103,43 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
         );
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: "Error: ${e.toString()}",
-      );
+      state = state.copyWith(isLoading: false, error: "Error: ${e.toString()}");
     }
   }
 
+  /// Punch subscription (create Stripe checkout session)
+  Future<void> purchaseSubscription({
+    required String subscriptionId,
+    required String stripePriceId,
+    required BuildContext context,
+  }) async {
+    try {
+      state = state.copyWith(isLoading: true, error: null);
 
+      final body = {
+        "subscription": subscriptionId,
+        "stripePriceId": stripePriceId,
+      };
+
+      final response = await apiService.post(
+        ApiEndpoints.punchSubscription,
+        body,
+      );
+
+      if (response != null && response['statusCode'] == 200) {
+        final sessionUrl = response['data']['attributes']['url'] as String;
+
+        state = state.copyWith(isLoading: false);
+        navigateToPage(PaymentWebViewScreen(url: sessionUrl), context: context);
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error:
+              response?['message'] ?? "Failed to create subscription session",
+        );
+      }
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: "Error: ${e.toString()}");
+    }
+  }
 }

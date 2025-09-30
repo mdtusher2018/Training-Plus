@@ -207,7 +207,7 @@ Widget commonButton(
   Color textColor = AppColors.textPrimary,
   double textSize = 18,
   double width = double.infinity,
-  double height = 50,
+  double height = 40,
   VoidCallback? onTap,
   TextAlign textalign = TextAlign.left,
   boarder,
@@ -222,6 +222,10 @@ Widget commonButton(
     child: Container(
       height: height.h,
       width: width.w,
+      constraints: BoxConstraints(
+        minHeight: 50,
+        
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(boarderRadious.r)),
         color: isLoading ? color.withOpacity(0.5) : color,

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -398,9 +399,10 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         ),
                         commonSizedBox(width: 20),
                         _roundButton(Icons.stop, Colors.red, () async {
-                          if (!isRunning && _routePoints.isEmpty) {
-                            return;
-                          }
+                          
+                          // if (!isRunning && _routePoints.isEmpty) {
+                          //   return;
+                          // }
                           _pauseRun();
                           _fitMapToRoute();
 
@@ -490,19 +492,20 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
           child: Stack(
             children: [
               Column(
+                spacing: 8,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CommonImage(
                     imagePath: "assest/images/home/tophy.png",
                     isAsset: true,
-                    width: 70,
-                    height: 70,
+                    width: 70.sp,
+                    height: 70.sp,
                   ),
-                  commonSizedBox(height: 4),
+               
                   commonText("Running Complete", size: 18, isBold: true),
-                  commonSizedBox(height: 4),
+            
                   commonText("Great Workout !", size: 16),
-                  commonSizedBox(height: 12),
+          
                   commonText(
                     formatDuration(elapsedTime),
                     size: 26,
@@ -514,7 +517,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     size: 12,
                     color: AppColors.textSecondary,
                   ),
-                  commonSizedBox(height: 12),
+              
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -522,7 +525,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       _statItem(pace, "Pace (min/km)"),
                     ],
                   ),
-                  commonSizedBox(height: 16),
+           
                   commonButton(
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
@@ -545,7 +548,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       }
                     },
                   ),
-                  commonSizedBox(height: 16),
+            
                   commonButton(
                     "  Start New Run",
                     color: Colors.transparent,
@@ -568,7 +571,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       );
                     },
                   ),
-                  commonSizedBox(height: 16),
+          
                 ],
               ),
               Positioned(right: 0, top: 0, child: commonCloseButton(context)),
