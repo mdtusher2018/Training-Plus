@@ -31,27 +31,17 @@ class LeaderboardView extends ConsumerWidget {
         onRefresh: () async {
           await controller.fetchLeaderboard();
         },
-        child:Builder(
+        child: Builder(
           builder: (context) {
-             if (state.leaderboard == null && state.isLoading) {
+            if (state.leaderboard == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
+              return commonErrorMassage(
+                context: context,
+                massage: state.error!,
               );
-            } else if (state.leaderboard != null && state.leaderboard!.topUsers.isEmpty) {
+            } else if (state.leaderboard != null &&
+                state.leaderboard!.topUsers.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
@@ -71,22 +61,21 @@ class LeaderboardView extends ConsumerWidget {
               return const Center(child: CircularProgressIndicator());
             }
             return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    itemCount: state.leaderboard!.topUsers.length,
-                    physics: AlwaysScrollableScrollPhysics(),
-                   
-                    
-                    itemBuilder: (context, index) {
-                      final user = state.leaderboard!.topUsers[index];
-                      return leaderboardCard(
-                        index: index,
-                        name: user.fullName,
-                        points: user.points,
-                        image: user.image,
-                      );
-                    },
-                  );
-          }
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              itemCount: state.leaderboard!.topUsers.length,
+              physics: AlwaysScrollableScrollPhysics(),
+
+              itemBuilder: (context, index) {
+                final user = state.leaderboard!.topUsers[index];
+                return leaderboardCard(
+                  index: index,
+                  name: user.fullName,
+                  points: user.points,
+                  image: user.image,
+                );
+              },
+            );
+          },
         ),
       ),
     );

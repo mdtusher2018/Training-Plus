@@ -9,22 +9,26 @@ import 'post_details_model.dart';
 // ------------------- State -------------------
 class PostDetailsState {
   final bool isLoading;
+  final bool isSending;
   final String? error;
   final PostDetails? postDetails;
 
   PostDetailsState({
     this.isLoading = false,
+    this.isSending = false,
     this.error,
     this.postDetails,
   });
 
   PostDetailsState copyWith({
     bool? isLoading,
+    bool? isSending,
     String? error,
     PostDetails? postDetails,
   }) {
     return PostDetailsState(
       isLoading: isLoading ?? this.isLoading,
+      isSending: isSending ?? this.isSending,
       error: error,
       postDetails: postDetails ?? this.postDetails,
     );
@@ -48,7 +52,9 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
         final postDetails = PostDetails.fromJson(postData);
         state = state.copyWith(postDetails: postDetails);
       } else {
-        state = state.copyWith(error: response?["message"] ?? "Failed to fetch post details");
+        state = state.copyWith(
+          error: response?["message"] ?? "Failed to fetch post details",
+        );
       }
     } catch (e) {
       state = state.copyWith(error: e.toString());
@@ -58,10 +64,14 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
   }
 
   /// Add a comment to the post
-  Future<Map<String, String>> addComment(String postId, String text,{required WidgetRef ref}) async {
+  Future<Map<String, String>> addComment(
+    String postId,
+    String text, {
+    required WidgetRef ref,
+  }) async {
     try {
-      state=state.copyWith(isLoading: true);
-        final homePageState = ref.watch(homeControllerProvider);
+      state = state.copyWith(isSending: true);
+      final homePageState = ref.watch(homeControllerProvider);
       final response = await apiService.post(ApiEndpoints.commentPost, {
         "post": postId,
         "text": text,
@@ -69,39 +79,45 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
 
       if (response != null && response["statusCode"] == 201) {
         // Optionally, update local state with new comment
-      final newComment = PostComment(
-        id: response['data']['attributes']['_id'] ?? '',
-        userId: response['data']['attributes']['user'] ?? '',
-        postId: postId,
-        text: text,
-        createdAt: response['data']['attributes']['createdAt'] ?? DateTime.now().toIso8601String(),
-        updatedAt: response['data']['attributes']['updatedAt'] ?? DateTime.now().toIso8601String(),
-        userFullName: homePageState.response?.user?.fullName??"You",
-        userImage: homePageState.response?.user?.image??"", 
-      );
+        final newComment = PostComment(
+          id: response['data']['attributes']['_id'] ?? '',
+          userId: response['data']['attributes']['user'] ?? '',
+          postId: postId,
+          text: text,
+          createdAt:
+              response['data']['attributes']['createdAt'] ??
+              DateTime.now().toIso8601String(),
+          updatedAt:
+              response['data']['attributes']['updatedAt'] ??
+              DateTime.now().toIso8601String(),
+          userFullName: homePageState.response?.user?.fullName ?? "You",
+          userImage: homePageState.response?.user?.image ?? "",
+        );
 
-        final updatedComments = [
-          newComment,
-          ...?state.postDetails?.comments,
-        ];
-        
+        final updatedComments = [newComment, ...?state.postDetails?.comments];
 
-final commentCount=(state.postDetails?.commentCount??0)+1;
+        final commentCount = (state.postDetails?.commentCount ?? 0) + 1;
 
-        final updatedPost = state.postDetails?.copyWith(comments: updatedComments,commentCount: commentCount);
+        final updatedPost = state.postDetails?.copyWith(
+          comments: updatedComments,
+          commentCount: commentCount,
+        );
 
-log(updatedPost!.commentCount.toString());
+        log(updatedPost!.commentCount.toString());
 
         state = state.copyWith(postDetails: updatedPost);
 
         return {"title": "Success", "message": "Comment added"};
       } else {
-        return {"title": "Error", "message": response?["message"] ?? "Failed to add comment"};
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to add comment",
+        };
       }
     } catch (e) {
       return {"title": "Error", "message": e.toString()};
-    }finally{
-      state=state.copyWith(isLoading: false);
+    } finally {
+      state = state.copyWith(isSending: false);
     }
   }
 }

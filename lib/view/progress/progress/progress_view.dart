@@ -41,21 +41,7 @@ class ProgressView extends ConsumerWidget {
       ? const Center(child: CircularProgressIndicator())
       : state.error != null
           // Show error in a scrollable ListView so RefreshIndicator works
-          ? ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Center(
-                    child: commonText(
-                      state.error!,
-                      size: 16,
-                      color: AppColors.error,
-                    ),
-                  ),
-                ),
-              ],
-            )
+          ?  commonErrorMassage(context: context, massage: state.error!)
           // Normal loaded state
           : SingleChildScrollView(
                   padding: const EdgeInsets.all(16),

@@ -37,24 +37,11 @@ class MyWorkoutsView extends ConsumerWidget {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: scrollController,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
+              return commonErrorMassage(
+                context: context,
+                massage: state.error!,
               );
-            } else if (state.data == null ||
-                state.data!.suggestions.isEmpty) {
+            } else if (state.data == null || state.data!.suggestions.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 controller: scrollController,
@@ -75,11 +62,12 @@ class MyWorkoutsView extends ConsumerWidget {
               final workouts = state.data!.suggestions;
 
               return ListView.separated(
-                controller: scrollController,physics: AlwaysScrollableScrollPhysics(),
+                controller: scrollController,
+                physics: AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 itemCount: workouts.length + (state.isLoading ? 1 : 0),
-                separatorBuilder: (context, index) =>
-                    commonSizedBox(height: 10),
+                separatorBuilder:
+                    (context, index) => commonSizedBox(height: 10),
                 itemBuilder: (context, index) {
                   if (index >= workouts.length) {
                     // Bottom loader for pagination
@@ -93,8 +81,8 @@ class MyWorkoutsView extends ConsumerWidget {
                   return GestureDetector(
                     onTap: () {
                       navigateToPage(
-                        context:  context,
-                         WorkoutDetailPage(id: workout.id),
+                        context: context,
+                        WorkoutDetailPage(id: workout.id),
                       );
                     },
                     child: SizedBox(
@@ -102,7 +90,7 @@ class MyWorkoutsView extends ConsumerWidget {
                       child: buildWorkoutCard(
                         workout.skillLevel,
                         workout.title,
-                        workout.watchTime.toStringAsFixed(2), 
+                        workout.watchTime.toStringAsFixed(2),
                         workout.thumbnail.isNotEmpty
                             ? workout.thumbnail
                             : "https://www.rhsmith.umd.edu/sites/default/files/research/featured/2022/11/soccer-player.jpg",

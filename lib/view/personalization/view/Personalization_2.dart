@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/view/Personalization_3.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
-import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart' show buildProgressBar;
+import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart'
+    show buildProgressBar;
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class Personalization2 extends ConsumerWidget {
@@ -48,64 +49,84 @@ class Personalization2 extends ConsumerWidget {
 
               /// Categories Grid
               Expanded(
-                child: state.isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : state.error != null
-                        ? Center(child: Text('Error: ${state.error}'))
+                child:
+                    state.isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : state.error != null
+                        ? commonErrorMassage(
+                          context: context,
+                          massage: state.error!,
+                        )
                         : state.categories.isEmpty
-                            ? const Center(child: Text("No categories found"))
-                            : GridView.count(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 16,
-                                children: state.categories.map((category) {
-                                  // Only one sport can be selected
-                                  final isSelected = state.sport!=null && state.sport == category.name;
+                        ? commonErrorMassage(
+                          context: context,
+                          massage: "No categories found",
+                        )
+                        : GridView.count(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          children:
+                              state.categories.map((category) {
+                                // Only one sport can be selected
+                                final isSelected =
+                                    state.sport != null &&
+                                    state.sport == category.name;
 
-                                  return GestureDetector(
-                                    onTap: () {
-                                      // Set the selected sport
-                                      controller.updatePersonalization(sport: category.name,sportId: category.id);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: isSelected ? const Color(0xFFFFFBEF) : Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: isSelected ? AppColors.primary : Colors.grey.shade300,
-                                          width: 1.5,
+                                return GestureDetector(
+                                  onTap: () {
+                                    // Set the selected sport
+                                    controller.updatePersonalization(
+                                      sport: category.name,
+                                      sportId: category.id,
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color:
+                                          isSelected
+                                              ? const Color(0xFFFFFBEF)
+                                              : Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color:
+                                            isSelected
+                                                ? AppColors.primary
+                                                : Colors.grey.shade300,
+                                        width: 1.5,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.03),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(0.03),
-                                            blurRadius: 4,
-                                            offset: const Offset(0, 2),
-                                          )
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.only(bottom: 14),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: CommonImage(
-                                              imagePath: category.image,
-                                              isAsset: false,
-                                            ),
-                                          ),
-                                          commonSizedBox(height: 16),
-                                          commonText(
-                                            category.name,
-                                            size: 10,
-                                            isBold: true,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
+                                      ],
                                     ),
-                                  );
-                                }).toList(),
-                              ),
+                                    padding: const EdgeInsets.only(bottom: 14),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: CommonImage(
+                                            imagePath: category.image,
+                                            isAsset: false,
+                                          ),
+                                        ),
+                                        commonSizedBox(height: 16),
+                                        commonText(
+                                          category.name,
+                                          size: 10,
+                                          isBold: true,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                        ),
               ),
 
               commonSizedBox(height: 12),
@@ -126,12 +147,17 @@ class Personalization2 extends ConsumerWidget {
                       "Next ",
                       iconWidget: const Icon(Icons.arrow_forward),
                       iconLeft: false,
-                      onTap: state.sport!=null && state.sport!.isNotEmpty
-                          ? () => navigateToPage(context: context, Personalization3())
-                          : () => commonSnackbar(
+                      onTap:
+                          state.sport != null && state.sport!.isNotEmpty
+                              ? () => navigateToPage(
+                                context: context,
+                                Personalization3(),
+                              )
+                              : () => commonSnackbar(
                                 context: context,
                                 title: "Validity Error",
-                                message: "Please select a sport before continuing.",
+                                message:
+                                    "Please select a sport before continuing.",
                                 backgroundColor: AppColors.error,
                               ),
                     ),

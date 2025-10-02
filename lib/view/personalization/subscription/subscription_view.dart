@@ -97,21 +97,9 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                 onRefresh: () async {
                   controller.refreshAll();
                 },
-                child: ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          state.error!,
-                          size: 16,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: commonErrorMassage(
+                  context: context,
+                  massage: state.error!,
                 ),
               )
               : TabBarView(

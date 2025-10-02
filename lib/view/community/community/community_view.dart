@@ -36,36 +36,25 @@ class CommunityView extends ConsumerWidget {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
+              return commonErrorMassage(
+                context: context,
+                massage: state.error!,
               );
             } else if (state.data != null) {
               return ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   // if (state.data!.activeChallenge.isNotEmpty)
-                    _activeChallengesSection(context, state,ref),
+                  _activeChallengesSection(context, state, ref),
 
                   // if (state.data!.mypost.isNotEmpty)
-                    _myPostsSection(context, state,ref),
+                  _myPostsSection(context, state, ref),
 
                   // if (state.data!.leaderboard.topUsers.isNotEmpty)
-                    _leaderboardSection(context, state),
+                  _leaderboardSection(context, state),
 
                   // if (state.data!.feed.isNotEmpty)
-                    _communityFeedSection(context, state,ref),
+                  _communityFeedSection(context, state, ref),
                   SizedBox(height: 24),
                 ],
               );
@@ -86,7 +75,11 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _activeChallengesSection(BuildContext context, CommunityState state,WidgetRef ref) {
+  Widget _activeChallengesSection(
+    BuildContext context,
+    CommunityState state,
+    WidgetRef ref,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -114,10 +107,11 @@ class CommunityView extends ConsumerWidget {
                 onTap: () {
                   showChallengeDetailsBottomSheet(
                     context,
-                    isJoined: !challenge.isJoined,ref: ref,
+                    isJoined: !challenge.isJoined,
+                    ref: ref,
                     challengeId: challenge.id,
                     days: challenge.days,
-                    condition: challenge.challengeName
+                    condition: challenge.challengeName,
                   );
                 },
               ),
@@ -128,7 +122,11 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _myPostsSection(BuildContext context, CommunityState state,WidgetRef ref) {
+  Widget _myPostsSection(
+    BuildContext context,
+    CommunityState state,
+    WidgetRef ref,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -157,7 +155,7 @@ class CommunityView extends ConsumerWidget {
               userImage: post.author.image,
               catagory: post.category,
               myPost: true,
-        parentRef: ref,
+              parentRef: ref,
             );
           },
         ),
@@ -185,7 +183,7 @@ class CommunityView extends ConsumerWidget {
           itemBuilder: (context, index) {
             final user = state.data!.leaderboard.topUsers[index];
             return leaderboardCard(
-              index: index ,
+              index: index,
               name: user.fullName,
               points: user.points,
               image: user.image,
@@ -196,7 +194,11 @@ class CommunityView extends ConsumerWidget {
     );
   }
 
-  Widget _communityFeedSection(BuildContext context, CommunityState state,WidgetRef ref) {
+  Widget _communityFeedSection(
+    BuildContext context,
+    CommunityState state,
+    WidgetRef ref,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -227,8 +229,6 @@ class CommunityView extends ConsumerWidget {
               caption: post.caption,
               catagory: post.category,
               parentRef: ref,
-         
-          
             );
           },
         ),

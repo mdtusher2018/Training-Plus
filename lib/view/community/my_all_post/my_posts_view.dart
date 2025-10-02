@@ -36,29 +36,17 @@ class MyPostsView extends ConsumerWidget {
             if (state.isLoading && state.posts.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
+              return commonErrorMassage(
+                context: context,
+                massage: state.error!,
               );
             }
 
             return ListView.builder(
               controller: scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: state.hasMore
-                  ? state.posts.length + 1
-                  : state.posts.length,
+              itemCount:
+                  state.hasMore ? state.posts.length + 1 : state.posts.length,
               itemBuilder: (context, index) {
                 if (index == state.posts.length) {
                   return const Padding(
@@ -71,7 +59,6 @@ class MyPostsView extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: PostCard(
-                    
                     id: post.id,
                     user: post.author.fullName,
                     caption: post.caption,
@@ -80,10 +67,10 @@ class MyPostsView extends ConsumerWidget {
                     likeCount: post.likeCount,
                     userImage: post.author.image,
                     time: post.createdAt, // you can format with timeAgo()
-                   catagory: post.category,
+                    catagory: post.category,
                     myPost: true,
-                    
-            parentRef: ref,
+
+                    parentRef: ref,
                   ),
                 );
               },

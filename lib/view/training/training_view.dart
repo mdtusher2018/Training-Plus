@@ -53,28 +53,17 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
           }
         },
         child:
-             state.attributes == null && state.isLoading 
+            state.attributes == null && state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null && state.attributes == null
-                ? ListView(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          state.error!,
-                          size: 16,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                ? commonErrorMassage(context: context, massage: state.error!)
                 : ListView(
-                  
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   children: [
-                    _buildCurrentTrainingCard(controller: controller,state: state),
+                    _buildCurrentTrainingCard(
+                      controller: controller,
+                      state: state,
+                    ),
                     commonSizedBox(height: 16),
                     _buildTabs(),
                     commonSizedBox(height: 16),
@@ -97,7 +86,10 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
     );
   }
 
-  Widget _buildCurrentTrainingCard({required TrainingController controller,required TrainingState state}) {
+  Widget _buildCurrentTrainingCard({
+    required TrainingController controller,
+    required TrainingState state,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -111,7 +103,11 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonText("Current Training", size: 18),
-                commonText(state.attributes!.currentTrainning, size: 14, isBold: true),
+                commonText(
+                  state.attributes!.currentTrainning,
+                  size: 14,
+                  isBold: true,
+                ),
               ],
             ),
           ),
@@ -264,17 +260,16 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 imagePath:
                     session.thumbnail ??
                     "https://via.placeholder.com/100x90.png?text=No+Image",
-            
-                   
+
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          
+
           Expanded(
             flex: 3,
             child: Padding(
-              padding:  EdgeInsets.symmetric(vertical: 12),
+              padding: EdgeInsets.symmetric(vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -283,13 +278,13 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                     size: 16,
                     fontWeight: FontWeight.bold,
                   ),
-                
+
                   commonText(
                     session.skillLevel,
                     size: 14,
                     color: AppColors.green,
                   ),
-               
+
                   commonText(
                     "${session.watchTime} sec",
                     size: 13,

@@ -41,22 +41,7 @@ class NutritionTrackerPage extends ConsumerWidget {
             return state.data == null && state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
-                ? ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          state.error!,
-                          size: 16,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                ? commonErrorMassage(context: context, massage: state.error!)
                 : ListView(
                   padding: EdgeInsets.all(16),
                   children: [

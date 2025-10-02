@@ -51,37 +51,12 @@ class ProfileView extends ConsumerWidget {
               state.profile == null && state.isLoading
                   ? Center(child: CircularProgressIndicator())
                   : state.profile == null
-                  ? ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: Center(
-                          child: commonText(
-                            "No data Found",
-                            size: 16,
-                            color: AppColors.error,
-                          ),
-                        ),
-                      ),
-                    ],
+                  ? commonErrorMassage(
+                    context: context,
+                    massage: "No data Found",
                   )
                   : state.error != null
-                  ? ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: Center(
-                          child: commonText(
-                            state.error!,
-                            size: 16,
-                            color: AppColors.error,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
+                  ? commonErrorMassage(context: context, massage: state.error!)
                   : ListView(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
@@ -131,10 +106,9 @@ class ProfileView extends ConsumerWidget {
                       Center(
                         child: commonText(
                           state.profile!.attributes.fullName,
-                          
+
                           size: 18,
-                          isBold: true
-                          
+                          isBold: true,
                         ),
                       ),
                       commonSizedBox(height: 20),
@@ -188,10 +162,7 @@ class ProfileView extends ConsumerWidget {
                         "Subscription",
                         "assest/images/profile/my_subscription.png",
                         onTap: () {
-                          navigateToPage(
-                            context: context,
-                            SubscriptionView(),
-                          );
+                          navigateToPage(context: context, SubscriptionView());
                         },
                       ),
 
@@ -287,12 +258,15 @@ class ProfileView extends ConsumerWidget {
   }) {
     return ListTile(
       dense: true,
-      
-      
+
       onTap: onTap,
       leading: CommonImage(imagePath: imagePath, isAsset: true, width: 28),
       title: commonText(title, size: 14, isBold: true),
-      trailing: Icon(Icons.chevron_right,size: 16.sp, color: AppColors.primary),
+      trailing: Icon(
+        Icons.chevron_right,
+        size: 16.sp,
+        color: AppColors.primary,
+      ),
     );
   }
 

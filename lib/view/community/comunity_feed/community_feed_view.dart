@@ -38,29 +38,17 @@ class CommunityFeedView extends ConsumerWidget {
             if (state.isLoading && state.feed.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
+              return commonErrorMassage(
+                context: context,
+                massage: state.error!,
               );
             }
 
             return ListView.separated(
               controller: scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: state.hasMore
-                  ? state.feed.length + 1
-                  : state.feed.length,
+              itemCount:
+                  state.hasMore ? state.feed.length + 1 : state.feed.length,
               separatorBuilder: (_, __) => commonSizedBox(height: 12),
               itemBuilder: (context, index) {
                 if (index == state.feed.length) {
@@ -83,8 +71,6 @@ class CommunityFeedView extends ConsumerWidget {
                   time: timeAgo(post.createdAt),
                   catagory: post.category,
                   parentRef: ref,
-                  
-             
                 );
               },
             );

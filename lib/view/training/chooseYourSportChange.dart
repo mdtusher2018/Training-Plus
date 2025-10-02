@@ -23,14 +23,17 @@ class ChooseYourSportChangeView extends ConsumerWidget {
           isBold: true,
           textAlign: TextAlign.center,
         ),
-        bottom: PreferredSize(preferredSize: Size.fromHeight(16), child:   Center(
-                child: commonText(
-                  "Select the sports you're\ninterested in.",
-                  size: 14,
-                  textAlign: TextAlign.center,
-                  color: AppColors.textSecondary,
-                ),
-              ),),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(16),
+          child: Center(
+            child: commonText(
+              "Select the sports you're\ninterested in.",
+              size: 14,
+              textAlign: TextAlign.center,
+              color: AppColors.textSecondary,
+            ),
+          ),
+        ),
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
@@ -49,7 +52,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
               state.isLoading && state.categories.isEmpty
                   ? const Center(child: CircularProgressIndicator())
                   : state.error != null
-                  ? Center(child: Text('Error: ${state.error}'))
+                  ? commonErrorMassage(context: context, massage: state.error!)
                   : state.categories.isEmpty
                   ? const Center(child: Text("No categories found"))
                   : GridView.count(
@@ -63,7 +66,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
                           final isSelected =
                               state.sport != null &&
                               state.sport == category.name;
-                
+
                           return GestureDetector(
                             onTap: () {
                               // Set the selected sport
@@ -88,20 +91,15 @@ class ChooseYourSportChangeView extends ConsumerWidget {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(
-                                      0.03,
-                                    ),
+                                    color: Colors.black.withOpacity(0.03),
                                     blurRadius: 4,
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
-                              padding: const EdgeInsets.only(
-                                bottom: 14,
-                              ),
+                              padding: const EdgeInsets.only(bottom: 14),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Expanded(
                                     child: CommonImage(

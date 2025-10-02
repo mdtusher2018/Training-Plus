@@ -37,22 +37,7 @@ class RunningHistoryView extends ConsumerWidget {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Center(
-                      child: commonText(
-                        state.error!,
-                        size: 16,
-                        color: AppColors.error,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              return commonErrorMassage(context: context, massage: state.error!);
             } else if (state.data == null || state.data!.results.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -82,7 +67,7 @@ class RunningHistoryView extends ConsumerWidget {
                   final run = runs[index];
 
                   return Container(
-                    padding:  EdgeInsets.all(8.sp),
+                    padding: EdgeInsets.all(8.sp),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -98,7 +83,7 @@ class RunningHistoryView extends ConsumerWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          
+
                           child: CommonImage(
                             imagePath: run.image,
 
@@ -132,7 +117,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                    
+
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -143,7 +128,7 @@ class RunningHistoryView extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                      
+
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

@@ -24,54 +24,30 @@ class HomePageView extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.mainBG,
       body: SafeArea(
-        child: Builder(
-          builder: (context) {
-            if (state.response == null && state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        child: RefreshIndicator(
+          onRefresh: () async => await controller.fetchHomeData(),
+          child: Builder(
+            builder: (context) {
+              if (state.response == null && state.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-            if (state.error != null) {
-              return RefreshIndicator(
-                onRefresh: () async => await controller.fetchHomeData(),
-                child: ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          state.error!,
-                          size: 16.sp,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
+              if (state.error != null) {
+                return commonErrorMassage(
+                  context: context,
+                  massage: state.error!,
+                );
+              }
 
-            if (state.response == null || state.response!.data == null) {
-              return RefreshIndicator(
-                onRefresh: () async => await controller.fetchHomeData(),
-                child: ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: const [
-                    SizedBox(
-                      height: 400,
-                      child: Center(child: Text("No data found")),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            // ✅ Actual Data Loaded
-            return RefreshIndicator(
-              onRefresh: () async => await controller.fetchHomeData(),
-              child: _buildContent(context, state),
-            );
-          },
+              if (state.response == null || state.response!.data == null) {
+                return commonErrorMassage(
+                  context: context,
+                  massage: "No data found",
+                );
+              }
+              return _buildContent(context, state);
+            },
+          ),
         ),
       ),
     );
@@ -92,7 +68,6 @@ class HomePageView extends ConsumerWidget {
                 fit: BoxFit.cover,
                 width: 40.sp,
                 height: 32.sp,
-                
               ),
             ),
             commonSizedBox(width: 10),

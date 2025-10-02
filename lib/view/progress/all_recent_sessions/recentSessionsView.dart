@@ -29,31 +29,16 @@ class RecentSessionsView extends ConsumerWidget {
         onRefresh: () async {
           await controller.fetchRecentSessions();
         },
-        child: state.isLoading && state.sessions.isEmpty && state.error==null
-            ? const Center(child: CircularProgressIndicator())
-            : state.error != null
-                ? ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Center(
-                    child: commonText(
-                      state.error!,
-                      size: 16,
-                      color: (state.error == "No recent sessions found")
-                          ? AppColors.black
-                          : AppColors.error,
-                    ),
-                  ),
-                ),
-              ],
-            )
+        child:
+            state.isLoading && state.sessions.isEmpty && state.error == null
+                ? const Center(child: CircularProgressIndicator())
+                : state.error != null
+                ? commonErrorMassage(context: context, massage: state.error!)
                 : ListView.separated(
                   padding: const EdgeInsets.all(16.0),
                   itemCount: state.sessions.length,
-                  separatorBuilder: (context, index) =>
-                      commonSizedBox(height: 16),
+                  separatorBuilder:
+                      (context, index) => commonSizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final session = state.sessions[index];
                     return RecentSessionCard(
@@ -61,7 +46,8 @@ class RecentSessionsView extends ConsumerWidget {
                       subtitle:
                           "${session.watchTime} min | ${session.updatedAt.toLocal().toString().split(' ').first}",
                       tag: session.sportsname,
-                      tagImageUrl: session.thumbnail ??
+                      tagImageUrl:
+                          session.thumbnail ??
                           "https://via.placeholder.com/100", // fallback
                       onTap: () {
                         // TODO: Navigate to session details

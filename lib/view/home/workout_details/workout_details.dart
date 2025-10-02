@@ -30,31 +30,20 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
     final workoutController = ref.watch(workoutControllerProvider.notifier);
 
     return Scaffold(
-      body:
-          RefreshIndicator(
-            onRefresh: () async{
-              await workoutController.fetchWorkout(widget.id);
-            },
-            child: (workoutState.workout==null && workoutState.isLoading)
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await workoutController.fetchWorkout(widget.id);
+        },
+        child:
+            (workoutState.workout == null && workoutState.isLoading)
                 ? const Center(child: CircularProgressIndicator())
                 : workoutState.error != null
-                ?  ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
-                      child: Center(
-                        child: commonText(
-                          workoutState.error!,
-                          size: 16,
-                          color: AppColors.error,
-                        ),
-                      ),
-                    ),
-                  ],
+                ? commonErrorMassage(
+                  context: context,
+                  massage: workoutState.error!,
                 )
                 : workoutState.workout == null
-                ?  ListView(
+                ? ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
                     SizedBox(
@@ -69,9 +58,6 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                     ),
                   ],
                 )
-                
-                
-               
                 : Column(
                   children: [
                     Expanded(
@@ -86,7 +72,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                   videoUrl: workoutState.workout!.previewVideo,
                                 ),
                               ),
-                                  
+
                               // DETAILS
                               Expanded(
                                 child: SingleChildScrollView(
@@ -95,11 +81,13 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                     vertical: 12,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       // Title & Share
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
                                             child: commonText(
@@ -121,18 +109,18 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                           ),
                                         ],
                                       ),
-                                  
+
                                       commonSizedBox(height: 8),
-                                  
+
                                       // Level
                                       commonText(
                                         workoutState.workout!.skillLevel,
                                         size: 16,
                                         color: AppColors.textPrimary,
                                       ),
-                                  
+
                                       commonSizedBox(height: 8),
-                                  
+
                                       // Duration Row
                                       Row(
                                         children: [
@@ -150,7 +138,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         ],
                                       ),
                                       commonSizedBox(height: 12),
-                                  
+
                                       // About Header
                                       commonText(
                                         "About this training",
@@ -159,7 +147,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         color: AppColors.textPrimary,
                                       ),
                                       commonSizedBox(height: 8),
-                                  
+
                                       // Description
                                       commonText(
                                         workoutState.workout!.description,
@@ -168,17 +156,15 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         softwarp: true,
                                         maxline: 10,
                                       ),
-                                  
+
                                       commonSizedBox(height: 24),
                                     ],
                                   ),
                                 ),
                               ),
-                                  
-                              
                             ],
                           ),
-                                  
+
                           Positioned(
                             top: 56,
                             left: 24,
@@ -195,54 +181,54 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                         ],
                       ),
                     ),
-                 
-                 // START WORKOUT BUTTON
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          child: commonButton(
-                            "Start Workout",
-                            isLoading: workoutState.startWorkout,
-                            width: double.infinity,
-                            onTap: () async {
-                              final response =
-                                  await workoutController.startWorkout();
-                              if (response['title'] == "Success") {
-                                navigateToPage(
-                                  context: context,
-                                  ChaptersPage(
-                                    chapters: workoutState.workout!.chapters,
-                                  ),
-                                );
-                                commonSnackbar(
-                                  context: context,
-                                  title: response['title']!,
-                                  message: response['message']!,
-                                  backgroundColor:
-                                      response['title'] == "Success"
-                                          ? AppColors.success
-                                          : AppColors.error,
-                                );
-                              } else {
-                                commonSnackbar(
-                                  context: context,
-                                  title: response['title']!,
-                                  message: response['message']!,
-                                  backgroundColor:
-                                      response['title'] == "Success"
-                                          ? AppColors.success
-                                          : AppColors.error,
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 16,)
+
+                    // START WORKOUT BUTTON
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      child: commonButton(
+                        "Start Workout",
+                        isLoading: workoutState.startWorkout,
+                        width: double.infinity,
+                        onTap: () async {
+                          final response =
+                              await workoutController.startWorkout();
+                          if (response['title'] == "Success") {
+                            navigateToPage(
+                              context: context,
+                              ChaptersPage(
+                                chapters: workoutState.workout!.chapters,
+                              ),
+                            );
+                            commonSnackbar(
+                              context: context,
+                              title: response['title']!,
+                              message: response['message']!,
+                              backgroundColor:
+                                  response['title'] == "Success"
+                                      ? AppColors.success
+                                      : AppColors.error,
+                            );
+                          } else {
+                            commonSnackbar(
+                              context: context,
+                              title: response['title']!,
+                              message: response['message']!,
+                              backgroundColor:
+                                  response['title'] == "Success"
+                                      ? AppColors.success
+                                      : AppColors.error,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 16),
                   ],
                 ),
-          ),
+      ),
     );
   }
 }

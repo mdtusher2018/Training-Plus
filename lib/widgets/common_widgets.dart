@@ -665,3 +665,23 @@ Widget commonRichText({
 Widget commonSizedBox({double? height, double? width, Widget? child}) {
   return SizedBox(height: height?.h, width: width?.w, child: child);
 }
+
+
+Widget commonErrorMassage({required BuildContext context ,required String massage}){
+     return ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+             
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: Center(
+                      child: commonText(
+                        massage,
+                        size: 16,
+                        color: AppColors.error,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+}

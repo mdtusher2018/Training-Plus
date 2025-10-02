@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -55,21 +54,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {
-                return ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  child: Center(
-                    child: commonText(
-                      state.error!,
-                      size: 16,
-                      color:  AppColors.error,
-                    ),
-                  ),
-                ),
-              ],
-            );
+                return commonErrorMassage(context: context, massage: state.error!);
               }
               if (state.content != null) {
                 return  Html(
