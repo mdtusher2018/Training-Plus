@@ -104,6 +104,8 @@ class CommunityView extends ConsumerWidget {
                 points: challenge.point,
                 count: challenge.count,
                 days: challenge.days,
+                progress: challenge.progress,
+                createdAt: challenge.createdAt,
                 onTap: () {
                   showChallengeDetailsBottomSheet(
                     context,

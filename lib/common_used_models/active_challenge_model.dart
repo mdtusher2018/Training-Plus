@@ -6,8 +6,8 @@ class ActiveChallenge {
   final int point;
   final bool isJoined;
   final num progress;
-  final String? createdAt;
-  final String? expiredAt;
+  final String createdAt;
+  final String expiredAt;
 
   ActiveChallenge({
     required this.id,
@@ -17,8 +17,8 @@ class ActiveChallenge {
     required this.point,
     required this.isJoined,
     required this.progress,
-    this.createdAt,
-    this.expiredAt,
+    required this.createdAt,
+    required this.expiredAt,
   });
 
   factory ActiveChallenge.fromJson(Map<String, dynamic> json) {
@@ -30,8 +30,8 @@ class ActiveChallenge {
       point: json["point"] ?? 0,
       isJoined: json["isJoined"] ?? false,
       progress: json["progress"] ?? 0.0,
-      createdAt: json["createdAt"],
-      expiredAt: json["expiredAt"],
+      createdAt: json["createdAt"] ?? "",
+      expiredAt: json["expiredAt"] ?? "",
     );
   }
 

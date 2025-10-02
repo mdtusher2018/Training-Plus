@@ -57,6 +57,8 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null && state.attributes == null
                 ? commonErrorMassage(context: context, massage: state.error!)
+                : state.attributes == null
+                ? commonErrorMassage(context: context, massage: "No data Found")
                 : ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   children: [

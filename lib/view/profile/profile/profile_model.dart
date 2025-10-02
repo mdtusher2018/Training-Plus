@@ -63,7 +63,7 @@ class UserAttributes {
       points: json['points'] ?? 0,
       userType: json['userType'] ?? '',
       goal: json['goal'] ?? '',
-      referralCode: json['referralCode']??'N/A'
+      referralCode: json['yourRefaralCode']??'N/A'
     );
   }
 

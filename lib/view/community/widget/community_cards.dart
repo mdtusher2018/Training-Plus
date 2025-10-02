@@ -16,6 +16,8 @@ Widget challengeCard({
   required bool isJoined,
   required int days,
   required int count,
+  required num progress,
+  required String createdAt,
   required Function()? onTap,
 }) {
   return Container(
@@ -49,7 +51,7 @@ Widget challengeCard({
             ),
           ],
         ),
-    
+
         Row(
           children: [
             Icon(
@@ -62,21 +64,20 @@ Widget challengeCard({
           ],
         ),
         if (isJoined) ...[
-     
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               commonText("Progress", size: 12, color: AppColors.textSecondary),
               commonText(
-                "$count/$days Days",
+                "${DateTime.now().difference(DateTime.tryParse(createdAt)??DateTime.now()).inDays}/$days Days",
                 size: 12,
                 color: AppColors.textSecondary,
               ),
             ],
           ),
-      
+
           LinearProgressIndicator(
-            value: count.toDouble() / days.toDouble(),
+            value: progress.toDouble() / count.toDouble(),
             minHeight: 12.sp,
             borderRadius: BorderRadius.circular(16.r),
             backgroundColor: AppColors.boxBG,
@@ -171,7 +172,9 @@ class PostCard extends ConsumerWidget {
                 ),
                 if (!myPost)
                   Container(
-                    constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width*0.4),
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.sizeOf(context).width * 0.4,
+                    ),
                     padding: EdgeInsets.symmetric(
                       horizontal: 8.w,
                       vertical: 4.h,
@@ -181,7 +184,7 @@ class PostCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(color: AppColors.primary),
                     ),
-                    child: commonText(catagory, size: 12,maxline: 1),
+                    child: commonText(catagory, size: 12, maxline: 1),
                   ),
                 if (myPost) ...[
                   commonSizedBox(width: 6),
@@ -196,14 +199,14 @@ class PostCard extends ConsumerWidget {
                         ),
                       );
                     },
-                    child:  Icon(Icons.edit,size: 20.sp,),
+                    child: Icon(Icons.edit, size: 20.sp),
                   ),
                   commonSizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       showDeletePostDialog(context, id, controller, parentRef);
                     },
-                    child:  Icon(Icons.delete_outline_rounded,size: 20.sp,),
+                    child: Icon(Icons.delete_outline_rounded, size: 20.sp),
                   ),
                 ],
               ],
@@ -242,7 +245,7 @@ class PostCard extends ConsumerWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                       Icon(Icons.mode_comment_outlined, size: 16.sp),
+                      Icon(Icons.mode_comment_outlined, size: 16.sp),
                       commonSizedBox(width: 4),
                       commonText(commentCount.toString(), size: 12),
                     ],
@@ -330,10 +333,12 @@ Widget sectionHeader(String title, {required Function()? onTap}) {
 }
 
 void showChallengeDetailsBottomSheet(
-  BuildContext context,  {
+  BuildContext context, {
   required bool isJoined,
   required WidgetRef ref,
-  required challengeId,required days, required condition
+  required challengeId,
+  required days,
+  required condition,
 }) {
   showModalBottomSheet(
     context: context,
@@ -394,32 +399,37 @@ void showChallengeDetailsBottomSheet(
 
                   commonSizedBox(height: 30),
                   if (isJoined)
-                  commonButton("Join Challenge",boarderRadious: 8,onTap: () async{
-                    final response=await ref.read(activeChallengeControllerProvider.notifier)
-                    .joinChallenge(challengeId: challengeId, day: days, condition: condition,ref: ref);
-                  if (response["title"] == "Success") {
-                    
-                      Navigator.of(context).pop();
-                      commonSnackbar(
-                        context: context,
-                        title: response["title"]!,
-                         message:  response["message"]!,
-                        backgroundColor: AppColors.success
-                      );
-
-                
-                    } else {
-                      // ❌ Show error snackbar
-                      commonSnackbar(
-                        context: context,
-                        title: response["title"]!,
-                         message:  response["message"]!,
-                        backgroundColor: AppColors.error
-                      );
-                    }
-
-                  },),
-               
+                    commonButton(
+                      "Join Challenge",
+                      boarderRadious: 8,
+                      onTap: () async {
+                        final response = await ref
+                            .read(activeChallengeControllerProvider.notifier)
+                            .joinChallenge(
+                              challengeId: challengeId,
+                              day: days,
+                              condition: condition,
+                              ref: ref,
+                            );
+                        if (response["title"] == "Success") {
+                          Navigator.of(context).pop();
+                          commonSnackbar(
+                            context: context,
+                            title: response["title"]!,
+                            message: response["message"]!,
+                            backgroundColor: AppColors.success,
+                          );
+                        } else {
+                          // ❌ Show error snackbar
+                          commonSnackbar(
+                            context: context,
+                            title: response["title"]!,
+                            message: response["message"]!,
+                            backgroundColor: AppColors.error,
+                          );
+                        }
+                      },
+                    ),
                 ],
               ),
 
