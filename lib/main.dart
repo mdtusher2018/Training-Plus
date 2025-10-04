@@ -5,10 +5,7 @@ import 'package:training_plus/core/services/link_sharing/universal_link_service.
 import 'package:training_plus/core/services/localstorage/local_storage_service.dart';
 import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/core/utils/theme.dart';
-import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
-import 'package:training_plus/view/personalization/view/Personalization_1.dart';
-import 'package:training_plus/view/profile/settings/change_password/change_password_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +49,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       theme: appTheme(),
-      home: SigninView(),
+      home: SplashView(),
     );
   }
 }
