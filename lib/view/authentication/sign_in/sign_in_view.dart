@@ -21,12 +21,8 @@ class SigninView extends ConsumerStatefulWidget {
 }
 
 class _SigninViewState extends ConsumerState<SigninView> {
-  final TextEditingController emailController = TextEditingController(
-    text: "bb@example.com",
-  );
-  final TextEditingController passwordController = TextEditingController(
-    text: "hello123",
-  );
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -43,7 +39,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
           context,
           ref: ref,
           authController: controller,
-          isRememberMeChecked: ValueNotifier(state.rememberMe),state: state
+          isRememberMeChecked: ValueNotifier(state.rememberMe),
+          state: state,
         );
       }
     });
@@ -65,10 +62,13 @@ class _SigninViewState extends ConsumerState<SigninView> {
               Center(
                 child: Column(
                   children: [
-                     Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40.w),
-                child: CommonImage(imagePath: ImagePaths.logo, isAsset: true),
-              ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40.w),
+                      child: CommonImage(
+                        imagePath: ImagePaths.logo,
+                        isAsset: true,
+                      ),
+                    ),
                     commonSizedBox(height: 8),
                     commonText("Welcome back!", size: 21, isBold: true),
                     commonSizedBox(height: 4),
@@ -313,8 +313,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
 
                                 try {
                                   final user = await authController.signIn(
-                                    email: emailController.text.trim(),
-                                    password: passwordController.text.trim(),
+                                    email: entry.key,
+                                    password: entry.value,
                                   );
                                   if (user != null) {
                                     final localStorage = ref.read(

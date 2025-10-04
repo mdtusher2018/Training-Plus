@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/view/personalization/personalication_controller.dart';
-import 'package:training_plus/view/personalization/subscription/subscription_controller.dart';
+import 'package:training_plus/view/profile/subscription/subscription_controller.dart';
 
 final personalizationControllerProvider =
     StateNotifierProvider<PersonalizationController, PersonalizationState>(

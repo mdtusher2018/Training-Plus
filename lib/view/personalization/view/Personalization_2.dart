@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/view/Personalization_3.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
@@ -107,6 +108,7 @@ class Personalization2 extends ConsumerWidget {
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
+                                          spacing: 6.sp,
                                       children: [
                                         Expanded(
                                           child: CommonImage(
@@ -114,10 +116,11 @@ class Personalization2 extends ConsumerWidget {
                                             isAsset: false,
                                           ),
                                         ),
-                                        commonSizedBox(height: 16),
+                                        
                                         commonText(
                                           category.name,
-                                          size: 10,
+                                          size: 14,
+                                          maxline: 1,
                                           isBold: true,
                                           textAlign: TextAlign.center,
                                         ),

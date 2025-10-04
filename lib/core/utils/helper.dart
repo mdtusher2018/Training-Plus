@@ -54,6 +54,25 @@ String formatDuration(Duration d) {
   return "$h:$m:$s";
 }
 
+extension NumDurationFormatter on num {
+  String formatDuration() {
+    final duration = Duration(seconds: toInt());
+
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    final secs = duration.inSeconds.remainder(60);
+
+    if (hours > 0) {
+      return "${hours.toString().padLeft(2, '0')}:"
+          "${minutes.toString().padLeft(2, '0')}:"
+          "${secs.toString().padLeft(2, '0')}";
+    } else {
+      return "${minutes.toString().padLeft(2, '0')}:"
+          "${secs.toString().padLeft(2, '0')}";
+    }
+  }
+}
+
 Map<String, dynamic>? decodeJwtPayload(String token) {
   try {
     final parts = token.split('.');

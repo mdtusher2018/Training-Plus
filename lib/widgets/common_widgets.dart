@@ -303,40 +303,38 @@ Widget buildOTPTextField(
   int index,
   BuildContext context,
 ) {
-  return Material(
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.r),
-        color: AppColors.white,
-        border: Border.all(width: 1.5.w, color: Colors.grey),
-      ),
-
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        cursorColor: Colors.black,
-        style: TextStyle(fontSize: 20.sp),
-        maxLength: 1,
-        decoration: InputDecoration(
-          counterText: '',
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10.r),
+      color: AppColors.white,
+      border: Border.all(width: 1.5.w, color: Colors.grey),
+    ),
+  
+    child: TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      textAlign: TextAlign.center,
+      cursorColor: Colors.black,
+      style: TextStyle(fontSize: 20.sp),
+      maxLength: 1,
+      decoration: InputDecoration(
+        counterText: '',
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(8.r),
         ),
-        onChanged: (value) {
-          if (value.length == 1 && index < 5) {
-            FocusScope.of(context).nextFocus();
-          } else if (value.isEmpty && index > 0) {
-            FocusScope.of(context).previousFocus();
-          }
-        },
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
       ),
+      onChanged: (value) {
+        if (value.length == 1 && index < 5) {
+          FocusScope.of(context).nextFocus();
+        } else if (value.isEmpty && index > 0) {
+          FocusScope.of(context).previousFocus();
+        }
+      },
     ),
   );
 }

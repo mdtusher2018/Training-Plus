@@ -4,7 +4,7 @@ import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 Widget buildWorkoutCard(
-      String level, String title, String time, String imagePath) {
+      String level, String title, num time, String imagePath) {
     return Container(
       width: 200,
       decoration: BoxDecoration(
@@ -46,7 +46,7 @@ Widget buildWorkoutCard(
                 const Icon(Icons.access_time,
                     size: 12, color: Colors.white),
                 commonSizedBox(width: 4),
-                Expanded(child: commonText(time, size: 12, color: Colors.white)),
+                Expanded(child: commonText(time.formatDuration(), size: 12, color: Colors.white)),
               ],
             ),
           ],

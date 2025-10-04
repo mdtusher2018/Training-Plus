@@ -139,6 +139,7 @@ class ProgressView extends ConsumerWidget {
         commonSizedBox(height: 16.h),
         SizedBox(
           height: chartHeight,
+          
           child: BarChart(
             BarChartData(
               borderData: FlBorderData(show: false),
@@ -146,6 +147,15 @@ class ProgressView extends ConsumerWidget {
                 topTitles: AxisTitles(),
                 rightTitles: AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    
+                    getTitlesWidget: (value, meta) {
+                      return commonText(value.toStringAsFixed(1),size: 8);
+                    },
+                  )
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
@@ -155,12 +165,9 @@ class ProgressView extends ConsumerWidget {
                       if (value.toInt() < list.length) {
                         String label = list[value.toInt()].label;
                         if (label.length > 3) label = label.substring(0, 3);
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 2.sp),
-                          child: commonText(
-                            label,
-                            size: 8, // responsive font size
-                          ),
+                        return commonText(
+                          label,
+                          size: 7
                         );
                       }
                       return const SizedBox();

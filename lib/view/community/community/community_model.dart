@@ -21,7 +21,7 @@ class CommunityResponseModel {
       status: json["status"] ?? "",
       statusCode: json["statusCode"] ?? 0,
       message: json["message"] ?? "",
-      data: CommunityData.fromJson(json["data"]["attributes"]),
+      data: CommunityData.fromJson(json["data"]["attributes"]??{}),
     );
   }
 }
@@ -43,15 +43,15 @@ class CommunityData {
     return CommunityData(
       activeChallenge:
           (json["activeChallenge"] as List<dynamic>)
-              .map((e) => ActiveChallenge.fromJson(e))
+              .map((e) => ActiveChallenge.fromJson(e??{}))
               .toList(),
       mypost:
           (json["mypost"] as List<dynamic>)
-              .map((e) => MyPost.fromJson(e))
+              .map((e) => MyPost.fromJson(e??{}))
               .toList(),
-      leaderboard: Leaderboard.fromJson(json["leaderboard"]),
+      leaderboard: Leaderboard.fromJson(json["leaderboard"]??{}),
       feed:
-          (json["feed"] as List<dynamic>).map((e) => Feed.fromJson(e)).toList(),
+          (json["feed"] as List<dynamic>).map((e) => Feed.fromJson(e??{})).toList(),
     );
   }
 

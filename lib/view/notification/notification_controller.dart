@@ -38,7 +38,9 @@ class NotificationState {
 class NotificationController extends StateNotifier<NotificationState> {
   final Ref ref;
 
-  NotificationController(this.ref) : super(NotificationState());
+  NotificationController(this.ref) : super(NotificationState()){
+    fetchNotifications();
+  }
 
   /// Fetch notifications (with pagination support)
   Future<void> fetchNotifications({bool loadMore = false}) async {

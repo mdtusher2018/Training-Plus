@@ -41,6 +41,16 @@ class ChangePasswordScreen extends ConsumerWidget {
       return false;
     }
 
+        if (newPass.length<6) {
+      commonSnackbar(
+        context: context,
+        title: "Invalid",
+        message: "Password must be 6 charecter",
+        backgroundColor: AppColors.error,
+      );
+      return false;
+    }
+
     if (confirmPass.isEmpty) {
       commonSnackbar(
         context: context,

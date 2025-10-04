@@ -18,16 +18,11 @@ import 'package:training_plus/widgets/common_widgets.dart';
 class SignupView extends ConsumerWidget {
   SignupView({super.key});
 
-  final TextEditingController fullNameController = TextEditingController(
-    text: "tusher",
-  );
-  final TextEditingController emailController = TextEditingController(text: "");
-  final TextEditingController passwordController = TextEditingController(
-    text: "hello123",
-  );
-  final TextEditingController confirmPasswordController = TextEditingController(
-    text: "hello123",
-  );
+  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final List<TextEditingController> referralControllers = List.generate(
     6,
@@ -253,10 +248,8 @@ class SignupView extends ConsumerWidget {
     showModalBottomSheet(
       context: context2,
       isScrollControlled: true,
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.sizeOf(context2).width
-      ),
-      
+      constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context2).width),
+
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -269,7 +262,7 @@ class SignupView extends ConsumerWidget {
                 Padding(
                   padding: MediaQuery.of(
                     ctx,
-                  ).viewInsets.add( EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 40.h)),
+                  ).viewInsets.add(EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 40.h)),
                   child: Column(
                     spacing: 24.sp,
                     mainAxisSize: MainAxisSize.min,
@@ -280,16 +273,14 @@ class SignupView extends ConsumerWidget {
                         isBold: true,
                         textAlign: TextAlign.center,
                       ),
-                    
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(
                           6,
                           (index) => Expanded(
                             child: Padding(
-                              padding:  EdgeInsets.symmetric(
-                                horizontal: 4.0.w,
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 4.0.w),
                               child: buildOTPTextField(
                                 referralControllers[index],
                                 index,
@@ -299,7 +290,7 @@ class SignupView extends ConsumerWidget {
                           ),
                         ),
                       ),
-                    
+
                       commonButton(
                         "Use Code",
                         onTap: () {

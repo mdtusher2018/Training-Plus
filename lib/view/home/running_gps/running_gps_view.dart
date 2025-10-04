@@ -399,16 +399,12 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                           },
                         ),
                         commonSizedBox(width: 20),
-                        _roundButton(Icons.stop, Colors.red, () async {
-                          // if (!isRunning && _routePoints.isEmpty) {
-                          //   return;
-                          // }
+                        _roundButton( ref.watch(runningGpsControllerProvider).isLoading? Center(child: CircularProgressIndicator()) :Icon(Icons.stop), Colors.red, () async {
+                          if (!isRunning && _routePoints.isEmpty) {
+                            return;
+                          }
                           _pauseRun();
                           _fitMapToRoute();
-
-                          await Future.delayed(
-                            const Duration(milliseconds: 500),
-                          );
 
                           final imageBytes = await _captureMap();
 
@@ -473,14 +469,15 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     );
   }
 
-  Widget _roundButton(IconData icon, Color color, VoidCallback onTap) {
+  Widget _roundButton(icon, Color color, VoidCallback onTap) {
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 56,
         height: 56,
         decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: Icon(icon, color: Colors.white, size: 28),
+        child:icon is Widget?icon: Icon(icon, color: Colors.white, size: 28),
       ),
     );
   }

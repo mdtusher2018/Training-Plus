@@ -44,16 +44,16 @@ class CommunityView extends ConsumerWidget {
               return ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  // if (state.data!.activeChallenge.isNotEmpty)
+                  if (state.data!.activeChallenge.isNotEmpty)
                   _activeChallengesSection(context, state, ref),
 
-                  // if (state.data!.mypost.isNotEmpty)
+                  if (state.data!.mypost.isNotEmpty)
                   _myPostsSection(context, state, ref),
 
-                  // if (state.data!.leaderboard.topUsers.isNotEmpty)
+                  if (state.data!.leaderboard.topUsers.isNotEmpty)
                   _leaderboardSection(context, state),
 
-                  // if (state.data!.feed.isNotEmpty)
+                  if (state.data!.feed.isNotEmpty)
                   _communityFeedSection(context, state, ref),
                   SizedBox(height: 24),
                 ],

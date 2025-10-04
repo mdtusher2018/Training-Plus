@@ -1,4 +1,4 @@
-import 'package:training_plus/view/personalization/subscription/subscription_model.dart';
+import 'package:training_plus/view/profile/subscription/subscription_model.dart';
 
 class MySubscriptionResponse {
   final String status;
@@ -20,18 +20,10 @@ class MySubscriptionResponse {
       status: json['status'] ?? '',
       statusCode: json['statusCode'] ?? 0,
       message: json['message'] ?? '',
-      data: MySubscriptionData.fromJson(json['data']),
+      data: MySubscriptionData.fromJson(json['data']??{}),
       errors: json['errors'] ?? [],
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'status': status,
-        'statusCode': statusCode,
-        'message': message,
-        'data': data.toJson(),
-        'errors': errors,
-      };
 }
 
 class MySubscriptionData {
@@ -46,14 +38,9 @@ class MySubscriptionData {
   factory MySubscriptionData.fromJson(Map<String, dynamic> json) {
     return MySubscriptionData(
       type: json['type'] ?? '',
-      attributes: MySubscriptionAttributes.fromJson(json['attributes']),
+      attributes: MySubscriptionAttributes.fromJson(json['attributes']??{}),
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'type': type,
-        'attributes': attributes.toJson(),
-      };
 }
 
 class MySubscriptionAttributes {
@@ -61,9 +48,9 @@ class MySubscriptionAttributes {
   final String user;
   final SubscriptionPlan subscription;
   final String planName;
-  final DateTime expiryDate;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  // final DateTime expiryDate;
+  // final DateTime createdAt;
+  // final DateTime updatedAt;
   final int v;
 
   MySubscriptionAttributes({
@@ -71,9 +58,9 @@ class MySubscriptionAttributes {
     required this.user,
     required this.subscription,
     required this.planName,
-    required this.expiryDate,
-    required this.createdAt,
-    required this.updatedAt,
+    // required this.expiryDate,
+    // required this.createdAt,
+    // required this.updatedAt,
     required this.v,
   });
 
@@ -81,25 +68,14 @@ class MySubscriptionAttributes {
     return MySubscriptionAttributes(
       id: json['_id'] ?? '',
       user: json['user'] ?? '',
-      subscription: SubscriptionPlan.fromJson(json['subscription']),
+      subscription: SubscriptionPlan.fromJson(json['subscription']??{}),
       planName: json['planName'] ?? '',
-      expiryDate: DateTime.parse(json['expiryDate']),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      // expiryDate: DateTime.parse(json['expiryDate']),
+      // createdAt: DateTime.parse(json['createdAt']),
+      // updatedAt: DateTime.parse(json['updatedAt']),
       v: json['__v'] ?? 0,
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        '_id': id,
-        'user': user,
-        'subscription': subscription.toJson(),
-        'planName': planName,
-        'expiryDate': expiryDate.toIso8601String(),
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
-        '__v': v,
-      };
 }
 
 

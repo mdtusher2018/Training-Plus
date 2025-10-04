@@ -133,20 +133,25 @@ class RunningHistoryView extends ConsumerWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.access_time,
-                                        size: 14,
-                                        color: AppColors.textPrimary,
-                                      ),
-                                      commonSizedBox(width: 4),
-                                      commonText(
-                                        "${timeAgo(run.createdAt)} Ago",
-                                        size: 12,
-                                        color: AppColors.textSecondary,
-                                      ),
-                                    ],
+                                  Flexible(
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                         Icon(
+                                          Icons.access_time,
+                                          size: 14.sp,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                       
+                                        Flexible(
+                                          child: commonText(
+                                            "${timeAgo(run.createdAt)} Ago",
+                                            size: 12,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   commonText(
                                     "${run.pace} min/km",

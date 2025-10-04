@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
-import 'package:training_plus/view/personalization/subscription/my_subscription_model.dart';
-import 'package:training_plus/view/personalization/subscription/subscription_model.dart';
-import 'package:training_plus/view/personalization/subscription/webview_payment.dart';
+import 'package:training_plus/view/profile/subscription/my_subscription_model.dart';
+import 'package:training_plus/view/profile/subscription/subscription_model.dart';
+import 'package:training_plus/view/profile/subscription/webview_payment.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 // State class
@@ -74,7 +74,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       final response = await apiService.get(ApiEndpoints.subscriptions);
 
       if (response != null && response['statusCode'] == 200) {
-        final subscriptionResponse = SubscriptionResponse.fromJson(response);
+        final subscriptionResponse = SubscriptionResponse.fromJson(response??{});
         state = state.copyWith(
           isLoading: false,
           plans: subscriptionResponse.data.attributes,
@@ -97,7 +97,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       final response = await apiService.get(ApiEndpoints.mySubscription);
 
       if (response != null && response['statusCode'] == 200) {
-        final mySubResponse = MySubscriptionResponse.fromJson(response);
+        final mySubResponse = MySubscriptionResponse.fromJson(response??{});
         state = state.copyWith(
           isLoading: false,
           mySubscription: mySubResponse.data.attributes,

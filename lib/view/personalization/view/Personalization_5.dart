@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/view/Personalization_6.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
@@ -95,19 +96,26 @@ class Personalization5 extends ConsumerWidget {
                           horizontal: 8,
                         ),
                         child: Column(
+                          spacing: 6.sp,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CommonImage(
-                              imagePath: goal['emoji']!,
-                              width: 50,
-                              isAsset: true,
+                            Expanded(
+                              child: CommonImage(
+                                imagePath: goal['emoji']!,
+                                
+                                isAsset: true,
+                              ),
                             ),
-                            commonSizedBox(height: 16),
-                            commonText(
-                              goal['title']!,
-                              size: 14,
-                              isBold: true,
-                              textAlign: TextAlign.center,
+                            
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: commonText(
+                                goal['title']!,
+                                size: 14,
+                                maxline: 3,
+                                isBold: true,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),

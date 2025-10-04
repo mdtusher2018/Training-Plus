@@ -91,15 +91,17 @@ class Personalization1 extends ConsumerWidget {
                               isAsset: true,
                             ),
                             commonSizedBox(width: 14),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                commonText(role['title']!,
-                                    size: 15, isBold: true),
-                                commonSizedBox(height: 4),
-                                commonText(role['subtitle']!,
-                                    size: 13, color: AppColors.textSecondary),
-                              ],
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  commonText(role['title']!,
+                                      size: 15, isBold: true),
+                                  commonSizedBox(height: 4),
+                                  commonText(role['subtitle']!,
+                                      size: 13, color: AppColors.textSecondary),
+                                ],
+                              ),
                             ),
                           ],
                         ),

@@ -15,15 +15,17 @@ import 'package:training_plus/widgets/common_widgets.dart';
 
 class AfterSignUpOtpView extends ConsumerWidget {
   final String email;
-  const AfterSignUpOtpView({super.key,required this.email});
+  AfterSignUpOtpView({super.key,required this.email});
+
+   final List<TextEditingController> controllers =
+        List.generate(6, (index) => TextEditingController());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(afterSignUpOtpControllerProvider);
     final controller = ref.read(afterSignUpOtpControllerProvider.notifier);
 
-    final List<TextEditingController> controllers =
-        List.generate(6, (index) => TextEditingController());
+
 
     return Scaffold(
       body: SafeArea(
@@ -101,8 +103,8 @@ commonButton(
   "Verify OTP",
   isLoading: state.isLoading,
   onTap: () async {
-    String otp = controllers.map((c) => c.text).join();
-
+    String otp = controllers.map((c){
+      return c.text;}).join();
     try {
       // Call verifyOtp, which now returns AfterSignUpOTPModel
       final response = await controller.verifyOtp(otp);

@@ -231,7 +231,7 @@ class HomePageView extends ConsumerWidget {
                 child: buildWorkoutCard(
                   workout.skillLevel,
                   workout.title,
-                  workout.watchTime.toStringAsFixed(2),
+                  workout.watchTime,
                   workout.thumbnail,
                 ),
               );

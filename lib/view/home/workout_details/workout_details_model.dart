@@ -44,7 +44,7 @@ class Workout {
   final String sports;
   final String description;
   final String thumbnail;
-  final double duration;
+  final num duration;
   final String previewVideo;
   final String userType;
   final String skillLevel;

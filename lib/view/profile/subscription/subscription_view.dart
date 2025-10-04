@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
-import 'package:training_plus/view/personalization/subscription/subscription_controller.dart';
+import 'package:training_plus/view/profile/subscription/subscription_controller.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
 class SubscriptionView extends ConsumerStatefulWidget {
@@ -131,7 +131,14 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
     SubscriptionController controller,
   ) {
     if (state.plans.isEmpty) {
-      return Center(child: commonText("No subscription plans found"));
+      return ListView(
+        children: [
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * 0.5,
+            child: Center(child: commonText("No subscription plans found")),
+          ),
+        ],
+      );
     }
 
     return ListView.builder(
@@ -170,7 +177,14 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
     final mySub = state.mySubscription;
 
     if (mySub == null) {
-      return Center(child: commonText("No active subscription found"));
+      return ListView(
+        children: [
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * 0.5,
+            child: Center(child: commonText("No active subscription found")),
+          ),
+        ],
+      );
     }
 
     return ListView(

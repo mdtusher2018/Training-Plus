@@ -15,26 +15,6 @@ class PostDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final postState = ref.watch(postDetailsProvider(postId));
     final postController = ref.read(postDetailsProvider(postId).notifier);
-
-    final post = postState.postDetails!;
-
-    final likeState = ref.watch(
-      postLikeDeleteControllerProvider((
-        id: post.id,
-        isLiked: post.isLiked,
-        likeCount: post.likeCount,
-        commentCount: post.commentCount,
-      )),
-    );
-    final likeController = ref.read(
-      postLikeDeleteControllerProvider((
-        id: post.id,
-        isLiked: post.isLiked,
-        likeCount: post.likeCount,
-        commentCount: post.commentCount,
-      )).notifier,
-    );
-
     final TextEditingController commentController = TextEditingController();
 
     return Scaffold(
@@ -64,6 +44,34 @@ class PostDetailsPage extends ConsumerWidget {
                 massage: postState.error!,
               );
             }
+
+        if (!postState.isLoading && postState.postDetails == null) {
+              return commonErrorMassage(
+                context: context,
+                massage: "Faild to fetch post details",
+              );
+            }
+
+    final post = postState.postDetails!;
+
+    final likeState = ref.watch(
+      postLikeDeleteControllerProvider((
+        id: post.id,
+        isLiked: post.isLiked,
+        likeCount: post.likeCount,
+        commentCount: post.commentCount,
+      )),
+    );
+    final likeController = ref.read(
+      postLikeDeleteControllerProvider((
+        id: post.id,
+        isLiked: post.isLiked,
+        likeCount: post.likeCount,
+        commentCount: post.commentCount,
+      )).notifier,
+    );
+
+
             return Padding(
               padding: EdgeInsets.all(16.sp),
               child: Column(

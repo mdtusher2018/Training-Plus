@@ -1,118 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import 'package:training_plus/core/utils/colors.dart';
-// import 'package:training_plus/view/notification/notification_model.dart';
-// import 'package:training_plus/widgets/common_widgets.dart';
-
-// class NotificationsView extends StatelessWidget {
-//   const NotificationsView({super.key});
-
-//   // Static notification list (createdAt as String)
-//   final List<NotificationItem> notifications = const [
-
-//   ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         elevation: 0,
-//         leading: GestureDetector(
-//           onTap: (){
-//             Navigator.pop(context);
-//           },
-//           child: Icon(Icons.arrow_back_ios_new)),
-//         title: commonText("Notifications", size: 20, isBold: true),
-//         centerTitle: true,
-//       ),
-//       body: notifications.isEmpty ? _buildEmptyState() : _buildNotificationList(),
-//     );
-//   }
-
-//   Widget _buildEmptyState() {
-//     return Align(
-//       alignment: Alignment.topCenter,
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Image.asset("assest/images/notification/notification.png",width: 120,),
-//           commonSizedBox(height: 24),
-//           commonText("There’s no notifications", size: 21, isBold: true),
-//           commonSizedBox(height: 8),
-//           commonText(
-//             "Your notifications will\nappear on this page.",
-//             size: 16,
-//             textAlign: TextAlign.center,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildNotificationList() {
-//     return ListView.separated(
-//       padding: const EdgeInsets.symmetric(vertical: 8),
-//       itemCount: notifications.length,
-//       separatorBuilder: (_, __) => Divider(height: 12,color: Colors.grey,),
-//       itemBuilder: (context, index) {
-//         final notif = notifications[index];
-     
-
-//         return Container(
-//           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-//           decoration: BoxDecoration(
-//             color: 
-//                 AppColors.white,
-//           ),
-//           child: Row(
-//             children: [
-//               Icon(Icons.notifications_active, color: AppColors.primary, size: 28),
-//               commonSizedBox(width: 12),
-//               Expanded(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     commonText(
-//                       notif.message,
-//                       size: 16,
-//                       fontWeight: FontWeight.w500,
-//                     ),
-//                     commonSizedBox(height: 4),
-//                     commonText(
-//                       _formatDate(notif.createdAt),
-//                       size: 12,
-//                       color: Colors.grey,
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-
-//   String _formatDate(String dateString) {
-//     try {
-//       final date = DateTime.parse(dateString);
-//       final now = DateTime.now();
-//       final difference = now.difference(date);
-
-//       if (difference.inMinutes < 60) {
-//         return "${difference.inMinutes} minutes ago";
-//       } else if (difference.inHours < 24) {
-//         return "${difference.inHours} hours ago";
-//       } else {
-//         return "${difference.inDays} days ago";
-//       }
-//     } catch (e) {
-//       return dateString; // fallback to raw text if parsing fails
-//     }
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
@@ -132,11 +17,11 @@ class NotificationsView extends ConsumerWidget {
     final scrollController = ref.watch(notificationsScrollControllerProvider);
 
     // Fetch first page on init
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (state.notifications.isEmpty && !state.isLoading) {
-        controller.fetchNotifications();
-      }
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (state.notifications.isEmpty && !state.isLoading) {
+    //     controller.fetchNotifications();
+    //   }
+    // });
 
     return Scaffold(
       appBar: AppBar(
@@ -150,12 +35,16 @@ class NotificationsView extends ConsumerWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await controller.fetchNotifications(loadMore: true);
+          await controller.fetchNotifications(loadMore: false);
         },
         child: state.isLoading && state.notifications.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator(),)
             : state.notifications.isEmpty
-                ? _buildEmptyState()
+                ? ListView(
+                  
+                  children:[ SizedBox(
+                    height: MediaQuery.sizeOf(context).height*0.8,
+                    child: Center(child: _buildEmptyState()))])
                 : _buildNotificationList(
                     state, scrollController, state.isLoading),
       ),
@@ -164,74 +53,73 @@ class NotificationsView extends ConsumerWidget {
   }
 
   Widget _buildEmptyState() {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset("assest/images/notification/notification.png", width: 120),
-          commonSizedBox(height: 24),
-          commonText("There’s no notifications", size: 21, isBold: true),
-          commonSizedBox(height: 8),
-          commonText(
-            "Your notifications will\nappear on this page.",
-            size: 16,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset("assest/images/notification/notification.png", width: 120),
+        commonSizedBox(height: 24),
+        commonText("There’s no notifications", size: 21, isBold: true),
+        commonSizedBox(height: 8),
+        commonText(
+          "Your notifications will\nappear on this page.",
+          size: 16,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
-
-  Widget _buildNotificationList(
-    NotificationState state,
-    ScrollController scrollController,
-    bool isLoading,
-  ) {
-    return ListView.separated(
-      controller: scrollController,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: state.notifications.length + (isLoading ? 1 : 0),
-      separatorBuilder: (_, __) => const Divider(height: 12, color: Colors.grey),
-      itemBuilder: (context, index) {
-        if (index >= state.notifications.length) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        final notif = state.notifications[index];
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: const BoxDecoration(color: AppColors.mainBG),
-          child: Row(
-            children: [
-              const Icon(Icons.notifications_active,
-                  color: AppColors.primary, size: 28),
-              commonSizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    commonText(
-                      notif.message,
-                      size: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    commonSizedBox(height: 4),
-                    commonText(
-                      timeAgo(notif.createdAt),
-                      size: 12,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+Widget _buildNotificationList(
+  NotificationState state,
+  ScrollController scrollController,
+  bool isLoading,
+) {
+  return ListView.separated(
+    controller: scrollController,
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    itemCount: state.notifications.length + (isLoading ? 1 : 0),
+    separatorBuilder: (_, __) => const Divider(height: 12, color: Colors.grey),
+    itemBuilder: (context, index) {
+      // Show bottom loader for pagination
+      if (index >= state.notifications.length) {
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: Center(child: CircularProgressIndicator()),
         );
-      },
-    );
-  }
+      }
+
+      final notif = state.notifications[index];
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: const BoxDecoration(color: AppColors.mainBG),
+        child: Row(
+          children: [
+            const Icon(Icons.notifications_active,
+                color: AppColors.primary, size: 28),
+            commonSizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  commonText(
+                    notif.message,
+                    size: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  commonSizedBox(height: 4),
+                  commonText(
+                    timeAgo(notif.createdAt),
+                    size: 12,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+
 }

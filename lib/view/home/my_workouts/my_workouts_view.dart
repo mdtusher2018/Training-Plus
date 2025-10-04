@@ -90,7 +90,7 @@ class MyWorkoutsView extends ConsumerWidget {
                       child: buildWorkoutCard(
                         workout.skillLevel,
                         workout.title,
-                        workout.watchTime.toStringAsFixed(2),
+                        workout.watchTime,
                         workout.thumbnail.isNotEmpty
                             ? workout.thumbnail
                             : "https://www.rhsmith.umd.edu/sites/default/files/research/featured/2022/11/soccer-player.jpg",

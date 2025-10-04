@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/home/workout_details/chapters.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/widgets/common_videoplayer.dart';
@@ -124,14 +126,15 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       // Duration Row
                                       Row(
                                         children: [
-                                          const Icon(
+                                          Icon(
                                             Icons.access_time,
-                                            size: 16,
+                                            size: 16.sp,
                                             color: AppColors.textSecondary,
                                           ),
                                           commonSizedBox(width: 4),
                                           commonText(
-                                            "${workoutState.workout!.duration.toStringAsFixed(0)} min",
+                                            workoutState.workout!.duration
+                                                .formatDuration(),
                                             size: 14,
                                             color: AppColors.textSecondary,
                                           ),
