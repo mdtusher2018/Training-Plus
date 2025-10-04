@@ -1,0 +1,44 @@
+name: Flutter CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+  pull_request:
+    branches:
+      - main  # Trigger on PRs to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can also use macos-latest or windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.7.0'  # Specify your Flutter version
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+
+      - name: Run Flutter analyze
+        run: |
+          flutter analyze
+
+      - name: Run Flutter test
+        run: |
+          flutter test
+
+      - name: Run Flutter build (optional, for release)
+        run: |
+          flutter build apk --release  # or iOS, depending on your project
+          
+      - name: Upload build artifacts (optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: flutter-build
+          path: build/app/outputs/flutter-apk/app-release.apk  # Path to the built artifact
