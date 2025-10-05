@@ -15,8 +15,14 @@ jobs:
       with:
         flutter-version: '3.7.2'
 
+    - name: Check Flutter version
+      run: flutter --version
+
+    - name: Set Android SDK Path
+      run: echo "ANDROID_HOME=C:/Users/runner/hostedtoolcache/flutter/3.7.2-stable/x64/bin/cache/artifacts/engine/android-arm-release" >> $GITHUB_ENV
+
     - name: Install dependencies
-      run: flutter pub get
+      run: flutter pub get --verbose
 
     - name: Build APK
       run: flutter build apk --release
