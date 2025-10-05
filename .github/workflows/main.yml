@@ -3,23 +3,29 @@ name: Build Flutter APK for Android
 on:
   push:
     branches:
-      - main
+      - main  # Change this if your main branch has a different name
 
 jobs:
   build:
-    runs-on: windows-latest  # Use Windows runner for this workflow
-
+    runs-on: windows-latest  # Use Windows since you're developing on Windows
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    - name: Set up Flutter
+    - name: Set up Flutter (latest stable)
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.7.2'  # Make sure to use a version that supports Dart 3.7.2
+        flutter-version: 'stable'  # Use the latest stable Flutter version
 
     - name: Install dependencies
       run: flutter pub get
 
     - name: Build APK
       run: flutter build apk --release
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk
+        path: build/app/outputs/flutter-apk/app-release.apk
