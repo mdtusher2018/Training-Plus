@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/common_used_models/active_challenge_model.dart';
+import 'package:training_plus/common_used_models/my_post_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'community_model.dart'; // <- your model file
@@ -60,38 +61,48 @@ class CommunityController extends StateNotifier<CommunityState> {
     state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
   }
 
-void incrementCommentCount({required String postId, required int count}) {
-  final updatedPosts = state.data!.mypost.map((p) {
-    if (p.id == postId) {
-      
-      return p.copyWith(commentCount: p.commentCount+1);
-    }
-    return p;
-  }).toList();
+  void incrementCommentCount({required String postId, required int count}) {
+    final updatedPosts =
+        state.data!.mypost.map((p) {
+          if (p.id == postId) {
+            return p.copyWith(commentCount: p.commentCount + 1);
+          }
+          return p;
+        }).toList();
 
-  state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
-}
-
-  void markChallengeJoined(String challengeId) {
-    final updatedChallenges = state.data!.activeChallenge.map((challenge) {
-      if (challenge.id == challengeId) {
-        return ActiveChallenge(
-          id: challenge.id,
-          challengeName: challenge.challengeName,
-          count: challenge.count,
-          days: challenge.days,
-          point: challenge.point,
-          isJoined: true, // ✅ Update flag here
-          progress: challenge.progress,
-          createdAt: challenge.createdAt,
-          expiredAt: challenge.expiredAt,
-        );
-      }
-      return challenge;
-    }).toList();
-
-    state = state.copyWith(data: state.data!.copyWith(activeChallenge: updatedChallenges));
+    state = state.copyWith(data: state.data!.copyWith(mypost: updatedPosts));
   }
 
+  void markChallengeJoined(String challengeId) {
+    final updatedChallenges =
+        state.data!.activeChallenge.map((challenge) {
+          if (challenge.id == challengeId) {
+            return ActiveChallenge(
+              id: challenge.id,
+              challengeName: challenge.challengeName,
+              count: challenge.count,
+              days: challenge.days,
+              point: challenge.point,
+              isJoined: true, // ✅ Update flag here
+              progress: challenge.progress,
+              createdAt: challenge.createdAt,
+              expiredAt: challenge.expiredAt,
+            );
+          }
+          return challenge;
+        }).toList();
 
+    state = state.copyWith(
+      data: state.data!.copyWith(activeChallenge: updatedChallenges),
+    );
+  }
+
+  void addMyPostManually(MyPost? myPost) {
+    if (myPost != null) {
+      final updatedMyPosts = [myPost, ...?state.data?.mypost];
+      final updatedData = state.data?.copyWith(mypost: updatedMyPosts);
+
+      state = state.copyWith(data: updatedData);
+    }
+  }
 }

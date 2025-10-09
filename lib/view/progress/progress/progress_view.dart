@@ -31,19 +31,21 @@ class ProgressView extends ConsumerWidget {
         backgroundColor: AppColors.boxBG,
         title: commonText("Progress", size: 20, fontWeight: FontWeight.bold),
       ),
-      body:
-          RefreshIndicator(
-            onRefresh: () async{
-              await controller.fetchProgress();
-            },
-            child:(state.progress==null)?const Center(child: CircularProgressIndicator()) : (state.progress == null && state.isLoading)
-      // Full-screen loader for first load
-      ? const Center(child: CircularProgressIndicator())
-      : state.error != null
-          // Show error in a scrollable ListView so RefreshIndicator works
-          ?  commonErrorMassage(context: context, massage: state.error!)
-          // Normal loaded state
-          : SingleChildScrollView(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchProgress();
+        },
+        child:
+            (state.progress == null)
+                ? const Center(child: CircularProgressIndicator())
+                : (state.progress == null && state.isLoading)
+                // Full-screen loader for first load
+                ? const Center(child: CircularProgressIndicator())
+                : state.error != null
+                // Show error in a scrollable ListView so RefreshIndicator works
+                ? commonErrorMassage(context: context, massage: state.error!)
+                // Normal loaded state
+                : SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,106 +81,101 @@ class ProgressView extends ConsumerWidget {
                     ],
                   ),
                 ),
-          ),
+      ),
     );
   }
 
   // Widget _buildTrainingActivityChart() {
- Widget _buildTrainingActivityChart({
-  required ProgressState state,
-  required ProgressController controller,
-}) {
-  final monthlyData = state.progress?.progressChart.monthly ?? [];
-  final weeklyData = state.progress?.progressChart.weekly ?? [];
+  Widget _buildTrainingActivityChart({
+    required ProgressState state,
+    required ProgressController controller,
+  }) {
+    final monthlyData = state.progress?.progressChart.monthly ?? [];
+    final weeklyData = state.progress?.progressChart.weekly ?? [];
 
-  final list = state.isMonthly ? monthlyData : weeklyData;
+    final list = state.isMonthly ? monthlyData : weeklyData;
 
-  // Calculate height dynamically based on number of bars and device height
-  final chartHeight = (list.length <= 7 ? 180 : 200).h;
+    // Calculate height dynamically based on number of bars and device height
+    final chartHeight = (list.length <= 7 ? 180 : 200).h;
 
-  return Container(
-    padding: EdgeInsets.all(12.r),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12.r),
-    ),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            commonText(
-              "Training Activity",
-              size: 14,
-              fontWeight: FontWeight.w600,
-            ),
-            const Spacer(),
-            GestureDetector(
-              onTap: () => controller.switchMonthly(),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.w,
-                  vertical: 4.h,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(6.r),
-                ),
-                child: Row(
-                  children: [
-                    commonText(
-                      state.isMonthly ? "Monthly" : "Weekly",
-                      size: 12,
-                    ),
-                    Icon(Icons.arrow_drop_down, size: 20.sp),
-                  ],
-                ),
+    return Container(
+      padding: EdgeInsets.all(12.r),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              commonText(
+                "Training Activity",
+                size: 14,
+                fontWeight: FontWeight.w600,
               ),
-            ),
-          ],
-        ),
-        commonSizedBox(height: 16.h),
-        SizedBox(
-          height: chartHeight,
-          
-          child: BarChart(
-            BarChartData(
-              borderData: FlBorderData(show: false),
-              titlesData: FlTitlesData(
-                topTitles: AxisTitles(),
-                rightTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    
-                    getTitlesWidget: (value, meta) {
-                      return commonText(value.toStringAsFixed(1),size: 8);
-                    },
-                  )
-                ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 30.h, // 🔑 reserve space for labels
-                    getTitlesWidget: (value, meta) {
-                      if (value.toInt() < list.length) {
-                        String label = list[value.toInt()].label;
-                        if (label.length > 3) label = label.substring(0, 3);
-                        return commonText(
-                          label,
-                          size: 7
-                        );
-                      }
-                      return const SizedBox();
-                    },
+              const Spacer(),
+              GestureDetector(
+                onTap: () => controller.switchMonthly(),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 4.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  child: Row(
+                    children: [
+                      commonText(
+                        state.isMonthly ? "Monthly" : "Weekly",
+                        size: 12,
+                      ),
+                      Icon(Icons.arrow_drop_down, size: 20.sp),
+                    ],
                   ),
                 ),
               ),
-              gridData: FlGridData(show: false),
-              barGroups: List.generate(
-                list.length,
-                (index) {
+            ],
+          ),
+          commonSizedBox(height: 16.h),
+          SizedBox(
+            height: chartHeight,
+
+            child: BarChart(
+              BarChartData(
+                borderData: FlBorderData(show: false),
+                titlesData: FlTitlesData(
+                  topTitles: AxisTitles(),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+
+                      getTitlesWidget: (value, meta) {
+                        return commonText(value.toStringAsFixed(1), size: 8);
+                      },
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 30.h, // 🔑 reserve space for labels
+                      getTitlesWidget: (value, meta) {
+                        if (value.toInt() < list.length) {
+                          String label = list[value.toInt()].label;
+                          if (label.length > 3) label = label.substring(0, 3);
+                          return commonText(label, size: 7);
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ),
+                ),
+                gridData: FlGridData(show: false),
+                barGroups: List.generate(list.length, (index) {
                   final item = list[index];
                   return BarChartGroupData(
                     x: index,
@@ -192,16 +189,14 @@ class ProgressView extends ConsumerWidget {
                       ),
                     ],
                   );
-                },
+                }),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   Widget _buildSportsActivityChart({
     required ProgressState state,
@@ -209,7 +204,7 @@ class ProgressView extends ConsumerWidget {
   }) {
     if (state.progress?.pieChart == null) {
       return Container(
-        padding:  EdgeInsets.all(12.r),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(12.r),
@@ -224,7 +219,7 @@ class ProgressView extends ConsumerWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(12.r),
         ),
-        child:  Center(child: commonText("No sports activity data")),
+        child: Center(child: commonText("No sports activity data")),
       );
     }
 
@@ -338,10 +333,8 @@ class ProgressView extends ConsumerWidget {
           commonText("Goals", size: 14, fontWeight: FontWeight.w600),
           commonSizedBox(height: 12),
           ...goals.map((goal) {
-            
-           double percent = (goal.target == 0) 
-    ? 1.0 
-    : goal.progress / goal.target;
+            double percent =
+                (goal.target == 0) ? 1.0 : goal.progress / goal.target;
 
             String title =
                 "${goal.timeFrame[0].toUpperCase()}${goal.timeFrame.substring(1)} ${goal.sports} Goals";
@@ -399,14 +392,15 @@ class ProgressView extends ConsumerWidget {
     }
 
     return Container(
-      padding:EdgeInsets.symmetric(horizontal: 10.w,vertical: 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: AppColors.mainBG,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1.w, color: Colors.grey.withOpacity(0.5)),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,spacing: 8.h,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8.h,
         children: [
           Row(
             children: [
@@ -424,13 +418,13 @@ class ProgressView extends ConsumerWidget {
                   children: [
                     commonText("See all", size: 12),
                     commonSizedBox(width: 4),
-                    Icon(Icons.arrow_forward,size: 20.sp,),
+                    Icon(Icons.arrow_forward, size: 20.sp),
                   ],
                 ),
               ),
             ],
           ),
-      
+
           ...sessions.map((session) {
             // Format updatedAt to something like "Today | 20 Min"
             final now = DateTime.now();
@@ -501,7 +495,7 @@ class ProgressView extends ConsumerWidget {
                   children: [
                     commonText("See all", size: 12),
                     commonSizedBox(width: 4),
-                    Icon(Icons.arrow_forward,size: 20.sp,),
+                    Icon(Icons.arrow_forward, size: 20.sp),
                   ],
                 ),
               ),
@@ -521,39 +515,38 @@ class ProgressView extends ConsumerWidget {
             itemBuilder: (_, i) {
               final achievement = achievements[i];
               return Container(
-            decoration: BoxDecoration(
-                color: const Color(0xFFFFFDEE),
-                borderRadius: BorderRadius.circular(12.sp),
-                border: Border.all(color: AppColors.primary, width: 1.w),
-              ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFDEE),
+                  borderRadius: BorderRadius.circular(12.sp),
+                  border: Border.all(color: AppColors.primary, width: 1.w),
+                ),
                 padding: const EdgeInsets.all(12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                      Expanded(
-                    child: FittedBox(
-                      
-                      child: CommonImage(
-                        imagePath: achievement.badgeImage,
-                        isAsset: false,
-                             fit: BoxFit.cover,                   
+                    Expanded(
+                      child: FittedBox(
+                        child: CommonImage(
+                          imagePath: achievement.badgeImage,
+                          isAsset: false,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-    
-                  commonText(
-                    achievement.badgeName,
-                    size: 14,
-                    isBold: true,
-                    textAlign: TextAlign.center,
-                  ),
-                  commonSizedBox(height: 4),
-                  commonText(
-                    achievement.description,
-                    size: 12,
-                    color: Colors.grey.shade800,
-                    textAlign: TextAlign.center,
-                  ),
+
+                    commonText(
+                      achievement.badgeName,
+                      size: 14,
+                      isBold: true,
+                      textAlign: TextAlign.center,
+                    ),
+                    commonSizedBox(height: 4),
+                    commonText(
+                      achievement.description,
+                      size: 12,
+                      color: Colors.grey.shade800,
+                      textAlign: TextAlign.center,
+                    ),
                   ],
                 ),
               );
@@ -626,7 +619,7 @@ class ProgressView extends ConsumerWidget {
     String? selectedSportId =
         state.categories.isNotEmpty ? state.categories.first.id : null;
     String? selectedTimeFrame = timeFrameList.first;
- bool isLoading=false;
+    bool isLoading = false;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -635,9 +628,6 @@ class ProgressView extends ConsumerWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
-
-
-        
         return Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -647,7 +637,6 @@ class ProgressView extends ConsumerWidget {
           ),
           child: StatefulBuilder(
             builder: (context, setState) {
-             
               return SingleChildScrollView(
                 child: Stack(
                   children: [
@@ -727,12 +716,13 @@ class ProgressView extends ConsumerWidget {
                           "Set Goal",
                           isLoading: isLoading,
                           onTap: () async {
-                          
-                            if (selectedSportId != null &&
-                                targetController.text.isNotEmpty) {
-                                    setState((){
-                              isLoading=true;
-                            });
+                            double? target = double.tryParse(
+                              targetController.text.trim(),
+                            );
+                            if (selectedSportId != null && target != null) {
+                              setState(() {
+                                isLoading = true;
+                              });
                               final response = await controller.setGoal(
                                 context: context,
                                 sportId: selectedSportId!,
@@ -745,19 +735,21 @@ class ProgressView extends ConsumerWidget {
                                 context: context,
                                 title: response["title"].toString(),
                                 message: response["massage"].toString(),
-                                backgroundColor: response['title']=="Successful"?AppColors.success:AppColors.error
+                                backgroundColor:
+                                    response['title'] == "Successful"
+                                        ? AppColors.success
+                                        : AppColors.error,
                               );
-                         setState((){
-                              isLoading=false;
-                            });
-                            }else{
-                                    commonSnackbar(
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } else {
+                              commonSnackbar(
                                 context: context,
                                 title: "Empty",
-                                message: "Please Enter Target",
-                                backgroundColor: AppColors.error
+                                message: "Please Enter Valid Number as Target",
+                                backgroundColor: AppColors.error,
                               );
-                         
                             }
                           },
                         ),

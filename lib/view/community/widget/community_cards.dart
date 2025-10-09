@@ -69,7 +69,7 @@ Widget challengeCard({
             children: [
               commonText("Progress", size: 12, color: AppColors.textSecondary),
               commonText(
-                "${DateTime.now().difference(DateTime.tryParse(createdAt)??DateTime.now()).inDays}/$days Days",
+                "${DateTime.now().difference(DateTime.tryParse(createdAt) ?? DateTime.now()).inDays}/$days Days",
                 size: 12,
                 color: AppColors.textSecondary,
               ),
@@ -448,6 +448,22 @@ void showCommentsBottomSheet({
   required bool isLikedByMe,
   required WidgetRef parentRef,
 }) {
+  // Create controller once to preserve text input
+  final TextEditingController _commentTextEditingController = TextEditingController();
+
+  // Read controller once (ref.read does not rebuild)
+  final controller = parentRef.read(
+    postLikeDeleteControllerProvider((
+      id: id,
+      isLiked: isLikedByMe,
+      likeCount: likeCount,
+      commentCount: commentCount,
+    )).notifier,
+  );
+
+  // Call API once before showing the bottom sheet
+  controller.fetchCommentsByPostId();
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -456,11 +472,9 @@ void showCommentsBottomSheet({
     ),
     backgroundColor: AppColors.white,
     builder: (context) {
-      final TextEditingController _commentTextEditingController =
-          TextEditingController();
-
       return Consumer(
         builder: (context, ref, _) {
+          // Watch state inside Consumer
           final state = ref.watch(
             postLikeDeleteControllerProvider((
               id: id,
@@ -469,41 +483,25 @@ void showCommentsBottomSheet({
               commentCount: commentCount,
             )),
           );
-          final controller = ref.read(
-            postLikeDeleteControllerProvider((
-              id: id,
-              isLiked: isLikedByMe,
-              likeCount: likeCount,
-              commentCount: commentCount,
-            )).notifier,
-          );
-          controller.fetchCommentsByPostId();
+
           return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Stack(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.85,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: commonText("Comments", size: 18, isBold: true),
-                      ),
+                      Center(child: commonText("Comments", size: 18, isBold: true)),
                       commonSizedBox(height: 16),
                       Expanded(
                         child: ListView.separated(
                           itemCount: state.comments.length,
-                          separatorBuilder:
-                              (_, __) => commonSizedBox(height: 12),
+                          separatorBuilder: (_, __) => commonSizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final comment = state.comments[index];
                             return Padding(
@@ -520,12 +518,10 @@ void showCommentsBottomSheet({
                                   commonSizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             commonText(
                                               comment.user.fullName,
@@ -568,11 +564,7 @@ void showCommentsBottomSheet({
                             right: 10,
                             child: GestureDetector(
                               onTap: () async {
-                                if (_commentTextEditingController.text
-                                    .trim()
-                                    .isEmpty) {
-                                  return;
-                                }
+                                if (_commentTextEditingController.text.trim().isEmpty) return;
 
                                 final result = await controller.postComment(
                                   _commentTextEditingController.text,
@@ -592,10 +584,7 @@ void showCommentsBottomSheet({
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 8,
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 decoration: BoxDecoration(
                                   color: AppColors.primary,
                                   borderRadius: BorderRadius.circular(6),
@@ -604,11 +593,7 @@ void showCommentsBottomSheet({
                                     color: Colors.grey.withOpacity(0.5),
                                   ),
                                 ),
-                                child: commonText(
-                                  "Send",
-                                  size: 16,
-                                  color: AppColors.white,
-                                ),
+                                child: commonText("Send", size: 16, color: AppColors.white),
                               ),
                             ),
                           ),
@@ -631,6 +616,7 @@ void showCommentsBottomSheet({
     },
   );
 }
+
 
 Future<void> showDeletePostDialog(
   BuildContext context,

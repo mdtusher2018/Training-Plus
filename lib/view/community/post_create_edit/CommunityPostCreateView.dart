@@ -102,7 +102,7 @@ class CommunityPostView extends ConsumerWidget {
                     return;
                   }
 
-                  final result = await controller.createPost(
+                  final (result, myPost) = await controller.createPost(
                     caption: _postController.text.trim(),
                     category: state.sport!,
                   );
@@ -116,6 +116,9 @@ class CommunityPostView extends ConsumerWidget {
                       backgroundColor: AppColors.success,
                       context: context,
                     );
+                    ref.read(communityControllerProvider.notifier).addMyPostManually(myPost);
+
+                    
                   } else {
                     controller.clearSport();
 

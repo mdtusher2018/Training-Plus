@@ -256,60 +256,65 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
   }
 
   Widget _buildTrainingCard(RecentTraining session) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
-      ),
-      child: Row(
-        spacing: 16.w,
-        children: [
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              child: CommonImage(
-                imagePath:
-                    session.thumbnail ??
-                    "https://via.placeholder.com/100x90.png?text=No+Image",
-
-                fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        navigateToPage(WorkoutDetailPage(id: session.workoutId), context: context);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+        ),
+        child: Row(
+          spacing: 16.w,
+          children: [
+            Expanded(
+              flex: 1,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                child: CommonImage(
+                  imagePath:
+                      session.thumbnail ??
+                      "https://via.placeholder.com/100x90.png?text=No+Image",
+      
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  commonText(
-                    session.workoutName,
-                    size: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-
-                  commonText(
-                    session.skillLevel,
-                    size: 14,
-                    color: AppColors.green,
-                  ),
-
-                  commonText(
-                    "${session.watchTime} sec",
-                    size: 13,
-                    color: AppColors.textSecondary,
-                  ),
-                ],
+      
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    commonText(
+                      session.workoutName,
+                      size: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+      
+                    commonText(
+                      session.skillLevel,
+                      size: 14,
+                      color: AppColors.green,
+                    ),
+      
+                    commonText(
+                      "${session.watchTime} sec",
+                      size: 13,
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

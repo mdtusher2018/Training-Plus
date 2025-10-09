@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/common_used_models/my_post_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
@@ -86,35 +87,50 @@ class CommunityPostCreateEditController extends StateNotifier<CommunityPostCreat
   }
 
   /// Create a new post
-  Future<Map<String, String>> createPost({
-    required String caption,
-    required String category,
-  }) async {
-    log(category);
-    state = state.copyWith(isLoading: true, error: null);
-    try {
-      final response = await apiService.post(ApiEndpoints.createPost, {
-        "caption": caption,
-        "category": category,
-      });
+Future<(Map<String, dynamic>, MyPost?)> createPost({
+  required String caption,
+  required String category,
+}) async {
+  log(category);
+  state = state.copyWith(isLoading: true, error: null);
 
-      if (response != null && response["statusCode"] == 201) {
-        return {
+  try {
+    final response = await apiService.post(ApiEndpoints.createPost, {
+      "caption": caption,
+      "category": category,
+    });
+
+    if (response != null && response["statusCode"] == 201) {
+      final myPost = MyPost.fromJson(response['data']);
+      return (
+        {
           "title": "Success",
           "message": response["message"] ?? "Post created successfully",
-        };
-      } else {
-        return {
+        },
+        myPost
+      );
+    } else {
+      return (
+        {
           "title": "Error",
           "message": response?["message"] ?? "Failed to create post",
-        };
-      }
-    } catch (e) {
-      return {"title": "Error", "message": e.toString()};
-    } finally {
-      state = state.copyWith(isLoading: false);
+        },
+        null
+      );
     }
+  } catch (e) {
+    return (
+      {
+        "title": "Error",
+        "message": e.toString(),
+      },
+      null
+    );
+  } finally {
+    state = state.copyWith(isLoading: false);
   }
+}
+
 
 
 Future<Map<String, String>> updatePost({
