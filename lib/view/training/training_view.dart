@@ -116,7 +116,20 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
           GestureDetector(
             onTap: () {
               controller.fetchCategories();
-              navigateToPage(context: context, ChooseYourSportChangeView());
+              navigateToPage(context: context, ChooseYourSportChangeView(), onPopCallback: (result) async {
+        if (result != null) {
+          commonSnackbar(
+            context: context,
+            title: result['title'] ?? 'Status',
+            message: result['message'] ?? '',
+            backgroundColor: AppColors.success
+          );
+
+          if (result['title'] == 'Error') {
+            await controller.fetchCategories();
+          }
+        }
+      },);
             },
             child: Container(
               padding: const EdgeInsets.all(4),

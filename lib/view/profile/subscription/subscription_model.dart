@@ -34,7 +34,7 @@ class SubscriptionData {
     return SubscriptionData(
       type: json['type'] ?? '',
       attributes:
-          (json['attributes']??[] as List<dynamic>?)
+          (json['attributes'] as List<dynamic>?)
               ?.map((e) => SubscriptionPlan.fromJson(e??{}))
               .toList() ??
           [],

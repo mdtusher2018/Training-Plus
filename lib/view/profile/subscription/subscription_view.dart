@@ -176,7 +176,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
   ) {
     final mySub = state.mySubscription;
 
-    if (mySub == null) {
+    if (mySub == null || mySub.id.isEmpty) {
       return ListView(
         children: [
           SizedBox(

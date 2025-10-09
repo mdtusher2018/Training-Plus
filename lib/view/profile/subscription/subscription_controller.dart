@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
@@ -75,6 +77,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
 
       if (response != null && response['statusCode'] == 200) {
         final subscriptionResponse = SubscriptionResponse.fromJson(response??{});
+        log(subscriptionResponse.data.attributes.length.toString());
         state = state.copyWith(
           isLoading: false,
           plans: subscriptionResponse.data.attributes,

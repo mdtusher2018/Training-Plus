@@ -47,11 +47,11 @@ class TrainingState {
       sportId: sportId ?? this.sportId,
       error: error,
 
-      completedWorkouts: completedWorkouts ?? this.completedWorkouts, // <-- added
+      completedWorkouts:
+          completedWorkouts ?? this.completedWorkouts, // <-- added
     );
   }
 }
-
 
 class TrainingController extends StateNotifier<TrainingState> {
   final IApiService apiService;
@@ -82,7 +82,6 @@ class TrainingController extends StateNotifier<TrainingState> {
     }
   }
 
-
   /// Fetch completed trainings (with pagination)
   Future<void> fetchCompletedTrainings({bool loadMore = false}) async {
     try {
@@ -95,31 +94,33 @@ class TrainingController extends StateNotifier<TrainingState> {
 
       state = state.copyWith(isLoading: true, error: null);
 
-      final page = loadMore
-          ? state.completedWorkouts!.pagination.currentPage + 1
-          : 1;
+      final page =
+          loadMore ? state.completedWorkouts!.pagination.currentPage + 1 : 1;
 
-      final response =
-          await apiService.get("${ApiEndpoints.completedTrainings}?page=$page");
+      final response = await apiService.get(
+        "${ApiEndpoints.completedTrainings}?page=$page",
+      );
 
       if (response != null && response['statusCode'] == 200) {
-        final workoutHistoryResponse =
-            WorkoutHistoryResponse.fromJson(response);
+        final workoutHistoryResponse = WorkoutHistoryResponse.fromJson(
+          response,
+        );
 
         if (loadMore && state.completedWorkouts != null) {
           // merge results
           final merged = state.completedWorkouts!.copyWith(
             result: [
               ...state.completedWorkouts!.result,
-              ...workoutHistoryResponse.result
+              ...workoutHistoryResponse.result,
             ],
             pagination: workoutHistoryResponse.pagination,
           );
-          state =
-              state.copyWith(isLoading: false, completedWorkouts: merged);
+          state = state.copyWith(isLoading: false, completedWorkouts: merged);
         } else {
           state = state.copyWith(
-              isLoading: false, completedWorkouts: workoutHistoryResponse);
+            isLoading: false,
+            completedWorkouts: workoutHistoryResponse,
+          );
         }
       } else {
         state = state.copyWith(
@@ -132,21 +133,12 @@ class TrainingController extends StateNotifier<TrainingState> {
     }
   }
 
-
-
-
-
-void updateSport({
-  String? sport,   
-  String? sportId,
-}) {
-  state = state.copyWith(
-    sport:  sport ?? state.sport,  // store as single-item list
-    sportId: sportId??state.sportId,
-  );
-}
-
-
+  void updateSport({String? sport, String? sportId}) {
+    state = state.copyWith(
+      sport: sport ?? state.sport, // store as single-item list
+      sportId: sportId ?? state.sportId,
+    );
+  }
 
   Future<void> fetchCategories() async {
     log("Fetching categories...");
@@ -167,46 +159,41 @@ void updateSport({
     }
   }
 
-
-
-
-Future<Map<String, String>> changeCategory() async {
-  if (state.sportId == null) {
-    return {
-      "message": "No sport selected",
-      "title": "Error",
-    };
-  }
-
-  state = state.copyWith(isLoading: true, error: null);
-
-  try {
-    final response = await apiService.post(
-      ApiEndpoints.changeCurrentTraining,
-      {"currentTrainning": state.sportId},
-    );
-
-    if (response != null && response['statusCode'] == 200) {
-      return {
-        "message": response['message'] ?? "Category changed successfully",
-        "title": "Success",
-      };
-    } else {
-      final errorMsg = response != null && response['message'] != null
-          ? response['message']
-          : "Failed to change category";
-      return {"message": errorMsg, "title": "Error"};
+  Future<Map<String, String>> changeCategory() async {
+    if (state.sportId == null) {
+      return {"message": "No sport selected", "title": "Error"};
     }
-  } catch (e) {
-    return {"message": "Error: ${e.toString()}", "title": "Error"};
-  } finally {
-    state = state.copyWith(isLoading: false);
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final response = await apiService.post(
+        ApiEndpoints.changeCurrentTraining,
+        {"currentTrainning": state.sportId},
+      );
+
+      if (response != null && response['statusCode'] == 200) {
+        final updatedAttributes = state.attributes?.copyWith(
+          currentTrainning: state.sport ?? state.attributes?.currentTrainning,
+        );
+
+        state = state.copyWith(attributes: updatedAttributes);
+
+        return {
+          "message": response['message'] ?? "Category changed successfully",
+          "title": "Success",
+        };
+      } else {
+        final errorMsg =
+            response != null && response['message'] != null
+                ? response['message']
+                : "Failed to change category";
+        return {"message": errorMsg, "title": "Error"};
+      }
+    } catch (e) {
+      return {"message": "Error: ${e.toString()}", "title": "Error"};
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
   }
-}
-
-
-
-
-
-
 }

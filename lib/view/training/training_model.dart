@@ -50,6 +50,17 @@ class TrainingAttributes {
       currentTrainning: json['currentTrainning']?['currentTrainning'] ?? "N/A",
     );
   }
+  TrainingAttributes copyWith({
+    List<RecentTraining>? myTrainings,
+    List<Wellness>? wellness,
+    String? currentTrainning,
+  }) {
+    return TrainingAttributes(
+      myTrainings: myTrainings ?? this.myTrainings,
+      wellness: wellness ?? this.wellness,
+      currentTrainning: currentTrainning ?? this.currentTrainning,
+    );
+  }
 }
 
 class Wellness {
