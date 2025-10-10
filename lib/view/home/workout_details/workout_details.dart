@@ -37,7 +37,8 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
           await workoutController.fetchWorkout(widget.id);
         },
         child:
-            (workoutState.workout == null && workoutState.isLoading)
+            // (workoutState.workout == null || workoutState.isLoading)
+            workoutState.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : workoutState.error != null
                 ? commonErrorMassage(
