@@ -76,100 +76,95 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                               ),
 
                               // DETAILS
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Title & Share
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: commonText(
-                                              workoutState.workout!.title,
-                                              size: 20,
-                                              isBold: true,
-                                              color: AppColors.textPrimary,
-                                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    // Title & Share
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: commonText(
+                                            workoutState.workout!.title,
+                                            size: 20,
+                                            isBold: true,
+                                            color: AppColors.textPrimary,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              // share action
-                                            },
-                                            child: const Icon(
-                                              Icons.share,
-                                              size: 24,
-                                              color: AppColors.textPrimary,
-                                            ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            // share action
+                                          },
+                                          child: const Icon(
+                                            Icons.share,
+                                            size: 24,
+                                            color: AppColors.textPrimary,
                                           ),
-                                        ],
-                                      ),
-
-                                      commonSizedBox(height: 8),
-
-                                      // Level
-                                      commonText(
-                                        workoutState.workout!.skillLevel,
-                                        size: 16,
-                                        color: AppColors.textPrimary,
-                                      ),
-
-                                      commonSizedBox(height: 8),
-
-                                      // Duration Row
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.access_time,
-                                            size: 16.sp,
-                                            color: AppColors.textSecondary,
-                                          ),
-                                          commonSizedBox(width: 4),
-                                          commonText(
-                                            workoutState.workout!.duration
-                                                .formatDuration(),
-                                            size: 14,
-                                            color: AppColors.textSecondary,
-                                          ),
-                                        ],
-                                      ),
-                                      commonSizedBox(height: 12),
-
-                                      // About Header
-                                      commonText(
-                                        "About this training",
-                                        size: 16,
-                                        isBold: true,
-                                        color: AppColors.textPrimary,
-                                      ),
-                                      commonSizedBox(height: 8),
-
-                                      // Description
-                                      commonText(
-                                        workoutState.workout!.description,
-                                        size: 14,
-                                        color: AppColors.textSecondary,
-                                        softwarp: true,
-                                        maxline: 10,
-                                      ),
-
-                                      commonSizedBox(height: 24),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                                              
+                                    commonSizedBox(height: 8),
+                                                              
+                                    // Level
+                                    commonText(
+                                      workoutState.workout!.skillLevel,
+                                      size: 16,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                                              
+                                    commonSizedBox(height: 8),
+                                                              
+                                    // Duration Row
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.access_time,
+                                          size: 16.sp,
+                                          color: AppColors.textSecondary,
+                                        ),
+                                        commonSizedBox(width: 4),
+                                        commonText(
+                                          workoutState.workout!.duration
+                                              .formatDuration(),
+                                          size: 14,
+                                          color: AppColors.textSecondary,
+                                        ),
+                                      ],
+                                    ),
+                                    commonSizedBox(height: 12),
+                                                              
+                                    // About Header
+                                    commonText(
+                                      "About this training",
+                                      size: 16,
+                                      isBold: true,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                    commonSizedBox(height: 8),
+                                                              
+                                    // Description
+                                    commonText(
+                                      workoutState.workout!.description,
+                                      size: 14,
+                                      color: AppColors.textSecondary,
+                                      softwarp: true,
+                                      maxline: 10,
+                                    ),
+                                                              
+                                    commonSizedBox(height: 24),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
 
                           Positioned(
-                            top: 56,
+                            top: 80,
                             left: 24,
                             child: GestureDetector(
                               onTap: () {
