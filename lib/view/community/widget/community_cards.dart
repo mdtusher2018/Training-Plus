@@ -10,83 +10,102 @@ import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/post_details/post_details_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-Widget challengeCard({
-  required String title,
-  required num points,
-  required bool isJoined,
-  required int days,
-  required int count,
-  required num progress,
-  required String createdAt,
-  required Function()? onTap,
-}) {
-  return Container(
-    padding: const EdgeInsets.all(16),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 2.h,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            commonText(title, size: 14, isBold: true),
-            GestureDetector(
-              onTap: onTap,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isJoined ? AppColors.primary : Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                ),
-                child: commonText(isJoined ? "Joined" : "Join", size: 12),
-              ),
-            ),
-          ],
-        ),
+class challengeCard extends StatelessWidget {
+  final String title;
+  final num points;
+  final bool isJoined;
+  final int days;
+  final int count;
+  final num progress;
+  final String createdAt;
+  final Function()? onTap;
 
-        Row(
-          children: [
-            Icon(
-              Icons.radio_button_checked,
-              size: 16.sp,
-              color: AppColors.primary,
-            ),
-            commonSizedBox(width: 4),
-            Expanded(child: commonText("$points Points", size: 12)),
-          ],
-        ),
-        if (isJoined) ...[
+  const challengeCard({
+    super.key,
+    required this.title,
+    required this.points,
+    required this.isJoined,
+    required this.days,
+    required this.count,
+    required this.progress,
+    required this.createdAt,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commonText("Progress", size: 12, color: AppColors.textSecondary),
-              commonText(
-                "${DateTime.now().difference(DateTime.tryParse(createdAt) ?? DateTime.now()).inDays}/$days Days",
-                size: 12,
-                color: AppColors.textSecondary,
+              commonText(title, size: 14, isBold: true),
+              GestureDetector(
+                onTap: onTap,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isJoined ? AppColors.primary : Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                  ),
+                  child: commonText(isJoined ? "Joined" : "Join", size: 12),
+                ),
               ),
             ],
           ),
-
-          LinearProgressIndicator(
-            value: progress.toDouble() / count.toDouble(),
-            minHeight: 12.sp,
-            borderRadius: BorderRadius.circular(16.r),
-            backgroundColor: AppColors.boxBG,
-            color: AppColors.primary,
+          Row(
+            children: [
+              Icon(
+                Icons.radio_button_checked,
+                size: 16.sp,
+                color: AppColors.primary,
+              ),
+              commonSizedBox(width: 4),
+              Expanded(child: commonText("$points Points", size: 12)),
+            ],
           ),
+          if (isJoined) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                commonText(
+                  "Progress",
+                  size: 12,
+                  color: AppColors.textSecondary,
+                ),
+                commonText(
+                  "${DateTime.now().difference(DateTime.tryParse(createdAt) ?? DateTime.now()).inDays}/$days Days",
+                  size: 12,
+                  color: AppColors.textSecondary,
+                ),
+              ],
+            ),
+            LinearProgressIndicator(
+              value: progress.toDouble() / count.toDouble(),
+              minHeight: 12.sp,
+              borderRadius: BorderRadius.circular(16.r),
+              backgroundColor: AppColors.boxBG,
+              color: AppColors.primary,
+            ),
+          ],
         ],
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }
 
 class PostCard extends ConsumerWidget {
@@ -260,58 +279,68 @@ class PostCard extends ConsumerWidget {
   }
 }
 
-Widget leaderboardCard({
-  required num points,
-  required num index,
-  required String name,
-  required String image,
-}) {
-  // Image URLs for top 3 ranks
-  final trophyImages = [
-    "assest/images/community/rank_1st.png", // 🥇 1st
-    "assest/images/community/rank_2nd.png", // 🥈 2nd
-    "assest/images/community/rank_3rd.png", // 🥉 3rd
-  ];
+class leaderboardCard extends StatelessWidget {
+  final num points;
+  final num index;
+  final String name;
+  final String image;
 
-  return Container(
-    margin: const EdgeInsets.only(bottom: 8),
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: AppColors.white,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Row(
-      children: [
-        if (index < 3)
-          CommonImage(
-            imagePath: trophyImages[index.toInt()],
-            width: 32,
-            isAsset: true,
-            fit: BoxFit.cover,
-          )
-        else
-          SizedBox(
-            width: 32,
-            child: Center(
-              child: commonText("${index + 1}", size: 16, isBold: true),
+  const leaderboardCard({
+    super.key,
+    required this.points,
+    required this.index,
+    required this.name,
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final trophyImages = [
+      "assest/images/community/rank_1st.png", // 🥇 1st
+      "assest/images/community/rank_2nd.png", // 🥈 2nd
+      "assest/images/community/rank_3rd.png", // 🥉 3rd
+    ];
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          if (index < 3)
+            CommonImage(
+              imagePath: trophyImages[index.toInt()],
+              width: 32,
+              isAsset: true,
+              fit: BoxFit.cover,
+            )
+          else
+            SizedBox(
+              width: 32,
+              child: Center(
+                child: commonText("${index + 1}", size: 16, isBold: true),
+              ),
             ),
+          commonSizedBox(width: 8),
+          CircleAvatar(
+            radius: 14.sp,
+            backgroundImage: NetworkImage(getFullImagePath(image)),
           ),
-        commonSizedBox(width: 8),
-        CircleAvatar(
-          radius: 14.sp,
-          backgroundImage: NetworkImage(getFullImagePath(image)),
-        ),
-        commonSizedBox(width: 12),
-        Expanded(child: commonText(name, size: 14)),
-        commonText(
-          "$points\nPoints",
-          size: 14,
-          fontWeight: FontWeight.w600,
-          textAlign: TextAlign.left,
-        ),
-      ],
-    ),
-  );
+          commonSizedBox(width: 12),
+          Expanded(child: commonText(name, size: 14)),
+          commonText(
+            "$points\nPoints",
+            size: 14,
+            fontWeight: FontWeight.w600,
+            textAlign: TextAlign.left,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Widget sectionHeader(String title, {required Function()? onTap}) {
@@ -449,7 +478,8 @@ void showCommentsBottomSheet({
   required WidgetRef parentRef,
 }) {
   // Create controller once to preserve text input
-  final TextEditingController _commentTextEditingController = TextEditingController();
+  final TextEditingController _commentTextEditingController =
+      TextEditingController();
 
   // Read controller once (ref.read does not rebuild)
   final controller = parentRef.read(
@@ -485,23 +515,31 @@ void showCommentsBottomSheet({
           );
 
           return Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: Stack(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height * 0.85,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: commonText("Comments", size: 18, isBold: true)),
+                      Center(
+                        child: commonText("Comments", size: 18, isBold: true),
+                      ),
                       commonSizedBox(height: 16),
                       Expanded(
                         child: ListView.separated(
                           itemCount: state.comments.length,
-                          separatorBuilder: (_, __) => commonSizedBox(height: 12),
+                          separatorBuilder:
+                              (_, __) => commonSizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final comment = state.comments[index];
                             return Padding(
@@ -518,10 +556,12 @@ void showCommentsBottomSheet({
                                   commonSizedBox(width: 12),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             commonText(
                                               comment.user.fullName,
@@ -564,7 +604,10 @@ void showCommentsBottomSheet({
                             right: 10,
                             child: GestureDetector(
                               onTap: () async {
-                                if (_commentTextEditingController.text.trim().isEmpty) return;
+                                if (_commentTextEditingController.text
+                                    .trim()
+                                    .isEmpty)
+                                  return;
 
                                 final result = await controller.postComment(
                                   _commentTextEditingController.text,
@@ -584,7 +627,10 @@ void showCommentsBottomSheet({
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.primary,
                                   borderRadius: BorderRadius.circular(6),
@@ -593,7 +639,11 @@ void showCommentsBottomSheet({
                                     color: Colors.grey.withOpacity(0.5),
                                   ),
                                 ),
-                                child: commonText("Send", size: 16, color: AppColors.white),
+                                child: commonText(
+                                  "Send",
+                                  size: 16,
+                                  color: AppColors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -616,7 +666,6 @@ void showCommentsBottomSheet({
     },
   );
 }
-
 
 Future<void> showDeletePostDialog(
   BuildContext context,
