@@ -76,8 +76,8 @@ class CreateNewPasswordView extends ConsumerWidget {
                       confirmPasswordController.text.trim();
 
                   if (password.isEmpty || confirmPassword.isEmpty) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                      
                       title: "Error",
                       message: "Please fill all the fields",
                       backgroundColor: AppColors.error,
@@ -86,8 +86,8 @@ class CreateNewPasswordView extends ConsumerWidget {
                   }
 
                   if (password != confirmPassword) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                      
                       title: "Error",
                       message: "Passwords do not match",
                       backgroundColor: AppColors.error,
@@ -107,15 +107,15 @@ class CreateNewPasswordView extends ConsumerWidget {
                       SigninView(),
                       clearStack: true,
                     );
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                      
                       title: "Success",
                       message: "Password reset successful",
                       backgroundColor: AppColors.success,
                     );
                   } else {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                      
                       title: "Error",
                       message: result?.message ?? "Failed to reset password",
                       backgroundColor: AppColors.error,

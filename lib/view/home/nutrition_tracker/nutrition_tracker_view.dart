@@ -570,10 +570,10 @@ class NutritionTrackerPage extends ConsumerWidget {
 
                             Navigator.pop(context);
 
-                            commonSnackbar(
+                            context.showCommonSnackbar(
                               title: result["title"]!,
                               message: result["message"]!,
-                              context: context,
+                            
                               backgroundColor:
                                   result["title"] == "Success"
                                       ? AppColors.success

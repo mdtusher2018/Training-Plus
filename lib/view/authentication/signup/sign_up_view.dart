@@ -63,8 +63,7 @@ class SignupView extends ConsumerWidget {
     );
 
     if (errorMessage != null) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: errorMessage,
         backgroundColor: AppColors.error,
@@ -297,16 +296,14 @@ class SignupView extends ConsumerWidget {
                           String code =
                               referralControllers.map((c) => c.text).join();
                           if (code.isEmpty) {
-                            commonSnackbar(
-                              context: context,
+                            context.showCommonSnackbar(
                               title: "Empty",
                               message: "Please enter a referral code.",
                               backgroundColor: AppColors.error,
                             );
                             return;
                           } else if (code.length < 6) {
-                            commonSnackbar(
-                              context: context,
+                            context.showCommonSnackbar(
                               title: "Invalid",
                               message: "Invalid referral code length.",
                               backgroundColor: AppColors.error,

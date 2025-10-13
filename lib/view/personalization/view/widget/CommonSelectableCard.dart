@@ -36,14 +36,20 @@ class CommonSelectableCard extends StatelessWidget {
         ],
       ),
       child: Column(
-        mainAxisAlignment: subtitle == null
-            ? MainAxisAlignment.center
-            : MainAxisAlignment.start,
+        mainAxisAlignment:
+            subtitle == null
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (emoji != null) Text(emoji!, style: const TextStyle(fontSize: 30)),
           commonSizedBox(height: 4),
-          commonText(title, size: 15, isBold: true, textAlign: TextAlign.center),
+          commonText(
+            title,
+            size: 15,
+            isBold: true,
+            textAlign: TextAlign.center,
+          ),
           if (subtitle != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
@@ -60,10 +66,12 @@ class CommonSelectableCard extends StatelessWidget {
   }
 }
 
+class buildProgressBar extends StatelessWidget {
+  final int target;
 
-
-
-  Widget buildProgressBar({required int target}) {
+  buildProgressBar({super.key, required this.target});
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: List.generate(5, (index) {
         return Expanded(
@@ -71,7 +79,10 @@ class CommonSelectableCard extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.symmetric(horizontal: 3),
             decoration: BoxDecoration(
-              color: index < target ? AppColors.primary : AppColors.primary.withOpacity(0.3),
+              color:
+                  index < target
+                      ? AppColors.primary
+                      : AppColors.primary.withOpacity(0.3),
               borderRadius: BorderRadius.circular(4),
             ),
           ),
@@ -79,4 +90,4 @@ class CommonSelectableCard extends StatelessWidget {
       }),
     );
   }
-
+}

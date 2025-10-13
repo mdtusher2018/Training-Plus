@@ -8,7 +8,7 @@ import 'package:training_plus/core/utils/enums.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
 import 'package:training_plus/view/root_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+
 
 class PersonalizationState {
   final String userType;
@@ -141,8 +141,7 @@ class PersonalizationController extends StateNotifier<PersonalizationState> {
 RootView(),  clearStack: true);
 
         // Optional: Show success snackbar
-        commonSnackbar(
-          context: context,
+        context.showCommonSnackbar(
           title: "Success",
           message: "Profile completed successfully",
           backgroundColor: AppColors.success,
@@ -151,8 +150,7 @@ RootView(),  clearStack: true);
         // API returned an error → Show snackbar
         final errorMessage =
             response?['message'] ?? 'Failed to complete profile';
-        commonSnackbar(
-          context: context,
+        context.showCommonSnackbar(
           title: "Error",
           message: errorMessage,
           backgroundColor: AppColors.error,
@@ -163,8 +161,7 @@ RootView(),  clearStack: true);
     } catch (e) {
       // Exception → Show snackbar
       final errorMessage = e.toString().replaceAll("Exception: ", "");
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: errorMessage,
         backgroundColor: AppColors.error,

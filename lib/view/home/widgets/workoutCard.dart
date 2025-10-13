@@ -1,10 +1,18 @@
-
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
-Widget buildWorkoutCard(
-      String level, String title, num time, String imagePath) {
+class buildWorkoutCard extends StatelessWidget {
+  final String level;
+  final String title;
+  final num time;
+  final String imagePath;
+
+  const buildWorkoutCard(this.level, this.title, this.time, this.imagePath, {super.key});
+  
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 200,
       decoration: BoxDecoration(
@@ -29,24 +37,31 @@ Widget buildWorkoutCard(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.black54,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: commonText(level,
-                  size: 10, color: Colors.white, isBold: true),
+              child: commonText(
+                level,
+                size: 10,
+                color: Colors.white,
+                isBold: true,
+              ),
             ),
             const Spacer(),
-            commonText(title,
-                size: 14, isBold: true, color: Colors.white),
+            commonText(title, size: 14, isBold: true, color: Colors.white),
             Row(
               children: [
-                const Icon(Icons.access_time,
-                    size: 12, color: Colors.white),
+                const Icon(Icons.access_time, size: 12, color: Colors.white),
                 commonSizedBox(width: 4),
-                Expanded(child: commonText(time.formatDuration(), size: 12, color: Colors.white)),
+                Expanded(
+                  child: commonText(
+                    time.formatDuration(),
+                    size: 12,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ],
@@ -54,4 +69,6 @@ Widget buildWorkoutCard(
       ),
     );
   }
+}
+
 

@@ -205,7 +205,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     });
     _locationUpdateTimer?.cancel();
     _timer?.cancel();
-    commonSnackbar(context: context, title: "Paused", message: "Run paused");
+    context.showCommonSnackbar( title: "Paused", message: "Run paused");
   }
 
   void _resumeOrStartRun() async {
@@ -243,8 +243,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
       _getCurrentLocation(moveCamera: false);
     });
 
-    commonSnackbar(
-      context: context,
+    context.showCommonSnackbar(
       title: "Run Started",
       message: "Good luck!",
     );
@@ -265,8 +264,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     _getCurrentLocation();
 
     // Optionally show a snackbar
-    commonSnackbar(
-      context: context,
+    context.showCommonSnackbar(
       title: "Run Stopped",
       message: "All data has been reset",
     );
@@ -438,8 +436,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                                 place:result["place"]
                               );
                             } else {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: "Error",
                                 backgroundColor: AppColors.error,
                                 message:

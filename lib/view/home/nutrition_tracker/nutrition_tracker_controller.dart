@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_traker_model.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
 
 /// State for Nutrition Tracker
 class NutritionTrackerState {
@@ -121,8 +120,7 @@ class NutritionTrackerController extends StateNotifier<NutritionTrackerState> {
 
       if (response["statusCode"] == 201) {
         Navigator.pop(context);
-        commonSnackbar(
-          context: context,
+        context.showCommonSnackbar(
           title: "Success",
           message: "Nutration successfully Added",
         );

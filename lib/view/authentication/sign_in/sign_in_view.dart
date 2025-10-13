@@ -123,8 +123,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 isLoading: state.isLoading,
                 onTap: () async {
                   if (emailController.text.isEmpty) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Empty",
                       message: "Please enter your email",
                       backgroundColor: AppColors.error,
@@ -132,8 +132,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
                     return;
                   }
                   if (passwordController.text.isEmpty) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Empty",
                       message: "Please enter your password",
                       backgroundColor: AppColors.error,
@@ -166,8 +166,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
                       context.navigateTo(RootView(), clearStack: true);
                     }
                   } catch (e) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Error",
                       message: e.toString(),
                       backgroundColor: AppColors.error,
@@ -235,7 +235,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
     if (savedLogins.isEmpty) return;
 
     showModalBottomSheet(
-      context: context,
+ context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -333,8 +333,8 @@ class _SigninViewState extends ConsumerState<SigninView> {
                                     );
                                   }
                                 } catch (e) {
-                                  commonSnackbar(
-                                    context: context,
+                                 context.showCommonSnackbar(
+                               
                                     title: "Error",
                                     message: e.toString(),
                                     backgroundColor: AppColors.error,

@@ -133,8 +133,7 @@ class Personalization1 extends ConsumerWidget {
                           context.navigateTo(const Personalization2());
                         }
                         : () {
-                          commonSnackbar(
-                            context: context,
+                          context.showCommonSnackbar(
                             title: "Validity Error",
                             message: "Please select a role before continuing.",
                             backgroundColor: AppColors.error,

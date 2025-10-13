@@ -200,8 +200,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                 chapters: workoutState.workout!.chapters,
                               ),
                             );
-                            commonSnackbar(
-                              context: context,
+                            context.showCommonSnackbar(
                               title: response['title']!,
                               message: response['message']!,
                               backgroundColor:
@@ -210,8 +209,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       : AppColors.error,
                             );
                           } else {
-                            commonSnackbar(
-                              context: context,
+                            context.showCommonSnackbar(
                               title: response['title']!,
                               message: response['message']!,
                               backgroundColor:

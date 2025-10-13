@@ -120,8 +120,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
               context.navigateTo(
  ChooseYourSportChangeView(), onPopCallback: (result) async {
         if (result != null) {
-          commonSnackbar(
-            context: context,
+          context.showCommonSnackbar(
             title: result['title'] ?? 'Status',
             message: result['message'] ?? '',
             backgroundColor: AppColors.success

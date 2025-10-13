@@ -63,8 +63,8 @@ class ForgotPasswordView extends ConsumerWidget {
                   final email = emailController.text.trim();
 
                   if (email.isEmpty) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                    
                       title: "Empty",
                       message: "Please enter your email.",
                       backgroundColor: AppColors.error,
@@ -87,8 +87,8 @@ class ForgotPasswordView extends ConsumerWidget {
                       context.navigateTo(
                         ForgotPasswordOtpView(email: email),
                       );
-                      commonSnackbar(
-                        context: context,
+                     context.showCommonSnackbar(
+                        
                         title: "OTP Sent",
                         message: response.message,
                         backgroundColor: AppColors.success,
@@ -96,8 +96,8 @@ class ForgotPasswordView extends ConsumerWidget {
                     }
                   } catch (e) {
                     // ❌ Error → Show Snackbar
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                    
                       title: "Error",
                       message: e.toString(),
                       backgroundColor: AppColors.error,

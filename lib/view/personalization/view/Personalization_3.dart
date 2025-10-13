@@ -112,8 +112,7 @@ class Personalization3 extends ConsumerWidget {
                               context.navigateTo(
   Personalization4())
                           : () {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: "Validity Error",
                                 message:
                                     "Please select your skill level before continuing.",

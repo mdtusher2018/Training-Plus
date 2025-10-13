@@ -1,4 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension NavigationExtensions on BuildContext {
   Future<T?> navigateTo<T extends Object?>(
@@ -10,8 +12,9 @@ extension NavigationExtensions on BuildContext {
   }) {
     final route = PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-          FadeTransition(opacity: animation, child: child),
+      transitionsBuilder:
+          (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
       transitionDuration: duration,
     );
 
@@ -29,5 +32,28 @@ extension NavigationExtensions on BuildContext {
       onPopCallback?.call(value);
       return value;
     });
+  }
+}
+
+extension SnackbarExtensions on BuildContext {
+  void showCommonSnackbar({
+    required String title,
+    required String message,
+    bool isTop = false,
+    Color backgroundColor = Colors.black,
+    Color textColor = Colors.white,
+    Duration duration = const Duration(seconds: 3),
+  }) {
+    Flushbar(
+      title: title,
+      message: message,
+      duration: duration,
+      backgroundColor: backgroundColor,
+      flushbarPosition: FlushbarPosition.TOP, // This shows it at top
+      margin: EdgeInsets.all(8.r),
+      borderRadius: BorderRadius.circular(8.r),
+      titleColor: textColor,
+      messageColor: textColor,
+    ).show(this);
   }
 }

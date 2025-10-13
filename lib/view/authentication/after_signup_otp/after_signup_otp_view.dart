@@ -86,8 +86,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
                     clickRecognized: TapGestureRecognizer()
                       ..onTap = () async {
                         await controller.resendOtp(email: email);
-                        commonSnackbar(
-                          context: context,
+                        context.showCommonSnackbar(
                           title: "Resent",
                           message: "OTP code resent successfully",
                           backgroundColor: AppColors.success,
@@ -115,8 +114,7 @@ commonButton(
       await localStorage.saveString(StorageKey.token, response.accessToken);
 
       // Show success snackbar
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Verified",
         message: "OTP verified successfully",
         backgroundColor: AppColors.success,
@@ -130,8 +128,7 @@ commonButton(
     } catch (e) {
       // Extract and show the error message
       final errorMsg = e.toString().replaceAll("Exception: ", "");
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Invalid",
         message: errorMsg,
         backgroundColor: AppColors.error,

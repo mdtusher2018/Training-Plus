@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
@@ -53,30 +52,6 @@ class commonText extends StatelessWidget {
       ),
     );
   }
-}
-
-void commonSnackbar({
-  required BuildContext context,
-  required String title,
-  required String message,
-  bool isTop = false,
-  Color backgroundColor = Colors.black,
-  Color textColor = Colors.white,
-  Duration duration = const Duration(seconds: 3),
-}) {
-  Flushbar(
-    title: title,
-    message: message,
-    duration: duration,
-    backgroundColor: backgroundColor,
-    flushbarPosition: FlushbarPosition.TOP, // This shows it at top
-    margin: EdgeInsets.all(8.r),
-    borderRadius: BorderRadius.circular(8.r),
-    titleColor: textColor,
-    messageColor: textColor,
-  ).show(context);
-
-  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
 class commonTextfieldWithTitle extends StatelessWidget {
@@ -206,38 +181,6 @@ class commonTextfieldWithTitle extends StatelessWidget {
     );
   }
 }
-
-// voidcontext.navigateTo(
-//   Widget page, {
-//   required BuildContext context,
-//   bool replace = false,
-//   bool clearStack = false,
-//   Function(dynamic)? onPopCallback,
-//   Duration duration = const Duration(milliseconds: 600),
-// }) {
-//   PageRouteBuilder route = PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => page,
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       // Fade transition
-//       return FadeTransition(opacity: animation, child: child);
-//     },
-//     transitionDuration: duration,
-//   );
-
-//   if (clearStack) {
-//     Navigator.of(context)
-//         .pushAndRemoveUntil(route, (route) => false)
-//         .then((value) => onPopCallback?.call(value));
-//   } else if (replace) {
-//     Navigator.of(
-//       context,
-//     ).pushReplacement(route).then((value) => onPopCallback?.call(value));
-//   } else {
-//     Navigator.of(
-//       context,
-//     ).push(route).then((value) => onPopCallback?.call(value));
-//   }
-// }
 
 class commonButton extends StatelessWidget {
   final String title;

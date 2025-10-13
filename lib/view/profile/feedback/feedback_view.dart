@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -88,8 +89,8 @@ class FeedbackView extends ConsumerWidget {
                     onTap: () async {
                       if (state.rating == 0.0 ||
                           feedbackController.text.isEmpty) {
-                        commonSnackbar(
-                          context: context,
+                        context.showCommonSnackbar(
+                          
                           title: "Empty",
                           message: "Please provide a rating and feedback.",
                           backgroundColor: AppColors.error,
@@ -107,16 +108,14 @@ class FeedbackView extends ConsumerWidget {
                         feedbackController.clear();
                         controller.updateRating(0.0);
                         Navigator.pop(context);
-                        commonSnackbar(
-                          context: context,
+                        context.showCommonSnackbar(
                           title: "Success",
                           message: "Feedback submitted successfully!",
                           backgroundColor: AppColors.success
                         );
                         return;
                       } else {
-                        commonSnackbar(
-                          context: context,
+                        context.showCommonSnackbar(
                           title: "Error",
                           message: "Unknown error occoured.",
                           backgroundColor: AppColors.error,

@@ -211,7 +211,6 @@ class PostCard extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       context.navigateTo(
-
                         CommunityEditPostView(
                           caption: caption,
                           id: id,
@@ -443,16 +442,14 @@ void showChallengeDetailsBottomSheet(
                             );
                         if (response["title"] == "Success") {
                           Navigator.of(context).pop();
-                          commonSnackbar(
-                            context: context,
+                          context.showCommonSnackbar(
                             title: response["title"]!,
                             message: response["message"]!,
                             backgroundColor: AppColors.success,
                           );
                         } else {
                           // ❌ Show error snackbar
-                          commonSnackbar(
-                            context: context,
+                          context.showCommonSnackbar(
                             title: response["title"]!,
                             message: response["message"]!,
                             backgroundColor: AppColors.error,
@@ -619,10 +616,10 @@ void showCommentsBottomSheet({
                                 if (result["title"] == "Success") {
                                   _commentTextEditingController.clear();
                                 } else {
-                                  commonSnackbar(
+                                  context.showCommonSnackbar(
                                     title: result["title"]!,
                                     message: result["message"]!,
-                                    context: context,
+
                                     backgroundColor: AppColors.error,
                                   );
                                 }

@@ -88,8 +88,7 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                         TapGestureRecognizer()
                           ..onTap = () async {
                             await controller.resendOtp(email: email);
-                            commonSnackbar(
-                              context: context,
+                            context.showCommonSnackbar(
                               title: "Resent",
                               message: "OTP code resent successfully",
                               backgroundColor: AppColors.success,
@@ -109,16 +108,16 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                   String code = controllers.map((c) => c.text).join();
 
                   if (code.isEmpty) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Empty",
                       message: "Please enter the OTP.",
                       backgroundColor: AppColors.error,
                     );
                     return;
                   } else if (code.length < 6) {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Invalid",
                       message: "Invalid OTP length.",
                       backgroundColor: AppColors.error,
@@ -138,15 +137,15 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                       CreateNewPasswordView(email: email),
                       clearStack: true,
                     );
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Verified",
                       message: "OTP verified successfully",
                       backgroundColor: AppColors.success,
                     );
                   } else {
-                    commonSnackbar(
-                      context: context,
+                   context.showCommonSnackbar(
+                 
                       title: "Error",
                       message: "Invalid OTP or expired",
                       backgroundColor: AppColors.error,

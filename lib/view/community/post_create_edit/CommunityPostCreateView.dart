@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -86,18 +87,18 @@ class CommunityPostView extends ConsumerWidget {
                 state.isLoading ? "Posting..." : "Share Post",
                 onTap: () async {
                   if (_postController.text.trim().isEmpty) {
-                    commonSnackbar(
+                   context.showCommonSnackbar(
                       title: "Oops",
                       message: "Please write something to share.",
-                      context: context,
+             
                     );
                     return;
                   }
                   if (state.sport == null) {
-                    commonSnackbar(
+                   context.showCommonSnackbar(
                       title: "Oops",
                       message: "Please select a sport category.",
-                      context: context,
+                   
                     );
                     return;
                   }
@@ -110,11 +111,11 @@ class CommunityPostView extends ConsumerWidget {
                   if (result["title"] == "Success") {
                     controller.clearSport();
                     Navigator.pop(context);
-                    commonSnackbar(
+                   context.showCommonSnackbar(
                       title: result["title"].toString(),
                       message: result["message"].toString(),
                       backgroundColor: AppColors.success,
-                      context: context,
+           
                     );
                     ref.read(communityControllerProvider.notifier).addMyPostManually(myPost);
 
@@ -122,11 +123,11 @@ class CommunityPostView extends ConsumerWidget {
                   } else {
                     controller.clearSport();
 
-                    commonSnackbar(
+                   context.showCommonSnackbar(
                       title: result["title"].toString(),
                       message: result["message"].toString(),
                       backgroundColor: AppColors.success,
-                      context: context,
+                 
                     );
                   }
                 },

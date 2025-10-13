@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 
 import 'package:training_plus/view/home/video_play_view.dart';
@@ -61,15 +62,13 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                   video.watched = true;
                                 });
 
-                                commonSnackbar(
-                                  context: context,
+                                context.showCommonSnackbar(
                                   title: response['title']!,
                                   message: response['message']!,
                                   backgroundColor: response['title']=="Success"?AppColors.success:AppColors.error
                                 );
                               } else {
-                                commonSnackbar(
-                                  context: context,
+                                context.showCommonSnackbar(
                                   title: response['title']!,
                                   message: response['message']!,
                                   backgroundColor: response['title']=="Success"?AppColors.success:AppColors.error
@@ -169,8 +168,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                 await controller.finishWorkout();
                             if (response['title'] == "Success") {
                                     _showWorkoutCompleteSheet();
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: response['title']!,
                                 message: response['message']!,
                                 backgroundColor:
@@ -179,8 +177,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                         : AppColors.error,
                               );
                             } else {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: response['title']!,
                                 message: response['message']!,
                                 backgroundColor:

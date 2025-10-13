@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -113,8 +114,7 @@ class Personalization6 extends ConsumerWidget {
                                 controller.completeProfile(context);
                               }
                             : () {
-                                commonSnackbar(
-                                  context: context,
+                                context.showCommonSnackbar(
                                   title: "Validity Error",
                                   message: "Please select at least 1 goal before continuing.",
                                   backgroundColor: AppColors.error,

@@ -157,8 +157,7 @@ class Personalization2 extends ConsumerWidget {
                                
                                 Personalization3(),
                               )
-                              : () => commonSnackbar(
-                                context: context,
+                              : () => context.showCommonSnackbar(
                                 title: "Validity Error",
                                 message:
                                     "Please select a sport before continuing.",

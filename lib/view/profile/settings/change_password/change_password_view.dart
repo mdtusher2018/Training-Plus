@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_controller.dart';
@@ -22,8 +23,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     final confirmPass = confirmPasswordController.text.trim();
 
     if (current.isEmpty) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: "Please enter your current password",
         backgroundColor: AppColors.error,
@@ -32,8 +32,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     }
 
     if (newPass.isEmpty) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: "Please enter your new password",
         backgroundColor: AppColors.error,
@@ -42,8 +41,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     }
 
         if (newPass.length<6) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Invalid",
         message: "Password must be 6 charecter",
         backgroundColor: AppColors.error,
@@ -52,8 +50,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     }
 
     if (confirmPass.isEmpty) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: "Please confirm your new password",
         backgroundColor: AppColors.error,
@@ -62,8 +59,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     }
 
     if (newPass != confirmPass) {
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: "New password and Confirm password do not match",
         backgroundColor: AppColors.error,
@@ -92,8 +88,7 @@ class ChangePasswordScreen extends ConsumerWidget {
       if (response != null) {
         // ✅ Success flow
         Navigator.pop(context);
-        commonSnackbar(
-          context: context,
+        context.showCommonSnackbar(
           title: "Success",
           backgroundColor: AppColors.success,
           message: "Your password has been changed successfully",
@@ -102,8 +97,7 @@ class ChangePasswordScreen extends ConsumerWidget {
     } catch (e) {
       // ❌ Show API error gracefully
       final errorMsg = e.toString().split(" - ").last;
-      commonSnackbar(
-        context: context,
+      context.showCommonSnackbar(
         title: "Error",
         message: errorMsg,
         backgroundColor: AppColors.error,

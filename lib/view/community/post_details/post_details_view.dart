@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -253,17 +254,17 @@ class PostDetailsPage extends ConsumerWidget {
                             commentController.clear();
 
                             if (result["title"] == "Success") {
-                              commonSnackbar(
+                             context.showCommonSnackbar(
                                 title: result["title"]!,
                                 message: result["message"]!,
-                                context: context,
+                                
                                 backgroundColor: AppColors.success,
                               );
                             } else {
-                              commonSnackbar(
+                             context.showCommonSnackbar(
                                 title: result["title"]!,
                                 message: result["message"]!,
-                                context: context,
+                                
                                 backgroundColor: AppColors.error,
                               );
                             }

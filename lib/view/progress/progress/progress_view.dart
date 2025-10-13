@@ -734,8 +734,7 @@ class ProgressView extends ConsumerWidget {
                                 timeFrame: selectedTimeFrame!,
                               );
                               Navigator.pop(context);
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: response["title"].toString(),
                                 message: response["massage"].toString(),
                                 backgroundColor:
@@ -747,8 +746,8 @@ class ProgressView extends ConsumerWidget {
                                 isLoading = false;
                               });
                             } else {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
+                                
                                 title: "Empty",
                                 message: "Please Enter Valid Number as Target",
                                 backgroundColor: AppColors.error,

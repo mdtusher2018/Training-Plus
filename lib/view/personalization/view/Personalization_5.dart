@@ -148,8 +148,7 @@ class Personalization5 extends ConsumerWidget {
                           ? () =>context.navigateTo(
                                const Personalization6())
                           : () {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: "Validity Error",
                                 message:
                                     "Please select a goal before continuing.",

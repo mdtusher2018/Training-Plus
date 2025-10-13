@@ -31,7 +31,7 @@ class PaymentWebViewScreen extends StatelessWidget {
       onNavigationRequest: (NavigationRequest request) {
         if (request.url.startsWith(ApiEndpoints.baseUrl+ApiEndpoints.paymentCompleate)) {
             context.navigateTo(RootView(), clearStack: true);
-            commonSnackbar(context: context, title: "Sucess", message: "Package Activated Sucessfully",backgroundColor: AppColors.success);
+            context.showCommonSnackbar( title: "Sucess", message: "Package Activated Sucessfully",backgroundColor: AppColors.success);
         }
         return NavigationDecision.navigate;
       },

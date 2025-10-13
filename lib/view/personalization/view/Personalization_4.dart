@@ -112,8 +112,7 @@ class Personalization4 extends ConsumerWidget {
                               context.navigateTo(
   Personalization5())
                           : () {
-                              commonSnackbar(
-                                context: context,
+                              context.showCommonSnackbar(
                                 title: "Validity Error",
                                 message:
                                     "Please select your age group before continuing.",
