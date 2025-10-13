@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/subscription/my_subscription_model.dart';
 import 'package:training_plus/view/profile/subscription/subscription_model.dart';
 import 'package:training_plus/view/profile/subscription/webview_payment.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
 
 // State class
 class SubscriptionState {
@@ -147,7 +147,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
           buttonLoading: {...state.buttonLoading, subscriptionId: false},
         );
 
-        navigateToPage(PaymentWebViewScreen(url: sessionUrl), context: context);
+       context.navigateTo(PaymentWebViewScreen(url: sessionUrl));
       } else {
         state = state.copyWith(
           buttonLoading: {...state.buttonLoading, subscriptionId: false},

@@ -5,6 +5,7 @@ import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/enums.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
@@ -136,7 +137,8 @@ class PersonalizationController extends StateNotifier<PersonalizationState> {
 
       if (response != null && response['statusCode'] == 200) {
         // Success → Navigate to RootView
-        navigateToPage(RootView(), context: context, clearStack: true);
+        context.navigateTo(
+RootView(),  clearStack: true);
 
         // Optional: Show success snackbar
         commonSnackbar(

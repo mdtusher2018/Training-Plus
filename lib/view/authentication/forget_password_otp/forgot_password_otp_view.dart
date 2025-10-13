@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/create_new_password/create_new_password_view.dart';
@@ -132,8 +133,8 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                       StorageKey.token,
                       success.forgetPasswordToken,
                     );
-                    navigateToPage(
-                      context: context,
+                   context.navigateTo(
+
                       CreateNewPasswordView(email: email),
                       clearStack: true,
                     );
@@ -158,9 +159,9 @@ class ForgotPasswordOtpView extends ConsumerWidget {
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  navigateToPage(
+                  context.navigateTo(
                     SigninView(),
-                    context: context,
+            
                     clearStack: true,
                   );
                 },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/home/workout_details/chapters.dart';
 import 'package:training_plus/view/home/home_providers.dart';
@@ -80,8 +81,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                               Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // Title & Share
                                     Row(
@@ -108,18 +108,18 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         ),
                                       ],
                                     ),
-                                                              
+
                                     commonSizedBox(height: 8),
-                                                              
+
                                     // Level
                                     commonText(
                                       workoutState.workout!.skillLevel,
                                       size: 16,
                                       color: AppColors.textPrimary,
                                     ),
-                                                              
+
                                     commonSizedBox(height: 8),
-                                                              
+
                                     // Duration Row
                                     Row(
                                       children: [
@@ -138,7 +138,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       ],
                                     ),
                                     commonSizedBox(height: 12),
-                                                              
+
                                     // About Header
                                     commonText(
                                       "About this training",
@@ -147,7 +147,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       color: AppColors.textPrimary,
                                     ),
                                     commonSizedBox(height: 8),
-                                                              
+
                                     // Description
                                     commonText(
                                       workoutState.workout!.description,
@@ -156,7 +156,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       softwarp: true,
                                       maxline: 10,
                                     ),
-                                                              
+
                                     commonSizedBox(height: 24),
                                   ],
                                 ),
@@ -195,8 +195,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                           final response =
                               await workoutController.startWorkout();
                           if (response['title'] == "Success") {
-                            navigateToPage(
-                              context: context,
+                            context.navigateTo(
                               ChaptersPage(
                                 chapters: workoutState.workout!.chapters,
                               ),

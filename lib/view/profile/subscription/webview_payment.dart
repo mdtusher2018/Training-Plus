@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -29,7 +30,7 @@ class PaymentWebViewScreen extends StatelessWidget {
       onWebResourceError: (WebResourceError error) {},
       onNavigationRequest: (NavigationRequest request) {
         if (request.url.startsWith(ApiEndpoints.baseUrl+ApiEndpoints.paymentCompleate)) {
-            navigateToPage(RootView(), context: context,clearStack: true);
+            context.navigateTo(RootView(), clearStack: true);
             commonSnackbar(context: context, title: "Sucess", message: "Package Activated Sucessfully",backgroundColor: AppColors.success);
         }
         return NavigationDecision.navigate;

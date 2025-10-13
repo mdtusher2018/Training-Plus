@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/community/post_create_edit/CommunityPostCreateView.dart';
 import 'package:training_plus/view/community/active_challenges/active_challenges_view.dart';
 import 'package:training_plus/view/community/community/community_controller.dart';
@@ -67,7 +68,8 @@ class CommunityView extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         onPressed: () {
-          navigateToPage(context: context, CommunityPostView());
+          context.navigateTo(
+ CommunityPostView());
         },
         shape: CircleBorder(),
         child: const Icon(Icons.add),
@@ -86,7 +88,8 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "Active Challenges",
           onTap: () {
-            navigateToPage(context: context, ActiveChallengesView());
+            context.navigateTo(
+ ActiveChallengesView());
           },
         ),
         commonSizedBox(height: 12),
@@ -135,7 +138,8 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "My Posts",
           onTap: () {
-            navigateToPage(context: context, MyPostsView());
+            context.navigateTo(
+ MyPostsView());
           },
         ),
         commonSizedBox(height: 12),
@@ -173,7 +177,8 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "This Week Leaderboard",
           onTap: () {
-            navigateToPage(context: context, LeaderboardView());
+            context.navigateTo(
+ LeaderboardView());
           },
         ),
         commonSizedBox(height: 12),
@@ -208,7 +213,8 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "Community Feed",
           onTap: () {
-            navigateToPage(context: context, CommunityFeedView());
+            context.navigateTo(
+ CommunityFeedView());
           },
         ),
         commonSizedBox(height: 12),

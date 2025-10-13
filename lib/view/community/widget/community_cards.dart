@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/post_like_comment_delete/post_like_comment_delete_controller.dart';
 import 'package:training_plus/view/community/post_create_edit/community_edit_post_view.dart';
@@ -164,7 +165,7 @@ class PostCard extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          navigateToPage(PostDetailsPage(postId: id), context: context);
+          context.navigateTo(PostDetailsPage(postId: id));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,8 +210,8 @@ class PostCard extends ConsumerWidget {
                   commonSizedBox(width: 6),
                   GestureDetector(
                     onTap: () {
-                      navigateToPage(
-                        context: context,
+                      context.navigateTo(
+
                         CommunityEditPostView(
                           caption: caption,
                           id: id,

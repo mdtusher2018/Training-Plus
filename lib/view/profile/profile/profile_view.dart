@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/session_reset.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
@@ -124,29 +125,32 @@ class ProfileView extends ConsumerWidget {
                         "Edit Profile",
                         "assest/images/profile/edit_profile.png",
                         onTap: () {
-                          navigateToPage(context: context, EditProfileView());
+                          context.navigateTo(
+ EditProfileView());
                         },
                       ),
                       sectionTile(
                         "Settings",
                         "assest/images/profile/settings.png",
                         onTap: () {
-                          navigateToPage(context: context, SettingsView());
+                          context.navigateTo(
+ SettingsView());
                         },
                       ),
                       sectionTile(
                         "Redeem Points",
                         "assest/images/profile/redeem_points.png",
                         onTap: () {
-                          navigateToPage(context: context, RedeemPointsview());
+                          context.navigateTo(
+ RedeemPointsview());
                         },
                       ),
                       sectionTile(
                         "Running History",
                         "assest/images/profile/running_history.png",
                         onTap: () {
-                          navigateToPage(
-                            context: context,
+                         context.navigateTo(
+                    
                             RunningHistoryView(),
                           );
                         },
@@ -155,14 +159,16 @@ class ProfileView extends ConsumerWidget {
                         "Badge Shelf",
                         "assest/images/profile/badge_shelf.png",
                         onTap: () {
-                          navigateToPage(context: context, BadgeShelfView());
+                          context.navigateTo(
+ BadgeShelfView());
                         },
                       ),
                       sectionTile(
                         "Subscription",
                         "assest/images/profile/my_subscription.png",
                         onTap: () {
-                          navigateToPage(context: context, SubscriptionView());
+                          context.navigateTo(
+ SubscriptionView());
                         },
                       ),
 
@@ -173,21 +179,24 @@ class ProfileView extends ConsumerWidget {
                         "Feedback",
                         "assest/images/profile/feedback.png",
                         onTap: () {
-                          navigateToPage(context: context, FeedbackView());
+                          context.navigateTo(
+ FeedbackView());
                         },
                       ),
                       sectionTile(
                         "FAQ",
                         "assest/images/profile/faq.png",
                         onTap: () {
-                          navigateToPage(context: context, FaqView());
+                          context.navigateTo(
+ FaqView());
                         },
                       ),
                       sectionTile(
                         "Contact Us",
                         "assest/images/profile/contact_us.png",
                         onTap: () {
-                          navigateToPage(context: context, ContactUsView());
+                          context.navigateTo(
+ ContactUsView());
                         },
                       ),
 
@@ -198,8 +207,8 @@ class ProfileView extends ConsumerWidget {
                         "Terms of Service",
                         "assest/images/profile/terms_of_service.png",
                         onTap: () {
-                          navigateToPage(
-                            context: context,
+                         context.navigateTo(
+                           
                             TermsOfServiceView(),
                           );
                         },
@@ -208,7 +217,8 @@ class ProfileView extends ConsumerWidget {
                         "Privacy Policy",
                         "assest/images/profile/privacy_policy.png",
                         onTap: () {
-                          navigateToPage(context: context, PrivacyPolicyView());
+                          context.navigateTo(
+ PrivacyPolicyView());
                         },
                       ),
 
@@ -219,8 +229,8 @@ class ProfileView extends ConsumerWidget {
                         "Invite Friends",
                         "assest/images/profile/invite_friends.png",
                         onTap: () {
-                          navigateToPage(
-                            context: context,
+                         context.navigateTo(
+                            
                             InviteFriendsView(
                               inviteCode:
                                   state.profile!.attributes.referralCode,
@@ -323,8 +333,8 @@ class ProfileView extends ConsumerWidget {
                       //   ),
                       // );
                       resetSession(ref);
-                      navigateToPage(
-                        context: context,
+                      context.navigateTo(
+
                         SigninView(),
                         clearStack: true,
                       );

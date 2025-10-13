@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_view.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -31,7 +32,8 @@ class SettingsView extends StatelessWidget {
         
               haveArrow: true,
               onTap: () {
-                navigateToPage(context: context,ChangePasswordScreen());
+                context.navigateTo(
+ChangePasswordScreen());
               },
             ),
         

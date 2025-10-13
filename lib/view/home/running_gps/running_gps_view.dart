@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/widgets/common_widgets.dart';
 
@@ -572,9 +573,10 @@ final Uri shareUri = Uri(
                     width: double.infinity,
                     onTap: () {
                       Navigator.pop(context);
-                      navigateToPage(
+            context.navigateTo(
+
                         RunningTrackerPage(),
-                        context: context,
+                      
                         replace: true,
                       );
                     },

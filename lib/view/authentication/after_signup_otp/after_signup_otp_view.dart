@@ -8,6 +8,7 @@ import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/personalization/view/Personalization_1.dart';
@@ -122,8 +123,7 @@ commonButton(
       );
 
       // Navigate to next page and clear navigation stack
-      navigateToPage(
-        context: context,
+      context.navigateTo(
         Personalization1(),
         clearStack: true,
       );

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/forget_password/forgot_password_view.dart';
@@ -162,11 +163,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                           passwordController.text.trim(),
                         );
                       }
-                      navigateToPage(
-                        context: context,
-                        RootView(),
-                        clearStack: true,
-                      );
+                      context.navigateTo(RootView(), clearStack: true);
                     }
                   } catch (e) {
                     commonSnackbar(
@@ -184,7 +181,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
               commonSizedBox(height: 12),
               GestureDetector(
                 onTap: () {
-                  navigateToPage(context: context, ForgotPasswordView());
+                  context.navigateTo(ForgotPasswordView());
                 },
                 child: commonText(
                   "Forgot the password?",
@@ -212,7 +209,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                       clickRecognized:
                           TapGestureRecognizer()
                             ..onTap = () {
-                              navigateToPage(context: context, SignupView());
+                              context.navigateTo(SignupView());
                             },
                     ),
                   ],
@@ -330,8 +327,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                                         passwordController.text.trim(),
                                       );
                                     }
-                                    navigateToPage(
-                                      context: context,
+                                    context.navigateTo(
                                       RootView(),
                                       clearStack: true,
                                     );

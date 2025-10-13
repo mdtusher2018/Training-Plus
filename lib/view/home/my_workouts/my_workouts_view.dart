@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
@@ -80,8 +81,8 @@ class MyWorkoutsView extends ConsumerWidget {
                   final workout = workouts[index];
                   return GestureDetector(
                     onTap: () {
-                      navigateToPage(
-                        context: context,
+                      context.navigateTo(
+
                         WorkoutDetailPage(id: workout.id),
                       );
                     },

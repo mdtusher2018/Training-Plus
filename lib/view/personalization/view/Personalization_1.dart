@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/view/Personalization_2.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart';
@@ -60,19 +61,23 @@ class Personalization1 extends ConsumerWidget {
                     final isSelected = state.userType == role['title'];
 
                     return GestureDetector(
-                      onTap: () =>
-                          controller.updatePersonalization(userType: role['title']),
+                      onTap:
+                          () => controller.updatePersonalization(
+                            userType: role['title'],
+                          ),
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? const Color.fromARGB(255, 255, 247, 224)
-                              : AppColors.white,
+                          color:
+                              isSelected
+                                  ? const Color.fromARGB(255, 255, 247, 224)
+                                  : AppColors.white,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.grey.shade300,
+                            color:
+                                isSelected
+                                    ? AppColors.primary
+                                    : Colors.grey.shade300,
                             width: 1.5,
                           ),
                           boxShadow: [
@@ -95,11 +100,17 @@ class Personalization1 extends ConsumerWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  commonText(role['title']!,
-                                      size: 15, isBold: true),
+                                  commonText(
+                                    role['title']!,
+                                    size: 15,
+                                    isBold: true,
+                                  ),
                                   commonSizedBox(height: 4),
-                                  commonText(role['subtitle']!,
-                                      size: 13, color: AppColors.textSecondary),
+                                  commonText(
+                                    role['subtitle']!,
+                                    size: 13,
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ],
                               ),
                             ),
@@ -116,19 +127,19 @@ class Personalization1 extends ConsumerWidget {
                 "Next",
                 iconWidget: const Icon(Icons.arrow_forward),
                 iconLeft: false,
-                onTap: state.userType.isNotEmpty
-                    ? () {
-                        navigateToPage(
-                            context: context, const Personalization2());
-                      }
-                    : () {
-                        commonSnackbar(
-                          context: context,
-                          title: "Validity Error",
-                          message: "Please select a role before continuing.",
-                          backgroundColor: AppColors.error,
-                        );
-                      },
+                onTap:
+                    state.userType.isNotEmpty
+                        ? () {
+                          context.navigateTo(const Personalization2());
+                        }
+                        : () {
+                          commonSnackbar(
+                            context: context,
+                            title: "Validity Error",
+                            message: "Please select a role before continuing.",
+                            backgroundColor: AppColors.error,
+                          );
+                        },
               ),
             ],
           ),

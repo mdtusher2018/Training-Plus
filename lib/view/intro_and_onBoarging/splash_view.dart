@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/intro_and_onBoarging/onboarding_view.dart';
@@ -46,22 +47,14 @@ class _SplashViewState extends ConsumerState<SplashView>
         if (decoded != null &&
             decoded.containsKey("isLoginToken") &&
             decoded['isLoginToken']) {
-          navigateToPage(RootView(), context: context, clearStack: true);
+          context.navigateTo(RootView(), clearStack: true);
         } else {
           // Token exists but doesn't have loginToken
-          navigateToPage(
-            const OnboardingView(),
-            context: context,
-            clearStack: true,
-          );
+          context.navigateTo(const OnboardingView(), clearStack: true);
         }
       } else {
         // No token stored
-        navigateToPage(
-          const OnboardingView(),
-          context: context,
-          clearStack: true,
-        );
+        context.navigateTo(const OnboardingView(), clearStack: true);
       }
     });
   }

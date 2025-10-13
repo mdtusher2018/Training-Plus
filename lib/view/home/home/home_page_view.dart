@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/home/home_page_controller.dart';
 import 'package:training_plus/view/home/home/widget/home_page_banner.dart';
 import 'package:training_plus/view/home/home_providers.dart';
@@ -85,7 +86,8 @@ class HomePageView extends ConsumerWidget {
             ),
             GestureDetector(
               onTap: () {
-                navigateToPage(context: context, NotificationsView());
+                context.navigateTo(
+ NotificationsView());
               },
               child: Container(
                 padding: EdgeInsets.all(8.r), // responsive padding
@@ -156,7 +158,8 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  navigateToPage(context: context, RunningTrackerPage());
+                  context.navigateTo(
+ RunningTrackerPage());
                 },
                 child: _buildQuickAction(
                   label: "Running\nTracker",
@@ -168,7 +171,8 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  navigateToPage(context: context, NutritionTrackerPage());
+                  context.navigateTo(
+ NutritionTrackerPage());
                 },
                 child: _buildQuickAction(
                   label: "Nutrition\nTracker",
@@ -192,7 +196,8 @@ class HomePageView extends ConsumerWidget {
             commonText("My Workouts", size: 18, isBold: true),
             GestureDetector(
               onTap: () {
-                navigateToPage(context: context, MyWorkoutsView());
+                context.navigateTo(
+ MyWorkoutsView());
               },
               child: Row(
                 children: [
@@ -223,8 +228,8 @@ class HomePageView extends ConsumerWidget {
               final workout = response.workouts[index];
               return GestureDetector(
                 onTap: () {
-                  navigateToPage(
-                    context: context,
+                context.navigateTo(
+
                     WorkoutDetailPage(id: workout.id),
                   );
                 },

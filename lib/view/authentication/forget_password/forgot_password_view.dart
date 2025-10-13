@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/forget_password_otp/forgot_password_otp_view.dart';
@@ -83,8 +84,7 @@ class ForgotPasswordView extends ConsumerWidget {
                         response.forgetToken,
                       );
 
-                      navigateToPage(
-                        context: context,
+                      context.navigateTo(
                         ForgotPasswordOtpView(email: email),
                       );
                       commonSnackbar(

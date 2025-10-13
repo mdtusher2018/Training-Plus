@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/view/Personalization_5.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart';
@@ -108,7 +109,8 @@ class Personalization4 extends ConsumerWidget {
                       iconLeft: false,
                       onTap: state.ageGroup.isNotEmpty
                           ? () =>
-                              navigateToPage(context: context,  Personalization5())
+                              context.navigateTo(
+  Personalization5())
                           : () {
                               commonSnackbar(
                                 context: context,

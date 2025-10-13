@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/common_used_models/recent_training_model.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/view/training/chooseYourSportChange.dart';
 import 'package:training_plus/view/training/training_controller.dart';
@@ -116,7 +117,8 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
           GestureDetector(
             onTap: () {
               controller.fetchCategories();
-              navigateToPage(context: context, ChooseYourSportChangeView(), onPopCallback: (result) async {
+              context.navigateTo(
+ ChooseYourSportChangeView(), onPopCallback: (result) async {
         if (result != null) {
           commonSnackbar(
             context: context,
@@ -258,7 +260,8 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
   Widget _buildTrainingCard(RecentTraining session) {
     return InkWell(
       onTap: () {
-        navigateToPage(WorkoutDetailPage(id: session.workoutId), context: context);
+        context.navigateTo(
+WorkoutDetailPage(id: session.workoutId));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -350,8 +353,8 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 wellnessList.map((tool) {
                   return GestureDetector(
                     onTap: () {
-                      navigateToPage(
-                        context: context,
+                      context.navigateTo(
+
                         WorkoutDetailPage(id: tool.id),
                       );
                     },

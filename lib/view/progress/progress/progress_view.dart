@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
 import 'package:training_plus/common_used_models/recent_training_model.dart';
 import 'package:training_plus/view/progress/progress/progress_controller.dart';
@@ -412,7 +413,8 @@ class ProgressView extends ConsumerWidget {
               const Spacer(),
               TextButton(
                 onPressed: () {
-                  navigateToPage(context: context, RecentSessionsView());
+                  context.navigateTo(
+ RecentSessionsView());
                 },
                 child: Row(
                   children: [
@@ -489,7 +491,8 @@ class ProgressView extends ConsumerWidget {
               const Spacer(),
               TextButton(
                 onPressed: () {
-                  navigateToPage(context: context, BadgeShelfView());
+                  context.navigateTo(
+ BadgeShelfView());
                 },
                 child: Row(
                   children: [

@@ -207,37 +207,37 @@ class commonTextfieldWithTitle extends StatelessWidget {
   }
 }
 
-void navigateToPage(
-  Widget page, {
-  required BuildContext context,
-  bool replace = false,
-  bool clearStack = false,
-  Function(dynamic)? onPopCallback,
-  Duration duration = const Duration(milliseconds: 600),
-}) {
-  PageRouteBuilder route = PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => page,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      // Fade transition
-      return FadeTransition(opacity: animation, child: child);
-    },
-    transitionDuration: duration,
-  );
+// voidcontext.navigateTo(
+//   Widget page, {
+//   required BuildContext context,
+//   bool replace = false,
+//   bool clearStack = false,
+//   Function(dynamic)? onPopCallback,
+//   Duration duration = const Duration(milliseconds: 600),
+// }) {
+//   PageRouteBuilder route = PageRouteBuilder(
+//     pageBuilder: (context, animation, secondaryAnimation) => page,
+//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+//       // Fade transition
+//       return FadeTransition(opacity: animation, child: child);
+//     },
+//     transitionDuration: duration,
+//   );
 
-  if (clearStack) {
-    Navigator.of(context)
-        .pushAndRemoveUntil(route, (route) => false)
-        .then((value) => onPopCallback?.call(value));
-  } else if (replace) {
-    Navigator.of(
-      context,
-    ).pushReplacement(route).then((value) => onPopCallback?.call(value));
-  } else {
-    Navigator.of(
-      context,
-    ).push(route).then((value) => onPopCallback?.call(value));
-  }
-}
+//   if (clearStack) {
+//     Navigator.of(context)
+//         .pushAndRemoveUntil(route, (route) => false)
+//         .then((value) => onPopCallback?.call(value));
+//   } else if (replace) {
+//     Navigator.of(
+//       context,
+//     ).pushReplacement(route).then((value) => onPopCallback?.call(value));
+//   } else {
+//     Navigator.of(
+//       context,
+//     ).push(route).then((value) => onPopCallback?.call(value));
+//   }
+// }
 
 class commonButton extends StatelessWidget {
   final String title;

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
@@ -101,8 +102,8 @@ class CreateNewPasswordView extends ConsumerWidget {
                   );
 
                   if (result != null && result.statusCode == 200) {
-                    navigateToPage(
-                      context: context,
+                   context.navigateTo(
+
                       SigninView(),
                       clearStack: true,
                     );
@@ -128,8 +129,7 @@ class CreateNewPasswordView extends ConsumerWidget {
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  navigateToPage(
-                    context: context,
+                  context.navigateTo(
                     SigninView(),
                     clearStack: true,
                   );

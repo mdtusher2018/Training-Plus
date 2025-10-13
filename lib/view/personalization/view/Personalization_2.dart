@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/view/Personalization_3.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart'
@@ -152,8 +153,8 @@ class Personalization2 extends ConsumerWidget {
                       iconLeft: false,
                       onTap:
                           state.sport != null && state.sport!.isNotEmpty
-                              ? () => navigateToPage(
-                                context: context,
+                              ? () =>context.navigateTo(
+                               
                                 Personalization3(),
                               )
                               : () => commonSnackbar(
