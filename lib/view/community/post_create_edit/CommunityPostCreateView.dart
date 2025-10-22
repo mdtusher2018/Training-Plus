@@ -27,7 +27,7 @@ class CommunityPostView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Community Post", size: 20, isBold: true),
+        title: CommonText("Community Post", size: 20, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -36,14 +36,14 @@ class CommunityPostView extends ConsumerWidget {
           child: ListView(
             children: [
               // Post text input
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Type your post here...",
                 _postController,
                 maxLine: 5,
                 hintText:
                     "Share your training progress, achievement, or motivate others...",
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Category chips
               Align(
@@ -66,7 +66,7 @@ class CommunityPostView extends ConsumerWidget {
                             color: Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                        label: commonText(
+                        label: CommonText(
                           tag.name,
                           size: 13,
                           color:
@@ -80,10 +80,10 @@ class CommunityPostView extends ConsumerWidget {
                 ),
               ),
 
-              commonSizedBox(height: 40),
+              CommonSizedBox(height: 40),
 
               // Share Button
-              commonButton(
+              CommonButton(
                 state.isLoading ? "Posting..." : "Share Post",
                 onTap: () async {
                   if (_postController.text.trim().isEmpty) {
@@ -132,7 +132,7 @@ class CommunityPostView extends ConsumerWidget {
                   }
                 },
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
             ],
           ),
         ),

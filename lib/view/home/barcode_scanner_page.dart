@@ -74,7 +74,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Product Scan", size: 21, isBold: true),
+        title: CommonText("Product Scan", size: 21, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,7 +96,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                   )
                   : SizedBox(),
 
-              commonButton(
+              CommonButton(
                 "Scan Again",
                 iconLeft: true,
                 onTap: () {
@@ -175,24 +175,24 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [commonCloseButton(context)],
+                children: [CommonCloseButton(context)],
               ),
-              commonText(
+              CommonText(
                 "Food Data\nNot Found!",
                 size: 32,
                 isBold: true,
                 textAlign: TextAlign.center,
               ),
-              commonSizedBox(height: 8),
-              commonText(
+              CommonSizedBox(height: 8),
+              CommonText(
                 "Add Manually",
                 size: 16,
                 isBold: true,
                 color: AppColors.black,
                 textAlign: TextAlign.center,
               ),
-              commonSizedBox(height: 20),
-              commonButton(
+              CommonSizedBox(height: 20),
+              CommonButton(
                 "Add Manually",
                 iconLeft: true,
                 iconWidget: Padding(
@@ -210,7 +210,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                   showManualEntrySheet(readOnly: false);
                 },
               ),
-              commonSizedBox(height: 10),
+              CommonSizedBox(height: 10),
             ],
           ),
         );
@@ -246,31 +246,31 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(child: commonText("Manual Entry", size: 18)),
-                      commonSizedBox(height: 20),
+                      Center(child: CommonText("Manual Entry", size: 18)),
+                      CommonSizedBox(height: 20),
 
                       // Meal Name
-                      commonTextField(
+                      CommonTextField(
                         readOnly: readOnly,
                         controller: controller.mealNameController,
                         hintText: "Meal Name (e.g., Grilled Chicken)",
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
 
                       // Calories & Proteins
                       Row(
                         children: [
                           Expanded(
-                            child: commonTextField(
+                            child: CommonTextField(
                               readOnly: readOnly,
                               controller: controller.caloriesController,
                               keyboardType: TextInputType.number,
                               hintText: "Calories",
                             ),
                           ),
-                          commonSizedBox(width: 12),
+                          CommonSizedBox(width: 12),
                           Expanded(
-                            child: commonTextField(
+                            child: CommonTextField(
                               readOnly: readOnly,
                               controller: controller.proteinsController,
                               keyboardType: TextInputType.number,
@@ -279,22 +279,22 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                           ),
                         ],
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
 
                       // Carbs & Fat
                       Row(
                         children: [
                           Expanded(
-                            child: commonTextField(
+                            child: CommonTextField(
                               readOnly: readOnly,
                               controller: controller.carbsController,
                               keyboardType: TextInputType.number,
                               hintText: "Carbs (g)",
                             ),
                           ),
-                          commonSizedBox(width: 12),
+                          CommonSizedBox(width: 12),
                           Expanded(
-                            child: commonTextField(
+                            child: CommonTextField(
                               readOnly: readOnly,
                               controller: controller.fatController,
                               keyboardType: TextInputType.number,
@@ -303,10 +303,10 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                           ),
                         ],
                       ),
-                      commonSizedBox(height: 20),
+                      CommonSizedBox(height: 20),
 
                       // Add Food Data Button
-                      commonButton(
+                      CommonButton(
                         "Add Food Data",
                         isLoading: state.isLoading,
                         onTap: () {
@@ -319,7 +319,7 @@ class _BarcodeDemoPageState extends ConsumerState<BarcodeDemoPage> {
                 Positioned(
                   top: 8,
                   right: 16,
-                  child: commonCloseButton(context),
+                  child: CommonCloseButton(context),
                 ),
               ],
             );

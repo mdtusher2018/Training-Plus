@@ -31,7 +31,7 @@ class NutritionTrackerPage extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Nutrition Tracker", size: 21, isBold: true),
+        title: CommonText("Nutrition Tracker", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -42,7 +42,7 @@ class NutritionTrackerPage extends ConsumerWidget {
             return state.data == null && state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
-                ? commonErrorMassage(context: context, massage: state.error!)
+                ? CommonErrorMassage(context: context, massage: state.error!)
                 : ListView(
                   padding: EdgeInsets.all(16),
                   children: [
@@ -54,7 +54,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                           children: [
                             Icon(Icons.calendar_month_outlined),
 
-                            commonText(
+                            CommonText(
                               DateFormat('EEEE, MMM d').format(DateTime.now()),
                               size: 14,
                             ),
@@ -85,7 +85,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                                     "assest/images/home/gole_black.png",
                                     width: 20,
                                   ),
-                                  commonText("Set Goals", size: 14),
+                                  CommonText("Set Goals", size: 14),
                                 ],
                               ),
                             ),
@@ -101,17 +101,17 @@ class NutritionTrackerPage extends ConsumerWidget {
                           : state.data!.overallPercent,
                     ),
 
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Quick Stat (quickTodayGain)
                     _buildQuickStats(state.data!.quickTodayGain),
 
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Detailed Stats
                     _buildDetailedStats(state.data!.detailedProgress),
 
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Today's Meals
                     _buildMealsList(state.data!.todayMeals),
@@ -151,8 +151,8 @@ class NutritionTrackerPage extends ConsumerWidget {
           Row(
             children: [
               const Icon(Icons.trending_up, color: AppColors.primary, size: 30),
-              commonSizedBox(width: 6),
-              commonText(
+              CommonSizedBox(width: 6),
+              CommonText(
                 "Today's Progress",
                 size: 16,
                 isBold: true,
@@ -160,16 +160,16 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ],
           ),
-          commonSizedBox(height: 4),
+          CommonSizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commonText(
+              CommonText(
                 "Overall Goal Achievement",
                 size: 12,
                 color: AppColors.textSecondary,
               ),
-              commonText(
+              CommonText(
                 overallPercent.toString(),
                 size: 12,
                 isBold: true,
@@ -177,7 +177,7 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ],
           ),
-          commonSizedBox(height: 6),
+          CommonSizedBox(height: 6),
           LinearProgressIndicator(
             value: overallPercent / 100.0,
             color: Colors.yellow.shade700,
@@ -200,7 +200,7 @@ class NutritionTrackerPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            commonText("Quick Stat", size: 16, isBold: true),
+            CommonText("Quick Stat", size: 16, isBold: true),
             SizedBox(height: 8),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -300,7 +300,7 @@ class NutritionTrackerPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            commonText("Today’s Meals", size: 16, isBold: true),
+            CommonText("Today’s Meals", size: 16, isBold: true),
             SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,14 +345,14 @@ class NutritionTrackerPage extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          commonText(
+          CommonText(
             value,
             size: 18,
             color: color,
             fontWeight: FontWeight.w800,
           ),
-          commonSizedBox(height: 2),
-          commonText(label, size: 14, color: color),
+          CommonSizedBox(height: 2),
+          CommonText(label, size: 14, color: color),
         ],
       ),
     );
@@ -381,8 +381,8 @@ class NutritionTrackerPage extends ConsumerWidget {
           ListTile(
             contentPadding: EdgeInsets.all(0),
             minVerticalPadding: 0,
-            title: commonText(label, size: 16, isBold: true),
-            subtitle: commonText(valueText, size: 12, isBold: false),
+            title: CommonText(label, size: 16, isBold: true),
+            subtitle: CommonText(valueText, size: 12, isBold: false),
             leading: Container(
               width: 40,
               height: 40,
@@ -404,7 +404,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                         : Color(0xFF5AC8FA),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: commonText(
+              child: CommonText(
                 statusText,
                 size: 10,
                 color: AppColors.white,
@@ -415,15 +415,15 @@ class NutritionTrackerPage extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commonText("${(progress * 100).toStringAsFixed(0)}%", size: 12),
-              commonText(
+              CommonText("${(progress * 100).toStringAsFixed(0)}%", size: 12),
+              CommonText(
                 (statusText == "Complete") ? "Goal Reached" : remainingText,
                 size: 12,
                 isBold: true,
               ),
             ],
           ),
-          commonSizedBox(height: 6),
+          CommonSizedBox(height: 6),
           LinearProgressIndicator(
             value: progress,
             color: statusColor,
@@ -431,7 +431,7 @@ class NutritionTrackerPage extends ConsumerWidget {
             minHeight: 12,
             borderRadius: BorderRadius.circular(8),
           ),
-          commonSizedBox(height: 10),
+          CommonSizedBox(height: 10),
         ],
       ),
     );
@@ -453,10 +453,10 @@ class NutritionTrackerPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonText(title, size: 14, isBold: true),
-          commonSizedBox(height: 2),
-          commonText(time, size: 12, color: AppColors.textSecondary),
-          commonSizedBox(height: 8),
+          CommonText(title, size: 14, isBold: true),
+          CommonSizedBox(height: 2),
+          CommonText(time, size: 12, color: AppColors.textSecondary),
+          CommonSizedBox(height: 8),
           Wrap(spacing: 6, children: stats),
         ],
       ),
@@ -470,7 +470,7 @@ class NutritionTrackerPage extends ConsumerWidget {
         color: color,
         borderRadius: BorderRadius.circular(6),
       ),
-      child: commonText(
+      child: CommonText(
         "$label  \n$value",
         size: 10,
         color: AppColors.white,
@@ -514,47 +514,47 @@ class NutritionTrackerPage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: commonText(
+                          child: CommonText(
                             "Set Goals",
                             size: 18,
                             isBold: true,
                           ),
                         ),
-                        commonSizedBox(height: 20),
+                        CommonSizedBox(height: 20),
 
-                        commonTextfieldWithTitle(
+                        CommonTextfieldWithTitle(
                           "Daily Calories",
                           caloriesController,
                           hintText: "Set your daily calories intake",
                           keyboardType: TextInputType.number,
                         ),
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
 
-                        commonTextfieldWithTitle(
+                        CommonTextfieldWithTitle(
                           "Daily Protein",
                           proteinController,
                           hintText: "Set your daily protein intake",
                           keyboardType: TextInputType.number,
                         ),
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
 
-                        commonTextfieldWithTitle(
+                        CommonTextfieldWithTitle(
                           "Daily Carbs",
                           carbsController,
                           hintText: "Set your daily carbs intake",
                           keyboardType: TextInputType.number,
                         ),
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
 
-                        commonTextfieldWithTitle(
+                        CommonTextfieldWithTitle(
                           "Daily Fats",
                           fatsController,
                           hintText: "Set your daily fats intake",
                           keyboardType: TextInputType.number,
                         ),
-                        commonSizedBox(height: 24),
+                        CommonSizedBox(height: 24),
 
-                        commonButton(
+                        CommonButton(
                           "Set Goal",
                           width: double.infinity,
                           isLoading: state.isLoading,
@@ -581,7 +581,7 @@ class NutritionTrackerPage extends ConsumerWidget {
                             );
                           },
                         ),
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
                       ],
                     );
                   },
@@ -589,7 +589,7 @@ class NutritionTrackerPage extends ConsumerWidget {
               ),
             ),
 
-            Positioned(top: 10, right: 16, child: commonCloseButton(context)),
+            Positioned(top: 10, right: 16, child: CommonCloseButton(context)),
           ],
         );
       },

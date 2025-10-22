@@ -49,7 +49,7 @@ class _RedeemPointsviewState extends State<RedeemPointsview> {
         appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: commonText(
+        title: CommonText(
           'Redeem Points',
           size: 21,
         ),
@@ -62,14 +62,14 @@ class _RedeemPointsviewState extends State<RedeemPointsview> {
       body: ListView.separated(itemBuilder: (context, index) {
         final run = runs[index];
         return ListTile(
-title: commonText(run["title"], size: 16),
-subtitle: commonText("${run["points"]} Points", size: 14,color: AppColors.textSecondary),
+title: CommonText(run["title"], size: 16),
+subtitle: CommonText("${run["points"]} Points", size: 14,color: AppColors.textSecondary),
 trailing: Opacity(
   opacity:(run['redeem']==true)? 0.5:1,
   child: Container(
     padding: EdgeInsets.symmetric(horizontal: 10,vertical: 8),
     decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(25)),
-    child: commonText("Redeem",size: 12),
+    child: CommonText("Redeem",size: 12),
   ),
 ),
         );

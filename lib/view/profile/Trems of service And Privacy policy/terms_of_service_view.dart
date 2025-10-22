@@ -33,7 +33,7 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: commonText('Terms of service', size: 21),
+        title: CommonText('Terms of service', size: 21),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
@@ -57,7 +57,7 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
               }
               if (state.error != null &&
                   (state.content == null || state.content!.content.isEmpty)) {
-                return commonErrorMassage(
+                return CommonErrorMassage(
                   context: context,
                   massage: state.error!,
                 );

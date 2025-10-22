@@ -41,21 +41,21 @@ class Personalization1 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 1),
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
               Center(
-                child: commonText(
+                child: CommonText(
                   "What Describes you best?",
                   size: 22,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               Expanded(
                 child: ListView.separated(
                   itemCount: roles.length,
-                  separatorBuilder: (_, __) => commonSizedBox(height: 14),
+                  separatorBuilder: (_, __) => CommonSizedBox(height: 14),
                   itemBuilder: (context, index) {
                     final role = roles[index];
                     final isSelected = state.userType == role['title'];
@@ -95,18 +95,18 @@ class Personalization1 extends ConsumerWidget {
                               width: 50,
                               isAsset: true,
                             ),
-                            commonSizedBox(width: 14),
+                            CommonSizedBox(width: 14),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  commonText(
+                                  CommonText(
                                     role['title']!,
                                     size: 15,
                                     isBold: true,
                                   ),
-                                  commonSizedBox(height: 4),
-                                  commonText(
+                                  CommonSizedBox(height: 4),
+                                  CommonText(
                                     role['subtitle']!,
                                     size: 13,
                                     color: AppColors.textSecondary,
@@ -122,8 +122,8 @@ class Personalization1 extends ConsumerWidget {
                 ),
               ),
 
-              commonSizedBox(height: 24),
-              commonButton(
+              CommonSizedBox(height: 24),
+              CommonButton(
                 "Next",
                 iconWidget: const Icon(Icons.arrow_forward),
                 iconLeft: false,

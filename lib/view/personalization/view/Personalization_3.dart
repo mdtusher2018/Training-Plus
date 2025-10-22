@@ -30,21 +30,21 @@ class Personalization3 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 3),
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
               Center(
-                child: commonText(
+                child: CommonText(
                   "What's your skill\nlevel?",
                   size: 22,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               Expanded(
                 child: ListView.separated(
                   itemCount: skills.length,
-                  separatorBuilder: (_, __) => commonSizedBox(height: 14),
+                  separatorBuilder: (_, __) => CommonSizedBox(height: 14),
                   itemBuilder: (context, index) {
                     final skill = skills[index];
                     final isSelected = state.skillLevel == skill['title'];
@@ -76,10 +76,10 @@ class Personalization3 extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            commonText(skill['title']!,
+                            CommonText(skill['title']!,
                                 size: 15, isBold: true),
-                            commonSizedBox(height: 4),
-                            commonText(skill['subtitle']!,
+                            CommonSizedBox(height: 4),
+                            CommonText(skill['subtitle']!,
                                 size: 13, color: AppColors.textSecondary),
                           ],
                         ),
@@ -89,11 +89,11 @@ class Personalization3 extends ConsumerWidget {
                 ),
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
               Row(
                 children: [
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       " Previous",
                       onTap: () => Navigator.pop(context),
                       color: Colors.transparent,
@@ -101,9 +101,9 @@ class Personalization3 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  commonSizedBox(width: 10),
+                  CommonSizedBox(width: 10),
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       "Next ",
                       iconWidget: const Icon(Icons.arrow_forward),
                       iconLeft: false,

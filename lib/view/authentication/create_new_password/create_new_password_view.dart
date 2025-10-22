@@ -32,19 +32,19 @@ class CreateNewPasswordView extends ConsumerWidget {
                 imagePath: ImagePaths.resetPasswordImage,
                 isAsset: true,
               ),
-              commonSizedBox(height: 16),
-              commonText("Create new password", size: 21, isBold: true),
-              commonSizedBox(height: 8),
-              commonText(
+              CommonSizedBox(height: 16),
+              CommonText("Create new password", size: 21, isBold: true),
+              CommonSizedBox(height: 8),
+              CommonText(
                 "Your new password must be different\nto previously used passwords.",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              commonSizedBox(height: 32),
+              CommonSizedBox(height: 32),
 
               // Password Field
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Password",
                 passwordController,
                 hintText: "Enter your password",
@@ -52,10 +52,10 @@ class CreateNewPasswordView extends ConsumerWidget {
                 issuffixIconVisible: true,
                 changePasswordVisibility: controller.togglePasswordVisibility,
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Confirm Password Field
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Confirm Password",
                 confirmPasswordController,
                 hintText: "Enter your password",
@@ -64,10 +64,10 @@ class CreateNewPasswordView extends ConsumerWidget {
                 changePasswordVisibility:
                     controller.toggleConfirmPasswordVisibility,
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               // Continue Button
-              commonButton(
+              CommonButton(
                 "Continue",
                 isLoading: state.isLoading,
                 onTap: () async {
@@ -124,7 +124,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                 },
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Back to sign in
               GestureDetector(
@@ -138,7 +138,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.arrow_back),
-                    commonText("  Back to sign in", size: 14),
+                    CommonText("  Back to sign in", size: 14),
                   ],
                 ),
               ),

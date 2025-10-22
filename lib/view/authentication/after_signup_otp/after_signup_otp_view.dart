@@ -32,7 +32,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Column(
             children: [
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
 
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
@@ -41,16 +41,16 @@ class AfterSignUpOtpView extends ConsumerWidget {
                   isAsset: true,
                 ),
               ),
-              commonSizedBox(height: 12),
-              commonText("Check your email", size: 21, isBold: true),
-              commonSizedBox(height: 8),
-              commonText(
+              CommonSizedBox(height: 12),
+              CommonText("Check your email", size: 21, isBold: true),
+              CommonSizedBox(height: 8),
+              CommonText(
                 "We sent a password reset link to\n$email",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // OTP input fields
               Row(
@@ -59,7 +59,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
                 children: List.generate(
                   6,
                   (index) => Expanded(
-                    child: buildOTPTextField(
+                    child: CommonOTPTextField(
                       controllers[index],
                       index,
                       context,
@@ -67,9 +67,9 @@ class AfterSignUpOtpView extends ConsumerWidget {
                   ),
                 ),
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
-              commonRichText(
+              CommonRichText(
                 textAlign: TextAlign.center,
                 parts: [
                   RichTextPart(
@@ -96,10 +96,10 @@ class AfterSignUpOtpView extends ConsumerWidget {
                 ],
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Verify OTP Button
-              commonButton(
+              CommonButton(
                 "Verify OTP",
                 isLoading: state.isLoading,
                 onTap: () async {
@@ -112,7 +112,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
                 },
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               GestureDetector(
                 onTap: () => Navigator.pop(context),
@@ -120,7 +120,7 @@ class AfterSignUpOtpView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.arrow_back),
-                    commonText("  Back to sign up", size: 14),
+                    CommonText("  Back to sign up", size: 14),
                   ],
                 ),
               ),

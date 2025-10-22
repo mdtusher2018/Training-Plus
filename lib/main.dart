@@ -90,7 +90,7 @@ class AppStartupErrorWidget extends StatelessWidget {
             children: [
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
-              commonText(
+              CommonText(
                 'Something went wrong during startup.\n${error.toString()}',
                 textAlign: TextAlign.center,
               ),

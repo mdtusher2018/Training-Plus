@@ -70,31 +70,31 @@ class _SigninViewState extends ConsumerState<SigninView> {
                         isAsset: true,
                       ),
                     ),
-                    commonSizedBox(height: 8),
-                    commonText("Welcome back!", size: 21, isBold: true),
-                    commonSizedBox(height: 4),
-                    commonText(
+                    CommonSizedBox(height: 8),
+                    CommonText("Welcome back!", size: 21, isBold: true),
+                    CommonSizedBox(height: 4),
+                    CommonText(
                       "Enter your details and login to your account.",
                       size: 14,
                       textAlign: TextAlign.center,
                       color: AppColors.textSecondary,
                     ),
-                    commonSizedBox(height: 24),
+                    CommonSizedBox(height: 24),
                   ],
                 ),
               ),
 
               // Email
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Email",
                 emailController,
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Password
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Password",
                 passwordController,
                 hintText: "Enter your password",
@@ -106,7 +106,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
               // Remember Me & Forgot Password
               Align(
                 alignment: Alignment.centerLeft,
-                child: commonCheckbox(
+                child: CommonCheckbox(
                   value: state.rememberMe,
                   label: "Remember me",
                   onChanged: (p0) {
@@ -115,10 +115,10 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 ),
               ),
 
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Sign In Button
-              commonButton(
+              CommonButton(
                 "Sign In",
                 isLoading: state.isLoading,
                 onTap: () async {
@@ -178,22 +178,22 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 },
               ),
 
-              commonSizedBox(height: 12),
+              CommonSizedBox(height: 12),
               GestureDetector(
                 onTap: () {
                   context.navigateTo(ForgotPasswordView());
                 },
-                child: commonText(
+                child: CommonText(
                   "Forgot the password?",
                   size: 14,
                   isBold: true,
                 ),
               ),
-              commonSizedBox(height: 32),
+              CommonSizedBox(height: 32),
 
               // Sign Up Prompt
               Center(
-                child: commonRichText(
+                child: CommonRichText(
                   textAlign: TextAlign.center,
                   parts: [
                     RichTextPart(
@@ -256,15 +256,15 @@ class _SigninViewState extends ConsumerState<SigninView> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                commonSizedBox(height: 12),
+                CommonSizedBox(height: 12),
                 Row(
                   children: [
                     const Icon(Icons.person, color: AppColors.primary),
-                    commonSizedBox(width: 8),
-                    commonText("Select an account", size: 16, isBold: true),
+                    CommonSizedBox(width: 8),
+                    CommonText("Select an account", size: 16, isBold: true),
                   ],
                 ),
-                commonSizedBox(height: 12),
+                CommonSizedBox(height: 12),
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,
@@ -281,7 +281,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                                 color: AppColors.primary,
                                 size: 30,
                               ),
-                              title: commonText(
+                              title: CommonText(
                                 entry.key,
                                 size: 14,
                                 isBold: true,

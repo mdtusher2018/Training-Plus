@@ -47,7 +47,7 @@ class challengeCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commonText(title, size: 14, isBold: true),
+              CommonText(title, size: 14, isBold: true),
               GestureDetector(
                 onTap: onTap,
                 child: Container(
@@ -63,7 +63,7 @@ class challengeCard extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.5),
                     ),
                   ),
-                  child: commonText(isJoined ? "Joined" : "Join", size: 12),
+                  child: CommonText(isJoined ? "Joined" : "Join", size: 12),
                 ),
               ),
             ],
@@ -75,20 +75,20 @@ class challengeCard extends StatelessWidget {
                 size: 16.sp,
                 color: AppColors.primary,
               ),
-              commonSizedBox(width: 4),
-              Expanded(child: commonText("$points Points", size: 12)),
+              CommonSizedBox(width: 4),
+              Expanded(child: CommonText("$points Points", size: 12)),
             ],
           ),
           if (isJoined) ...[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                commonText(
+                CommonText(
                   "Progress",
                   size: 12,
                   color: AppColors.textSecondary,
                 ),
-                commonText(
+                CommonText(
                   "${DateTime.now().difference(DateTime.tryParse(createdAt) ?? DateTime.now()).inDays}/$days Days",
                   size: 12,
                   color: AppColors.textSecondary,
@@ -176,13 +176,13 @@ class PostCard extends ConsumerWidget {
                   radius: 20.sp,
                   backgroundImage: NetworkImage(getFullImagePath(userImage)),
                 ),
-                commonSizedBox(width: 10),
+                CommonSizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      commonText(user, size: 14, isBold: true),
-                      commonText(
+                      CommonText(user, size: 14, isBold: true),
+                      CommonText(
                         timeAgo(time),
                         size: 12,
                         color: AppColors.textSecondary,
@@ -204,10 +204,10 @@ class PostCard extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(color: AppColors.primary),
                     ),
-                    child: commonText(catagory, size: 12, maxline: 1),
+                    child: CommonText(catagory, size: 12, maxline: 1),
                   ),
                 if (myPost) ...[
-                  commonSizedBox(width: 6),
+                  CommonSizedBox(width: 6),
                   GestureDetector(
                     onTap: () {
                       context.navigateTo(
@@ -220,7 +220,7 @@ class PostCard extends ConsumerWidget {
                     },
                     child: Icon(Icons.edit, size: 20.sp),
                   ),
-                  commonSizedBox(width: 4),
+                  CommonSizedBox(width: 4),
                   GestureDetector(
                     onTap: () {
                       showDeletePostDialog(context, id, controller, parentRef);
@@ -230,11 +230,11 @@ class PostCard extends ConsumerWidget {
                 ],
               ],
             ),
-            commonSizedBox(height: 12),
+            CommonSizedBox(height: 12),
 
             // Caption
-            commonText(caption, size: 13, maxline: 4),
-            commonSizedBox(height: 12),
+            CommonText(caption, size: 13, maxline: 4),
+            CommonSizedBox(height: 12),
 
             // Like & Comment Row
             Row(
@@ -247,9 +247,9 @@ class PostCard extends ConsumerWidget {
                     color: state.isLiked ? AppColors.error : AppColors.black,
                   ),
                 ),
-                commonSizedBox(width: 4),
-                commonText(state.likeCount.toString(), size: 12),
-                commonSizedBox(width: 16),
+                CommonSizedBox(width: 4),
+                CommonText(state.likeCount.toString(), size: 12),
+                CommonSizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
                     showCommentsBottomSheet(
@@ -265,8 +265,8 @@ class PostCard extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.mode_comment_outlined, size: 16.sp),
-                      commonSizedBox(width: 4),
-                      commonText(commentCount.toString(), size: 12),
+                      CommonSizedBox(width: 4),
+                      CommonText(commentCount.toString(), size: 12),
                     ],
                   ),
                 ),
@@ -321,17 +321,17 @@ class leaderboardCard extends StatelessWidget {
             SizedBox(
               width: 32,
               child: Center(
-                child: commonText("${index + 1}", size: 16, isBold: true),
+                child: CommonText("${index + 1}", size: 16, isBold: true),
               ),
             ),
-          commonSizedBox(width: 8),
+          CommonSizedBox(width: 8),
           CircleAvatar(
             radius: 14.sp,
             backgroundImage: NetworkImage(getFullImagePath(image)),
           ),
-          commonSizedBox(width: 12),
-          Expanded(child: commonText(name, size: 14)),
-          commonText(
+          CommonSizedBox(width: 12),
+          Expanded(child: CommonText(name, size: 14)),
+          CommonText(
             "$points\nPoints",
             size: 14,
             fontWeight: FontWeight.w600,
@@ -346,13 +346,13 @@ class leaderboardCard extends StatelessWidget {
 Widget sectionHeader(String title, {required Function()? onTap}) {
   return Row(
     children: [
-      Expanded(child: commonText(title, size: 16, isBold: true, maxline: 1)),
+      Expanded(child: CommonText(title, size: 16, isBold: true, maxline: 1)),
       GestureDetector(
         onTap: onTap,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            commonText("See all "),
+            CommonText("See all "),
             Icon(Icons.arrow_forward, size: 16.sp, color: AppColors.primary),
           ],
         ),
@@ -395,40 +395,40 @@ void showChallengeDetailsBottomSheet(
                       ),
                     ),
                   ),
-                  commonSizedBox(height: 20),
+                  CommonSizedBox(height: 20),
                   Center(
-                    child: commonText(
+                    child: CommonText(
                       "Challenge Details",
                       size: 18,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  commonSizedBox(height: 16),
+                  CommonSizedBox(height: 16),
 
-                  commonText(
+                  CommonText(
                     "About This Challenge",
                     size: 16,
                     fontWeight: FontWeight.w600,
                   ),
-                  commonSizedBox(height: 8),
-                  commonText(
+                  CommonSizedBox(height: 8),
+                  CommonText(
                     "Improve your soccer skills with daily drills and exercises. Perfect for players of all levels looking to enhance their technique and fitness.",
                     size: 14,
                     color: AppColors.textSecondary,
                   ),
-                  commonSizedBox(height: 12),
+                  CommonSizedBox(height: 12),
 
-                  commonText("Time", size: 16, fontWeight: FontWeight.w600),
-                  commonSizedBox(height: 4),
-                  commonText("1 Week", size: 14),
+                  CommonText("Time", size: 16, fontWeight: FontWeight.w600),
+                  CommonSizedBox(height: 4),
+                  CommonText("1 Week", size: 14),
                   SizedBox(height: 12),
-                  commonText("Rewards", size: 16, fontWeight: FontWeight.w600),
-                  commonSizedBox(height: 4),
-                  commonText("Achievement Badge\n200 Points", size: 14),
+                  CommonText("Rewards", size: 16, fontWeight: FontWeight.w600),
+                  CommonSizedBox(height: 4),
+                  CommonText("Achievement Badge\n200 Points", size: 14),
 
-                  commonSizedBox(height: 30),
+                  CommonSizedBox(height: 30),
                   if (isJoined)
-                    commonButton(
+                    CommonButton(
                       "Join Challenge",
                       boarderRadious: 8,
                       onTap: () async {
@@ -460,7 +460,7 @@ void showChallengeDetailsBottomSheet(
                 ],
               ),
 
-              Positioned(top: 0, right: 0, child: commonCloseButton(context)),
+              Positioned(top: 0, right: 0, child: CommonCloseButton(context)),
             ],
           ),
         ),
@@ -530,14 +530,14 @@ void showCommentsBottomSheet({
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: commonText("Comments", size: 18, isBold: true),
+                        child: CommonText("Comments", size: 18, isBold: true),
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
                       Expanded(
                         child: ListView.separated(
                           itemCount: state.comments.length,
                           separatorBuilder:
-                              (_, __) => commonSizedBox(height: 12),
+                              (_, __) => CommonSizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final comment = state.comments[index];
                             return Padding(
@@ -551,7 +551,7 @@ void showCommentsBottomSheet({
                                       getFullImagePath(comment.user.image),
                                     ),
                                   ),
-                                  commonSizedBox(width: 12),
+                                  CommonSizedBox(width: 12),
                                   Expanded(
                                     child: Column(
                                       crossAxisAlignment:
@@ -561,20 +561,20 @@ void showCommentsBottomSheet({
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            commonText(
+                                            CommonText(
                                               comment.user.fullName,
                                               size: 14,
                                               fontWeight: FontWeight.w600,
                                             ),
-                                            commonText(
+                                            CommonText(
                                               timeAgo(comment.createdAt),
                                               size: 12,
                                               color: AppColors.textSecondary,
                                             ),
                                           ],
                                         ),
-                                        commonSizedBox(height: 6),
-                                        commonText(
+                                        CommonSizedBox(height: 6),
+                                        CommonText(
                                           comment.text,
                                           size: 13,
                                           color: AppColors.textPrimary,
@@ -589,10 +589,10 @@ void showCommentsBottomSheet({
                           },
                         ),
                       ),
-                      commonSizedBox(height: 12),
+                      CommonSizedBox(height: 12),
                       Stack(
                         children: [
-                          commonTextField(
+                          CommonTextField(
                             hintText: "Type your comment here",
                             controller: _commentTextEditingController,
                             minLine: 4,
@@ -637,7 +637,7 @@ void showCommentsBottomSheet({
                                     color: Colors.grey.withOpacity(0.5),
                                   ),
                                 ),
-                                child: commonText(
+                                child: CommonText(
                                   "Send",
                                   size: 16,
                                   color: AppColors.white,
@@ -647,14 +647,14 @@ void showCommentsBottomSheet({
                           ),
                         ],
                       ),
-                      commonSizedBox(height: 8),
+                      CommonSizedBox(height: 8),
                     ],
                   ),
                 ),
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: commonCloseButton(context),
+                  child: CommonCloseButton(context),
                 ),
               ],
             ),
@@ -675,7 +675,7 @@ Future<void> showDeletePostDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: commonText(
+        title: CommonText(
           "Do you want to delete this post?",
           size: 18,
           fontWeight: FontWeight.w500,
@@ -686,7 +686,7 @@ Future<void> showDeletePostDialog(
           Row(
             children: [
               Expanded(
-                child: commonButton(
+                child: CommonButton(
                   "Cancel",
                   color: Colors.grey.shade400,
                   textColor: Colors.black,
@@ -699,7 +699,7 @@ Future<void> showDeletePostDialog(
               ),
               SizedBox(width: 10),
               Expanded(
-                child: commonButton(
+                child: CommonButton(
                   "Delete",
                   color: Colors.red.shade700,
                   textColor: Colors.white,

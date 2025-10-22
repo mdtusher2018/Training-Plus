@@ -14,7 +14,7 @@ class Personalization6 extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonText(title, size: 16, isBold: true),
+          CommonText(title, size: 16, isBold: true),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
@@ -22,7 +22,7 @@ class Personalization6 extends ConsumerWidget {
               border: Border.all(width: 1.5, color: Colors.grey.withOpacity(0.3)),
               borderRadius: BorderRadius.circular(4),
             ),
-            child: commonText(value),
+            child: CommonText(value),
           ),
         ],
       ),
@@ -42,28 +42,28 @@ class Personalization6 extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                commonSizedBox(height: 16),
-                commonText(
+                CommonSizedBox(height: 16),
+                CommonText(
                   "Perfect! Let’s\nConfirm",
                   size: 22,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
-                commonSizedBox(height: 8),
-                commonText(
+                CommonSizedBox(height: 8),
+                CommonText(
                   "You're all set!",
                   size: 20,
                   isBold: true,
                   textAlign: TextAlign.center,
                 ),
-                commonSizedBox(height: 8),
-                commonText(
+                CommonSizedBox(height: 8),
+                CommonText(
                   "Here's your personalized\ntraining profile",
                   size: 14,
                   color: AppColors.textSecondary,
                   textAlign: TextAlign.center,
                 ),
-                commonSizedBox(height: 24),
+                CommonSizedBox(height: 24),
 
                 // Display summary cards
              Align(
@@ -79,21 +79,21 @@ class Personalization6 extends ConsumerWidget {
                 ],
                ),
              ),
-                commonSizedBox(height: 8),
+                CommonSizedBox(height: 8),
 
-                commonText(
+                CommonText(
                   "You can change these preferences anytime",
                   size: 14,
                   color: AppColors.textSecondary,
                   textAlign: TextAlign.center,
                 ),
-                commonSizedBox(height: 20),
+                CommonSizedBox(height: 20),
 
                 // Buttons
                 Row(
                   children: [
                     Expanded(
-                      child: commonButton(
+                      child: CommonButton(
                         " Previous",
                         onTap: () {
                           Navigator.pop(context);
@@ -103,9 +103,9 @@ class Personalization6 extends ConsumerWidget {
                         iconWidget: const Icon(Icons.arrow_back),
                       ),
                     ),
-                    commonSizedBox(width: 10),
+                    CommonSizedBox(width: 10),
                     Expanded(
-                      child: commonButton(
+                      child: CommonButton(
                         "Complete",isLoading: state.isLoading,
                         iconWidget: const Icon(Icons.done),
                         onTap: state.goal!=null && state.goal!.isNotEmpty

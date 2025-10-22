@@ -34,14 +34,14 @@ class HomePageView extends ConsumerWidget {
               }
 
               if (state.error != null) {
-                return commonErrorMassage(
+                return CommonErrorMassage(
                   context: context,
                   massage: state.error!,
                 );
               }
 
               if (state.response == null || state.response!.data == null) {
-                return commonErrorMassage(
+                return CommonErrorMassage(
                   context: context,
                   massage: "No data found",
                 );
@@ -71,16 +71,16 @@ class HomePageView extends ConsumerWidget {
                 height: 32.sp,
               ),
             ),
-            commonSizedBox(width: 10),
+            CommonSizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(
+                  CommonText(
                     "Welcome , ${response.data!.attributes.user.fullName}",
                     size: 14,
                   ),
-                  commonText("Ready to train?", size: 18, isBold: true),
+                  CommonText("Ready to train?", size: 18, isBold: true),
                 ],
               ),
             ),
@@ -105,12 +105,12 @@ class HomePageView extends ConsumerWidget {
           ],
         ),
 
-        commonSizedBox(height: 20),
+        CommonSizedBox(height: 20),
 
         /// ===== Motivational Banner (from API Quotes) =====
         QuoteBanner(quotes: response.quotes),
 
-        commonSizedBox(height: 20),
+        CommonSizedBox(height: 20),
 
         /// ===== Stats Grid =====
         Row(
@@ -150,7 +150,7 @@ class HomePageView extends ConsumerWidget {
           ],
         ),
 
-        commonSizedBox(height: 20),
+        CommonSizedBox(height: 20),
 
         /// ===== Quick Actions =====
         Row(
@@ -167,7 +167,7 @@ class HomePageView extends ConsumerWidget {
                 ),
               ),
             ),
-            commonSizedBox(width: 12),
+            CommonSizedBox(width: 12),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -187,13 +187,13 @@ class HomePageView extends ConsumerWidget {
           ],
         ),
 
-        commonSizedBox(height: 20),
+        CommonSizedBox(height: 20),
 
         /// ===== My Workouts =====
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            commonText("My Workouts", size: 18, isBold: true),
+            CommonText("My Workouts", size: 18, isBold: true),
             GestureDetector(
               onTap: () {
                 context.navigateTo(
@@ -201,7 +201,7 @@ class HomePageView extends ConsumerWidget {
               },
               child: Row(
                 children: [
-                  commonText(
+                  CommonText(
                     "See all ",
                     color: AppColors.textSecondary,
                     size: 14,
@@ -216,13 +216,13 @@ class HomePageView extends ConsumerWidget {
             ),
           ],
         ),
-        commonSizedBox(height: 12),
+        CommonSizedBox(height: 12),
 
         SizedBox(
           height: 280,
           child: ListView.separated(
             itemCount: response.workouts.length,
-            separatorBuilder: (context, index) => commonSizedBox(width: 10),
+            separatorBuilder: (context, index) => CommonSizedBox(width: 10),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final workout = response.workouts[index];
@@ -269,13 +269,13 @@ class HomePageView extends ConsumerWidget {
               padding: const EdgeInsets.all(8),
               child: Image.asset(icon),
             ),
-            commonSizedBox(width: 10),
+            CommonSizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(value, size: 16, isBold: true, maxline: 1),
-                  commonText(
+                  CommonText(value, size: 16, isBold: true, maxline: 1),
+                  CommonText(
                     label,
                     size: 12,
                     color: AppColors.textSecondary,
@@ -312,9 +312,9 @@ class HomePageView extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(imagePath, height: 32, width: 32),
-          commonSizedBox(width: 6),
+          CommonSizedBox(width: 6),
           Expanded(
-            child: commonText(
+            child: CommonText(
               label,
               size: 14,
               color: Colors.white,

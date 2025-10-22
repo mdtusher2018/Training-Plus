@@ -26,7 +26,7 @@ class RunningHistoryView extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Running History", size: 21, isBold: true),
+        title: CommonText("Running History", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -37,7 +37,7 @@ class RunningHistoryView extends ConsumerWidget {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(context: context, massage: state.error!);
+              return CommonErrorMassage(context: context, massage: state.error!);
             } else if (state.data == null || state.data!.results.isEmpty) {
               return ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -46,7 +46,7 @@ class RunningHistoryView extends ConsumerWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: Center(
-                      child: commonText(
+                      child: CommonText(
                         "No running history found",
                         size: 16,
                         color: AppColors.error,
@@ -62,7 +62,7 @@ class RunningHistoryView extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 controller: scrollController,
                 itemCount: runs.length,
-                separatorBuilder: (_, __) => commonSizedBox(height: 12),
+                separatorBuilder: (_, __) => CommonSizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final run = runs[index];
 
@@ -93,7 +93,7 @@ class RunningHistoryView extends ConsumerWidget {
                             height: 60,
                           ),
                         ),
-                        commonSizedBox(width: 12),
+                        CommonSizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,14 +103,14 @@ class RunningHistoryView extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(
-                                    child: commonText(
+                                    child: CommonText(
                                       run.place,
                                       size: 16,
                                       isBold: true,
                                       maxline: 1,
                                     ),
                                   ),
-                                  commonText(
+                                  CommonText(
                                     "${run.distance.toStringAsFixed(2)} Km",
                                     size: 16,
                                     isBold: true,
@@ -121,7 +121,7 @@ class RunningHistoryView extends ConsumerWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  commonText(
+                                  CommonText(
                                     formatDuration(Duration(seconds: run.time)),
                                     size: 12,
                                     color: AppColors.textSecondary,
@@ -144,7 +144,7 @@ class RunningHistoryView extends ConsumerWidget {
                                         ),
                                        
                                         Flexible(
-                                          child: commonText(
+                                          child: CommonText(
                                             "${timeAgo(run.createdAt)} Ago",
                                             size: 12,
                                             color: AppColors.textSecondary,
@@ -153,7 +153,7 @@ class RunningHistoryView extends ConsumerWidget {
                                       ],
                                     ),
                                   ),
-                                  commonText(
+                                  CommonText(
                                     "${run.pace} min/km",
                                     size: 12,
                                     color: AppColors.textSecondary,

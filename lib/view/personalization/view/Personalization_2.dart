@@ -26,19 +26,19 @@ class Personalization2 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 2),
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
 
               Center(
                 child: Column(
                   children: [
-                    commonText(
+                    CommonText(
                       "Choose your sport",
                       size: 22,
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    commonSizedBox(height: 6),
-                    commonText(
+                    CommonSizedBox(height: 6),
+                    CommonText(
                       "Select the sport you're interested in.",
                       size: 14,
                       textAlign: TextAlign.center,
@@ -47,7 +47,7 @@ class Personalization2 extends ConsumerWidget {
                   ],
                 ),
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               /// Categories Grid
               Expanded(
@@ -55,12 +55,12 @@ class Personalization2 extends ConsumerWidget {
                     state.isLoading
                         ? const Center(child: CircularProgressIndicator())
                         : state.error != null
-                        ? commonErrorMassage(
+                        ? CommonErrorMassage(
                           context: context,
                           massage: state.error!,
                         )
                         : state.categories.isEmpty
-                        ? commonErrorMassage(
+                        ? CommonErrorMassage(
                           context: context,
                           massage: "No categories found",
                         )
@@ -118,7 +118,7 @@ class Personalization2 extends ConsumerWidget {
                                           ),
                                         ),
                                         
-                                        commonText(
+                                        CommonText(
                                           category.name,
                                           size: 14,
                                           maxline: 1,
@@ -133,11 +133,11 @@ class Personalization2 extends ConsumerWidget {
                         ),
               ),
 
-              commonSizedBox(height: 12),
+              CommonSizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       " Previous",
                       onTap: () => Navigator.pop(context),
                       color: Colors.transparent,
@@ -145,9 +145,9 @@ class Personalization2 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  commonSizedBox(width: 10),
+                  CommonSizedBox(width: 10),
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       "Next ",
                       iconWidget: const Icon(Icons.arrow_forward),
                       iconLeft: false,

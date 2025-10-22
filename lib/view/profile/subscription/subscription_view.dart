@@ -53,7 +53,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
           },
           child: Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText(
+        title: CommonText(
           "Subscriptions",
           size: 20,
           isBold: true,
@@ -66,7 +66,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
 
           tabs: [
             Tab(
-              child: commonText(
+              child: CommonText(
                 "Subscriptions",
                 color:
                     (state.currentIndex == 0)
@@ -76,7 +76,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
               ),
             ),
             Tab(
-              child: commonText(
+              child: CommonText(
                 "My Subscription",
                 color:
                     (state.currentIndex == 1)
@@ -97,7 +97,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                 onRefresh: () async {
                   controller.refreshAll();
                 },
-                child: commonErrorMassage(
+                child: CommonErrorMassage(
                   context: context,
                   massage: state.error!,
                 ),
@@ -135,7 +135,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
         children: [
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.5,
-            child: Center(child: commonText("No subscription plans found")),
+            child: Center(child: CommonText("No subscription plans found")),
           ),
         ],
       );
@@ -181,7 +181,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
         children: [
           SizedBox(
             height: MediaQuery.sizeOf(context).height * 0.5,
-            child: Center(child: commonText("No active subscription found")),
+            child: Center(child: CommonText("No active subscription found")),
           ),
         ],
       );
@@ -232,8 +232,8 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonText(title, size: 22, isBold: true),
-          commonSizedBox(height: 2),
+          CommonText(title, size: 22, isBold: true),
+          CommonSizedBox(height: 2),
 
           /// Features list
           ListView.builder(
@@ -252,7 +252,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                     Expanded(
                       child: Row(
                         children: [
-                          commonText(key, size: 14),
+                          CommonText(key, size: 14),
                           if (isPro && key == "Access to All Sports")
                             GestureDetector(
                               onTap: () {
@@ -266,7 +266,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                         ],
                       ),
                     ),
-                    commonSizedBox(width: 8),
+                    CommonSizedBox(width: 8),
                     Icon(
                       available ? Icons.check : Icons.lock_outline,
                       size: 18,
@@ -289,7 +289,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                 // Check if this button is loading
                 final isLoadingButton = state.buttonLoading[id] ?? false;
 
-                return commonButton(
+                return CommonButton(
                   isLoadingButton
                       ? "Processing..." // or show a spinner if your button supports it
                       : (priceId != null ? "$price/mo" : "Activated"),
@@ -310,7 +310,7 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
           ),
 
           if (isPro && priceId != null)
-            Center(child: commonText("Start 7 day free trial", size: 14)),
+            Center(child: CommonText("Start 7 day free trial", size: 14)),
         ],
       ),
     );
@@ -331,15 +331,15 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [commonCloseButton(context)],
+                children: [CommonCloseButton(context)],
               ),
-              commonSizedBox(height: 12),
-              commonText(
+              CommonSizedBox(height: 12),
+              CommonText(
                 "Sport Pro currently features\n3 additional sports.",
                 size: 15,
                 textAlign: TextAlign.center,
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
             ],
           ),
         );

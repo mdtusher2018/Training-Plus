@@ -31,7 +31,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: commonText(
+        title: CommonText(
           'Privacy Policy',
           size: 21,
         ),
@@ -54,7 +54,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {
-                return commonErrorMassage(context: context, massage: state.error!);
+                return CommonErrorMassage(context: context, massage: state.error!);
               }
               if (state.content != null) {
                 return  Html(

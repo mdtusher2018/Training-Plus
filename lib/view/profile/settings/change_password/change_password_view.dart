@@ -121,7 +121,7 @@ class ChangePasswordScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () => Navigator.pop(context),
         ),
-        title: commonText("Change Password", size: 18, isBold: true),
+        title: CommonText("Change Password", size: 18, isBold: true),
         centerTitle: true,
       ),
       body: Container(
@@ -129,10 +129,10 @@ class ChangePasswordScreen extends ConsumerWidget {
         height: double.infinity,
         child: Column(
           children: [
-            commonSizedBox(height: 20),
+            CommonSizedBox(height: 20),
 
             /// Current Password
-            commonTextfieldWithTitle(
+            CommonTextfieldWithTitle(
               "Current Password",
               currentPasswordController,
               hintText: "Enter your password",
@@ -143,10 +143,10 @@ class ChangePasswordScreen extends ConsumerWidget {
                   controller.toggleCurrentPasswordVisibility,
             ),
 
-            commonSizedBox(height: 15),
+            CommonSizedBox(height: 15),
 
             /// New Password
-            commonTextfieldWithTitle(
+            CommonTextfieldWithTitle(
               "New Password",
               newPasswordController,
               hintText: "Enter new password",
@@ -156,10 +156,10 @@ class ChangePasswordScreen extends ConsumerWidget {
               changePasswordVisibility: controller.toggleNewPasswordVisibility,
             ),
 
-            commonSizedBox(height: 15),
+            CommonSizedBox(height: 15),
 
             /// Confirm Password
-            commonTextfieldWithTitle(
+            CommonTextfieldWithTitle(
               "Confirm New Password",
               confirmPasswordController,
               hintText: "Re-enter new password",
@@ -170,9 +170,9 @@ class ChangePasswordScreen extends ConsumerWidget {
                   controller.toggleConfirmPasswordVisibility,
             ),
 
-            commonSizedBox(height: 40),
+            CommonSizedBox(height: 40),
 
-            commonButton(
+            CommonButton(
               "Change Password",
               isLoading: state.isLoading,
               onTap: () => _handleChangePassword(context, controller),

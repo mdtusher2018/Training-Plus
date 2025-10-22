@@ -232,26 +232,26 @@ void _showFoodNotFoundSheet() {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                commonCloseButton(context),
+                CommonCloseButton(context),
               ],
             ),
-            commonText(
+            CommonText(
               "Food Data\nNot Found!",
               size: 32,
               isBold: true,
           
               textAlign: TextAlign.center,
             ),
-            commonSizedBox(height: 8),
-            commonText(
+            CommonSizedBox(height: 8),
+            CommonText(
               "Add Manually",
               size: 16,
               isBold: true,
               color: AppColors.black,
               textAlign: TextAlign.center,
             ),
-            commonSizedBox(height: 20),
-            commonButton(
+            CommonSizedBox(height: 20),
+            CommonButton(
               "Add Manually",
               iconLeft: true,
             iconWidget: Padding(
@@ -264,7 +264,7 @@ void _showFoodNotFoundSheet() {
                 _showManualEntrySheet();
               },
             ),
-            commonSizedBox(height: 10),
+            CommonSizedBox(height: 10),
           ],
         ),
       );
@@ -304,34 +304,34 @@ void _showManualEntrySheet() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: commonText(
+                  child: CommonText(
                     "Manual Entry",
                     size: 18,
                   
                   ),
                 ),
-                commonSizedBox(height: 20),
+                CommonSizedBox(height: 20),
           
                
-                commonTextField(
+                CommonTextField(
                   controller: mealNameController,
                   hintText: "Meal Name (e.g., Grilled Chicken)"
                 ),
-                commonSizedBox(height: 16),
+                CommonSizedBox(height: 16),
           
                 // Calories & Proteins
                 Row(
                   children: [
                     Expanded(
-                      child: commonTextField(
+                      child: CommonTextField(
                             controller: caloriesController,
                             keyboardType: TextInputType.number,
                             hintText: "Calories"
                           ),
                     ),
-                    commonSizedBox(width: 12),
+                    CommonSizedBox(width: 12),
                     Expanded(
-                      child:    commonTextField(
+                      child:    CommonTextField(
                             controller: proteinsController,
                             keyboardType: TextInputType.number,
                             hintText: "Proteins (g)"
@@ -339,21 +339,21 @@ void _showManualEntrySheet() {
                     ),
                   ],
                 ),
-                commonSizedBox(height: 16),
+                CommonSizedBox(height: 16),
           
                 // Carbs & Fat
                 Row(
                   children: [
                     Expanded(
-                      child:  commonTextField(
+                      child:  CommonTextField(
                             controller: carbsController,
                             keyboardType: TextInputType.number,
                            hintText: "Carbs (g)"
                           ),
                     ),
-                    commonSizedBox(width: 12),
+                    CommonSizedBox(width: 12),
                     Expanded(
-                      child:  commonTextField(
+                      child:  CommonTextField(
                             controller: fatController,
                             keyboardType: TextInputType.number,
                             hintText: "Fat (g)"
@@ -361,10 +361,10 @@ void _showManualEntrySheet() {
                     ),
                   ],
                 ),
-                commonSizedBox(height: 20),
+                CommonSizedBox(height: 20),
           
                 // Add Food Data Button
-                commonButton(
+                CommonButton(
                   "Add Food Data",
              
                   onTap: () {
@@ -379,7 +379,7 @@ void _showManualEntrySheet() {
           ),
        Positioned(
         top: 8,right: 16,
-        child: commonCloseButton(context))
+        child: CommonCloseButton(context))
        
         ],
       );

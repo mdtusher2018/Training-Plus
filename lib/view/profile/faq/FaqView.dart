@@ -24,7 +24,7 @@ class FaqView extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("FAQ", size: 21, isBold: true),
+        title: CommonText("FAQ", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async{
@@ -40,7 +40,7 @@ class FaqView extends ConsumerWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.8,
                   child: Center(
-                    child: commonText(
+                    child: CommonText(
                       "Error: $error",
                       size: 16,
                       color:  AppColors.error,
@@ -85,7 +85,7 @@ class FaqView extends ConsumerWidget {
                         // Force rebuild
                         (context as Element).markNeedsBuild();
                       },
-                      title: commonText(
+                      title: CommonText(
                         faq.question,
                         size: 16,
                         isBold: true,
@@ -94,7 +94,7 @@ class FaqView extends ConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 8),
-                          child: commonText(
+                          child: CommonText(
                             faq.answer,
                             size: 14,
                             color: Colors.grey.shade700,

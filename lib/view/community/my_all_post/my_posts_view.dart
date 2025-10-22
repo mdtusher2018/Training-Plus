@@ -25,7 +25,7 @@ class MyPostsView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("My Posts", size: 20, isBold: true),
+        title: CommonText("My Posts", size: 20, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -36,7 +36,7 @@ class MyPostsView extends ConsumerWidget {
             if (state.isLoading && state.posts.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
               );

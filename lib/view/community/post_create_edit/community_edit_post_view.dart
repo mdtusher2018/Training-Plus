@@ -53,7 +53,7 @@ class _CommunityEditPostViewState
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Edit Post", size: 20, isBold: true),
+        title: CommonText("Edit Post", size: 20, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -62,14 +62,14 @@ class _CommunityEditPostViewState
           child: ListView(
             children: [
               // Post text input
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Type your post here...",
                 _postController,
                 maxLine: 5,
                 hintText:
                     "Share your training progress, achievement, or motivate others...",
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Category chips
               Align(
@@ -91,7 +91,7 @@ class _CommunityEditPostViewState
                             color: Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                        label: commonText(
+                        label: CommonText(
                           tag.name,
                           size: 13,
                           color: isSelected
@@ -104,10 +104,10 @@ class _CommunityEditPostViewState
                 ),
               ),
 
-              commonSizedBox(height: 40),
+              CommonSizedBox(height: 40),
 
               // Share Button
-              commonButton(
+              CommonButton(
                  state.isLoading ? "Updating" : "Update Post",
                 onTap: () async {
                   if (_postController.text.trim().isEmpty) {
@@ -153,7 +153,7 @@ class _CommunityEditPostViewState
                   }
                 },
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
             ],
           ),
         ),

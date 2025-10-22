@@ -30,7 +30,7 @@ class ProgressView extends ConsumerWidget {
         elevation: 0,
         toolbarHeight: 50.h,
         backgroundColor: AppColors.boxBG,
-        title: commonText("Progress", size: 20, fontWeight: FontWeight.bold),
+        title: CommonText("Progress", size: 20, fontWeight: FontWeight.bold),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -44,7 +44,7 @@ class ProgressView extends ConsumerWidget {
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
                 // Show error in a scrollable ListView so RefreshIndicator works
-                ? commonErrorMassage(context: context, massage: state.error!)
+                ? CommonErrorMassage(context: context, massage: state.error!)
                 // Normal loaded state
                 : SingleChildScrollView(
                   padding: const EdgeInsets.all(16),
@@ -55,30 +55,30 @@ class ProgressView extends ConsumerWidget {
                         state: state,
                         controller: controller,
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
                       _buildSportsActivityChart(
                         state: state,
                         controller: controller,
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
                       _buildGoalsSection(goals: state.progress!.mygoal),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
                       _buildRecentSessions(
                         context: context,
                         sessions: state.progress!.recentTraining,
                       ),
-                      commonSizedBox(height: 16),
+                      CommonSizedBox(height: 16),
                       _buildAchievements(
                         context: context,
                         achievements: state.progress!.achievements,
                       ),
-                      commonSizedBox(height: 20),
+                      CommonSizedBox(height: 20),
                       _buildSetGoalsButton(
                         context,
                         state: state,
                         controller: controller,
                       ),
-                      commonSizedBox(height: 20),
+                      CommonSizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -109,7 +109,7 @@ class ProgressView extends ConsumerWidget {
         children: [
           Row(
             children: [
-              commonText(
+              CommonText(
                 "Training Activity",
                 size: 14,
                 fontWeight: FontWeight.w600,
@@ -128,7 +128,7 @@ class ProgressView extends ConsumerWidget {
                   ),
                   child: Row(
                     children: [
-                      commonText(
+                      CommonText(
                         state.isMonthly ? "Monthly" : "Weekly",
                         size: 12,
                       ),
@@ -139,7 +139,7 @@ class ProgressView extends ConsumerWidget {
               ),
             ],
           ),
-          commonSizedBox(height: 16.h),
+          CommonSizedBox(height: 16.h),
           SizedBox(
             height: chartHeight,
 
@@ -156,7 +156,7 @@ class ProgressView extends ConsumerWidget {
                       showTitles: true,
 
                       getTitlesWidget: (value, meta) {
-                        return commonText(value.toStringAsFixed(1), size: 8);
+                        return CommonText(value.toStringAsFixed(1), size: 8);
                       },
                     ),
                   ),
@@ -168,7 +168,7 @@ class ProgressView extends ConsumerWidget {
                         if (value.toInt() < list.length) {
                           String label = list[value.toInt()].label;
                           if (label.length > 3) label = label.substring(0, 3);
-                          return commonText(label, size: 7);
+                          return CommonText(label, size: 7);
                         }
                         return const SizedBox();
                       },
@@ -220,7 +220,7 @@ class ProgressView extends ConsumerWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Center(child: commonText("No sports activity data")),
+        child: Center(child: CommonText("No sports activity data")),
       );
     }
 
@@ -250,14 +250,14 @@ class ProgressView extends ConsumerWidget {
         children: [
           Row(
             children: [
-              commonText(
+              CommonText(
                 "Sports Activity",
                 size: 14,
                 fontWeight: FontWeight.w600,
               ),
             ],
           ),
-          commonSizedBox(height: 12),
+          CommonSizedBox(height: 12),
           SizedBox(
             height: 150,
             child: PieChart(
@@ -279,7 +279,7 @@ class ProgressView extends ConsumerWidget {
               ),
             ),
           ),
-          commonSizedBox(height: 12),
+          CommonSizedBox(height: 12),
           Wrap(
             spacing: 12,
             alignment: WrapAlignment.center,
@@ -304,8 +304,8 @@ class ProgressView extends ConsumerWidget {
           height: 10.sp,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        commonSizedBox(width: 6),
-        commonText(label, size: 11),
+        CommonSizedBox(width: 6),
+        CommonText(label, size: 11),
       ],
     );
   }
@@ -318,7 +318,7 @@ class ProgressView extends ConsumerWidget {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(12),
         ),
-        child: commonText("No goals found", size: 14),
+        child: CommonText("No goals found", size: 14),
       );
     }
 
@@ -331,8 +331,8 @@ class ProgressView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonText("Goals", size: 14, fontWeight: FontWeight.w600),
-          commonSizedBox(height: 12),
+          CommonText("Goals", size: 14, fontWeight: FontWeight.w600),
+          CommonSizedBox(height: 12),
           ...goals.map((goal) {
             double percent =
                 (goal.target == 0) ? 1.0 : goal.progress / goal.target;
@@ -350,16 +350,16 @@ class ProgressView extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     spacing: 8.w,
                     children: [
-                      Flexible(child: commonText(title, size: 12)),
+                      Flexible(child: CommonText(title, size: 12)),
                       Flexible(
-                        child: commonText(
+                        child: CommonText(
                           "${goal.progress}/${goal.target} Sessions",
                           size: 12,
                         ),
                       ),
                     ],
                   ),
-                  commonSizedBox(height: 6),
+                  CommonSizedBox(height: 6),
                   LinearProgressIndicator(
                     value: percent,
                     backgroundColor: AppColors.boxBG,
@@ -388,7 +388,7 @@ class ProgressView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(width: 1.w, color: Colors.grey.withOpacity(0.5)),
         ),
-        child: commonText("No recent sessions found", size: 14),
+        child: CommonText("No recent sessions found", size: 14),
       );
     }
 
@@ -405,7 +405,7 @@ class ProgressView extends ConsumerWidget {
         children: [
           Row(
             children: [
-              commonText(
+              CommonText(
                 "Recent Sessions",
                 size: 14,
                 fontWeight: FontWeight.w600,
@@ -418,8 +418,8 @@ class ProgressView extends ConsumerWidget {
                 },
                 child: Row(
                   children: [
-                    commonText("See all", size: 12),
-                    commonSizedBox(width: 4),
+                    CommonText("See all", size: 12),
+                    CommonSizedBox(width: 4),
                     Icon(Icons.arrow_forward, size: 20.sp),
                   ],
                 ),
@@ -471,7 +471,7 @@ class ProgressView extends ConsumerWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: Colors.grey.withOpacity(0.5)),
         ),
-        child: commonText("No achievements yet", size: 14),
+        child: CommonText("No achievements yet", size: 14),
       );
     }
 
@@ -487,7 +487,7 @@ class ProgressView extends ConsumerWidget {
         children: [
           Row(
             children: [
-              commonText("Achievements", size: 14, fontWeight: FontWeight.w600),
+              CommonText("Achievements", size: 14, fontWeight: FontWeight.w600),
               const Spacer(),
               TextButton(
                 onPressed: () {
@@ -496,15 +496,15 @@ class ProgressView extends ConsumerWidget {
                 },
                 child: Row(
                   children: [
-                    commonText("See all", size: 12),
-                    commonSizedBox(width: 4),
+                    CommonText("See all", size: 12),
+                    CommonSizedBox(width: 4),
                     Icon(Icons.arrow_forward, size: 20.sp),
                   ],
                 ),
               ),
             ],
           ),
-          commonSizedBox(height: 12),
+          CommonSizedBox(height: 12),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -537,14 +537,14 @@ class ProgressView extends ConsumerWidget {
                       ),
                     ),
 
-                    commonText(
+                    CommonText(
                       achievement.badgeName,
                       size: 14,
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    commonSizedBox(height: 4),
-                    commonText(
+                    CommonSizedBox(height: 4),
+                    CommonText(
                       achievement.description,
                       size: 12,
                       color: Colors.grey.shade800,
@@ -555,7 +555,7 @@ class ProgressView extends ConsumerWidget {
               );
             },
           ),
-          commonSizedBox(height: 16),
+          CommonSizedBox(height: 16),
         ],
       ),
     );
@@ -594,9 +594,9 @@ class ProgressView extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assest/images/home/goals.png", height: 32, width: 32),
-            commonSizedBox(width: 6),
+            CommonSizedBox(width: 6),
             Expanded(
-              child: commonText(
+              child: CommonText(
                 "Set Goals",
                 size: 16,
                 color: Colors.white,
@@ -647,20 +647,20 @@ class ProgressView extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
                         Center(
-                          child: commonText("Set Goal", size: 20, isBold: true),
+                          child: CommonText("Set Goal", size: 20, isBold: true),
                         ),
-                        commonSizedBox(height: 24),
+                        CommonSizedBox(height: 24),
 
                         /// Sports Dropdown
-                        commonText(
+                        CommonText(
                           "Select Sports",
                           size: 14,
                           fontWeight: FontWeight.w500,
                         ),
-                        commonSizedBox(height: 8),
-                        commonDropdown<String>(
+                        CommonSizedBox(height: 8),
+                        CommonDropdown<String>(
                           items:
                               state.categories
                                   .map((c) => c.name)
@@ -684,26 +684,26 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        commonSizedBox(height: 24),
+                        CommonSizedBox(height: 24),
 
                         /// Target TextField
-                        commonTextfieldWithTitle(
+                        CommonTextfieldWithTitle(
                           "Target",
                           targetController,
                           hintText: "Type Target",
                           keyboardType: TextInputType.number,
                         ),
 
-                        commonSizedBox(height: 24),
+                        CommonSizedBox(height: 24),
 
                         /// Time Frame Dropdown
-                        commonText(
+                        CommonText(
                           "Select Time Frame",
                           size: 14,
                           fontWeight: FontWeight.w500,
                         ),
-                        commonSizedBox(height: 8),
-                        commonDropdown<String>(
+                        CommonSizedBox(height: 8),
+                        CommonDropdown<String>(
                           items: timeFrameList,
                           value: selectedTimeFrame,
                           hint: "Select Time Frame",
@@ -712,10 +712,10 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        commonSizedBox(height: 32),
+                        CommonSizedBox(height: 32),
 
                         /// Set Goal Button
-                        commonButton(
+                        CommonButton(
                           "Set Goal",
                           isLoading: isLoading,
                           onTap: () async {
@@ -756,13 +756,13 @@ class ProgressView extends ConsumerWidget {
                           },
                         ),
 
-                        commonSizedBox(height: 32),
+                        CommonSizedBox(height: 32),
                       ],
                     ),
                     Positioned(
                       top: 0,
                       right: 0,
-                      child: commonCloseButton(context),
+                      child: CommonCloseButton(context),
                     ),
                   ],
                 ),

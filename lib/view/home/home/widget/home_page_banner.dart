@@ -40,7 +40,7 @@ class _QuoteBannerState extends State<QuoteBanner> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.quotes.isEmpty) return commonSizedBox();
+    if (widget.quotes.isEmpty) return CommonSizedBox();
 
     final quote = widget.quotes[_currentIndex];
 

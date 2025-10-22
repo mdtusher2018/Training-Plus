@@ -34,29 +34,29 @@ class ForgotPasswordView extends ConsumerWidget {
                 ),
               ),
 
-              commonSizedBox(height: 12),
-              commonText("Forgot Password?", size: 21, isBold: true),
-              commonSizedBox(height: 8),
-              commonText(
+              CommonSizedBox(height: 12),
+              CommonText("Forgot Password?", size: 21, isBold: true),
+              CommonSizedBox(height: 8),
+              CommonText(
                 "No worries, we’ll send you reset\ninstructions",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Email field
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Email",
                 emailController,
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Reset Password Button
-              commonButton(
+              CommonButton(
                 "Reset Password",
                 isLoading: state.isLoading,
                 onTap: () async {
@@ -106,7 +106,7 @@ class ForgotPasswordView extends ConsumerWidget {
                 },
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Back to login
               GestureDetector(
@@ -115,7 +115,7 @@ class ForgotPasswordView extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.arrow_back),
-                    commonText("  Back to log in", size: 14),
+                    CommonText("  Back to log in", size: 14),
                   ],
                 ),
               ),

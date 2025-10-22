@@ -25,7 +25,7 @@ class LeaderboardView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Leaderboard", size: 20, isBold: true),
+        title: CommonText("Leaderboard", size: 20, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -36,7 +36,7 @@ class LeaderboardView extends ConsumerWidget {
             if (state.leaderboard == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
               );
@@ -48,7 +48,7 @@ class LeaderboardView extends ConsumerWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: Center(
-                      child: commonText(
+                      child: CommonText(
                         "No users found.",
                         size: 16,
                         color: AppColors.error,

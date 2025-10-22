@@ -27,7 +27,7 @@ class CommunityFeedView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Community Feed", size: 20, isBold: true),
+        title: CommonText("Community Feed", size: 20, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -38,7 +38,7 @@ class CommunityFeedView extends ConsumerWidget {
             if (state.isLoading && state.feed.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
               );
@@ -49,7 +49,7 @@ class CommunityFeedView extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               itemCount:
                   state.hasMore ? state.feed.length + 1 : state.feed.length,
-              separatorBuilder: (_, __) => commonSizedBox(height: 12),
+              separatorBuilder: (_, __) => CommonSizedBox(height: 12),
               itemBuilder: (context, index) {
                 if (index == state.feed.length) {
                   // Show bottom loader when fetching more

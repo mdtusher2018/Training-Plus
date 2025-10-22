@@ -42,7 +42,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
             workoutState.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : workoutState.error != null
-                ? commonErrorMassage(
+                ? CommonErrorMassage(
                   context: context,
                   massage: workoutState.error!,
                 )
@@ -53,7 +53,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.8,
                       child: Center(
-                        child: commonText(
+                        child: CommonText(
                           "No workout data",
                           size: 16,
                           color: AppColors.black,
@@ -89,7 +89,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: commonText(
+                                          child: CommonText(
                                             workoutState.workout!.title,
                                             size: 20,
                                             isBold: true,
@@ -109,16 +109,16 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       ],
                                     ),
 
-                                    commonSizedBox(height: 8),
+                                    CommonSizedBox(height: 8),
 
                                     // Level
-                                    commonText(
+                                    CommonText(
                                       workoutState.workout!.skillLevel,
                                       size: 16,
                                       color: AppColors.textPrimary,
                                     ),
 
-                                    commonSizedBox(height: 8),
+                                    CommonSizedBox(height: 8),
 
                                     // Duration Row
                                     Row(
@@ -128,8 +128,8 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                           size: 16.sp,
                                           color: AppColors.textSecondary,
                                         ),
-                                        commonSizedBox(width: 4),
-                                        commonText(
+                                        CommonSizedBox(width: 4),
+                                        CommonText(
                                           workoutState.workout!.duration
                                               .formatDuration(),
                                           size: 14,
@@ -137,19 +137,19 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                         ),
                                       ],
                                     ),
-                                    commonSizedBox(height: 12),
+                                    CommonSizedBox(height: 12),
 
                                     // About Header
-                                    commonText(
+                                    CommonText(
                                       "About this training",
                                       size: 16,
                                       isBold: true,
                                       color: AppColors.textPrimary,
                                     ),
-                                    commonSizedBox(height: 8),
+                                    CommonSizedBox(height: 8),
 
                                     // Description
-                                    commonText(
+                                    CommonText(
                                       workoutState.workout!.description,
                                       size: 14,
                                       color: AppColors.textSecondary,
@@ -157,7 +157,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                                       maxline: 10,
                                     ),
 
-                                    commonSizedBox(height: 24),
+                                    CommonSizedBox(height: 24),
                                   ],
                                 ),
                               ),
@@ -187,7 +187,7 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                         horizontal: 16,
                         vertical: 12,
                       ),
-                      child: commonButton(
+                      child: CommonButton(
                         "Start Workout",
                         isLoading: workoutState.startWorkout,
                         width: double.infinity,

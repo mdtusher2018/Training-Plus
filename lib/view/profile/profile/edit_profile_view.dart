@@ -95,7 +95,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: commonText('Edit Profile', size: 21),
+        title: CommonText('Edit Profile', size: 21),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
@@ -162,27 +162,27 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         ],
                       ),
                     ),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Full Name field
-                    commonTextfieldWithTitle(
+                    CommonTextfieldWithTitle(
                       'Full Name',
                       nameController,
                       hintText: 'Enter your full name',
                     ),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Email field
-                    commonTextfieldWithTitle(
+                    CommonTextfieldWithTitle(
                       'Email',
                       emailController,
                       hintText: 'Enter your email',
                     ),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // User Type
-                    commonText('User Type', size: 14, isBold: true),
-                    commonDropdown<String>(
+                    CommonText('User Type', size: 14, isBold: true),
+                    CommonDropdown<String>(
                       items: userTypes,
                       value:
                           userTypes.contains(selectedUserType)
@@ -194,11 +194,11 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       },
                     ),
 
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Age Group
-                    commonText('Age Group', size: 14, isBold: true),
-                    commonDropdown<String>(
+                    CommonText('Age Group', size: 14, isBold: true),
+                    CommonDropdown<String>(
                       items: ageGroups,
                       value:
                           ageGroups.contains(selectedAgeGroup)
@@ -210,11 +210,11 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                       },
                     ),
 
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Skill Level
-                    commonText('Skill Level', size: 14, isBold: true),
-                    commonDropdown<String>(
+                    CommonText('Skill Level', size: 14, isBold: true),
+                    CommonDropdown<String>(
                       items: skillLevels,
                       value:
                           skillLevels.contains(selectedSkillLevel)
@@ -225,11 +225,11 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         setState(() => selectedSkillLevel = value);
                       },
                     ),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
 
                     // Goals
-                    commonText('Goals', size: 14, isBold: true),
-                    commonDropdown<String>(
+                    CommonText('Goals', size: 14, isBold: true),
+                    CommonDropdown<String>(
                       items: goals,
                       value: goals.contains(selectedGoal) ? selectedGoal : null,
                       hint: 'Select Goal',
@@ -237,10 +237,10 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                         setState(() => selectedGoal = value);
                       },
                     ),
-                    commonSizedBox(height: 24),
+                    CommonSizedBox(height: 24),
 
                     // Save button
-                    commonButton(
+                    CommonButton(
                       "Save Profile",
                       isLoading: profileState.isLoading,
                       onTap: () async {

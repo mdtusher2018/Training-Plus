@@ -23,7 +23,7 @@ class RecentSessionsView extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Recent Sessions", size: 21, isBold: true),
+        title: CommonText("Recent Sessions", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -33,12 +33,12 @@ class RecentSessionsView extends ConsumerWidget {
             state.isLoading && state.sessions.isEmpty && state.error == null
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
-                ? commonErrorMassage(context: context, massage: state.error!)
+                ? CommonErrorMassage(context: context, massage: state.error!)
                 : ListView.separated(
                   padding: const EdgeInsets.all(16.0),
                   itemCount: state.sessions.length,
                   separatorBuilder:
-                      (context, index) => commonSizedBox(height: 16),
+                      (context, index) => CommonSizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final session = state.sessions[index];
                     return RecentSessionCard(

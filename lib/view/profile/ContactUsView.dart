@@ -15,7 +15,7 @@ class ContactUsView extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Contact Us", size: 21, isBold: true),
+        title: CommonText("Contact Us", size: 21, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
@@ -29,7 +29,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle email tap
               },
             ),
-            commonSizedBox(height: 12),
+            CommonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/whatsapp.png",
               label: "Whatsapp",
@@ -38,7 +38,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle WhatsApp tap
               },
             ),
-            commonSizedBox(height: 12),
+            CommonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/instagram.png",
               label: "Instagram",
@@ -49,7 +49,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle Instagram tap
               },
             ),
-            commonSizedBox(height: 12),
+            CommonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/facebook.png",
               label: "Facebook",
@@ -58,7 +58,7 @@ class ContactUsView extends StatelessWidget {
                 // Handle Facebook tap
               },
             ),
-            commonSizedBox(height: 12),
+            CommonSizedBox(height: 12),
             contactCard(
               imagePath: "assest/images/profile/x.png",
               label: "X",
@@ -98,10 +98,10 @@ class ContactUsView extends StatelessWidget {
                 ? ShaderMask(
                     shaderCallback: (bounds) =>
                         gradient.createShader(Offset.zero & bounds.size),
-                    child: commonText(label,
+                    child: CommonText(label,
                         size: 16, isBold: true, color: Colors.white),
                   )
-                : commonText(label,
+                : CommonText(label,
                     size: 16, isBold: true, color: textColor ?? Colors.black),
           ],
         ),

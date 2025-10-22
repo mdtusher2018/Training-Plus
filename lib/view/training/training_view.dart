@@ -39,7 +39,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: commonText("Training", size: 21, fontWeight: FontWeight.bold),
+        title: CommonText("Training", size: 21, fontWeight: FontWeight.bold),
         centerTitle: true,
         toolbarHeight: 60.h, // responsive height
         backgroundColor: AppColors.mainBG,
@@ -57,9 +57,9 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
             state.attributes == null && state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null && state.attributes == null
-                ? commonErrorMassage(context: context, massage: state.error!)
+                ? CommonErrorMassage(context: context, massage: state.error!)
                 : state.attributes == null
-                ? commonErrorMassage(context: context, massage: "No data Found")
+                ? CommonErrorMassage(context: context, massage: "No data Found")
                 : ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   children: [
@@ -67,9 +67,9 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                       controller: controller,
                       state: state,
                     ),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
                     _buildTabs(),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
                     if (selectedTab == 0)
                       _buildTrainingList(
                         sessions: state.attributes?.myTrainings ?? [],
@@ -81,7 +81,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                         error: state.error,
                         scrollController: completedScrollController,
                       ),
-                    commonSizedBox(height: 24),
+                    CommonSizedBox(height: 24),
                     _buildWellnessToolkit(state.attributes?.wellness ?? []),
                   ],
                 ),
@@ -105,8 +105,8 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                commonText("Current Training", size: 18),
-                commonText(
+                CommonText("Current Training", size: 18),
+                CommonText(
                   state.attributes!.currentTrainning,
                   size: 14,
                   isBold: true,
@@ -139,7 +139,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 border: Border.all(width: 1, style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: commonText(
+              child: CommonText(
                 "Change",
                 size: 14,
                 fontWeight: FontWeight.w600,
@@ -166,7 +166,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                child: commonText(
+                child: CommonText(
                   "My Trainings",
                   size: 14,
                   fontWeight: FontWeight.w600,
@@ -175,7 +175,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
             ),
           ),
         ),
-        commonSizedBox(width: 12),
+        CommonSizedBox(width: 12),
         Expanded(
           child: GestureDetector(
             onTap: () async {
@@ -189,7 +189,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                child: commonText(
+                child: CommonText(
                   "Completed",
                   size: 14,
                   fontWeight: FontWeight.w600,
@@ -207,7 +207,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: commonText("No trainings found", size: 14),
+          child: CommonText("No trainings found", size: 14),
         ),
       );
     }
@@ -231,7 +231,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: commonText(error, size: 14, color: AppColors.error),
+          child: CommonText(error, size: 14, color: AppColors.error),
         ),
       );
     }
@@ -240,7 +240,7 @@ class _TrainingViewState extends ConsumerState<TrainingView> {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: commonText("No completed trainings found", size: 14),
+          child: CommonText("No completed trainings found", size: 14),
         ),
       );
     }
@@ -294,19 +294,19 @@ WorkoutDetailPage(id: session.workoutId));
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    commonText(
+                    CommonText(
                       session.workoutName,
                       size: 16,
                       fontWeight: FontWeight.bold,
                     ),
       
-                    commonText(
+                    CommonText(
                       session.skillLevel,
                       size: 14,
                       color: AppColors.green,
                     ),
       
-                    commonText(
+                    CommonText(
                       "${session.watchTime} sec",
                       size: 13,
                       color: AppColors.textSecondary,
@@ -325,7 +325,7 @@ WorkoutDetailPage(id: session.workoutId));
     if (wellnessList.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),
-        child: commonText("No wellness toolkit available", size: 14),
+        child: CommonText("No wellness toolkit available", size: 14),
       );
     }
 
@@ -339,8 +339,8 @@ WorkoutDetailPage(id: session.workoutId));
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonText("Wellness Toolkit", size: 18, fontWeight: FontWeight.w600),
-          commonSizedBox(height: 12),
+          CommonText("Wellness Toolkit", size: 18, fontWeight: FontWeight.w600),
+          CommonSizedBox(height: 12),
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -367,14 +367,14 @@ WorkoutDetailPage(id: session.workoutId));
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: commonText(
+                            child: CommonText(
                               tool.title,
                               size: 14,
                               maxline: 2,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          commonText(
+                          CommonText(
                             "${tool.duration} min",
                             size: 12,
                             color: AppColors.textSecondary,

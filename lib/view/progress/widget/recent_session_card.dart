@@ -38,9 +38,9 @@ class RecentSessionCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(title, size: 14, fontWeight: FontWeight.w600),
-                  commonSizedBox(height: 6),
-                  commonText(subtitle, size: 12, color: AppColors.textSecondary),
+                  CommonText(title, size: 14, fontWeight: FontWeight.w600),
+                  CommonSizedBox(height: 6),
+                  CommonText(subtitle, size: 12, color: AppColors.textSecondary),
                 ],
               ),
             ),
@@ -59,7 +59,7 @@ class RecentSessionCard extends StatelessWidget {
                     errorBuilder: (_, __, ___) => Icon(Icons.image_not_supported,size: 20.sp,),
                   ),
                   SizedBox(width: 4,),
-                  commonText(tag,size: 12)
+                  CommonText(tag,size: 12)
                 ],
               ),
             ),

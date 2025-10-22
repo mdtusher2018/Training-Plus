@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 
-class commonText extends StatelessWidget {
+class CommonText extends StatelessWidget {
   final String text;
   final double size;
   final Color color;
@@ -18,7 +18,7 @@ class commonText extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextAlign textAlign;
 
-  const commonText(
+  const CommonText(
     this.text, {
     super.key,
     this.size = 12.0,
@@ -54,7 +54,7 @@ class commonText extends StatelessWidget {
   }
 }
 
-class commonTextfieldWithTitle extends StatelessWidget {
+class CommonTextfieldWithTitle extends StatelessWidget {
   final String title;
   final TextEditingController controller;
   final FocusNode? focusNode;
@@ -76,7 +76,7 @@ class commonTextfieldWithTitle extends StatelessWidget {
   final Function(String)? onsubmit;
   final Function(String)? onChnage;
 
-  const commonTextfieldWithTitle(
+  const CommonTextfieldWithTitle(
     this.title,
     this.controller, {
     super.key,
@@ -108,17 +108,17 @@ class commonTextfieldWithTitle extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            commonText(
+            CommonText(
               title,
               size: textSize,
               fontWeight: FontWeight.w500,
               color: AppColors.textPrimary,
             ),
             if (optional)
-              commonText("(Optional)", size: textSize, color: Colors.grey),
+              CommonText("(Optional)", size: textSize, color: Colors.grey),
           ],
         ),
-        commonSizedBox(height: 8),
+        CommonSizedBox(height: 8),
         Material(
           elevation: 1,
           borderRadius: BorderRadius.circular(10.0.r),
@@ -182,7 +182,7 @@ class commonTextfieldWithTitle extends StatelessWidget {
   }
 }
 
-class commonButton extends StatelessWidget {
+class CommonButton extends StatelessWidget {
   final String title;
   final Color color;
   final Color textColor;
@@ -198,7 +198,7 @@ class commonButton extends StatelessWidget {
   final bool isLoading;
   final bool haveNextIcon;
 
-  const commonButton(
+  const CommonButton(
     this.title, {
     super.key,
     this.color = AppColors.primary,
@@ -238,7 +238,7 @@ class commonButton extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (iconWidget != null && iconLeft) iconWidget!,
-                  commonText(
+                  CommonText(
                     textAlign: textalign,
                     isLoading ? "Loading..." : title,
                     size: textSize,
@@ -272,12 +272,12 @@ class commonButton extends StatelessWidget {
   }
 }
 
-class commonImageErrorWidget extends StatelessWidget {
+class CommonImageErrorWidget extends StatelessWidget {
   final double width;
   final double iconSize;
   final String message;
 
-  const commonImageErrorWidget({
+  const CommonImageErrorWidget({
     super.key,
     this.width = double.infinity,
     this.iconSize = 48,
@@ -296,7 +296,7 @@ class commonImageErrorWidget extends StatelessWidget {
           Icon(Icons.broken_image, size: iconSize.sp, color: Colors.grey),
           FittedBox(
             fit: BoxFit.scaleDown,
-            child: commonText(
+            child: CommonText(
               message,
               textAlign: TextAlign.center,
               isBold: true,
@@ -308,12 +308,12 @@ class commonImageErrorWidget extends StatelessWidget {
   }
 }
 
-class buildOTPTextField extends StatelessWidget {
+class CommonOTPTextField extends StatelessWidget {
   final TextEditingController controller;
   final int index;
   final BuildContext context;
 
-  const buildOTPTextField(
+  const CommonOTPTextField(
     this.controller,
     this.index,
     this.context, {
@@ -358,7 +358,7 @@ class buildOTPTextField extends StatelessWidget {
   }
 }
 
-class commonTextField extends StatelessWidget {
+class CommonTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
   final int? minLine;
@@ -369,7 +369,7 @@ class commonTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final bool readOnly;
 
-  const commonTextField({
+  const CommonTextField({
     super.key,
     this.controller,
     this.hintText,
@@ -417,12 +417,12 @@ class commonTextField extends StatelessWidget {
   }
 }
 
-class commonCheckbox extends StatelessWidget {
+class CommonCheckbox extends StatelessWidget {
   final bool value;
   final Function(bool?) onChanged;
   final String label;
 
-  const commonCheckbox({
+  const CommonCheckbox({
     super.key,
     required this.value,
     required this.onChanged,
@@ -445,20 +445,20 @@ class commonCheckbox extends StatelessWidget {
             width: 2,
           ),
         ),
-        if (label.isNotEmpty) Flexible(child: commonText(label, size: 14)),
+        if (label.isNotEmpty) Flexible(child: CommonText(label, size: 14)),
       ],
     );
   }
 }
 
-class commonDropdown<T> extends StatelessWidget {
+class CommonDropdown<T> extends StatelessWidget {
   final List<T> items;
   final T? value;
   final String hint;
   final void Function(T?) onChanged;
   final double? itemHeight;
 
-  const commonDropdown({
+  const CommonDropdown({
     super.key,
     required this.items,
     required this.value,
@@ -481,14 +481,14 @@ class commonDropdown<T> extends StatelessWidget {
         underline: const SizedBox(),
         value: value,
         icon: Icon(Icons.keyboard_arrow_down_rounded, size: 20.sp),
-        hint: commonText(hint, size: 14.sp),
+        hint: CommonText(hint, size: 14.sp),
         borderRadius: BorderRadius.circular(8.r),
         itemHeight: itemHeight ?? 48.h,
         items:
             items.map<DropdownMenuItem<T>>((T item) {
               return DropdownMenuItem<T>(
                 value: item,
-                child: commonText(item.toString(), size: 14),
+                child: CommonText(item.toString(), size: 14),
               );
             }).toList(),
         onChanged: onChanged,
@@ -497,10 +497,10 @@ class commonDropdown<T> extends StatelessWidget {
   }
 }
 
-class authAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CommonAuthAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
-  const authAppBar(this.title, {super.key});
+  const CommonAuthAppBar(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -511,7 +511,7 @@ class authAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: const Icon(Icons.arrow_back, color: AppColors.white),
         onPressed: () {},
       ),
-      title: commonText(title, size: 20, isBold: true, color: Colors.white),
+      title: CommonText(title, size: 20, isBold: true, color: Colors.white),
       centerTitle: true,
     );
   }
@@ -520,10 +520,10 @@ class authAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class commonCloseButton extends StatelessWidget {
+class CommonCloseButton extends StatelessWidget {
   final BuildContext context;
 
-  const commonCloseButton(this.context, {super.key});
+  const CommonCloseButton(this.context, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -577,7 +577,7 @@ class CommonImage extends StatelessWidget {
         fit: fit,
         errorBuilder:
             (context, error, stackTrace) =>
-                commonImageErrorWidget(width: width ?? double.infinity),
+                CommonImageErrorWidget(width: width ?? double.infinity),
       );
     } else if (isFile) {
       imageWidget = Image.file(
@@ -587,7 +587,7 @@ class CommonImage extends StatelessWidget {
         fit: fit,
         errorBuilder:
             (context, error, stackTrace) =>
-                commonImageErrorWidget(width: width ?? double.infinity),
+                CommonImageErrorWidget(width: width ?? double.infinity),
       );
     } else {
       imageWidget = Image.network(
@@ -611,7 +611,7 @@ class CommonImage extends StatelessWidget {
         },
         errorBuilder:
             (context, error, stackTrace) =>
-                commonImageErrorWidget(width: width ?? double.infinity),
+                CommonImageErrorWidget(width: width ?? double.infinity),
       );
     }
 
@@ -662,13 +662,13 @@ class RichTextPart {
   });
 }
 
-class commonRichText extends StatelessWidget {
+class CommonRichText extends StatelessWidget {
   final List<RichTextPart> parts;
   final TextAlign textAlign;
   final int? maxLines;
   final bool softWrap;
 
-  const commonRichText({
+  const CommonRichText({
     super.key,
     required this.parts,
     this.textAlign = TextAlign.left,
@@ -709,12 +709,12 @@ class commonRichText extends StatelessWidget {
   }
 }
 
-class commonSizedBox extends StatelessWidget {
+class CommonSizedBox extends StatelessWidget {
   final double? height;
   final double? width;
   final Widget? child;
 
-  const commonSizedBox({super.key, this.height, this.width, this.child});
+  const CommonSizedBox({super.key, this.height, this.width, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -722,11 +722,11 @@ class commonSizedBox extends StatelessWidget {
   }
 }
 
-class commonErrorMassage extends StatelessWidget {
+class CommonErrorMassage extends StatelessWidget {
   final BuildContext context;
   final String massage;
 
-  const commonErrorMassage({
+  const CommonErrorMassage({
     super.key,
     required this.context,
     required this.massage,
@@ -740,7 +740,7 @@ class commonErrorMassage extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(this.context).size.height * 0.8,
           child: Center(
-            child: commonText(massage, size: 16, color: AppColors.error),
+            child: CommonText(massage, size: 16, color: AppColors.error),
           ),
         ),
       ],

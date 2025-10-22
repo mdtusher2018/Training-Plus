@@ -190,7 +190,7 @@ Widget rewardTierCard(int points) {
         Row(
           children: [
             Expanded(
-              child: commonText(
+              child: CommonText(
                 currentTier['title'] as String,
                 size: 18,
                 color: AppColors.white,
@@ -202,8 +202,8 @@ Widget rewardTierCard(int points) {
               width: 24,
               isAsset: true,
             ),
-            commonSizedBox(width: 4),
-            commonText(
+            CommonSizedBox(width: 4),
+            CommonText(
               "$points POINTS",
               color: Colors.white,
               size: 14,
@@ -211,7 +211,7 @@ Widget rewardTierCard(int points) {
             ),
           ],
         ),
-        commonSizedBox(height: 12),
+        CommonSizedBox(height: 12),
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: LinearProgressIndicator(
@@ -221,9 +221,9 @@ Widget rewardTierCard(int points) {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        commonSizedBox(height: 8),
+        CommonSizedBox(height: 8),
         Center(
-          child: commonText(
+          child: CommonText(
             currentIndex == tiers.length - 1
                 ? "You’ve hit the peak!"
                 : "${(nextTierPoints - points).clamp(0, nextTierPoints)} Points to next tier",

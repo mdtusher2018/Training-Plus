@@ -114,7 +114,7 @@ SigninView());
             children: [
               Flexible(
                 child: FittedBox(
-                  child: commonText(
+                  child: CommonText(
                     data["title"]!,
                     maxline: 2,
                     size: 28,
@@ -127,7 +127,7 @@ SigninView());
             
               Flexible(
                 child: FittedBox(
-                  child: commonText(
+                  child: CommonText(
                     data["subtitle"]!,
                     size: 16,
                     
@@ -137,14 +137,14 @@ SigninView());
                 ),
               ),
         
-              commonButton(
+              CommonButton(
                 (currentPage < totalPages - 1)
                     ? "Next"
                     : "Get Started",
                 haveNextIcon: currentPage < totalPages - 1,
                 onTap: _goToNextPage,
               ),
-     commonSizedBox(height: 24)
+     CommonSizedBox(height: 24)
             ],
           ),
         ),
@@ -165,7 +165,7 @@ SigninView());
                           
                         });
                       },
-                      child: commonText(
+                      child: CommonText(
                         "Skip",
                         size: 21,
                         color: AppColors.white,

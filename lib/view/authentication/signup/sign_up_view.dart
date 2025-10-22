@@ -104,36 +104,36 @@ class SignupView extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 40.w),
                 child: CommonImage(imagePath: ImagePaths.logo, isAsset: true),
               ),
-              commonSizedBox(height: 8),
-              commonText("Create an account", size: 21),
-              commonSizedBox(height: 4),
-              commonText(
+              CommonSizedBox(height: 8),
+              CommonText("Create an account", size: 21),
+              CommonSizedBox(height: 4),
+              CommonText(
                 "Enter the following details carefully to create your account",
                 size: 14,
                 textAlign: TextAlign.center,
                 color: AppColors.textSecondary,
               ),
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Full Name
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Full Name",
                 fullNameController,
                 hintText: "Enter your full name",
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Email
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Email",
                 emailController,
                 hintText: "Enter your email",
                 keyboardType: TextInputType.emailAddress,
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Password
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Password",
                 passwordController,
                 hintText: "Enter your password",
@@ -141,10 +141,10 @@ class SignupView extends ConsumerWidget {
                 issuffixIconVisible: true,
                 changePasswordVisibility: controller.togglePasswordVisibility,
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Confirm Password
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Confirm Password",
                 confirmPasswordController,
                 hintText: "Enter your password",
@@ -153,10 +153,10 @@ class SignupView extends ConsumerWidget {
                 changePasswordVisibility:
                     controller.toggleConfirmPasswordVisibility,
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               // Sign Up Button
-              commonButton(
+              CommonButton(
                 "Sign Up",
                 isLoading: state.isLoading,
                 onTap: () {
@@ -167,10 +167,10 @@ class SignupView extends ConsumerWidget {
                   );
                 },
               ),
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
               // Already a user?
-              commonRichText(
+              CommonRichText(
                 textAlign: TextAlign.center,
                 parts: [
                   RichTextPart(
@@ -191,7 +191,7 @@ class SignupView extends ConsumerWidget {
                   ),
                 ],
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
 
               // Referral code
               Center(
@@ -199,7 +199,7 @@ class SignupView extends ConsumerWidget {
                   onTap: () {
                     _showReferralCodeBottomSheet(context, controller, ref);
                   },
-                  child: commonText(
+                  child: CommonText(
                     "Have a referral code?",
                     size: 14,
                     color: AppColors.primary,
@@ -207,10 +207,10 @@ class SignupView extends ConsumerWidget {
                   ),
                 ),
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               // T&Cs Disclaimer
-              commonRichText(
+              CommonRichText(
                 textAlign: TextAlign.center,
                 parts: [
                   RichTextPart(
@@ -266,7 +266,7 @@ class SignupView extends ConsumerWidget {
                     spacing: 24.sp,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      commonText(
+                      CommonText(
                         "Use referral code",
                         size: 20,
                         isBold: true,
@@ -280,7 +280,7 @@ class SignupView extends ConsumerWidget {
                           (index) => Expanded(
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 4.0.w),
-                              child: buildOTPTextField(
+                              child: CommonOTPTextField(
                                 referralControllers[index],
                                 index,
                                 context,
@@ -290,7 +290,7 @@ class SignupView extends ConsumerWidget {
                         ),
                       ),
 
-                      commonButton(
+                      CommonButton(
                         "Use Code",
                         onTap: () {
                           String code =

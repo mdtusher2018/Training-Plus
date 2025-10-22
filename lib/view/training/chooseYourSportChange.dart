@@ -149,7 +149,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: AppColors.mainBG,
         appBar: AppBar(
-          title: commonText(
+          title: CommonText(
             "Choose your sports",
             size: 22,
             isBold: true,
@@ -158,7 +158,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(16),
             child: Center(
-              child: commonText(
+              child: CommonText(
                 "Select the sports you're\ninterested in.",
                 size: 14,
                 textAlign: TextAlign.center,
@@ -184,7 +184,7 @@ class ChooseYourSportChangeView extends ConsumerWidget {
             child: state.isLoading && state.categories.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
-                    ? commonErrorMassage(
+                    ? CommonErrorMassage(
                         context: context, massage: state.error!)
                     : state.categories.isEmpty
                         ? const Center(child: Text("No categories found"))
@@ -234,8 +234,8 @@ class ChooseYourSportChangeView extends ConsumerWidget {
                                           isAsset: false,
                                         ),
                                       ),
-                                      commonSizedBox(height: 16),
-                                      commonText(
+                                      CommonSizedBox(height: 16),
+                                      CommonText(
                                         category.name,
                                         size: 10,
                                         isBold: true,

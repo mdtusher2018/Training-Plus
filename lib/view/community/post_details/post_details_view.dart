@@ -21,7 +21,7 @@ class PostDetailsPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.boxBG,
       appBar: AppBar(
-        title: commonText("Post Details", size: 20, isBold: true),
+        title: CommonText("Post Details", size: 20, isBold: true),
         backgroundColor: AppColors.boxBG,
         centerTitle: true,
         elevation: 0,
@@ -40,14 +40,14 @@ class PostDetailsPage extends ConsumerWidget {
             }
 
             if (postState.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: postState.error!,
               );
             }
 
         if (!postState.isLoading && postState.postDetails == null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: "Faild to fetch post details",
               );
@@ -89,17 +89,17 @@ class PostDetailsPage extends ConsumerWidget {
                                 getFullImagePath(post.postAuthor.image),
                               ),
                             ),
-                            commonSizedBox(width: 10),
+                            CommonSizedBox(width: 10),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  commonText(
+                                  CommonText(
                                     post.postAuthor.fullName,
                                     size: 14,
                                     isBold: true,
                                   ),
-                                  commonText(
+                                  CommonText(
                                     timeAgo(post.createdAt),
                                     size: 12,
                                     color: AppColors.textSecondary,
@@ -117,23 +117,23 @@ class PostDetailsPage extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(color: AppColors.primary),
                               ),
-                              child: commonText(post.category, size: 12),
+                              child: CommonText(post.category, size: 12),
                             ),
                           ],
                         ),
 
-                        commonSizedBox(height: 12),
+                        CommonSizedBox(height: 12),
 
                         // Caption
                         Align(
                           alignment: Alignment.topLeft,
-                          child: commonText(
+                          child: CommonText(
                             post.caption,
                             size: 14,
                             maxline: 10,
                           ),
                         ),
-                        commonSizedBox(height: 12),
+                        CommonSizedBox(height: 12),
 
                         // Likes & Comments
                         Row(
@@ -151,19 +151,19 @@ class PostDetailsPage extends ConsumerWidget {
                                         : AppColors.black,
                               ),
                             ),
-                            commonSizedBox(width: 4),
-                            commonText(
+                            CommonSizedBox(width: 4),
+                            CommonText(
                               likeState.likeCount.toString(),
                               size: 12,
                             ),
-                            commonSizedBox(width: 16),
+                            CommonSizedBox(width: 16),
                             Icon(Icons.mode_comment_outlined, size: 18.sp),
-                            commonSizedBox(width: 4),
-                            commonText(post.commentCount.toString(), size: 12),
+                            CommonSizedBox(width: 4),
+                            CommonText(post.commentCount.toString(), size: 12),
                           ],
                         ),
 
-                        commonSizedBox(height: 16),
+                        CommonSizedBox(height: 16),
 
                         // Comments List
                         ListView.separated(
@@ -171,7 +171,7 @@ class PostDetailsPage extends ConsumerWidget {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: post.comments.length,
                           separatorBuilder:
-                              (_, __) => commonSizedBox(height: 12),
+                              (_, __) => CommonSizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final comment = post.comments[index];
                             return Row(
@@ -183,7 +183,7 @@ class PostDetailsPage extends ConsumerWidget {
                                     getFullImagePath(comment.userImage),
                                   ),
                                 ),
-                                commonSizedBox(width: 12),
+                                CommonSizedBox(width: 12),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
@@ -193,20 +193,20 @@ class PostDetailsPage extends ConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          commonText(
+                                          CommonText(
                                             comment.userFullName,
                                             size: 14,
                                             isBold: true,
                                           ),
-                                          commonText(
+                                          CommonText(
                                             timeAgo(comment.createdAt),
                                             size: 12,
                                             color: AppColors.textSecondary,
                                           ),
                                         ],
                                       ),
-                                      commonSizedBox(height: 4),
-                                      commonText(
+                                      CommonSizedBox(height: 4),
+                                      CommonText(
                                         comment.text,
                                         size: 13,
                                         color: AppColors.textPrimary,
@@ -220,7 +220,7 @@ class PostDetailsPage extends ConsumerWidget {
                           },
                         ),
 
-                        commonSizedBox(height: 8),
+                        CommonSizedBox(height: 8),
 
                         // Add Comment Field
                         // Comment Input with Send button on top of the field
@@ -231,7 +231,7 @@ class PostDetailsPage extends ConsumerWidget {
                   Stack(
                     children: [
                       // Text field
-                      commonTextField(
+                      CommonTextField(
                         hintText: "Type your comment here",
                         controller: commentController,
                         minLine: 3,
@@ -282,7 +282,7 @@ class PostDetailsPage extends ConsumerWidget {
                                 color: Colors.grey.withOpacity(0.5),
                               ),
                             ),
-                            child: commonText(
+                            child: CommonText(
                               (postState.isSending) ? "Sending..." : "Send",
                               size: 16,
                               color: AppColors.white,

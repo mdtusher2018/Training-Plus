@@ -36,8 +36,8 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    commonText(chap.name, size: 18, isBold: true),
-                    commonSizedBox(height: 8),
+                    CommonText(chap.name, size: 18, isBold: true),
+                    CommonSizedBox(height: 8),
                     ...chap.videos.asMap().entries.map((entry) {
                       final video = entry.value;
 
@@ -106,14 +106,14 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        commonText(
+                                        CommonText(
                                           video.title,
                                           size: 14,
                                           isBold: true,
                                           color: AppColors.textPrimary,
                                         ),
-                                        commonSizedBox(height: 4),
-                                        commonText(
+                                        CommonSizedBox(height: 4),
+                                        CommonText(
                                           video.duration.toStringAsFixed(2),
                                           size: 12,
                                           color: AppColors.textSecondary,
@@ -145,7 +145,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                         ),
                       );
                     }),
-                    commonSizedBox(height: 16),
+                    CommonSizedBox(height: 16),
                   ],
                 );
               },
@@ -155,7 +155,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
           // Finish Workout button
           Padding(
             padding: const EdgeInsets.all(12),
-            child: commonButton(
+            child: CommonButton(
               "Finish Workout",
               isLoading: state.endWorkout,
               color:
@@ -210,19 +210,19 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [commonCloseButton(context)],
+                children: [CommonCloseButton(context)],
               ),
               Image.asset("assest/images/home/tophy.png", width: 70),
-              commonSizedBox(height: 16),
-              commonText(
+              CommonSizedBox(height: 16),
+              CommonText(
                 "Workout\nComplete",
                 size: 20,
                 isBold: true,
                 textAlign: TextAlign.center,
               ),
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
-              commonButton(
+              CommonButton(
                 "Return Home",
 
                 width: double.infinity,
@@ -230,7 +230,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
               ),
-              commonSizedBox(height: 16),
+              CommonSizedBox(height: 16),
             ],
           ),
         );

@@ -19,7 +19,7 @@ class buildWorkoutCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
           image: NetworkImage(getFullImagePath(imagePath)),
-          onError: (exception, stackTrace) => commonImageErrorWidget(),
+          onError: (exception, stackTrace) => CommonImageErrorWidget(),
           fit: BoxFit.cover,
         ),
       ),
@@ -42,7 +42,7 @@ class buildWorkoutCard extends StatelessWidget {
                 color: Colors.black54,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: commonText(
+              child: CommonText(
                 level,
                 size: 10,
                 color: Colors.white,
@@ -50,13 +50,13 @@ class buildWorkoutCard extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            commonText(title, size: 14, isBold: true, color: Colors.white),
+            CommonText(title, size: 14, isBold: true, color: Colors.white),
             Row(
               children: [
                 const Icon(Icons.access_time, size: 12, color: Colors.white),
-                commonSizedBox(width: 4),
+                CommonSizedBox(width: 4),
                 Expanded(
-                  child: commonText(
+                  child: CommonText(
                     time.formatDuration(),
                     size: 12,
                     color: Colors.white,

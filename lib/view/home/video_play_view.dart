@@ -137,13 +137,13 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    commonText(formatDuration(position), size: 12),
-                    commonText(
+                    CommonText(formatDuration(position), size: 12),
+                    CommonText(
                         "-" + formatDuration(duration - position),
                         size: 12),
                   ],
                 ),
-                commonSizedBox(height: 8),
+                CommonSizedBox(height: 8),
 
                 // Buttons row
                 Row(

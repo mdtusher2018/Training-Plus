@@ -29,7 +29,7 @@ class RunDetailPage extends StatelessWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Run Details", size: 20, isBold: true),
+        title: CommonText("Run Details", size: 20, isBold: true),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -47,26 +47,26 @@ class RunDetailPage extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-            commonSizedBox(height: 16),
+            CommonSizedBox(height: 16),
 
             // Place
-            commonText(
+            CommonText(
               runData.mongooId.place,
               size: 22,
               isBold: true,
               color: AppColors.black,
             ),
-            commonSizedBox(height: 8),
+            CommonSizedBox(height: 8),
 
             // User Info
             Row(
               children: [
                 Icon(Icons.person, color: AppColors.primary),
-                commonSizedBox(width: 8),
-                commonText(runData.user.email, size: 16),
+                CommonSizedBox(width: 8),
+                CommonText(runData.user.email, size: 16),
               ],
             ),
-            commonSizedBox(height: 16),
+            CommonSizedBox(height: 16),
 
             // Stats
             Card(
@@ -86,14 +86,14 @@ class RunDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            commonSizedBox(height: 16),
+            CommonSizedBox(height: 16),
 
             // Created At
-            commonText(
+            CommonText(
               "Date: ${DateTime.parse(runData.mongooId.createdAt).toLocal().toString().split(' ')[0]}",
               size: 16,
             ),
-            commonSizedBox(height: 16),
+            CommonSizedBox(height: 16),
 
             // Device IDs
             // if (runData.deviceId.isNotEmpty)
@@ -122,9 +122,9 @@ class RunDetailPage extends StatelessWidget {
   Widget _statItem(String title, String value) {
     return Column(
       children: [
-        commonText(value, size: 18, isBold: true),
-        commonSizedBox(height: 4),
-        commonText(title, size: 14, color: Colors.grey),
+        CommonText(value, size: 18, isBold: true),
+        CommonSizedBox(height: 4),
+        CommonText(title, size: 14, color: Colors.grey),
       ],
     );
   }

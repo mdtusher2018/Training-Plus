@@ -27,7 +27,7 @@ class MyWorkoutsView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("My Workouts", size: 20, isBold: true),
+        title: CommonText("My Workouts", size: 20, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -38,7 +38,7 @@ class MyWorkoutsView extends ConsumerWidget {
             if (state.data == null && state.isLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
               );
@@ -50,7 +50,7 @@ class MyWorkoutsView extends ConsumerWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.8,
                     child: Center(
-                      child: commonText(
+                      child: CommonText(
                         "No workouts found",
                         size: 16,
                         color: AppColors.error,
@@ -68,7 +68,7 @@ class MyWorkoutsView extends ConsumerWidget {
                 padding: const EdgeInsets.all(16),
                 itemCount: workouts.length + (state.isLoading ? 1 : 0),
                 separatorBuilder:
-                    (context, index) => commonSizedBox(height: 10),
+                    (context, index) => CommonSizedBox(height: 10),
                 itemBuilder: (context, index) {
                   if (index >= workouts.length) {
                     // Bottom loader for pagination

@@ -25,7 +25,7 @@ class ActiveChallengesView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Active Challenges", size: 20, isBold: true),
+        title: CommonText("Active Challenges", size: 20, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -36,7 +36,7 @@ class ActiveChallengesView extends ConsumerWidget {
             if (state.isLoading && state.challenges.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(
+              return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
                 

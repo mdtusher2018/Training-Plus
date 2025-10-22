@@ -30,7 +30,7 @@ class NotificationsView extends ConsumerWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: commonText("Notifications", size: 20, isBold: true),
+        title: CommonText("Notifications", size: 20, isBold: true),
         centerTitle: true,
       ),
       body: RefreshIndicator(
@@ -57,10 +57,10 @@ class NotificationsView extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Image.asset("assest/images/notification/notification.png", width: 120),
-        commonSizedBox(height: 24),
-        commonText("There’s no notifications", size: 21, isBold: true),
-        commonSizedBox(height: 8),
-        commonText(
+        CommonSizedBox(height: 24),
+        CommonText("There’s no notifications", size: 21, isBold: true),
+        CommonSizedBox(height: 8),
+        CommonText(
           "Your notifications will\nappear on this page.",
           size: 16,
           textAlign: TextAlign.center,
@@ -95,18 +95,18 @@ Widget _buildNotificationList(
           children: [
             const Icon(Icons.notifications_active,
                 color: AppColors.primary, size: 28),
-            commonSizedBox(width: 12),
+            CommonSizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  commonText(
+                  CommonText(
                     notif.message,
                     size: 16,
                     fontWeight: FontWeight.w500,
                   ),
-                  commonSizedBox(height: 4),
-                  commonText(
+                  CommonSizedBox(height: 4),
+                  CommonText(
                     timeAgo(notif.createdAt),
                     size: 12,
                     color: Colors.grey,

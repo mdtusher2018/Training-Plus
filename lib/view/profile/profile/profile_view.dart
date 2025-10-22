@@ -38,7 +38,7 @@ class ProfileView extends ConsumerWidget {
     });
     return Scaffold(
       appBar: AppBar(
-        title: commonText("Profile", size: 21, isBold: true),
+        title: CommonText("Profile", size: 21, isBold: true),
         centerTitle: true,
         toolbarHeight: 70.h,
       ),
@@ -52,12 +52,12 @@ class ProfileView extends ConsumerWidget {
               state.profile == null && state.isLoading
                   ? Center(child: CircularProgressIndicator())
                   : state.profile == null
-                  ? commonErrorMassage(
+                  ? CommonErrorMassage(
                     context: context,
                     massage: "No data Found",
                   )
                   : state.error != null
-                  ? commonErrorMassage(context: context, massage: state.error!)
+                  ? CommonErrorMassage(context: context, massage: state.error!)
                   : ListView(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     children: [
@@ -105,19 +105,19 @@ class ProfileView extends ConsumerWidget {
 
                       SizedBox(height: 12),
                       Center(
-                        child: commonText(
+                        child: CommonText(
                           state.profile!.attributes.fullName,
 
                           size: 18,
                           isBold: true,
                         ),
                       ),
-                      commonSizedBox(height: 20),
+                      CommonSizedBox(height: 20),
 
                       // Reward Tier Card
                       rewardTierCard(state.profile!.attributes.points),
 
-                      commonSizedBox(height: 30),
+                      CommonSizedBox(height: 30),
 
                       // Sections
                       _sectionHeader("General"),
@@ -172,7 +172,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      commonSizedBox(height: 24),
+                      CommonSizedBox(height: 24),
 
                       _sectionHeader("Support & Help"),
                       sectionTile(
@@ -200,7 +200,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      commonSizedBox(height: 24),
+                      CommonSizedBox(height: 24),
 
                       _sectionHeader("Legal"),
                       sectionTile(
@@ -222,7 +222,7 @@ class ProfileView extends ConsumerWidget {
                         },
                       ),
 
-                      commonSizedBox(height: 24),
+                      CommonSizedBox(height: 24),
 
                       _sectionHeader("Others"),
                       sectionTile(
@@ -256,7 +256,7 @@ class ProfileView extends ConsumerWidget {
   Widget _sectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: commonText(title, size: 14, isBold: true),
+      child: CommonText(title, size: 14, isBold: true),
     );
   }
 
@@ -271,7 +271,7 @@ class ProfileView extends ConsumerWidget {
 
       onTap: onTap,
       leading: CommonImage(imagePath: imagePath, isAsset: true, width: 28),
-      title: commonText(title, size: 14, isBold: true),
+      title: CommonText(title, size: 14, isBold: true),
       trailing: Icon(
         Icons.chevron_right,
         size: 16.sp,
@@ -288,7 +288,7 @@ class ProfileView extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: commonText(
+          title: CommonText(
             "Do you want to Logout?",
             size: 18,
             fontWeight: FontWeight.w500,
@@ -301,7 +301,7 @@ class ProfileView extends ConsumerWidget {
             Row(
               children: [
                 Expanded(
-                  child: commonButton(
+                  child: CommonButton(
                     "Cancel",
                     color: Colors.grey.shade400,
                     textColor: Colors.black,
@@ -315,7 +315,7 @@ class ProfileView extends ConsumerWidget {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: commonButton(
+                  child: CommonButton(
                     "Logout",
                     color: Colors.red.shade700,
                     textColor: Colors.white,

@@ -21,7 +21,7 @@ class BadgeShelfView extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Badge Shelf", size: 21, isBold: true),
+        title: CommonText("Badge Shelf", size: 21, isBold: true),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -32,9 +32,9 @@ class BadgeShelfView extends ConsumerWidget {
             if (state.isLoading && state.badges.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.error != null) {
-              return commonErrorMassage(context: context, massage: state.error!);
+              return CommonErrorMassage(context: context, massage: state.error!);
             } else if (state.badges.isEmpty) {
-              return commonErrorMassage(context: context, massage: "No Badge Achive");
+              return CommonErrorMassage(context: context, massage: "No Badge Achive");
             } else {
               return Padding(
                 padding: const EdgeInsets.all(16),
@@ -69,15 +69,15 @@ class BadgeShelfView extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          commonSizedBox(height: 8),
-                          commonText(
+                          CommonSizedBox(height: 8),
+                          CommonText(
                             badge.badgeName,
                             size: 14,
                             isBold: true,
                             textAlign: TextAlign.center,
                           ),
-                          commonSizedBox(height: 4),
-                          commonText(
+                          CommonSizedBox(height: 4),
+                          CommonText(
                             badge.description,
                             size: 12,
                             color: Colors.grey.shade800,

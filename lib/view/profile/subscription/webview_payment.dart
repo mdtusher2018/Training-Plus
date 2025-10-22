@@ -14,7 +14,7 @@ class PaymentWebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: commonText("Complete Payment"),backgroundColor: AppColors.white,surfaceTintColor: Colors.transparent,centerTitle: true,),
+      appBar: AppBar(title: CommonText("Complete Payment"),backgroundColor: AppColors.white,surfaceTintColor: Colors.transparent,centerTitle: true,),
       body: WebViewWidget(controller: WebViewController(onPermissionRequest: (request) {
         request.grant();
       },)

@@ -14,7 +14,7 @@ class InviteFriendsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: commonText(
+        title: CommonText(
           'Invite Friends',
           size: 21,
         ),
@@ -28,22 +28,22 @@ class InviteFriendsView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            commonSizedBox(height: 16),
+            CommonSizedBox(height: 16),
             CommonImage(
               imagePath: "assest/images/profile/invite_friends_image.png",
               isAsset: true,
             ),
-            commonSizedBox(height: 24),
-            commonText(
+            CommonSizedBox(height: 24),
+            CommonText(
               "Just share this code with\nyour friends",
               size: 21,
               textAlign: TextAlign.center,
             ),
-            commonSizedBox(height: 24),
+            CommonSizedBox(height: 24),
             Row(
               children: [
                 Expanded(
-                  child: commonTextField(
+                  child: CommonTextField(
                     hintText: inviteCode,
                     controller: TextEditingController(text: inviteCode),
                     enabled: false,
@@ -51,8 +51,8 @@ class InviteFriendsView extends StatelessWidget {
                     boarderColor: Colors.grey.withOpacity(0.5),
                   ),
                 ),
-                commonSizedBox(width: 16),
-                commonButton(
+                CommonSizedBox(width: 16),
+                CommonButton(
                   "Copy",
                   width: 80,
                   height: 50,

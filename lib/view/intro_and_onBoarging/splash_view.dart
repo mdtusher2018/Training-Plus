@@ -80,8 +80,8 @@ class _SplashViewState extends ConsumerState<SplashView>
                 width: 280,
                 isAsset: true,
               ),
-              commonSizedBox(height: 16),
-              commonText(
+              CommonSizedBox(height: 16),
+              CommonText(
                 "Train Strong. Live\nstrong",
                 size: 24,
                 isBold: true,

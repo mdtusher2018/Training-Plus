@@ -17,7 +17,7 @@ class SettingsView extends StatelessWidget {
             Navigator.pop(context);
           },
           child: Icon(Icons.arrow_back_ios_new)),
-        title: commonText("Settings", size: 18, isBold: true),
+        title: CommonText("Settings", size: 18, isBold: true),
         centerTitle: true,
       ),
 
@@ -69,7 +69,7 @@ Widget _buildSettingOption({
         height: 32.w, // keep square, also responsive
         fit: BoxFit.contain,
       ),
-      title: commonText(
+      title: CommonText(
         title,
         size: 16, // responsive text
       ),
@@ -96,7 +96,7 @@ Widget _buildSettingOption({
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: commonText(
+          title: CommonText(
             "Do you want to delete your account?",
             size: 18,
             fontWeight: FontWeight.w500,
@@ -109,7 +109,7 @@ Widget _buildSettingOption({
             Row(
               children: [
                 Expanded(
-                  child: commonButton(
+                  child: CommonButton(
                     "Cancel",
                     color: Colors.grey.shade400,
                     textColor: Colors.black,
@@ -122,7 +122,7 @@ Widget _buildSettingOption({
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                  child: commonButton(
+                  child: CommonButton(
                     "Delete",
                     color: Colors.red.shade700,
                     textColor: Colors.white,

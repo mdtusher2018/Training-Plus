@@ -36,19 +36,19 @@ class Personalization5 extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildProgressBar(target: 5),
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
 
               Center(
                 child: Column(
                   children: [
-                    commonText(
+                    CommonText(
                       "What is your goal?",
                       size: 22,
                       isBold: true,
                       textAlign: TextAlign.center,
                     ),
-                    commonSizedBox(height: 6),
-                    commonText(
+                    CommonSizedBox(height: 6),
+                    CommonText(
                       "Select the goal you want to achieve.",
                       size: 14,
                       textAlign: TextAlign.center,
@@ -57,7 +57,7 @@ class Personalization5 extends ConsumerWidget {
                   ],
                 ),
               ),
-              commonSizedBox(height: 30),
+              CommonSizedBox(height: 30),
 
               Expanded(
                 child: GridView.count(
@@ -110,7 +110,7 @@ class Personalization5 extends ConsumerWidget {
                             
                             Flexible(
                               fit: FlexFit.loose,
-                              child: commonText(
+                              child: CommonText(
                                 goal['title']!,
                                 size: 14,
                                 maxline: 3,
@@ -126,11 +126,11 @@ class Personalization5 extends ConsumerWidget {
                 ),
               ),
 
-              commonSizedBox(height: 12),
+              CommonSizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       " Previous",
                       onTap: () => Navigator.pop(context),
                       color: Colors.transparent,
@@ -138,9 +138,9 @@ class Personalization5 extends ConsumerWidget {
                       iconWidget: const Icon(Icons.arrow_back),
                     ),
                   ),
-                  commonSizedBox(width: 10),
+                  CommonSizedBox(width: 10),
                   Expanded(
-                    child: commonButton(
+                    child: CommonButton(
                       "Next ",
                       iconWidget: const Icon(Icons.arrow_forward),
                       iconLeft: false,

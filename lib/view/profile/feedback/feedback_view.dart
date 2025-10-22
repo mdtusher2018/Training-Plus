@@ -27,7 +27,7 @@ class FeedbackView extends ConsumerWidget {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: commonText("Feedback", size: 21, isBold: true),
+        title: CommonText("Feedback", size: 21, isBold: true),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -37,23 +37,23 @@ class FeedbackView extends ConsumerWidget {
               SizedBox(
                 height: 60,
                 child: FittedBox(
-                  child: commonText("How are you feeling?", isBold: true),
+                  child: CommonText("How are you feeling?", isBold: true),
                 ),
               ),
-              commonSizedBox(height: 6),
+              CommonSizedBox(height: 6),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: commonText(
+                child: CommonText(
                   "Your input is valuable in helping us better understand your needs.",
                   size: 14,
                   color: AppColors.textSecondary,
                   textAlign: TextAlign.center,
                 ),
               ),
-              commonSizedBox(height: 20),
+              CommonSizedBox(height: 20),
 
-              commonText("How are we doing?", size: 18, isBold: true),
-              commonSizedBox(height: 12),
+              CommonText("How are we doing?", size: 18, isBold: true),
+              CommonSizedBox(height: 12),
 
               RatingBar.builder(
                 initialRating: state.rating,
@@ -72,19 +72,19 @@ class FeedbackView extends ConsumerWidget {
                 onRatingUpdate: controller.updateRating,
               ),
 
-              commonSizedBox(height: 24),
+              CommonSizedBox(height: 24),
 
-              commonTextfieldWithTitle(
+              CommonTextfieldWithTitle(
                 "Write your answer",
                 hintText: "Type your feedback here...",
                 feedbackController,
                 maxLine: 4,
               ),
-              commonSizedBox(height: 50),
+              CommonSizedBox(height: 50),
 
               state.isLoading
                   ? const CircularProgressIndicator()
-                  : commonButton(
+                  : CommonButton(
                     "Submit",
                     onTap: () async {
                       if (state.rating == 0.0 ||

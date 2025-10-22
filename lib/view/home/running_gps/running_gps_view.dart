@@ -360,17 +360,17 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    commonText(
+                    CommonText(
                       formatDuration(elapsedTime),
                       size: 28,
                       isBold: true,
                     ),
-                    commonText(
+                    CommonText(
                       "Running time",
                       size: 14,
                       color: AppColors.textSecondary,
                     ),
-                    commonSizedBox(height: 12),
+                    CommonSizedBox(height: 12),
 
                     // Distance & Pace
                     Row(
@@ -380,7 +380,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         _statItem(pace, "Pace (min/km)"),
                       ],
                     ),
-                    commonSizedBox(height: 20),
+                    CommonSizedBox(height: 20),
 
                     // Play/Pause + Stop
                     Row(
@@ -397,7 +397,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                             }
                           },
                         ),
-                        commonSizedBox(width: 20),
+                        CommonSizedBox(width: 20),
                         _roundButton( ref.watch(runningGpsControllerProvider).isLoading? Center(child: CircularProgressIndicator()) :Icon(Icons.stop), Colors.red, () async {
                           if (!isRunning && _routePoints.isEmpty) {
                             return;
@@ -447,7 +447,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         }),
                       ],
                     ),
-                    commonSizedBox(height: 10),
+                    CommonSizedBox(height: 10),
                   ],
                 ),
               ),
@@ -461,8 +461,8 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
   Widget _statItem(String value, String label) {
     return Column(
       children: [
-        commonText(value, size: 18, isBold: true, color: Colors.black),
-        commonText(label, size: 12, color: AppColors.textSecondary),
+        CommonText(value, size: 18, isBold: true, color: Colors.black),
+        CommonText(label, size: 12, color: AppColors.textSecondary),
       ],
     );
   }
@@ -511,17 +511,17 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     height: 70.sp,
                   ),
 
-                  commonText("Running Complete", size: 18, isBold: true),
+                  CommonText("Running Complete", size: 18, isBold: true),
 
-                  commonText("Great Workout !", size: 16),
+                  CommonText("Great Workout !", size: 16),
 
-                  commonText(
+                  CommonText(
                     formatDuration(elapsedTime),
                     size: 26,
                     isBold: true,
                     color: Colors.black,
                   ),
-                  commonText(
+                  CommonText(
                     "Running time",
                     size: 12,
                     color: AppColors.textSecondary,
@@ -535,7 +535,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     ],
                   ),
 
-                  commonButton(
+                  CommonButton(
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
                     width: double.infinity,
@@ -555,7 +555,7 @@ final Uri shareUri = Uri(
   },
                   ),
 
-                  commonButton(
+                  CommonButton(
                     "  Start New Run",
                     color: Colors.transparent,
                     iconWidget: Transform(
@@ -580,7 +580,7 @@ final Uri shareUri = Uri(
                   ),
                 ],
               ),
-              Positioned(right: 0, top: 0, child: commonCloseButton(context)),
+              Positioned(right: 0, top: 0, child: CommonCloseButton(context)),
             ],
           ),
         );
