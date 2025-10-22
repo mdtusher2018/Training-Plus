@@ -5,7 +5,11 @@ import 'package:camera/camera.dart';
 import 'dart:async';
 
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});

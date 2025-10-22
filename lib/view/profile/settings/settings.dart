@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 
 class SettingsView extends StatelessWidget {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView({super.key});
 
   @override
   Widget build(BuildContext context) {

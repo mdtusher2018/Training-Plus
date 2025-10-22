@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class BadgeShelfView extends ConsumerWidget {
   const BadgeShelfView({super.key});

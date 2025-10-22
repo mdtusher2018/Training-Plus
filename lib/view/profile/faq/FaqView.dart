@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class FaqView extends ConsumerWidget {
   const FaqView({super.key});

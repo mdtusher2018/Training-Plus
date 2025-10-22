@@ -7,7 +7,12 @@ import 'package:training_plus/view/home/barcode_scanner_page.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_tracker_controller.dart';
 import 'package:training_plus/view/home/nutrition_tracker/nutrition_traker_model.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 
 class NutritionTrackerPage extends ConsumerWidget {
   NutritionTrackerPage({super.key});

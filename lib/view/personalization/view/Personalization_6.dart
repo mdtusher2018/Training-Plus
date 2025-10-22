@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 
 class Personalization6 extends ConsumerWidget {
   const Personalization6({super.key});

@@ -7,7 +7,11 @@ import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class CreateNewPasswordView extends ConsumerWidget {
   String email;

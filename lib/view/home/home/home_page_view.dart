@@ -11,7 +11,10 @@ import 'package:training_plus/view/home/running_gps/running_gps_view.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
 import 'package:training_plus/view/notification/notification_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePageView extends ConsumerWidget {

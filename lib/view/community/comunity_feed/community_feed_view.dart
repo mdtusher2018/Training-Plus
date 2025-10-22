@@ -5,7 +5,9 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class CommunityFeedView extends ConsumerWidget {
   const CommunityFeedView({super.key});

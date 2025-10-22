@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/home/Run_Details/running_details_model.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class RunDetailPage extends StatelessWidget {
   final RunningHistoryAttributes runData;
 
-  const RunDetailPage({Key? key, required this.runData}) : super(key: key);
+  const RunDetailPage({super.key, required this.runData});
 
   String _formatTime(int seconds) {
     final duration = Duration(seconds: seconds);

@@ -6,7 +6,10 @@ import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/home/workout_details/chapters.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/widgets/common_videoplayer.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 import 'package:training_plus/core/utils/colors.dart';
 
 class WorkoutDetailPage extends ConsumerStatefulWidget {

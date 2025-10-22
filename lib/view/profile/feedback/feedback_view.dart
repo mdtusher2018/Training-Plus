@@ -4,7 +4,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
 
 class FeedbackView extends ConsumerWidget {
    FeedbackView({super.key});

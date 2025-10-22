@@ -3,13 +3,13 @@ import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/root_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_text.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentWebViewScreen extends StatelessWidget {
   final String url;
 
-  const PaymentWebViewScreen({Key? key, required this.url}) : super(key: key);
+  const PaymentWebViewScreen({super.key, required this.url});
 
   @override
   Widget build(BuildContext context) {

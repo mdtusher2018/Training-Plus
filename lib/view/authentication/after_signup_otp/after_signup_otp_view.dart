@@ -10,7 +10,12 @@ import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_otp_text_field.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_rich_text.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class AfterSignUpOtpView extends ConsumerWidget {
   final String email;

@@ -9,7 +9,12 @@ import 'package:training_plus/view/community/post_like_comment_delete/post_like_
 import 'package:training_plus/view/community/post_create_edit/community_edit_post_view.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/post_details/post_details_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class challengeCard extends StatelessWidget {
   final String title;
@@ -476,7 +481,7 @@ void showCommentsBottomSheet({
   required WidgetRef parentRef,
 }) {
   // Create controller once to preserve text input
-  final TextEditingController _commentTextEditingController =
+  final TextEditingController commentTextEditingController =
       TextEditingController();
 
   // Read controller once (ref.read does not rebuild)
@@ -594,7 +599,7 @@ void showCommentsBottomSheet({
                         children: [
                           CommonTextField(
                             hintText: "Type your comment here",
-                            controller: _commentTextEditingController,
+                            controller: commentTextEditingController,
                             minLine: 4,
                           ),
                           Positioned(
@@ -602,19 +607,20 @@ void showCommentsBottomSheet({
                             right: 10,
                             child: GestureDetector(
                               onTap: () async {
-                                if (_commentTextEditingController.text
+                                if (commentTextEditingController.text
                                     .trim()
-                                    .isEmpty)
+                                    .isEmpty) {
                                   return;
+                                }
 
                                 final result = await controller.postComment(
-                                  _commentTextEditingController.text,
+                                  commentTextEditingController.text,
                                   ref: ref,
                                   parentRef: parentRef,
                                 );
 
                                 if (result["title"] == "Success") {
-                                  _commentTextEditingController.clear();
+                                  commentTextEditingController.clear();
                                 } else {
                                   context.showCommonSnackbar(
                                     title: result["title"]!,

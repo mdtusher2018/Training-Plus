@@ -13,11 +13,18 @@ import 'package:training_plus/view/progress/progress/progress_models.dart';
 import 'package:training_plus/view/progress/progress_provider.dart';
 import 'package:training_plus/view/progress/all_recent_sessions/recentSessionsView.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_dropdown.dart';
+import 'package:training_plus/widgets/common_image.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class ProgressView extends ConsumerWidget {
-  ProgressView({super.key});
+  const ProgressView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -370,7 +377,7 @@ class ProgressView extends ConsumerWidget {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -453,7 +460,7 @@ class ProgressView extends ConsumerWidget {
                 },
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

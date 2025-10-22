@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // <-- required for Clipboard
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class InviteFriendsView extends StatelessWidget {
   const InviteFriendsView({super.key,required this.inviteCode});

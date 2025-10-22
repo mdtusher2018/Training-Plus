@@ -22,9 +22,15 @@ import 'package:training_plus/view/profile/redeemPointsView.dart';
 import 'package:training_plus/view/profile/settings/settings.dart';
 import 'package:training_plus/view/profile/Trems%20of%20service%20And%20Privacy%20policy/terms_of_service_view.dart';
 import 'package:training_plus/view/profile/profile/widget/reward_tier_card.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class ProfileView extends ConsumerWidget {
+  const ProfileView({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(profileControllerProvider);

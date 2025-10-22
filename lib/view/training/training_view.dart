@@ -9,7 +9,10 @@ import 'package:training_plus/view/training/chooseYourSportChange.dart';
 import 'package:training_plus/view/training/training_controller.dart';
 import 'package:training_plus/view/training/training_model.dart';
 import 'package:training_plus/view/training/training_provider.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class TrainingView extends ConsumerStatefulWidget {
   const TrainingView({super.key});

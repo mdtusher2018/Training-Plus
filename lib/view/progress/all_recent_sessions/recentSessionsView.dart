@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/progress/progress_provider.dart';
 import 'package:training_plus/view/progress/widget/recent_session_card.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class RecentSessionsView extends ConsumerWidget {
   const RecentSessionsView({super.key});

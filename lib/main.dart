@@ -6,7 +6,7 @@ import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/core/utils/theme.dart';
 import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

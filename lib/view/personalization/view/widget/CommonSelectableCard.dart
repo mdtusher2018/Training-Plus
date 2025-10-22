@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class CommonSelectableCard extends StatelessWidget {
   final String title;
@@ -69,7 +70,7 @@ class CommonSelectableCard extends StatelessWidget {
 class buildProgressBar extends StatelessWidget {
   final int target;
 
-  buildProgressBar({super.key, required this.target});
+  const buildProgressBar({super.key, required this.target});
   @override
   Widget build(BuildContext context) {
     return Row(

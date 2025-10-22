@@ -26,7 +26,7 @@ class _commonVideoPlayerState extends State<commonVideoPlayer> {
     super.initState();
 
     final uri = Uri.parse(getFullImagePath(widget.videoUrl));
-    log(uri.toString() + ".......................");
+    log("$uri.......................");
 
     if (widget.videoUrl.isEmpty || uri.scheme == 'http') {
       widget.videoUrl =

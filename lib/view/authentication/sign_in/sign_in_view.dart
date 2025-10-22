@@ -12,7 +12,13 @@ import 'package:training_plus/view/authentication/forget_password/forgot_passwor
 import 'package:training_plus/view/authentication/sign_in/signin_controller.dart';
 import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
 import 'package:training_plus/view/root_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_rich_text.dart';
+import 'package:training_plus/widgets/common_checkbox.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class SigninView extends ConsumerStatefulWidget {
   const SigninView({super.key});
@@ -244,7 +250,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
       builder: (context) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: Column(
               children: [

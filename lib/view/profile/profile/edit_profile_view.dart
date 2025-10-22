@@ -9,7 +9,11 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/enums.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_dropdown.dart';
 
 class EditProfileView extends ConsumerStatefulWidget {
   const EditProfileView({super.key});

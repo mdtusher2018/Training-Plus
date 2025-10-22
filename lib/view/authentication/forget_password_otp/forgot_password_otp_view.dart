@@ -12,7 +12,12 @@ import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/create_new_password/create_new_password_view.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_otp_text_field.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_rich_text.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class ForgotPasswordOtpView extends ConsumerWidget {
   String email;

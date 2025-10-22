@@ -18,7 +18,11 @@ import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 import '../home_providers.dart';
 
@@ -44,7 +48,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
 
   Timer? _locationUpdateTimer;
   Timer? _timer;
-  List<LatLng> _routePoints = [];
+  final List<LatLng> _routePoints = [];
   final GlobalKey _mapKey = GlobalKey();
 
   void _fitMapToRoute() {

@@ -5,7 +5,11 @@ import 'package:training_plus/view/home/home_providers.dart';
 
 import 'package:training_plus/view/home/video_play_view.dart';
 import 'package:training_plus/view/home/workout_details/workout_details_model.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_close_button.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 import 'package:training_plus/core/utils/colors.dart';
 
 class ChaptersPage extends ConsumerStatefulWidget {

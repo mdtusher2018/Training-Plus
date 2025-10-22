@@ -6,7 +6,9 @@ import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/home_providers.dart';
 import 'package:training_plus/view/home/widgets/workoutCard.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class MyWorkoutsView extends ConsumerWidget {
   const MyWorkoutsView({super.key});

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class buildWorkoutCard extends StatelessWidget {
   final String level;

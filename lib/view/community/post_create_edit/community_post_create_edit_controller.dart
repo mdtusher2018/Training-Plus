@@ -44,7 +44,7 @@ class CommunityPostCreateEditController extends StateNotifier<CommunityPostCreat
 
   /// Select a single sport (stores both ID & name)
   void selectSport(String selectedSport) {
-        log("Selected sport: ${selectedSport})");
+        log("Selected sport: $selectedSport)");
     if (state.sport == selectedSport) {
 
       state = state.copyWith(sport: null);

@@ -7,7 +7,11 @@ import 'package:training_plus/view/personalization/view/Personalization_3.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart'
     show buildProgressBar;
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class Personalization2 extends ConsumerWidget {
   const Personalization2({super.key});

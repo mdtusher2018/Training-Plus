@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/core/utils/colors.dart';
 
 class VideoPlayerView extends StatefulWidget {
@@ -139,7 +140,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   children: [
                     CommonText(formatDuration(position), size: 12),
                     CommonText(
-                        "-" + formatDuration(duration - position),
+                        "-${formatDuration(duration - position)}",
                         size: 12),
                   ],
                 ),

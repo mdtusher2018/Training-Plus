@@ -5,7 +5,10 @@ import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/personalization/view/Personalization_2.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/personalization/view/widget/CommonSelectableCard.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class Personalization1 extends ConsumerWidget {
   const Personalization1({super.key});

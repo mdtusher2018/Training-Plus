@@ -10,10 +10,12 @@ import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/leaderboard/leaderboard_view.dart';
 import 'package:training_plus/view/community/my_all_post/my_posts_view.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_error_message.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class CommunityView extends ConsumerWidget {
-  const CommunityView({Key? key}) : super(key: key);
+  const CommunityView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

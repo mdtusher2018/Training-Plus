@@ -14,7 +14,13 @@ import 'package:training_plus/view/authentication/after_signup_otp/after_signup_
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/authentication/signup/signup_controller.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_otp_text_field.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text_field_with_title.dart';
+import 'package:training_plus/widgets/common_rich_text.dart';
+import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/common_button.dart';
+import 'package:training_plus/widgets/common_image.dart';
 
 class SignupView extends ConsumerWidget {
   SignupView({super.key});

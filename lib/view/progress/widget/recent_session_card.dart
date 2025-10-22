@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/helper.dart';
-import 'package:training_plus/widgets/common_widgets.dart';
+import 'package:training_plus/widgets/common_sized_box.dart';
+import 'package:training_plus/widgets/common_text.dart';
 
 class RecentSessionCard extends StatelessWidget {
   final String title;
@@ -12,13 +13,13 @@ class RecentSessionCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const RecentSessionCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.tag,
     required this.tagImageUrl,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
