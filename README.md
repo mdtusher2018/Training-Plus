@@ -87,7 +87,7 @@ lib/
 │   └── custom_button.dart          # Custom button widget
 │  
 └── main.dart
-
+```
 ## Getting Started
 
 ### Prerequisites
