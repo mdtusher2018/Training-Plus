@@ -107,6 +107,23 @@ Make sure you have the following installed:
    flutter pub get
    flutter run
 
+## CI/CD
+
+This project uses **GitHub Actions** for Continuous Integration (CI) and Continuous Deployment (CD) to automate the process of building, testing, and deploying the application.
+
+### CI Pipeline
+
+- **Tests**: All code changes trigger an automated test suite in GitHub Actions to ensure that the code passes all tests before merging.
+- **Linting**: Code is linted using [Flutter’s built-in linting tools](https://dart.dev/guides/language/analysis-options) to maintain consistent coding style and prevent issues before merging.
+
+### CD Pipeline
+
+- **Automatic Deployment**: Once tests pass successfully, the app is automatically deployed to [your deployment environment] (e.g., Firebase, TestFlight, Google Play, App Store).
+- **Environment Variables**: Sensitive data such as API keys and secrets are managed securely through GitHub Actions secrets.
+  
+For more information, check the GitHub Actions workflow configuration in the `.github/workflows` directory of the project.
+
+
 ## Git Commit Practices
 
 Follow the **Conventional Commit** style for commit messages:
