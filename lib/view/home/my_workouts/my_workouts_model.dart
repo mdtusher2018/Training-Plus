@@ -1,5 +1,5 @@
-import 'package:training_plus/common_used_models/pagination_model.dart';
-import 'package:training_plus/common_used_models/workout_preview_model.dart';
+import 'package:training_plus/core/common_used_models/pagination_model.dart';
+import 'package:training_plus/core/common_used_models/workout_preview_model.dart';
 
 class MyWorkoutResponse {
   final String status;

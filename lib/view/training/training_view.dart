@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:training_plus/common_used_models/recent_training_model.dart';
+import 'package:training_plus/core/common_used_models/recent_training_model.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/home/workout_details/workout_details.dart';

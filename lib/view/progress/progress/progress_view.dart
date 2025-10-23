@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/view/profile/Badge%20Shelf/BadgeShelfView.dart';
-import 'package:training_plus/common_used_models/recent_training_model.dart';
+import 'package:training_plus/core/common_used_models/recent_training_model.dart';
 import 'package:training_plus/view/progress/progress/progress_controller.dart';
 import 'package:training_plus/view/progress/progress/progress_models.dart';
 import 'package:training_plus/view/progress/progress_provider.dart';

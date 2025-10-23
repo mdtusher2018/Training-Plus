@@ -1,4 +1,4 @@
-import 'package:training_plus/common_used_models/leader_board_model.dart';
+import 'package:training_plus/core/common_used_models/leader_board_model.dart';
 
 class LeaderboardFullResponse {
   final String status;

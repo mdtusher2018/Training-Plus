@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/common_used_models/workout_preview_model.dart';
+import 'package:training_plus/core/common_used_models/workout_preview_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/home/my_workouts/my_workouts_model.dart';

@@ -1,7 +1,7 @@
-import 'package:training_plus/common_used_models/active_challenge_model.dart';
-import 'package:training_plus/common_used_models/feed_model.dart';
-import 'package:training_plus/common_used_models/leader_board_model.dart';
-import 'package:training_plus/common_used_models/my_post_model.dart';
+import 'package:training_plus/core/common_used_models/active_challenge_model.dart';
+import 'package:training_plus/core/common_used_models/feed_model.dart';
+import 'package:training_plus/core/common_used_models/leader_board_model.dart';
+import 'package:training_plus/core/common_used_models/my_post_model.dart';
 
 class CommunityResponseModel {
   final String status;

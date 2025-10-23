@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/common_used_models/pagination_model.dart';
+import 'package:training_plus/core/common_used_models/pagination_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
-import 'package:training_plus/common_used_models/feed_model.dart';
+import 'package:training_plus/core/common_used_models/feed_model.dart';
 import 'package:training_plus/view/community/comunity_feed/community_feed_model.dart'; // Your Feed & Pagination models
 
 

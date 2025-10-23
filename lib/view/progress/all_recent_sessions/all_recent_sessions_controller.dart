@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/progress/all_recent_sessions/all_recent_sessions_model.dart';
-import 'package:training_plus/common_used_models/recent_training_model.dart';
+import 'package:training_plus/core/common_used_models/recent_training_model.dart';
 
 /// --- State ---
 class RecentSessionsState {

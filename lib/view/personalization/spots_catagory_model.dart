@@ -1,4 +1,4 @@
-import '../../common_used_models/pagination_model.dart';
+import '../../core/common_used_models/pagination_model.dart';
 
 class SportsCategoryResponse {
   final String status;

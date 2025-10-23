@@ -1,6 +1,6 @@
 
 
-import 'package:training_plus/common_used_models/recent_training_model.dart';
+import 'package:training_plus/core/common_used_models/recent_training_model.dart';
 
 class ProgressResponse {
   final String status;

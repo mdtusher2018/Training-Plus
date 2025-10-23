@@ -1,5 +1,5 @@
-import 'package:training_plus/common_used_models/feed_model.dart';
-import 'package:training_plus/common_used_models/pagination_model.dart';
+import 'package:training_plus/core/common_used_models/feed_model.dart';
+import 'package:training_plus/core/common_used_models/pagination_model.dart';
 
 class FeedResponseModel {
   final String status;

@@ -1,4 +1,4 @@
-import 'package:training_plus/common_used_models/pagination_model.dart';
+import 'package:training_plus/core/common_used_models/pagination_model.dart';
 
 class RunningHistoryResponse {
   final String status;

@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/common_used_models/my_post_model.dart';
+import 'package:training_plus/core/common_used_models/my_post_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/personalization/spots_catagory_model.dart';

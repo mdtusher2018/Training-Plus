@@ -1,7 +1,7 @@
 // ---- STATE ----
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/common_used_models/active_challenge_model.dart';
-import 'package:training_plus/common_used_models/pagination_model.dart';
+import 'package:training_plus/core/common_used_models/active_challenge_model.dart';
+import 'package:training_plus/core/common_used_models/pagination_model.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
 import 'package:training_plus/view/community/active_challenges/active_challenges_model.dart';
