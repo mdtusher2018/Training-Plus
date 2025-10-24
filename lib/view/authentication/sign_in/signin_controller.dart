@@ -1,7 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/base-notifier.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
+import 'package:training_plus/core/services/localstorage/i_local_storage_service.dart';
+import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/extention.dart';
+import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/view/authentication/sign_in/signin_model.dart';
+import 'package:training_plus/view/root_view.dart';
 
 class SignInState {
   final bool passwordVisible;
@@ -14,7 +19,11 @@ class SignInState {
     this.isLoading = false,
   });
 
-  SignInState copyWith({bool? passwordVisible, bool? rememberMe, bool? isLoading}) {
+  SignInState copyWith({
+    bool? passwordVisible,
+    bool? rememberMe,
+    bool? isLoading,
+  }) {
     return SignInState(
       passwordVisible: passwordVisible ?? this.passwordVisible,
       rememberMe: rememberMe ?? this.rememberMe,
@@ -23,10 +32,14 @@ class SignInState {
   }
 }
 
-class SignInController extends StateNotifier<SignInState> {
+class SignInController extends BaseNotifier<SignInState> {
   final IApiService apiService;
+  final ILocalStorageService localStorageService;
 
-  SignInController({required this.apiService}) : super(const SignInState());
+  SignInController({
+    required this.apiService,
+    required this.localStorageService,
+  }) : super(const SignInState());
 
   void togglePasswordVisibility() {
     state = state.copyWith(passwordVisible: !state.passwordVisible);
@@ -41,31 +54,33 @@ class SignInController extends StateNotifier<SignInState> {
   }
 
   /// Sign in API call
-  Future<SignInModel?> signIn({
-    required String email,
-    required String password,
+  Future<void> signIn({required String email, required String password}) async {
+    safeCall(
+      onStart: () => setLoading(true),
+      onComplete: () => setLoading(false),
+      task: () async {
+        final response = await apiService.post(ApiEndpoints.signin, {
+          'email': email,
+          'password': password,
+        });
 
-  }) async {
-    setLoading(true);
+        if (response['statusCode'] == 200) {
+          final user = SignInModel.fromJson(response);
 
-    try {
-      final response = await apiService.post(ApiEndpoints.signin, {
-        'email': email,
-        'password': password,
-      });
-
-      if (response['statusCode'] == 200) {
-        final signInModel = SignInModel.fromJson(response);
-        return signInModel;
-      } else {
-        // Handle error from API
-        throw Exception(response['message'] ?? 'Login failed');
-      }
-    } catch (e) {
-
-      rethrow;
-    } finally {
-      setLoading(false);
-    }
+          await localStorageService.saveString(
+            StorageKey.token,
+            user.accessToken,
+          );
+          if (state.rememberMe) {
+            await localStorageService.saveLogin(email, password);
+          }
+          navigatorKey.currentContext?.navigateTo(RootView());
+        } else {
+          throw Exception(response['message'] ?? 'Login failed');
+        }
+      },
+      successMessage: "login sucessfully",
+      showSuccessSnack: true,
+    );
   }
 }

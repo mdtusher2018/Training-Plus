@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
@@ -11,7 +10,6 @@ import 'package:training_plus/view/authentication/authentication_providers.dart'
 import 'package:training_plus/view/authentication/forget_password/forgot_password_view.dart';
 import 'package:training_plus/view/authentication/sign_in/signin_controller.dart';
 import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
-import 'package:training_plus/view/root_view.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text_field_with_title.dart';
 import 'package:training_plus/widgets/common_rich_text.dart';
@@ -129,8 +127,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                 isLoading: state.isLoading,
                 onTap: () async {
                   if (emailController.text.isEmpty) {
-                   context.showCommonSnackbar(
-                 
+                    context.showCommonSnackbar(
                       title: "Empty",
                       message: "Please enter your email",
                       backgroundColor: AppColors.error,
@@ -138,8 +135,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
                     return;
                   }
                   if (passwordController.text.isEmpty) {
-                   context.showCommonSnackbar(
-                 
+                    context.showCommonSnackbar(
                       title: "Empty",
                       message: "Please enter your password",
                       backgroundColor: AppColors.error,
@@ -147,40 +143,10 @@ class _SigninViewState extends ConsumerState<SigninView> {
                     return;
                   }
 
-                  controller.setLoading(true);
-
-                  try {
-                    // Here you call your API using repository
-                    // Example: final response = await repository.signIn(email, password);
-                    // On success:
-                    final user = await controller.signIn(
-                      email: emailController.text.trim(),
-                      password: passwordController.text.trim(),
-                    );
-                    if (user != null) {
-                      final localStorage = ref.read(localStorageProvider);
-                      await localStorage.saveString(
-                        StorageKey.token,
-                        user.accessToken,
-                      );
-                      if (state.rememberMe) {
-                        await localStorage.saveLogin(
-                          emailController.text.trim(),
-                          passwordController.text.trim(),
-                        );
-                      }
-                      context.navigateTo(RootView(), clearStack: true);
-                    }
-                  } catch (e) {
-                   context.showCommonSnackbar(
-                 
-                      title: "Error",
-                      message: e.toString(),
-                      backgroundColor: AppColors.error,
-                    );
-                  } finally {
-                    controller.setLoading(false);
-                  }
+                  await controller.signIn(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
                 },
               ),
 
@@ -241,7 +207,7 @@ class _SigninViewState extends ConsumerState<SigninView> {
     if (savedLogins.isEmpty) return;
 
     showModalBottomSheet(
- context: context,
+      context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -312,42 +278,41 @@ class _SigninViewState extends ConsumerState<SigninView> {
                                 },
                               ),
                               onTap: () async {
-                                authController.setLoading(true);
+                                // authController.setLoading(true);
 
-                                try {
-                                  final user = await authController.signIn(
-                                    email: entry.key,
-                                    password: entry.value,
-                                  );
-                                  if (user != null) {
-                                    final localStorage = ref.read(
-                                      localStorageProvider,
-                                    );
-                                    await localStorage.saveString(
-                                      StorageKey.token,
-                                      user.accessToken,
-                                    );
-                                    if (state.rememberMe) {
-                                      await localStorage.saveLogin(
-                                        emailController.text.trim(),
-                                        passwordController.text.trim(),
-                                      );
-                                    }
-                                    context.navigateTo(
-                                      RootView(),
-                                      clearStack: true,
-                                    );
-                                  }
-                                } catch (e) {
-                                 context.showCommonSnackbar(
-                               
-                                    title: "Error",
-                                    message: e.toString(),
-                                    backgroundColor: AppColors.error,
-                                  );
-                                } finally {
-                                  authController.setLoading(false);
-                                }
+                                // try {
+                                await authController.signIn(
+                                  email: entry.key,
+                                  password: entry.value,
+                                );
+                                //   if (user != null) {
+                                //     final localStorage = ref.read(
+                                //       localStorageProvider,
+                                //     );
+                                //     await localStorage.saveString(
+                                //       StorageKey.token,
+                                //       user.accessToken,
+                                //     );
+                                //     if (state.rememberMe) {
+                                //       await localStorage.saveLogin(
+                                //         emailController.text.trim(),
+                                //         passwordController.text.trim(),
+                                //       );
+                                //     }
+                                //     context.navigateTo(
+                                //       RootView(),
+                                //       clearStack: true,
+                                //     );
+                                //   }
+                                // } catch (e) {
+                                //   context.showCommonSnackbar(
+                                //     title: "Error",
+                                //     message: e.toString(),
+                                //     backgroundColor: AppColors.error,
+                                //   );
+                                // } finally {
+                                //   authController.setLoading(false);
+                                // }
                               },
                             ),
                           );

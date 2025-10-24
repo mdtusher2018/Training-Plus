@@ -4,7 +4,10 @@ import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/services/localstorage/i_local_storage_service.dart';
 import 'package:training_plus/core/services/localstorage/storage_key.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/extention.dart';
+import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/view/authentication/after_signup_otp/after_signup_otp_model.dart';
+import 'package:training_plus/view/personalization/view/Personalization_1.dart';
 
 class AfterSignUpOtpState {
   final bool isLoading;
@@ -124,6 +127,7 @@ class AfterSignUpOtpController extends BaseNotifier<AfterSignUpOtpState> {
             StorageKey.token,
             model.accessToken,
           );
+          navigatorKey.currentContext?.navigateTo(Personalization1());
         } else {
           throw Exception(response["message"] ?? "OTP verification failed");
         }

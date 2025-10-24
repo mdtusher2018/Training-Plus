@@ -13,7 +13,13 @@ final StateNotifierProvider<SignInController, SignInState>
 signInControllerProvider = StateNotifierProvider<SignInController, SignInState>(
   (ref) {
     final IApiService apiService = ref.read(apiServiceProvider);
-    return SignInController(apiService: apiService);
+    final ILocalStorageService localStorageService = ref.read(
+      localStorageProvider,
+    );
+    return SignInController(
+      apiService: apiService,
+      localStorageService: localStorageService,
+    );
   },
 );
 

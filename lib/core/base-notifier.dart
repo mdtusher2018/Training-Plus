@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/global_keys.dart';
 
@@ -28,7 +29,11 @@ abstract class BaseNotifier<T> extends StateNotifier<T> {
       if (showSuccessSnack && successMessage != null) {
         final context = navigatorKey.currentContext;
         if (context != null) {
-          context.showCommonSnackbar(title: "Success", message: successMessage);
+          context.showCommonSnackbar(
+            title: "Success",
+            message: successMessage,
+            backgroundColor: AppColors.success,
+          );
         }
       }
 
@@ -43,6 +48,7 @@ abstract class BaseNotifier<T> extends StateNotifier<T> {
           context.showCommonSnackbar(
             title: "Error",
             message: errorMessage.value ?? "Something went wrong",
+            backgroundColor: AppColors.error,
           );
         }
       }
