@@ -80,8 +80,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                       confirmPasswordController.text.trim();
 
                   if (password.isEmpty || confirmPassword.isEmpty) {
-                   context.showCommonSnackbar(
-                      
+                    context.showCommonSnackbar(
                       title: "Error",
                       message: "Please fill all the fields",
                       backgroundColor: AppColors.error,
@@ -90,8 +89,7 @@ class CreateNewPasswordView extends ConsumerWidget {
                   }
 
                   if (password != confirmPassword) {
-                   context.showCommonSnackbar(
-                      
+                    context.showCommonSnackbar(
                       title: "Error",
                       message: "Passwords do not match",
                       backgroundColor: AppColors.error,
@@ -99,32 +97,10 @@ class CreateNewPasswordView extends ConsumerWidget {
                     return;
                   }
 
-                  // Call API
-                  final result = await controller.resetPassword(
+                  await controller.resetPassword(
                     email: email,
                     password: password,
                   );
-
-                  if (result != null && result.statusCode == 200) {
-                   context.navigateTo(
-
-                      SigninView(),
-                      clearStack: true,
-                    );
-                   context.showCommonSnackbar(
-                      
-                      title: "Success",
-                      message: "Password reset successful",
-                      backgroundColor: AppColors.success,
-                    );
-                  } else {
-                   context.showCommonSnackbar(
-                      
-                      title: "Error",
-                      message: result?.message ?? "Failed to reset password",
-                      backgroundColor: AppColors.error,
-                    );
-                  }
                 },
               ),
 
@@ -133,10 +109,7 @@ class CreateNewPasswordView extends ConsumerWidget {
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  context.navigateTo(
-                    SigninView(),
-                    clearStack: true,
-                  );
+                  context.navigateTo(SigninView(), clearStack: true);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

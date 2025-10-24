@@ -32,55 +32,6 @@ class AfterSignUpOtpController extends BaseNotifier<AfterSignUpOtpState> {
   IApiService apiService;
   ILocalStorageService localStorageService;
 
-  // Future<bool> resendOtp({required String email}) async {
-  //   state = state.copyWith(isLoading: true);
-  //   try {
-  //     final response = await apiService.post(ApiEndpoints.resendOtp, {"email": email});
-  //     log("Resend OTP Response: $response");
-  //     state = state.copyWith(isLoading: false);
-  //     if (response["statusCode"] == 200) {
-  // state=state.copyWith(isResend: true);
-  //       return true;
-  //     }
-  //     return false;
-  //   } catch (e, st) {
-  //     log("Resend OTP failed", error: e, stackTrace: st);
-  //     state = state.copyWith(isLoading: false);
-  //     return false;
-  //   }
-  // }
-  // Future<AfterSignUpOTPModel> verifyOtp(String otp) async {
-  //   log("Entered OTP: $otp");
-  //   if (otp.isEmpty || otp.length < 6) {
-  //     throw Exception("Please enter a valid 6-digit OTP");
-  //   }
-  //   state = state.copyWith(isLoading: true);
-  //   try {
-  //     final response = await apiService.post(
-  //       ApiEndpoints.afterSignupOtp,
-  //       {
-  //         "otp": otp,
-  //         "purpose": (state.isResend) ? "resend-otp" : "email-verification",
-  //       },
-  //     );
-  //     log("OTP Verification Response: $response");
-  //     state = state.copyWith(isLoading: false);
-  //     if (response["statusCode"] == 200 || response["statusCode"] == 201) {
-  //       // Parse response into model
-  //       final model = AfterSignUpOTPModel.fromJson(response);
-  //       return model;
-  //     } else {
-  //       // ❌ Throw API error message
-  //       throw Exception(response["message"] ?? "OTP verification failed");
-  //     }
-  //   } catch (e, st) {
-  //     log("OTP verification failed", error: e, stackTrace: st);
-  //     state = state.copyWith(isLoading: false);
-  //     rethrow; // Pass the exception to the UI
-  //   }
-  // }
-
-  /// ✅ Resend OTP
   Future<bool> resendOtp({required String email}) async {
     return await safeCall<bool>(
       onStart: () => state = state.copyWith(isLoading: true),

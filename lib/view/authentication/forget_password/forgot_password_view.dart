@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:training_plus/core/services/localstorage/storage_key.dart';
-import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
-import 'package:training_plus/view/authentication/forget_password_otp/forgot_password_otp_view.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text_field_with_title.dart';
 import 'package:training_plus/widgets/common_text.dart';
@@ -66,53 +62,12 @@ class ForgotPasswordView extends ConsumerWidget {
                 onTap: () async {
                   final email = emailController.text.trim();
 
-                  if (email.isEmpty) {
-                   context.showCommonSnackbar(
-                    
-                      title: "Empty",
-                      message: "Please enter your email.",
-                      backgroundColor: AppColors.error,
-                    );
-                    return;
-                  }
-
-                  try {
-                    final response = await controller.forgetPassword(
-                      email: email,
-                    );
-
-                    if (response != null) {
-                      final localStorage = ref.read(localStorageProvider);
-                      await localStorage.saveString(
-                        StorageKey.token,
-                        response.forgetToken,
-                      );
-
-                      context.navigateTo(
-                        ForgotPasswordOtpView(email: email),
-                      );
-                     context.showCommonSnackbar(
-                        
-                        title: "OTP Sent",
-                        message: response.message,
-                        backgroundColor: AppColors.success,
-                      );
-                    }
-                  } catch (e) {
-                    // ❌ Error → Show Snackbar
-                   context.showCommonSnackbar(
-                    
-                      title: "Error",
-                      message: e.toString(),
-                      backgroundColor: AppColors.error,
-                    );
-                  }
+                  await controller.forgetPassword(email: email);
                 },
               ),
 
               CommonSizedBox(height: 24),
 
-              // Back to login
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: Row(

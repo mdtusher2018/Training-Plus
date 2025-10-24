@@ -26,7 +26,13 @@ signInControllerProvider = StateNotifierProvider<SignInController, SignInState>(
 final signUpControllerProvider =
     StateNotifierProvider<SignUpController, SignUpState>((ref) {
       final IApiService apiService = ref.read(apiServiceProvider);
-      return SignUpController(apiService: apiService);
+      final ILocalStorageService localStorageService = ref.read(
+        localStorageProvider,
+      );
+      return SignUpController(
+        apiService: apiService,
+        localStorageService: localStorageService,
+      );
     });
 
 final afterSignUpOtpControllerProvider =
@@ -44,7 +50,13 @@ final afterSignUpOtpControllerProvider =
 final forgetPasswordControllerProvider =
     StateNotifierProvider<ForgetPasswordController, ForgetPasswordState>((ref) {
       final IApiService apiService = ref.read(apiServiceProvider);
-      return ForgetPasswordController(apiService: apiService);
+      final ILocalStorageService localStorageService = ref.read(
+        localStorageProvider,
+      );
+      return ForgetPasswordController(
+        apiService: apiService,
+        localStorageService: localStorageService,
+      );
     });
 
 final forgotPasswordOtpControllerProvider =
@@ -52,7 +64,13 @@ final forgotPasswordOtpControllerProvider =
       ref,
     ) {
       final IApiService apiService = ref.read(apiServiceProvider);
-      return ForgotPasswordOtpController(apiService: apiService);
+      final ILocalStorageService localStorageService = ref.read(
+        localStorageProvider,
+      );
+      return ForgotPasswordOtpController(
+        apiService: apiService,
+        localStorageService: localStorageService,
+      );
     });
 
 final createNewPasswordControllerProvider =

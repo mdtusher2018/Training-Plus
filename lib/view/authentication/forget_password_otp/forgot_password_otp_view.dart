@@ -4,13 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:training_plus/core/services/localstorage/storage_key.dart';
-import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
-import 'package:training_plus/view/authentication/create_new_password/create_new_password_view.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/widgets/common_otp_text_field.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
@@ -93,11 +90,6 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                         TapGestureRecognizer()
                           ..onTap = () async {
                             await controller.resendOtp(email: email);
-                            context.showCommonSnackbar(
-                              title: "Resent",
-                              message: "OTP code resent successfully",
-                              backgroundColor: AppColors.success,
-                            );
                           },
                     isBold: true,
                   ),
@@ -111,51 +103,7 @@ class ForgotPasswordOtpView extends ConsumerWidget {
                 isLoading: state.isLoading,
                 onTap: () async {
                   String code = controllers.map((c) => c.text).join();
-
-                  if (code.isEmpty) {
-                   context.showCommonSnackbar(
-                 
-                      title: "Empty",
-                      message: "Please enter the OTP.",
-                      backgroundColor: AppColors.error,
-                    );
-                    return;
-                  } else if (code.length < 6) {
-                   context.showCommonSnackbar(
-                 
-                      title: "Invalid",
-                      message: "Invalid OTP length.",
-                      backgroundColor: AppColors.error,
-                    );
-                    return;
-                  }
-
-                  final success = await controller.verifyOtp(code, email);
-                  if (success != null) {
-                    final localStorage = ref.read(localStorageProvider);
-                    await localStorage.saveString(
-                      StorageKey.token,
-                      success.forgetPasswordToken,
-                    );
-                   context.navigateTo(
-
-                      CreateNewPasswordView(email: email),
-                      clearStack: true,
-                    );
-                   context.showCommonSnackbar(
-                 
-                      title: "Verified",
-                      message: "OTP verified successfully",
-                      backgroundColor: AppColors.success,
-                    );
-                  } else {
-                   context.showCommonSnackbar(
-                 
-                      title: "Error",
-                      message: "Invalid OTP or expired",
-                      backgroundColor: AppColors.error,
-                    );
-                  }
+                  await controller.verifyOtp(code, email);
                 },
               ),
               CommonSizedBox(height: 24),
@@ -163,11 +111,7 @@ class ForgotPasswordOtpView extends ConsumerWidget {
               // Back to sign in
               GestureDetector(
                 onTap: () {
-                  context.navigateTo(
-                    SigninView(),
-            
-                    clearStack: true,
-                  );
+                  context.navigateTo(SigninView(), clearStack: true);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

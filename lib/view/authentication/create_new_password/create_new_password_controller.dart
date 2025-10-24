@@ -1,9 +1,10 @@
-import 'dart:developer';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/core/base-notifier.dart';
 import 'package:training_plus/core/services/api/i_api_service.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
+import 'package:training_plus/core/utils/extention.dart';
+import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/view/authentication/create_new_password/create_new_password_model.dart';
+import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 
 /// State class
 class CreateNewPasswordState {
@@ -32,12 +33,11 @@ class CreateNewPasswordState {
 }
 
 /// Controller
-class CreateNewPasswordController
-    extends StateNotifier<CreateNewPasswordState> {
+class CreateNewPasswordController extends BaseNotifier<CreateNewPasswordState> {
   final IApiService apiService;
 
   CreateNewPasswordController({required this.apiService})
-      : super(const CreateNewPasswordState());
+    : super(const CreateNewPasswordState());
 
   /// Toggle password visibility
   void togglePasswordVisibility() {
@@ -46,8 +46,9 @@ class CreateNewPasswordController
 
   /// Toggle confirm password visibility
   void toggleConfirmPasswordVisibility() {
-    state =
-        state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
+    state = state.copyWith(
+      isConfirmPasswordVisible: !state.isConfirmPasswordVisible,
+    );
   }
 
   /// Set loading state
@@ -56,33 +57,34 @@ class CreateNewPasswordController
   }
 
   /// Reset Password API Call
-  Future<CreateNewPasswordModel?> resetPassword({
+  Future<void> resetPassword({
     required String email,
     required String password,
   }) async {
-    setLoading(true);
-    try {
-      final response = await apiService.post(
-        ApiEndpoints.resetPassword, // ✅ create this endpoint
-        {
+    safeCall(
+      onStart: () => setLoading(true),
+      onComplete: () => setLoading(false),
+      task: () async {
+        final response = await apiService.post(ApiEndpoints.resetPassword, {
           "email": email,
           "password": password,
-  
-        },
-      );
+        });
 
-      log("Reset Password Response: $response");
+        if (response != null) {
+          final result = CreateNewPasswordModel.fromJson(response);
 
-      if (response != null) {
-        return CreateNewPasswordModel.fromJson(response);
-      }
-      return null;
-    } catch (e, st) {
-      log("Reset Password failed", error: e, stackTrace: st);
-      return null;
-    } finally {
-      setLoading(false);
-    }
+          if (result.statusCode == 200) {
+            navigatorKey.currentContext?.navigateTo(
+              SigninView(),
+              clearStack: true,
+            );
+          } else {
+            throw Exception(result.message);
+          }
+        }
+      },
+      showSuccessSnack: true,
+      successMessage: "Password reset successful",
+    );
   }
 }
-
