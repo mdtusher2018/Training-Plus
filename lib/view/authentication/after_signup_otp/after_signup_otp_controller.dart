@@ -57,14 +57,16 @@ class AfterSignUpOtpController extends BaseNotifier<AfterSignUpOtpState> {
 
   /// ✅ Verify OTP
   Future<void> verifyOtp(String otp) async {
-    if (otp.isEmpty || otp.length < 6) {
-      throw Exception("Please enter a valid 6-digit OTP");
-    }
-
     return await safeCall(
       onStart: () => state = state.copyWith(isLoading: true),
       onComplete: () => state = state.copyWith(isLoading: false),
       task: () async {
+        if (otp.isEmpty) {
+          throw Exception("Please enter the OTP.");
+        }
+        if (otp.length < 6) {
+          throw Exception("Invalid OTP length.\nOTP must be 6 digit");
+        }
         final response = await apiService.post(ApiEndpoints.afterSignupOtp, {
           "otp": otp,
           "purpose": state.isResend ? "resend-otp" : "email-verification",
