@@ -1,6 +1,6 @@
 # Training-Plus
 
-**Training-Plus** is a robust fitness app built with **Clean Architecture**, **Riverpod**, and a **Feature-Based Architecture**. It provides a complete training experience, allowing users to track their workouts, set custom goals, progress, and engage with the community. It also includes features for **nutrition tracking**, **deep linking**, **subscriptions**, and **map integration** to make the training journey more interactive and rewarding.
+**Training-Plus** is a robust fitness app built with **Clean Code**, **Riverpod**, and a **Feature-Based Architecture**. It provides a complete training experience, allowing users to track their workouts, set custom goals, progress, and engage with the community. It also includes features for **nutrition tracking**, **deep linking**, **subscriptions**, and **map integration** to make the training journey more interactive and rewarding.
 
 ## Features
 
