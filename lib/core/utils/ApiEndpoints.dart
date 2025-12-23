@@ -7,8 +7,8 @@ class ApiEndpoints {
   // static const String baseUrl = 'http://10.10.10.33:8041/api/v1/';
   // static const String baseImageUrl = 'http://10.10.10.33:8041';
 
-  static const String baseUrl = 'http://127.0.0.1:8041/api/v1/';
-  static const String baseImageUrl = 'http://127.0.0.1:8041';
+  static const String baseUrl = 'http://72.60.113.31:8041/api/v1/';
+  static const String baseImageUrl = 'http://72.60.113.31:8041';
 
   //authentication
   static const String signin = "auth/signin";
