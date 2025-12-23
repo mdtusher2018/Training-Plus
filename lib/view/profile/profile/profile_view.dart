@@ -18,7 +18,6 @@ import 'package:training_plus/view/profile/feedback/feedback_view.dart';
 import 'package:training_plus/view/profile/invite_friends_view.dart';
 import 'package:training_plus/view/profile/Trems%20of%20service%20And%20Privacy%20policy/privacy_policy_view.dart';
 import 'package:training_plus/view/profile/profile_providers.dart';
-import 'package:training_plus/view/profile/redeemPointsView.dart';
 import 'package:training_plus/view/profile/settings/settings.dart';
 import 'package:training_plus/view/profile/Trems%20of%20service%20And%20Privacy%20policy/terms_of_service_view.dart';
 import 'package:training_plus/view/profile/profile/widget/reward_tier_card.dart';
@@ -131,50 +130,43 @@ class ProfileView extends ConsumerWidget {
                         "Edit Profile",
                         "assest/images/profile/edit_profile.png",
                         onTap: () {
-                          context.navigateTo(
- EditProfileView());
+                          context.navigateTo(EditProfileView());
                         },
                       ),
                       sectionTile(
                         "Settings",
                         "assest/images/profile/settings.png",
                         onTap: () {
-                          context.navigateTo(
- SettingsView());
+                          context.navigateTo(SettingsView());
                         },
                       ),
-                      sectionTile(
-                        "Redeem Points",
-                        "assest/images/profile/redeem_points.png",
-                        onTap: () {
-                          context.navigateTo(
- RedeemPointsview());
-                        },
-                      ),
+                      //                       sectionTile(
+                      //                         "Redeem Points",
+                      //                         "assest/images/profile/redeem_points.png",
+                      //                         onTap: () {
+                      //                           context.navigateTo(
+                      //  RedeemPointsview());
+                      //                         },
+                      //                       ),
                       sectionTile(
                         "Running History",
                         "assest/images/profile/running_history.png",
                         onTap: () {
-                         context.navigateTo(
-                    
-                            RunningHistoryView(),
-                          );
+                          context.navigateTo(RunningHistoryView());
                         },
                       ),
                       sectionTile(
                         "Badge Shelf",
                         "assest/images/profile/badge_shelf.png",
                         onTap: () {
-                          context.navigateTo(
- BadgeShelfView());
+                          context.navigateTo(BadgeShelfView());
                         },
                       ),
                       sectionTile(
                         "Subscription",
                         "assest/images/profile/my_subscription.png",
                         onTap: () {
-                          context.navigateTo(
- SubscriptionView());
+                          context.navigateTo(SubscriptionView());
                         },
                       ),
 
@@ -185,24 +177,21 @@ class ProfileView extends ConsumerWidget {
                         "Feedback",
                         "assest/images/profile/feedback.png",
                         onTap: () {
-                          context.navigateTo(
- FeedbackView());
+                          context.navigateTo(FeedbackView());
                         },
                       ),
                       sectionTile(
                         "FAQ",
                         "assest/images/profile/faq.png",
                         onTap: () {
-                          context.navigateTo(
- FaqView());
+                          context.navigateTo(FaqView());
                         },
                       ),
                       sectionTile(
                         "Contact Us",
                         "assest/images/profile/contact_us.png",
                         onTap: () {
-                          context.navigateTo(
- ContactUsView());
+                          context.navigateTo(ContactUsView());
                         },
                       ),
 
@@ -213,18 +202,14 @@ class ProfileView extends ConsumerWidget {
                         "Terms of Service",
                         "assest/images/profile/terms_of_service.png",
                         onTap: () {
-                         context.navigateTo(
-                           
-                            TermsOfServiceView(),
-                          );
+                          context.navigateTo(TermsOfServiceView());
                         },
                       ),
                       sectionTile(
                         "Privacy Policy",
                         "assest/images/profile/privacy_policy.png",
                         onTap: () {
-                          context.navigateTo(
- PrivacyPolicyView());
+                          context.navigateTo(PrivacyPolicyView());
                         },
                       ),
 
@@ -235,8 +220,7 @@ class ProfileView extends ConsumerWidget {
                         "Invite Friends",
                         "assest/images/profile/invite_friends.png",
                         onTap: () {
-                         context.navigateTo(
-                            
+                          context.navigateTo(
                             InviteFriendsView(
                               inviteCode:
                                   state.profile!.attributes.referralCode,
@@ -339,11 +323,7 @@ class ProfileView extends ConsumerWidget {
                       //   ),
                       // );
                       resetSession(ref);
-                      context.navigateTo(
-
-                        SigninView(),
-                        clearStack: true,
-                      );
+                      context.navigateTo(SigninView(), clearStack: true);
                     },
                   ),
                 ),
