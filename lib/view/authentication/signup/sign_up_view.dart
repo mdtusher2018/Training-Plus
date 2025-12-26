@@ -10,6 +10,7 @@ import 'package:training_plus/core/utils/image_paths.dart';
 import 'package:training_plus/view/authentication/authentication_providers.dart';
 import 'package:training_plus/view/authentication/sign_in/sign_in_view.dart';
 import 'package:training_plus/view/authentication/signup/signup_controller.dart';
+import 'package:training_plus/view/profile/Trems%20of%20service%20And%20Privacy%20policy/terms_of_service_view.dart';
 import 'package:training_plus/widgets/common_otp_text_field.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text_field_with_title.dart';
@@ -211,6 +212,11 @@ class SignupView extends ConsumerWidget {
                     color: AppColors.textPrimary,
                   ),
                   RichTextPart(
+                    clickRecognized:
+                        TapGestureRecognizer()
+                          ..onTap = () {
+                            context.navigateTo(TermsOfServiceView());
+                          },
                     size: 16,
                     text: "T&Cs",
                     color: AppColors.primary,

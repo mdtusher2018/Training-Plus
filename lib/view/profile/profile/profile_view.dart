@@ -44,6 +44,8 @@ class ProfileView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: CommonText("Profile", size: 21, isBold: true),
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.white,
         centerTitle: true,
         toolbarHeight: 70.h,
       ),

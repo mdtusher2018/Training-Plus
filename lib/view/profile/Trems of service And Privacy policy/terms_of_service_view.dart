@@ -33,6 +33,7 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         title: CommonText('Terms of service', size: 21),
         centerTitle: true,
@@ -47,31 +48,30 @@ class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
               .read(staticContentControllerProvider(contentType).notifier)
               .fetchStaticContent(contentType);
         },
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(16),
-          child: Builder(
-            builder: (context) {
-              if ((state.content == null || state.content!.content.isEmpty) &&
-                  state.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state.error != null &&
-                  (state.content == null || state.content!.content.isEmpty)) {
-                return CommonErrorMassage(
-                  context: context,
-                  massage: state.error!,
-                );
-              }
-              if (state.content != null) {
-                return Html(
+        child: Builder(
+          builder: (context) {
+            if ((state.content == null || state.content!.content.isEmpty) &&
+                state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state.error != null &&
+                (state.content == null || state.content!.content.isEmpty)) {
+              return CommonErrorMassage(
+                context: context,
+                massage: state.error!,
+              );
+            }
+            if (state.content != null) {
+              return SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Html(
                   data: state.content!.content,
                   style: {"body": Style(fontSize: FontSize.medium)},
-                );
-              }
-              return const Center(child: Text("No content available"));
-            },
-          ),
+                ),
+              );
+            }
+            return const Center(child: Text("No content available"));
+          },
         ),
       ),
     );
