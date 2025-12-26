@@ -26,7 +26,7 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.read(workoutControllerProvider.notifier);
-    final state = ref.read(workoutControllerProvider);
+    final state = ref.watch(workoutControllerProvider);
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -58,7 +58,8 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
 
                             if (result == true) {
                               final response = await controller.completeVideo(
-                                video.id,video.duration
+                                video.id,
+                                video.duration,
                               );
 
                               if (response['title'] == "Success") {
@@ -69,13 +70,19 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                                 context.showCommonSnackbar(
                                   title: response['title']!,
                                   message: response['message']!,
-                                  backgroundColor: response['title']=="Success"?AppColors.success:AppColors.error
+                                  backgroundColor:
+                                      response['title'] == "Success"
+                                          ? AppColors.success
+                                          : AppColors.error,
                                 );
                               } else {
                                 context.showCommonSnackbar(
                                   title: response['title']!,
                                   message: response['message']!,
-                                  backgroundColor: response['title']=="Success"?AppColors.success:AppColors.error
+                                  backgroundColor:
+                                      response['title'] == "Success"
+                                          ? AppColors.success
+                                          : AppColors.error,
                                 );
                               }
                             }
@@ -167,31 +174,32 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                       ? AppColors.primary
                       : AppColors.primary.withOpacity(0.5),
               width: double.infinity,
-              onTap: allDone ? ()async{
-                     final response =
-                                await controller.finishWorkout();
-                            if (response['title'] == "Success") {
-                                    _showWorkoutCompleteSheet();
-                              context.showCommonSnackbar(
-                                title: response['title']!,
-                                message: response['message']!,
-                                backgroundColor:
-                                    response['title'] == "Success"
-                                        ? AppColors.success
-                                        : AppColors.error,
-                              );
-                            } else {
-                              context.showCommonSnackbar(
-                                title: response['title']!,
-                                message: response['message']!,
-                                backgroundColor:
-                                    response['title'] == "Success"
-                                        ? AppColors.success
-                                        : AppColors.error,
-                              );
-                            }
-          
-              } : null,
+              onTap:
+                  allDone
+                      ? () async {
+                        final response = await controller.finishWorkout();
+                        if (response['title'] == "Success") {
+                          _showWorkoutCompleteSheet();
+                          context.showCommonSnackbar(
+                            title: response['title']!,
+                            message: response['message']!,
+                            backgroundColor:
+                                response['title'] == "Success"
+                                    ? AppColors.success
+                                    : AppColors.error,
+                          );
+                        } else {
+                          context.showCommonSnackbar(
+                            title: response['title']!,
+                            message: response['message']!,
+                            backgroundColor:
+                                response['title'] == "Success"
+                                    ? AppColors.success
+                                    : AppColors.error,
+                          );
+                        }
+                      }
+                      : null,
             ),
           ),
         ],

@@ -74,7 +74,7 @@ class SignInController extends BaseNotifier<SignInState> {
           if (state.rememberMe) {
             await localStorageService.saveLogin(email, password);
           }
-          navigatorKey.currentContext?.navigateTo(RootView());
+          navigatorKey.currentContext?.navigateTo(RootView(), clearStack: true);
         } else {
           throw Exception(response['message'] ?? 'Login failed');
         }

@@ -69,6 +69,7 @@ class HomePageView extends ConsumerWidget {
             ClipOval(
               child: CommonImage(
                 imagePath: response.data!.attributes.user.image,
+
                 fit: BoxFit.cover,
                 width: 40.sp,
                 height: 32.sp,
@@ -89,8 +90,7 @@ class HomePageView extends ConsumerWidget {
             ),
             GestureDetector(
               onTap: () {
-                context.navigateTo(
- NotificationsView());
+                context.navigateTo(NotificationsView());
               },
               child: Container(
                 padding: EdgeInsets.all(8.r), // responsive padding
@@ -161,8 +161,7 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  context.navigateTo(
- RunningTrackerPage());
+                  context.navigateTo(RunningTrackerPage());
                 },
                 child: _buildQuickAction(
                   label: "Running\nTracker",
@@ -174,8 +173,7 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  context.navigateTo(
- NutritionTrackerPage());
+                  context.navigateTo(NutritionTrackerPage());
                 },
                 child: _buildQuickAction(
                   label: "Nutrition\nTracker",
@@ -199,8 +197,7 @@ class HomePageView extends ConsumerWidget {
             CommonText("My Workouts", size: 18, isBold: true),
             GestureDetector(
               onTap: () {
-                context.navigateTo(
- MyWorkoutsView());
+                context.navigateTo(MyWorkoutsView());
               },
               child: Row(
                 children: [
@@ -231,10 +228,7 @@ class HomePageView extends ConsumerWidget {
               final workout = response.workouts[index];
               return GestureDetector(
                 onTap: () {
-                context.navigateTo(
-
-                    WorkoutDetailPage(id: workout.id),
-                  );
+                  context.navigateTo(WorkoutDetailPage(id: workout.id));
                 },
                 child: buildWorkoutCard(
                   workout.skillLevel,
