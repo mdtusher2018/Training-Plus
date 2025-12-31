@@ -1,11 +1,17 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:training_plus/core/utils/helper.dart';
 import 'package:video_player/video_player.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/core/utils/colors.dart';
 
 class VideoPlayerView extends StatefulWidget {
-  const VideoPlayerView({super.key});
+  VideoPlayerView({super.key, required this.videoUrl});
+  String videoUrl;
 
   @override
   State<VideoPlayerView> createState() => _VideoPlayerViewState();
@@ -19,14 +25,20 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-      "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
-    )
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
-      })
-      ..addListener(_videoListener);
+    final uri = Uri.parse(getFullImagePath(widget.videoUrl));
+    log("$uri.......................");
+
+    if (widget.videoUrl.isEmpty || uri.scheme == 'http') {
+      widget.videoUrl =
+          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+    }
+    _controller =
+        VideoPlayerController.network(widget.videoUrl)
+          ..initialize().then((_) {
+            setState(() {});
+            _controller.play();
+          })
+          ..addListener(_videoListener);
   }
 
   void _videoListener() {
@@ -37,9 +49,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     final duration = _controller.value.duration;
 
     // Detect video completion
-    if (duration != Duration.zero &&
-        position >= duration &&
-        !_hasCompleted) {
+    if (duration != Duration.zero && position >= duration && !_hasCompleted) {
       _hasCompleted = true;
       Navigator.pop(context, true); // return true to ChaptersPage
     }
@@ -56,13 +66,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   @override
   Widget build(BuildContext context) {
     final isInitialized = _controller.value.isInitialized;
-    final duration =
-        isInitialized ? _controller.value.duration : Duration.zero;
-    final position =
-        isInitialized ? _controller.value.position : Duration.zero;
-    final aspect = isInitialized
-        ? _controller.value.aspectRatio
-        : 16 / 9;
+    final duration = isInitialized ? _controller.value.duration : Duration.zero;
+    final position = isInitialized ? _controller.value.position : Duration.zero;
+    final aspect = isInitialized ? _controller.value.aspectRatio : 16 / 9;
 
     return Scaffold(
       backgroundColor: AppColors.mainBG,
@@ -86,9 +92,10 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: _controller.value.isPlaying
-                              ? Colors.transparent
-                              : AppColors.textPrimary.withOpacity(0.7),
+                          color:
+                              _controller.value.isPlaying
+                                  ? Colors.transparent
+                                  : AppColors.textPrimary.withOpacity(0.7),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -107,29 +114,29 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
           else
             AspectRatio(
               aspectRatio: aspect,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
+              child: const Center(child: CircularProgressIndicator()),
             ),
 
           // Controls
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Column(
               children: [
                 // Timeline slider
                 Slider(
-                  value: position.inMilliseconds
-                      .toDouble()
-                      .clamp(0.0, duration.inMilliseconds.toDouble()),
+                  value: position.inMilliseconds.toDouble().clamp(
+                    0.0,
+                    duration.inMilliseconds.toDouble(),
+                  ),
                   max: duration.inMilliseconds.toDouble(),
-                  onChanged: isInitialized
-                      ? (ms) {
-                          _controller.seekTo(
-                              Duration(milliseconds: ms.round()));
-                        }
-                      : null,
+                  onChanged:
+                      isInitialized
+                          ? (ms) {
+                            _controller.seekTo(
+                              Duration(milliseconds: ms.round()),
+                            );
+                          }
+                          : null,
                   activeColor: AppColors.primary,
                   inactiveColor: Colors.grey.shade300,
                 ),
@@ -140,8 +147,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   children: [
                     CommonText(formatDuration(position), size: 12),
                     CommonText(
-                        "-${formatDuration(duration - position)}",
-                        size: 12),
+                      "-${formatDuration(duration - position)}",
+                      size: 12,
+                    ),
                   ],
                 ),
                 CommonSizedBox(height: 8),
@@ -151,13 +159,14 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                      onTap: isInitialized
-                          ? () {
-                              _controller.value.isPlaying
-                                  ? _controller.pause()
-                                  : _controller.play();
-                            }
-                          : null,
+                      onTap:
+                          isInitialized
+                              ? () {
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                              }
+                              : null,
                       child: Icon(
                         _controller.value.isPlaying
                             ? Icons.pause_circle_filled
@@ -167,12 +176,14 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: isInitialized
-                          ? () {
-                              _controller.setVolume(
-                                  _controller.value.volume > 0 ? 0 : 1);
-                            }
-                          : null,
+                      onTap:
+                          isInitialized
+                              ? () {
+                                _controller.setVolume(
+                                  _controller.value.volume > 0 ? 0 : 1,
+                                );
+                              }
+                              : null,
                       child: Icon(
                         _controller.value.volume > 0
                             ? Icons.volume_up
@@ -181,23 +192,20 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                         color: AppColors.textPrimary,
                       ),
                     ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // TODO: implement fullscreen
+                    //   },
+                    //   child: const Icon(
+                    //     Icons.fullscreen,
+                    //     size: 28,
+                    //     color: AppColors.textPrimary,
+                    //   ),
+                    // ),
                     GestureDetector(
-                      onTap: () {
-                        // TODO: implement fullscreen
-                      },
-                      child: const Icon(
-                        Icons.fullscreen,
-                        size: 28,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          setState(() => _isTheater = !_isTheater),
+                      onTap: () => setState(() => _isTheater = !_isTheater),
                       child: Icon(
-                        _isTheater
-                            ? Icons.theaters
-                            : Icons.slideshow,
+                        _isTheater ? Icons.theaters : Icons.slideshow,
                         size: 28,
                         color: AppColors.textPrimary,
                       ),

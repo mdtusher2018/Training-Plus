@@ -52,7 +52,10 @@ class _ChaptersPageState extends ConsumerState<ChaptersPage> {
                             final result = await Navigator.push<bool>(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const VideoPlayerView(),
+                                builder:
+                                    (context) => VideoPlayerView(
+                                      videoUrl: video.videoUrl,
+                                    ),
                               ),
                             );
 

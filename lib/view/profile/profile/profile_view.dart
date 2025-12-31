@@ -314,16 +314,9 @@ class ProfileView extends ConsumerWidget {
                     height: 40,
                     width: 100,
                     onTap: () async {
-                      // Clear the saved token
+             
                       final localStorage = ref.read(localStorageProvider);
                       await localStorage.remove(StorageKey.token);
-                      // final _providerScopeKey = GlobalKey();
-                      // runApp(
-                      //   ProviderScope(
-                      //     key: _providerScopeKey,
-                      //     child: const MyApp(),
-                      //   ),
-                      // );
                       resetSession(ref);
                       context.navigateTo(SigninView(), clearStack: true);
                     },

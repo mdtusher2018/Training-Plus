@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:training_plus/core/services/api/i_api_service.dart';
@@ -15,7 +14,7 @@ class ApiService implements IApiService {
 
   Future<Map<String, String>> _getHeaders({Map<String, String>? extra}) async {
     final token = await _localStorage.getString(StorageKey.token);
-    log(token.toString());
+
     final headers = {
       'Content-Type': 'application/json',
       if (token != null) 'Authorization': 'Bearer $token',
@@ -27,43 +26,60 @@ class ApiService implements IApiService {
   }
 
   @override
-  Future<dynamic> get(String endpoint, {Map<String, String>? extraHeaders}) async {
+  Future<dynamic> get(
+    String endpoint, {
+    Map<String, String>? extraHeaders,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     final headers = await _getHeaders(extra: extraHeaders);
     return _client.get(url, headers: headers);
   }
 
   @override
-  Future<dynamic> post(String endpoint, Map<String, dynamic> body, {Map<String, String>? extraHeaders}) async {
+  Future<dynamic> post(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? extraHeaders,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     final headers = await _getHeaders(extra: extraHeaders);
     return _client.post(url, headers: headers, body: body);
   }
 
   @override
-  Future<dynamic> put(String endpoint, Map<String, dynamic> body, {Map<String, String>? extraHeaders}) async {
+  Future<dynamic> put(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? extraHeaders,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     final headers = await _getHeaders(extra: extraHeaders);
     return _client.put(url, headers: headers, body: body);
   }
 
   @override
-  Future<dynamic> patch(String endpoint, Map<String, dynamic> body, {Map<String, String>? extraHeaders}) async {
+  Future<dynamic> patch(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? extraHeaders,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     final headers = await _getHeaders(extra: extraHeaders);
     return _client.patch(url, headers: headers, body: body);
   }
 
   @override
-  Future<dynamic> delete(String endpoint, {Map<String, String>? extraHeaders}) async {
+  Future<dynamic> delete(
+    String endpoint, {
+    Map<String, String>? extraHeaders,
+    Map<String, String>? body,
+  }) async {
     final url = Uri.parse('${ApiEndpoints.baseUrl}$endpoint');
     final headers = await _getHeaders(extra: extraHeaders);
-    return _client.delete(url, headers: headers);
+    return _client.delete(url, headers: headers, body: body);
   }
 
-
-
- @override
+  @override
   Future<dynamic> multipart(
     String endpoint, {
     String method = 'POST',
@@ -83,10 +99,4 @@ class ApiService implements IApiService {
       bodyFieldName: bodyFieldName,
     );
   }
-
-
-
-
-
-
 }

@@ -209,7 +209,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     });
     _locationUpdateTimer?.cancel();
     _timer?.cancel();
-    context.showCommonSnackbar( title: "Paused", message: "Run paused");
+    context.showCommonSnackbar(title: "Paused", message: "Run paused");
   }
 
   void _resumeOrStartRun() async {
@@ -247,10 +247,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
       _getCurrentLocation(moveCamera: false);
     });
 
-    context.showCommonSnackbar(
-      title: "Run Started",
-      message: "Good luck!",
-    );
+    context.showCommonSnackbar(title: "Run Started", message: "Good luck!");
   }
 
   void _stopRun() {
@@ -402,53 +399,61 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                           },
                         ),
                         CommonSizedBox(width: 20),
-                        _roundButton( ref.watch(runningGpsControllerProvider).isLoading? Center(child: CircularProgressIndicator()) :Icon(Icons.stop), Colors.red, () async {
-                          if (!isRunning && _routePoints.isEmpty) {
-                            return;
-                          }
-                          _pauseRun();
-                          _fitMapToRoute();
-
-                          final imageBytes = await _captureMap();
-
-                          if (imageBytes != null) {
-                            final file = await _bytesToFile(
-                              imageBytes,
-                            ); // helper to save Uint8List as File
-                            final placeName = await _getPlaceName(
-                              _currentLocation ?? LatLng(-122.084, 37.4219983),
-                            );
-                            final result = await ref
-                                .read(runningGpsControllerProvider.notifier)
-                                .postRunningData(
-                                  body: {
-                                    "place": placeName,
-                                    "distance": distance,
-                                    "time": elapsedTime.inSeconds,
-                                    "pace": pace,
-                                  },
-                                  image: file,
-                                );
-
-                            if (result["success"] == true) {
-                              _showRunCompleteSheet(
-                                context,
-                                image: file,
-                                userId: result["userId"]??"",
-                                runId: result["runId"]??"",
-                                imageUrl:result["imageUrl"]??"",
-                                place:result["place"]
-                              );
-                            } else {
-                              context.showCommonSnackbar(
-                                title: "Error",
-                                backgroundColor: AppColors.error,
-                                message:
-                                    result["message"] ?? "Something went wrong",
-                              );
+                        _roundButton(
+                          ref.watch(runningGpsControllerProvider).isLoading
+                              ? Center(child: CircularProgressIndicator())
+                              : Icon(Icons.stop),
+                          Colors.red,
+                          () async {
+                            if (!isRunning && _routePoints.isEmpty) {
+                              return;
                             }
-                          }
-                        }),
+                            _pauseRun();
+                            _fitMapToRoute();
+
+                            final imageBytes = await _captureMap();
+
+                            if (imageBytes != null) {
+                              final file = await _bytesToFile(
+                                imageBytes,
+                              ); // helper to save Uint8List as File
+                              final placeName = await _getPlaceName(
+                                _currentLocation ??
+                                    LatLng(-122.084, 37.4219983),
+                              );
+                              final result = await ref
+                                  .read(runningGpsControllerProvider.notifier)
+                                  .postRunningData(
+                                    body: {
+                                      "place": placeName,
+                                      "distance": distance,
+                                      "time": elapsedTime.inSeconds,
+                                      "pace": pace,
+                                    },
+                                    image: file,
+                                  );
+
+                              if (result["success"] == true) {
+                                _showRunCompleteSheet(
+                                  context,
+                                  image: file,
+                                  userId: result["userId"] ?? "",
+                                  runId: result["runId"] ?? "",
+                                  imageUrl: result["imageUrl"] ?? "",
+                                  place: result["place"],
+                                );
+                              } else {
+                                context.showCommonSnackbar(
+                                  title: "Error",
+                                  backgroundColor: AppColors.error,
+                                  message:
+                                      result["message"] ??
+                                      "Something went wrong",
+                                );
+                              }
+                            }
+                          },
+                        ),
                       ],
                     ),
                     CommonSizedBox(height: 10),
@@ -472,14 +477,14 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
   }
 
   Widget _roundButton(icon, Color color, VoidCallback onTap) {
-    
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 56,
         height: 56,
         decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child:icon is Widget?icon: Icon(icon, color: Colors.white, size: 28),
+        child:
+            icon is Widget ? icon : Icon(icon, color: Colors.white, size: 28),
       ),
     );
   }
@@ -490,7 +495,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     required String runId,
     required String userId,
     required String imageUrl,
-    required String place
+    required String place,
   }) {
     showModalBottomSheet(
       context: context,
@@ -544,19 +549,18 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     iconWidget: const Icon(Icons.share),
                     width: double.infinity,
                     onTap: () async {
-    // 1️⃣ Share running data to backend (if needed)
-    // ref.read(runningGpsControllerProvider.notifier).shareRunningData();
+                      // 1️⃣ Share running data to backend (if needed)
+                      // ref.read(runningGpsControllerProvider.notifier).shareRunningData();
 
-final Uri shareUri = Uri(
-  scheme: 'http',
-  host: "10.10.10.33",   // only the IP/domain
-  port: 8041,            // separate port
-  path: ApiEndpoints.runSharingUrl(runId),
-);
+                      final Uri shareUri = Uri(
+                        scheme: 'https',
+                        host: ApiEndpoints.shareHost,
+                        port: ApiEndpoints.sharePort,
+                        path: ApiEndpoints.runSharingUrl(runId),
+                      );
 
-      await Share.shareUri(shareUri);
-
-  },
+                      await Share.shareUri(shareUri);
+                    },
                   ),
 
                   CommonButton(
@@ -574,12 +578,7 @@ final Uri shareUri = Uri(
                     width: double.infinity,
                     onTap: () {
                       Navigator.pop(context);
-            context.navigateTo(
-
-                        RunningTrackerPage(),
-                      
-                        replace: true,
-                      );
+                      context.navigateTo(RunningTrackerPage(), replace: true);
                     },
                   ),
                 ],

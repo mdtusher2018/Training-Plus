@@ -14,7 +14,7 @@ class TermsOfServiceView extends ConsumerStatefulWidget {
 }
 
 class _TermsOfServiceViewState extends ConsumerState<TermsOfServiceView> {
-  final String contentType = "privacy-policy";
+  final String contentType = "terms-of-condition";
   @override
   void initState() {
     super.initState();

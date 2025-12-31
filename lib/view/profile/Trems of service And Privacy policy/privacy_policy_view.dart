@@ -5,7 +5,6 @@ import 'package:training_plus/widgets/common_error_message.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-
 class PrivacyPolicyView extends ConsumerStatefulWidget {
   const PrivacyPolicyView({super.key});
 
@@ -14,13 +13,15 @@ class PrivacyPolicyView extends ConsumerStatefulWidget {
 }
 
 class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
-  final String contentType="terms-of-condition";
+  final String contentType = "privacy-policy";
   @override
   void initState() {
     super.initState();
     // ✅ fetch once after widget is mounted
     Future.microtask(() {
-      ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent(contentType);
+      ref
+          .read(staticContentControllerProvider(contentType).notifier)
+          .fetchStaticContent(contentType);
     });
   }
 
@@ -32,10 +33,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: CommonText(
-          'Privacy Policy',
-          size: 21,
-        ),
+        title: CommonText('Privacy Policy', size: 21),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
@@ -44,26 +42,31 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await ref.read(staticContentControllerProvider(contentType).notifier).fetchStaticContent("terms-of-condition");
+          await ref
+              .read(staticContentControllerProvider(contentType).notifier)
+              .fetchStaticContent("terms-of-condition");
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(16),
           child: Builder(
             builder: (context) {
-               if ((state.content == null || state.content!.content.isEmpty) && state.isLoading) {
+              if ((state.content == null || state.content!.content.isEmpty) &&
+                  state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (state.error != null && (state.content == null || state.content!.content.isEmpty)) {
-                return CommonErrorMassage(context: context, massage: state.error!);
+              if (state.error != null &&
+                  (state.content == null || state.content!.content.isEmpty)) {
+                return CommonErrorMassage(
+                  context: context,
+                  massage: state.error!,
+                );
               }
               if (state.content != null) {
-                return  Html(
-              data: state.content!.content,
-              style: {
-                "body": Style(fontSize: FontSize.medium),
-              },
-            );
+                return Html(
+                  data: state.content!.content,
+                  style: {"body": Style(fontSize: FontSize.medium)},
+                );
               }
               return const Center(child: Text("No content available"));
             },

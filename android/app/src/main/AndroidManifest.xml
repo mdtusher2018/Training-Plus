@@ -46,14 +46,9 @@
     <!-- run -->
     <data
         android:scheme="http"
-        android:host="10.10.10.33"
+        android:host="72.60.113.31"
         android:pathPrefix="/running/" />
 
-    <!-- Event -->
-    <data
-        android:scheme="http"
-        android:host="10.10.10.33"
-        android:pathPrefix="/share/refarel/" />
 </intent-filter>
 
 
@@ -79,6 +74,10 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
         </intent>
     </queries>
 </manifest>

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:training_plus/core/utils/extention.dart';
@@ -13,6 +14,7 @@ class ApiClient {
     : _httpClient = httpClient ?? http.Client();
 
   Future<dynamic> get(Uri url, {Map<String, String>? headers}) async {
+    log(url.toString());
     final response = await _httpClient.get(url, headers: headers);
     return _processResponse(response);
   }
@@ -56,8 +58,16 @@ class ApiClient {
     return _processResponse(response);
   }
 
-  Future<dynamic> delete(Uri url, {Map<String, String>? headers}) async {
-    final response = await _httpClient.delete(url, headers: headers);
+  Future<dynamic> delete(
+    Uri url, {
+    Map<String, String>? headers,
+    Map<String, String>? body,
+  }) async {
+    final response = await _httpClient.delete(
+      url,
+      headers: headers,
+      body: jsonEncode(body),
+    );
     return _processResponse(response);
   }
 
@@ -100,6 +110,7 @@ class ApiClient {
 
   dynamic _processResponse(http.Response response) {
     final statusCode = response.statusCode;
+
     final body = response.body.isNotEmpty ? jsonDecode(response.body) : null;
 
     if (statusCode == 401) {

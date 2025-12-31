@@ -10,7 +10,13 @@ import 'package:training_plus/view/profile/feedback/feedback_controller.dart';
 import 'package:training_plus/view/profile/profile/profile_controller.dart';
 import 'package:training_plus/view/profile/running_history/running_history_controller.dart';
 import 'package:training_plus/view/profile/settings/change_password/change_password_controller.dart';
+import 'package:training_plus/view/profile/settings/delete_account_controller.dart';
 
+final deleteUserControllerProvider =
+    StateNotifierProvider<DeleteUserController, DeleteUserState>((ref) {
+      final IApiService apiService = ref.read(apiServiceProvider);
+      return DeleteUserController(apiService: apiService);
+    });
 final changePasswordControllerProvider =
     StateNotifierProvider<ChangePasswordController, ChangePasswordState>((ref) {
       final IApiService apiService = ref.read(apiServiceProvider);
@@ -38,42 +44,47 @@ final feedbackControllerProvider =
       return FeedbackController(api);
     });
 
-final staticContentControllerProvider =
-    StateNotifierProvider.family<StaticContentController, StaticContentState,String>((ref,contentType) {
-      final apiService = ref.watch(apiServiceProvider);
-      return StaticContentController(apiService: apiService,contentType: contentType);
-    });
+final staticContentControllerProvider = StateNotifierProvider.family<
+  StaticContentController,
+  StaticContentState,
+  String
+>((ref, contentType) {
+  final apiService = ref.watch(apiServiceProvider);
+  return StaticContentController(
+    apiService: apiService,
+    contentType: contentType,
+  );
+});
 
 /// Provider
 final badgeShelfProvider =
     StateNotifierProvider<BadgeShelfController, BadgeShelfState>((ref) {
       final apiService = ref.watch(apiServiceProvider);
-      final controller=BadgeShelfController(apiService: apiService);
+      final controller = BadgeShelfController(apiService: apiService);
       controller.fetchBadges();
       return controller;
     });
 
-
 /// Running History Provider
 final runningHistoryControllerProvider =
     StateNotifierProvider<RunningHistoryController, RunningHistoryState>((ref) {
-  final apiService = ref.watch(apiServiceProvider);
-  final controller = RunningHistoryController(apiService: apiService);
-  controller.fetchHistory();
-  return controller;
-});
+      final apiService = ref.watch(apiServiceProvider);
+      final controller = RunningHistoryController(apiService: apiService);
+      controller.fetchHistory();
+      return controller;
+    });
 
 /// Scroll controller for running history pagination
 final runningHistoryScrollControllerProvider =
     Provider.autoDispose<ScrollController>((ref) {
-  final controller = ScrollController();
-  controller.addListener(() {
-    if (controller.position.pixels >=
-        controller.position.maxScrollExtent - 100) {
-      final notifier = ref.read(runningHistoryControllerProvider.notifier);
-      notifier.fetchHistory(loadMore: true);
-    }
-  });
+      final controller = ScrollController();
+      controller.addListener(() {
+        if (controller.position.pixels >=
+            controller.position.maxScrollExtent - 100) {
+          final notifier = ref.read(runningHistoryControllerProvider.notifier);
+          notifier.fetchHistory(loadMore: true);
+        }
+      });
 
-  return controller;
-});
+      return controller;
+    });
