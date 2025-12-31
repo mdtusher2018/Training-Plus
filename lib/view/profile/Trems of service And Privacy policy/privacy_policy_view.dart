@@ -44,7 +44,7 @@ class _PrivacyPolicyViewState extends ConsumerState<PrivacyPolicyView> {
         onRefresh: () async {
           await ref
               .read(staticContentControllerProvider(contentType).notifier)
-              .fetchStaticContent("terms-of-condition");
+              .fetchStaticContent(contentType);
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
