@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:training_plus/core/services/link_sharing/universal_link_service.dart';
 import 'package:training_plus/core/services/providers.dart';
 import 'package:training_plus/core/utils/global_keys.dart';
 import 'package:training_plus/core/utils/theme.dart';
+import 'package:training_plus/view/home/Run_Details/run_details_view.dart';
 import 'package:training_plus/view/intro_and_onBoarging/splash_view.dart';
 import 'package:training_plus/widgets/common_text.dart';
 
@@ -35,23 +37,41 @@ class _AppStartupWidgetState extends ConsumerState<AppStartupWidget> {
     return ScreenUtilInit(
       designSize: const Size(360, 640),
       builder: (context, _) {
-        return MaterialApp(
+        return MaterialApp.router(
           title: 'Training Plus',
           debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
-          theme: AppTheme.lightTheme(),
-          home: appStartup.when(
-            loading: () => const AppStartupLoadingWidget(),
-            error:
-                (error, _) => AppStartupErrorWidget(
-                  error: error,
-                  onRetry: () {
-                    debugPrint('Retrying app initialization...');
-                    ref.invalidate(appStartupProvider);
-                  },
-                ),
-            data: (_) => const MyApp(),
+          routerConfig: GoRouter(
+            navigatorKey: navigatorKey,
+            routes: [
+              GoRoute(
+                path: '/',
+                name: "root",
+                builder:
+                    (_, __) => appStartup.when(
+                      loading: () => const AppStartupLoadingWidget(),
+                      error:
+                          (error, _) => AppStartupErrorWidget(
+                            error: error,
+                            onRetry: () {
+                              debugPrint('Retrying app initialization...');
+                              ref.invalidate(appStartupProvider);
+                            },
+                          ),
+                      data: (_) => const MyApp(),
+                    ),
+              ),
+              GoRoute(
+                path: '/running/:id',
+                builder: (_, state) {
+                  final runId = state.pathParameters['id']!;
+
+                  // Pass the 'runId' to the RunDetailPage
+                  return RunDetailPage(runId: runId);
+                },
+              ),
+            ],
           ),
+          theme: AppTheme.lightTheme(),
         );
       },
     );

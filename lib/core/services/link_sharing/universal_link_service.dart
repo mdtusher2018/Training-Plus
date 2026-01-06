@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:training_plus/view/home/home_providers.dart';
+import 'package:go_router/go_router.dart';
+import 'package:training_plus/core/utils/global_keys.dart';
 
 class DeepLinkService {
   static final DeepLinkService _instance = DeepLinkService._internal();
@@ -30,7 +31,7 @@ class DeepLinkService {
     if (uri.path.startsWith("/running/")) {
       final runId = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : null;
       if (runId != null) {
-        ref.read(runShareDetailProvider.notifier).fetchRunDetail(runId);
+        navigatorKey.currentContext?.go('/running/$runId');
       }
     }
   }

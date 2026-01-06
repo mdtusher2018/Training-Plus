@@ -39,26 +39,27 @@ class _SplashViewState extends ConsumerState<SplashView>
     );
     _fadeInController.forward();
 
-    // Navigate after delay
-    Timer(const Duration(seconds: 3), () async {
-      final localStorage = ref.read(localStorageProvider);
-      final token = await localStorage.getString(StorageKey.token);
+    if (mounted) {
+      Timer(const Duration(seconds: 3), () async {
+        final localStorage = ref.read(localStorageProvider);
+        final token = await localStorage.getString(StorageKey.token);
 
-      if (token != null && token.isNotEmpty) {
-        final decoded = decodeJwtPayload(token);
-        if (decoded != null &&
-            decoded.containsKey("isLoginToken") &&
-            decoded['isLoginToken']) {
-          context.navigateTo(RootView(), clearStack: true);
+        if (token != null && token.isNotEmpty) {
+          final decoded = decodeJwtPayload(token);
+          if (decoded != null &&
+              decoded.containsKey("isLoginToken") &&
+              decoded['isLoginToken']) {
+            context.navigateTo(RootView(), clearStack: true);
+          } else {
+            // Token exists but doesn't have loginToken
+            context.navigateTo(const OnboardingView(), clearStack: true);
+          }
         } else {
-          // Token exists but doesn't have loginToken
+          // No token stored
           context.navigateTo(const OnboardingView(), clearStack: true);
         }
-      } else {
-        // No token stored
-        context.navigateTo(const OnboardingView(), clearStack: true);
-      }
-    });
+      });
+    }
   }
 
   @override
