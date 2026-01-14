@@ -144,7 +144,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
     // Initialize after build to ensure context is ready
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _deepLinkService.initDeepLinks(context, ref);
+      _deepLinkService.initDeepLinks();
     });
   }
 

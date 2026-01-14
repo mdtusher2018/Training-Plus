@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:training_plus/core/utils/global_keys.dart';
 
@@ -13,19 +12,19 @@ class DeepLinkService {
   final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
 
-  Future<void> initDeepLinks(BuildContext context, WidgetRef ref) async {
+  Future<void> initDeepLinks() async {
     final initialLink = await _appLinks.getInitialLink();
     if (initialLink != null) {
-      _handleLink(initialLink, context, ref);
+      _handleLink(initialLink);
     }
 
     _linkSubscription = _appLinks.uriLinkStream.listen(
-      (uri) => _handleLink(uri, context, ref),
+      (uri) => _handleLink(uri),
       onError: (err) => debugPrint("DeepLink error: $err"),
     );
   }
 
-  void _handleLink(Uri uri, BuildContext context, WidgetRef ref) {
+  void _handleLink(Uri uri) {
     debugPrint("DeepLink received: $uri");
 
     if (uri.path.startsWith("/running/")) {

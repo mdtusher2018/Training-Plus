@@ -552,11 +552,8 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       // 1️⃣ Share running data to backend (if needed)
                       // ref.read(runningGpsControllerProvider.notifier).shareRunningData();
 
-                      final Uri shareUri = Uri(
-                        scheme: 'https',
-                        host: ApiEndpoints.shareHost,
-                        port: ApiEndpoints.sharePort,
-                        path: ApiEndpoints.runSharingUrl(runId),
+                      final Uri shareUri = Uri.parse(
+                        ApiEndpoints.runSharingUrl(runId),
                       );
 
                       await Share.shareUri(shareUri);

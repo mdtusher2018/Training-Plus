@@ -1,6 +1,6 @@
 class ApiEndpoints {
-  static const String baseUrl = 'http://72.60.113.31:8041/api/v1/';
-  static const String baseImageUrl = 'http://72.60.113.31:8041';
+  static const String baseUrl = 'https://api.trainingplus.app/api/v1/';
+  static const String baseImageUrl = 'https://api.trainingplus.app';
 
   //authentication
   static const String signin = "auth/signin";
@@ -79,9 +79,8 @@ class ApiEndpoints {
       "notifications/notification-userend?page=$page&limit=$limit";
 
   //share running
-  static String shareHost = "72.60.113.31";
-  static int sharePort = 8041;
-  static String runSharingUrl(String runId) => "/running/$runId";
+  static String shareHost = "api.trainingplus.app";
+  static String runSharingUrl(String runId) => "$baseImageUrl/running/$runId";
   static String getSharedRunDataUrl(String runId, String deviceSignature) =>
-      "/running/$runId?deviceId=$deviceSignature";
+      "running/$runId?deviceId=$deviceSignature";
 }
