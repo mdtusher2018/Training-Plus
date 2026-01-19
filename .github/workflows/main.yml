@@ -20,10 +20,18 @@ jobs:
           java-version: '21'
           distribution: 'zulu'
 
+      # Set up Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+
+      # Decode the keystore from base64 and save it to a file
+      - name: Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > $HOME/trainplus-release.keystore
+
+
 
       - name: Install dependencies
         run: flutter pub get
