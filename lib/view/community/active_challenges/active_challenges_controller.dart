@@ -23,7 +23,7 @@ class ActiveChallengeState {
     this.challenges = const [],
     this.pagination,
     this.hasMore = true,
-    this.currentPage=1,
+    this.currentPage = 1,
   });
 
   ActiveChallengeState copyWith({
@@ -42,7 +42,7 @@ class ActiveChallengeState {
       challenges: challenges ?? this.challenges,
       pagination: pagination ?? this.pagination,
       hasMore: hasMore ?? this.hasMore,
-      currentPage: currentPage??this.currentPage
+      currentPage: currentPage ?? this.currentPage,
     );
   }
 }
@@ -80,13 +80,15 @@ class ActiveChallengeController extends StateNotifier<ActiveChallengeState> {
         state = state.copyWith(
           isLoading: false,
           isFetchingMore: false,
-          challenges: loadMore
-              ? [...state.challenges, ...newChallenges]
-              : newChallenges,
+          challenges:
+              loadMore
+                  ? [...state.challenges, ...newChallenges]
+                  : newChallenges,
           pagination: pagination,
-          hasMore: pagination != null
-              ? pagination.currentPage < pagination.totalPages
-              : newChallenges.isNotEmpty,
+          hasMore:
+              pagination != null
+                  ? pagination.currentPage < pagination.totalPages
+                  : newChallenges.isNotEmpty,
           currentPage: pagination?.currentPage ?? targetPage,
         );
       } else {
@@ -105,53 +107,53 @@ class ActiveChallengeController extends StateNotifier<ActiveChallengeState> {
     }
   }
 
-
   void markChallengeJoined(String challengeId) {
-    final updatedChallenges = state.challenges.map((challenge) {
-      if (challenge.id == challengeId) {
-        return ActiveChallenge(
-          id: challenge.id,
-          challengeName: challenge.challengeName,
-          count: challenge.count,
-          days: challenge.days,
-          point: challenge.point,
-          isJoined: true, // ✅ Update flag here
-          progress: challenge.progress,
-          createdAt: challenge.createdAt,
-          expiredAt: challenge.expiredAt,
-        );
-      }
-      return challenge;
-    }).toList();
+    final updatedChallenges =
+        state.challenges.map((challenge) {
+          if (challenge.id == challengeId) {
+            return ActiveChallenge(
+              id: challenge.id,
+              challengeName: challenge.challengeName,
+              count: challenge.count,
+              days: challenge.days,
+              point: challenge.point,
+              isJoined: true, // ✅ Update flag here
+              progress: challenge.progress,
+              createdAt: challenge.createdAt,
+              expiredAt: challenge.expiredAt,
+              description: challenge.description,
+            );
+          }
+          return challenge;
+        }).toList();
 
     state = state.copyWith(challenges: updatedChallenges);
   }
-
-
 
   /// Join a challenge (example)
   Future<Map<String, String>> joinChallenge({
     required String challengeId,
     required num day,
     required condition,
-    required WidgetRef ref
+    required WidgetRef ref,
   }) async {
     try {
       final response = await apiService.post(ApiEndpoints.joinChallenge, {
         "challenge": challengeId,
         "days": day,
-        "condition" : "run"
+        "condition": "run",
       });
 
       if (response != null && response["statusCode"] == 201) {
         markChallengeJoined(challengeId);
-        
-          ref.read(communityControllerProvider.notifier).markChallengeJoined(challengeId);
-        
+
+        ref
+            .read(communityControllerProvider.notifier)
+            .markChallengeJoined(challengeId);
+
         return {
           "title": "Success",
           "message": response["message"] ?? "Challenge joined successfully",
-
         };
       } else {
         return {
@@ -163,6 +165,4 @@ class ActiveChallengeController extends StateNotifier<ActiveChallengeState> {
       return {"title": "Error", "message": e.toString()};
     }
   }
-
-
 }

@@ -110,7 +110,7 @@ class ApiClient {
 
   dynamic _processResponse(http.Response response) {
     final statusCode = response.statusCode;
-
+    log(response.body.toString());
     final body = response.body.isNotEmpty ? jsonDecode(response.body) : null;
 
     if (statusCode == 401) {

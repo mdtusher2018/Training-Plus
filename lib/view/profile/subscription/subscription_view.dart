@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/view/personalization/personalization_provider.dart';
 import 'package:training_plus/view/profile/subscription/subscription_controller.dart';
@@ -8,6 +9,7 @@ import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_close_button.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/widgets/common_button.dart';
+part 'subscription_comming_soon_view.dart';
 
 class SubscriptionView extends ConsumerStatefulWidget {
   const SubscriptionView({super.key});
@@ -63,34 +65,37 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
           isBold: true,
           color: AppColors.black,
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: AppColors.primary,
-          unselectedLabelColor: Colors.grey,
+        bottom:
+            (state.isSubscriptionCommingSoon)
+                ? null
+                : TabBar(
+                  controller: _tabController,
+                  labelColor: AppColors.primary,
+                  unselectedLabelColor: Colors.grey,
 
-          tabs: [
-            Tab(
-              child: CommonText(
-                "Subscriptions",
-                color:
-                    (state.currentIndex == 0)
-                        ? AppColors.primary
-                        : AppColors.black,
-                isBold: true,
-              ),
-            ),
-            Tab(
-              child: CommonText(
-                "My Subscription",
-                color:
-                    (state.currentIndex == 1)
-                        ? AppColors.primary
-                        : AppColors.black,
-                isBold: true,
-              ),
-            ),
-          ],
-        ),
+                  tabs: [
+                    Tab(
+                      child: CommonText(
+                        "Subscriptions",
+                        color:
+                            (state.currentIndex == 0)
+                                ? AppColors.primary
+                                : AppColors.black,
+                        isBold: true,
+                      ),
+                    ),
+                    Tab(
+                      child: CommonText(
+                        "My Subscription",
+                        color:
+                            (state.currentIndex == 1)
+                                ? AppColors.primary
+                                : AppColors.black,
+                        isBold: true,
+                      ),
+                    ),
+                  ],
+                ),
       ),
 
       body:
@@ -106,6 +111,8 @@ class _SubscriptionViewState extends ConsumerState<SubscriptionView>
                   massage: state.error!,
                 ),
               )
+              : state.isSubscriptionCommingSoon
+              ? SubscriptionComingSoonView()
               : TabBarView(
                 controller: _tabController,
                 physics: NeverScrollableScrollPhysics(),

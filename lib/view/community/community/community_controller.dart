@@ -87,6 +87,7 @@ class CommunityController extends StateNotifier<CommunityState> {
               progress: challenge.progress,
               createdAt: challenge.createdAt,
               expiredAt: challenge.expiredAt,
+              description: challenge.description,
             );
           }
           return challenge;

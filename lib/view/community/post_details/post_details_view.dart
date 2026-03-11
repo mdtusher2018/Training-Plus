@@ -5,15 +5,23 @@ import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
+import 'package:training_plus/widgets/common_button.dart';
 import 'package:training_plus/widgets/common_error_message.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text_field.dart';
 import 'package:training_plus/widgets/common_text.dart';
+import 'package:training_plus/widgets/login_required_dialog.dart';
+part 'block_user_dialog.dart';
 
 class PostDetailsPage extends ConsumerWidget {
   final String postId;
+  final bool isGuest;
 
-  const PostDetailsPage({super.key, required this.postId});
+  const PostDetailsPage({
+    super.key,
+    required this.postId,
+    this.isGuest = false,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,6 +37,30 @@ class PostDetailsPage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 60.h,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert_rounded),
+            onSelected: (value) {
+              if (value == "block") {
+                if (postState.postDetails == null) return;
+                _showBlockDialog(ref, postState.postDetails!.authorId);
+              }
+            },
+            itemBuilder:
+                (context) => [
+                  const PopupMenuItem(
+                    value: "block",
+                    child: Row(
+                      children: [
+                        Icon(Icons.block, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text("Block"),
+                      ],
+                    ),
+                  ),
+                ],
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -49,32 +81,31 @@ class PostDetailsPage extends ConsumerWidget {
               );
             }
 
-        if (!postState.isLoading && postState.postDetails == null) {
+            if (!postState.isLoading && postState.postDetails == null) {
               return CommonErrorMassage(
                 context: context,
                 massage: "Faild to fetch post details",
               );
             }
 
-    final post = postState.postDetails!;
+            final post = postState.postDetails!;
 
-    final likeState = ref.watch(
-      postLikeDeleteControllerProvider((
-        id: post.id,
-        isLiked: post.isLiked,
-        likeCount: post.likeCount,
-        commentCount: post.commentCount,
-      )),
-    );
-    final likeController = ref.read(
-      postLikeDeleteControllerProvider((
-        id: post.id,
-        isLiked: post.isLiked,
-        likeCount: post.likeCount,
-        commentCount: post.commentCount,
-      )).notifier,
-    );
-
+            final likeState = ref.watch(
+              postLikeDeleteControllerProvider((
+                id: post.id,
+                isLiked: post.isLiked,
+                likeCount: post.likeCount,
+                commentCount: post.commentCount,
+              )),
+            );
+            final likeController = ref.read(
+              postLikeDeleteControllerProvider((
+                id: post.id,
+                isLiked: post.isLiked,
+                likeCount: post.likeCount,
+                commentCount: post.commentCount,
+              )).notifier,
+            );
 
             return Padding(
               padding: EdgeInsets.all(16.sp),
@@ -142,7 +173,13 @@ class PostDetailsPage extends ConsumerWidget {
                         Row(
                           children: [
                             InkWell(
-                              onTap: () => likeController.toggleLike(),
+                              onTap: () {
+                                if (isGuest) {
+                                  showLoginRequiredDialog(context: context);
+                                  return;
+                                }
+                                likeController.toggleLike();
+                              },
                               child: Icon(
                                 likeState.isLiked
                                     ? Icons.favorite
@@ -257,17 +294,17 @@ class PostDetailsPage extends ConsumerWidget {
                             commentController.clear();
 
                             if (result["title"] == "Success") {
-                             context.showCommonSnackbar(
+                              context.showCommonSnackbar(
                                 title: result["title"]!,
                                 message: result["message"]!,
-                                
+
                                 backgroundColor: AppColors.success,
                               );
                             } else {
-                             context.showCommonSnackbar(
+                              context.showCommonSnackbar(
                                 title: result["title"]!,
                                 message: result["message"]!,
-                                
+
                                 backgroundColor: AppColors.error,
                               );
                             }

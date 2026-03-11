@@ -7,7 +7,8 @@ import 'package:training_plus/widgets/common_error_message.dart';
 import 'package:training_plus/widgets/common_text.dart';
 
 class ActiveChallengesView extends ConsumerWidget {
-  const ActiveChallengesView({super.key});
+  const ActiveChallengesView({super.key, this.isGuest = false});
+  final bool isGuest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,7 +41,6 @@ class ActiveChallengesView extends ConsumerWidget {
               return CommonErrorMassage(
                 context: context,
                 massage: state.error!,
-                
               );
             }
 
@@ -78,7 +78,10 @@ class ActiveChallengesView extends ConsumerWidget {
                         ref: ref,
                         challengeId: challenge.id,
                         days: challenge.days,
+                        points: challenge.point,
                         condition: challenge.challengeName,
+                        description: challenge.description,
+                        isGuest: isGuest,
                       );
                     },
                   ),

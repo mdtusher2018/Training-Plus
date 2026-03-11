@@ -1,6 +1,7 @@
 class ActiveChallenge {
   final String id;
   final String challengeName;
+  final String description;
   final int count;
   final int days;
   final int point;
@@ -12,6 +13,7 @@ class ActiveChallenge {
   ActiveChallenge({
     required this.id,
     required this.challengeName,
+    required this.description,
     required this.count,
     required this.days,
     required this.point,
@@ -25,6 +27,7 @@ class ActiveChallenge {
     return ActiveChallenge(
       id: json["_id"] ?? "",
       challengeName: json["challengeName"] ?? "",
+      description: json["description"] ?? "No description",
       count: json["count"] ?? 0,
       days: json["days"] ?? 0,
       point: json["point"] ?? 0,

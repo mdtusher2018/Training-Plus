@@ -15,6 +15,7 @@ import 'package:training_plus/widgets/common_close_button.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/widgets/common_button.dart';
 import 'package:training_plus/widgets/common_image.dart';
+import 'package:training_plus/widgets/login_required_dialog.dart';
 
 class challengeCard extends StatelessWidget {
   final String title;
@@ -127,6 +128,7 @@ class PostCard extends ConsumerWidget {
 
   final bool myPost;
   final WidgetRef parentRef;
+  final bool isGuest;
 
   const PostCard({
     super.key,
@@ -141,6 +143,7 @@ class PostCard extends ConsumerWidget {
     required this.catagory,
     this.myPost = false,
     required this.parentRef,
+    this.isGuest = false,
   });
 
   @override
@@ -170,7 +173,7 @@ class PostCard extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          context.navigateTo(PostDetailsPage(postId: id));
+          context.navigateTo(PostDetailsPage(postId: id, isGuest: isGuest));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +248,13 @@ class PostCard extends ConsumerWidget {
             Row(
               children: [
                 InkWell(
-                  onTap: () => controller.toggleLike(),
+                  onTap: () {
+                    if (isGuest) {
+                      showLoginRequiredDialog(context: context);
+                      return;
+                    }
+                    controller.toggleLike();
+                  },
                   child: Icon(
                     state.isLiked ? Icons.favorite : Icons.favorite_border,
                     size: 16.sp,
@@ -257,6 +266,10 @@ class PostCard extends ConsumerWidget {
                 CommonSizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
+                    if (isGuest) {
+                      showLoginRequiredDialog(context: context);
+                      return;
+                    }
                     showCommentsBottomSheet(
                       context: context,
                       id: id,
@@ -371,8 +384,11 @@ void showChallengeDetailsBottomSheet(
   required bool isJoined,
   required WidgetRef ref,
   required challengeId,
+  required points,
   required days,
   required condition,
+  required description,
+  bool isGuest = false,
 }) {
   showModalBottomSheet(
     context: context,
@@ -417,7 +433,7 @@ void showChallengeDetailsBottomSheet(
                   ),
                   CommonSizedBox(height: 8),
                   CommonText(
-                    "Improve your soccer skills with daily drills and exercises. Perfect for players of all levels looking to enhance their technique and fitness.",
+                    description,
                     size: 14,
                     color: AppColors.textSecondary,
                   ),
@@ -425,11 +441,11 @@ void showChallengeDetailsBottomSheet(
 
                   CommonText("Time", size: 16, fontWeight: FontWeight.w600),
                   CommonSizedBox(height: 4),
-                  CommonText("1 Week", size: 14),
+                  CommonText("$days Day", size: 14),
                   SizedBox(height: 12),
                   CommonText("Rewards", size: 16, fontWeight: FontWeight.w600),
                   CommonSizedBox(height: 4),
-                  CommonText("Achievement Badge\n200 Points", size: 14),
+                  CommonText("Achievement Badge\n$points Points", size: 14),
 
                   CommonSizedBox(height: 30),
                   if (isJoined)
@@ -437,6 +453,10 @@ void showChallengeDetailsBottomSheet(
                       "Join Challenge",
                       boarderRadious: 8,
                       onTap: () async {
+                        if (isGuest) {
+                          showLoginRequiredDialog(context: context);
+                          return;
+                        }
                         final response = await ref
                             .read(activeChallengeControllerProvider.notifier)
                             .joinChallenge(

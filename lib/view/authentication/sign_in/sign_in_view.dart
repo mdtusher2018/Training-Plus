@@ -10,6 +10,7 @@ import 'package:training_plus/view/authentication/authentication_providers.dart'
 import 'package:training_plus/view/authentication/forget_password/forgot_password_view.dart';
 import 'package:training_plus/view/authentication/sign_in/signin_controller.dart';
 import 'package:training_plus/view/authentication/signup/sign_up_view.dart';
+import 'package:training_plus/view/guest_root_view.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text_field_with_title.dart';
 import 'package:training_plus/widgets/common_rich_text.dart';
@@ -182,6 +183,33 @@ class _SigninViewState extends ConsumerState<SigninView> {
                           TapGestureRecognizer()
                             ..onTap = () {
                               context.navigateTo(SignupView());
+                            },
+                    ),
+                  ],
+                ),
+              ),
+              CommonSizedBox(height: 8),
+              Center(
+                child: CommonRichText(
+                  textAlign: TextAlign.center,
+                  parts: [
+                    RichTextPart(
+                      text: "Continue as",
+                      color: AppColors.textPrimary,
+                      size: 14,
+                    ),
+                    RichTextPart(
+                      text: "  Guest",
+                      color: AppColors.primary,
+                      size: 14,
+                      isBold: true,
+                      clickRecognized:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              context.navigateTo(
+                                GuestRootView(),
+                                clearStack: true,
+                              );
                             },
                     ),
                   ],

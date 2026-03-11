@@ -2,6 +2,9 @@ class ApiEndpoints {
   static const String baseUrl = 'https://api.trainingplus.app/api/v1/';
   static const String baseImageUrl = 'https://api.trainingplus.app';
 
+  // static const String baseUrl = 'http://10.10.10.33:8041/api/v1/';
+  // static const String baseImageUrl = 'http://10.10.10.33:8041';
+
   //authentication
   static const String signin = "auth/signin";
   static const String signup = "auth/sign-up";
@@ -67,12 +70,14 @@ class ApiEndpoints {
   static String updatePost(String postId) => "post/edit/$postId";
   static String deletePost(String postId) => "post/$postId";
   static String getCommentByPostId(String postId) => "post/comments/$postId";
+  static String blockUser(String userId) => "users/block-friend/$userId";
 
   //subscription
-  static var subscriptions = "subscription/all";
+  static String subscriptions = "subscription/all";
+  static String isSubscriptionsCommingSoon = "subscription/boolean";
   static String mySubscription = "my-subscription/my-sub";
   static String punchSubscription = "my-subscription/payment";
-  static String paymentCompleate = "my-subscription/complete?";
+  static String paymentCompleate = "my-subscription/complete";
 
   //Notification
   static String notifications({required int page, required int limit}) =>

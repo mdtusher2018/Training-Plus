@@ -9,6 +9,7 @@ import 'post_details_model.dart';
 // ------------------- State -------------------
 class PostDetailsState {
   final bool isLoading;
+  final bool userBlockLoading;
   final bool isSending;
   final String? error;
   final PostDetails? postDetails;
@@ -16,18 +17,21 @@ class PostDetailsState {
   PostDetailsState({
     this.isLoading = false,
     this.isSending = false,
+    this.userBlockLoading = false,
     this.error,
     this.postDetails,
   });
 
   PostDetailsState copyWith({
     bool? isLoading,
+    bool? userBlockLoading,
     bool? isSending,
     String? error,
     PostDetails? postDetails,
   }) {
     return PostDetailsState(
       isLoading: isLoading ?? this.isLoading,
+      userBlockLoading: userBlockLoading ?? this.userBlockLoading,
       isSending: isSending ?? this.isSending,
       error: error,
       postDetails: postDetails ?? this.postDetails,
@@ -112,6 +116,28 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
         return {
           "title": "Error",
           "message": response?["message"] ?? "Failed to add comment",
+        };
+      }
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    } finally {
+      state = state.copyWith(isSending: false);
+    }
+  }
+
+  /// Block user by ID
+  Future<Map<String, String>> blockUser(String userId) async {
+    try {
+      state = state.copyWith(userBlockLoading: true);
+
+      final response = await apiService.put(ApiEndpoints.blockUser(userId), {});
+
+      if (response != null && response["statusCode"] == 200) {
+        return {"title": "Success", "message": "User blocked sucessfully"};
+      } else {
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to block this user",
         };
       }
     } catch (e) {

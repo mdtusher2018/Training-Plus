@@ -11,10 +11,12 @@ import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/widgets/common_button.dart';
 import 'package:training_plus/core/utils/colors.dart';
+import 'package:training_plus/widgets/login_required_dialog.dart';
 
 class WorkoutDetailPage extends ConsumerStatefulWidget {
   final String id;
-  const WorkoutDetailPage({super.key, required this.id});
+  final bool isGuest;
+  const WorkoutDetailPage({super.key, required this.id, this.isGuest = false});
 
   @override
   ConsumerState<WorkoutDetailPage> createState() => _WorkoutDetailPageState();
@@ -195,6 +197,10 @@ class _WorkoutDetailPageState extends ConsumerState<WorkoutDetailPage> {
                         isLoading: workoutState.startWorkout,
                         width: double.infinity,
                         onTap: () async {
+                          if (widget.isGuest) {
+                            showLoginRequiredDialog(context: context);
+                            return;
+                          }
                           final response =
                               await workoutController.startWorkout();
                           if (response['title'] == "Success") {

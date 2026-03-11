@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:training_plus/core/utils/colors.dart';
-import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
 import 'package:training_plus/view/community/widget/community_cards.dart';
 import 'package:training_plus/widgets/common_error_message.dart';
@@ -10,7 +9,8 @@ import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text.dart';
 
 class CommunityFeedView extends ConsumerWidget {
-  const CommunityFeedView({super.key});
+  const CommunityFeedView({super.key, this.isGuest = false});
+  final bool isGuest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,6 +62,7 @@ class CommunityFeedView extends ConsumerWidget {
                 }
 
                 final post = state.feed[index];
+
                 return PostCard(
                   id: post.id,
                   user: post.authorName,
@@ -70,9 +71,10 @@ class CommunityFeedView extends ConsumerWidget {
                   isLikedByMe: post.isLiked,
                   userImage: post.authorImage,
                   likeCount: post.likeCount,
-                  time: timeAgo(post.createdAt),
+                  time: post.createdAt,
                   catagory: post.category,
                   parentRef: ref,
+                  isGuest: isGuest,
                 );
               },
             );

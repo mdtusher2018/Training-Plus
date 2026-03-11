@@ -14,30 +14,46 @@ class PaymentWebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: CommonText("Complete Payment"),backgroundColor: AppColors.white,surfaceTintColor: Colors.transparent,centerTitle: true,),
-      body: WebViewWidget(controller: WebViewController(onPermissionRequest: (request) {
-        request.grant();
-      },)
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-        // Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onHttpError: (HttpResponseError error) {},
-      onWebResourceError: (WebResourceError error) {},
-      onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith(ApiEndpoints.baseUrl+ApiEndpoints.paymentCompleate)) {
-            context.navigateTo(RootView(), clearStack: true);
-            context.showCommonSnackbar( title: "Sucess", message: "Package Activated Sucessfully",backgroundColor: AppColors.success);
-        }
-        return NavigationDecision.navigate;
-      },
-    ),
-  )
-  ..loadRequest(Uri.parse(url))),
+      appBar: AppBar(
+        title: CommonText("Complete Payment"),
+        backgroundColor: AppColors.white,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+      ),
+      body: WebViewWidget(
+        controller:
+            WebViewController(
+                onPermissionRequest: (request) {
+                  request.grant();
+                },
+              )
+              ..setJavaScriptMode(JavaScriptMode.unrestricted)
+              ..setNavigationDelegate(
+                NavigationDelegate(
+                  onProgress: (int progress) {
+                    // Update loading bar.
+                  },
+                  onPageStarted: (String url) {},
+                  onPageFinished: (String url) {},
+                  onHttpError: (HttpResponseError error) {},
+                  onWebResourceError: (WebResourceError error) {},
+                  onNavigationRequest: (NavigationRequest request) {
+                    if (request.url.contains(
+                      ApiEndpoints.baseUrl + ApiEndpoints.paymentCompleate,
+                    )) {
+                      context.navigateTo(RootView(), clearStack: true);
+                      context.showCommonSnackbar(
+                        title: "Sucess",
+                        message: "Package Activated Sucessfully",
+                        backgroundColor: AppColors.success,
+                      );
+                    }
+                    return NavigationDecision.navigate;
+                  },
+                ),
+              )
+              ..loadRequest(Uri.parse(url)),
+      ),
     );
   }
 }

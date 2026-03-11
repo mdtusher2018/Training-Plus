@@ -15,7 +15,9 @@ import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text.dart';
 
 class CommunityView extends ConsumerWidget {
-  const CommunityView({super.key});
+  final bool isGuest;
+
+  const CommunityView({super.key, this.isGuest = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,16 +50,16 @@ class CommunityView extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   if (state.data!.activeChallenge.isNotEmpty)
-                  _activeChallengesSection(context, state, ref),
+                    _activeChallengesSection(context, state, ref),
 
                   if (state.data!.mypost.isNotEmpty)
-                  _myPostsSection(context, state, ref),
+                    _myPostsSection(context, state, ref),
 
                   if (state.data!.leaderboard.topUsers.isNotEmpty)
-                  _leaderboardSection(context, state),
+                    _leaderboardSection(context, state),
 
                   if (state.data!.feed.isNotEmpty)
-                  _communityFeedSection(context, state, ref),
+                    _communityFeedSection(context, state, ref),
                   SizedBox(height: 24),
                 ],
               );
@@ -67,15 +69,17 @@ class CommunityView extends ConsumerWidget {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        onPressed: () {
-          context.navigateTo(
- CommunityPostView());
-        },
-        shape: CircleBorder(),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton:
+          (isGuest)
+              ? null
+              : FloatingActionButton(
+                backgroundColor: AppColors.primary,
+                onPressed: () {
+                  context.navigateTo(CommunityPostView());
+                },
+                shape: CircleBorder(),
+                child: const Icon(Icons.add),
+              ),
     );
   }
 
@@ -90,8 +94,7 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "Active Challenges",
           onTap: () {
-            context.navigateTo(
- ActiveChallengesView());
+            context.navigateTo(ActiveChallengesView(isGuest: isGuest));
           },
         ),
         CommonSizedBox(height: 12),
@@ -118,7 +121,10 @@ class CommunityView extends ConsumerWidget {
                     ref: ref,
                     challengeId: challenge.id,
                     days: challenge.days,
+                    points: challenge.point,
                     condition: challenge.challengeName,
+                    description: challenge.description,
+                    isGuest: isGuest,
                   );
                 },
               ),
@@ -140,8 +146,7 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "My Posts",
           onTap: () {
-            context.navigateTo(
- MyPostsView());
+            context.navigateTo(MyPostsView());
           },
         ),
         CommonSizedBox(height: 12),
@@ -164,6 +169,7 @@ class CommunityView extends ConsumerWidget {
               catagory: post.category,
               myPost: true,
               parentRef: ref,
+              isGuest: isGuest,
             );
           },
         ),
@@ -179,8 +185,7 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "This Week Leaderboard",
           onTap: () {
-            context.navigateTo(
- LeaderboardView());
+            context.navigateTo(LeaderboardView());
           },
         ),
         CommonSizedBox(height: 12),
@@ -215,8 +220,7 @@ class CommunityView extends ConsumerWidget {
         sectionHeader(
           "Community Feed",
           onTap: () {
-            context.navigateTo(
- CommunityFeedView());
+            context.navigateTo(CommunityFeedView(isGuest: isGuest));
           },
         ),
         CommonSizedBox(height: 12),
@@ -239,6 +243,7 @@ class CommunityView extends ConsumerWidget {
               caption: post.caption,
               catagory: post.category,
               parentRef: ref,
+              isGuest: isGuest,
             );
           },
         ),

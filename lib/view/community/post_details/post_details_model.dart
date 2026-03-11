@@ -7,6 +7,7 @@ class PostDetails {
   final int commentCount;
   final String createdAt;
   final String updatedAt;
+  final String authorId;
   final PostAuthor postAuthor;
   final List<PostComment> comments;
 
@@ -19,6 +20,7 @@ class PostDetails {
     required this.commentCount,
     required this.createdAt,
     required this.updatedAt,
+    required this.authorId,
     required this.postAuthor,
     required this.comments,
   });
@@ -34,6 +36,7 @@ class PostDetails {
       commentCount: attributes['commentCount'] ?? 0,
       createdAt: attributes['createdAt'] ?? '',
       updatedAt: attributes['updatedAt'] ?? '',
+      authorId: attributes['author'] ?? '',
       postAuthor: PostAuthor.fromJson(attributes['postAuthor']),
       comments:
           (attributes['comments'] as List<dynamic>? ?? [])
@@ -50,6 +53,7 @@ class PostDetails {
     int? commentCount,
     String? createdAt,
     String? updatedAt,
+    String? authorId,
     PostAuthor? postAuthor,
     List<PostComment>? comments,
   }) {
@@ -59,6 +63,7 @@ class PostDetails {
       category: category ?? this.category,
       isLiked: isLiked ?? this.isLiked,
       likeCount: likeCount ?? this.likeCount,
+      authorId: authorId ?? this.authorId,
       commentCount: commentCount ?? this.commentCount,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

@@ -16,9 +16,11 @@ import 'package:training_plus/widgets/common_sized_box.dart';
 import 'package:training_plus/widgets/common_text.dart';
 import 'package:training_plus/widgets/common_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_plus/widgets/login_required_dialog.dart';
 
 class HomePageView extends ConsumerWidget {
-  const HomePageView({super.key});
+  const HomePageView({super.key, this.isGuest = false});
+  final bool isGuest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,6 +92,10 @@ class HomePageView extends ConsumerWidget {
             ),
             GestureDetector(
               onTap: () {
+                if (isGuest) {
+                  showLoginRequiredDialog(context: context);
+                  return;
+                }
                 context.navigateTo(NotificationsView());
               },
               child: Container(
@@ -161,6 +167,10 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  if (isGuest) {
+                    showLoginRequiredDialog(context: context);
+                    return;
+                  }
                   context.navigateTo(RunningTrackerPage());
                 },
                 child: _buildQuickAction(
@@ -173,6 +183,10 @@ class HomePageView extends ConsumerWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  if (isGuest) {
+                    showLoginRequiredDialog(context: context);
+                    return;
+                  }
                   context.navigateTo(NutritionTrackerPage());
                 },
                 child: _buildQuickAction(
@@ -197,6 +211,10 @@ class HomePageView extends ConsumerWidget {
             CommonText("My Workouts", size: 18, isBold: true),
             GestureDetector(
               onTap: () {
+                if (isGuest) {
+                  showLoginRequiredDialog(context: context);
+                  return;
+                }
                 context.navigateTo(MyWorkoutsView());
               },
               child: Row(
@@ -228,7 +246,9 @@ class HomePageView extends ConsumerWidget {
               final workout = response.workouts[index];
               return GestureDetector(
                 onTap: () {
-                  context.navigateTo(WorkoutDetailPage(id: workout.id));
+                  context.navigateTo(
+                    WorkoutDetailPage(id: workout.id, isGuest: isGuest),
+                  );
                 },
                 child: buildWorkoutCard(
                   workout.skillLevel,

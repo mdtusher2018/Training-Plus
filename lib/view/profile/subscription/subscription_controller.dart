@@ -13,6 +13,7 @@ import 'package:training_plus/view/profile/subscription/webview_payment.dart';
 class SubscriptionState {
   final bool isLoading;
   final int currentIndex;
+  final bool isSubscriptionCommingSoon;
   final String? error;
   final List<SubscriptionPlan> plans;
   final MySubscriptionAttributes? mySubscription;
@@ -22,6 +23,7 @@ class SubscriptionState {
 
   SubscriptionState({
     this.isLoading = false,
+    this.isSubscriptionCommingSoon = false,
     this.currentIndex = 0,
     this.error,
     this.plans = const [],
@@ -31,6 +33,7 @@ class SubscriptionState {
 
   SubscriptionState copyWith({
     bool? isLoading,
+    bool? isSubscriptionCommingSoon,
     int? currentIndex,
     String? error,
     List<SubscriptionPlan>? plans,
@@ -39,6 +42,8 @@ class SubscriptionState {
   }) {
     return SubscriptionState(
       isLoading: isLoading ?? this.isLoading,
+      isSubscriptionCommingSoon:
+          isSubscriptionCommingSoon ?? this.isSubscriptionCommingSoon,
       currentIndex: currentIndex ?? this.currentIndex,
       error: error,
       plans: plans ?? this.plans,
@@ -53,6 +58,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
   final IApiService apiService;
 
   SubscriptionController(this.apiService) : super(SubscriptionState()) {
+    isSubscriptionCommingSoon();
     fetchSubscriptions();
     fetchMySubscription();
   }
@@ -76,7 +82,9 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       final response = await apiService.get(ApiEndpoints.subscriptions);
 
       if (response != null && response['statusCode'] == 200) {
-        final subscriptionResponse = SubscriptionResponse.fromJson(response??{});
+        final subscriptionResponse = SubscriptionResponse.fromJson(
+          response ?? {},
+        );
         log(subscriptionResponse.data.attributes.length.toString());
         state = state.copyWith(
           isLoading: false,
@@ -100,7 +108,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
       final response = await apiService.get(ApiEndpoints.mySubscription);
 
       if (response != null && response['statusCode'] == 200) {
-        final mySubResponse = MySubscriptionResponse.fromJson(response??{});
+        final mySubResponse = MySubscriptionResponse.fromJson(response ?? {});
         state = state.copyWith(
           isLoading: false,
           mySubscription: mySubResponse.data.attributes,
@@ -147,7 +155,7 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
           buttonLoading: {...state.buttonLoading, subscriptionId: false},
         );
 
-       context.navigateTo(PaymentWebViewScreen(url: sessionUrl));
+        context.navigateTo(PaymentWebViewScreen(url: sessionUrl));
       } else {
         state = state.copyWith(
           buttonLoading: {...state.buttonLoading, subscriptionId: false},
@@ -160,6 +168,24 @@ class SubscriptionController extends StateNotifier<SubscriptionState> {
         buttonLoading: {...state.buttonLoading, subscriptionId: false},
         error: "Error: ${e.toString()}",
       );
+    }
+  }
+
+  //Skip apple
+  Future<void> isSubscriptionCommingSoon() async {
+    try {
+      state = state.copyWith(isLoading: true, error: null);
+      final response = await apiService.get(
+        ApiEndpoints.isSubscriptionsCommingSoon,
+      );
+      log("========>>>>>>>>>>" + response.toString());
+
+      if (response == true) {
+        state = state.copyWith(isSubscriptionCommingSoon: true);
+      }
+    } catch (_) {
+    } finally {
+      state = state.copyWith(isLoading: false, error: null);
     }
   }
 }

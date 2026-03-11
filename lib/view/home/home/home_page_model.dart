@@ -1,4 +1,3 @@
-
 import 'package:training_plus/core/common_used_models/workout_preview_model.dart';
 
 class HomeResponse {
@@ -26,7 +25,9 @@ class HomeResponse {
   /// Expose nested models instead of only flat fields
   _User? get user => data?.attributes.user;
   _Goal? get goal => data?.attributes.goal;
-  List<WorkoutPreviewModel> get workouts => data?.attributes.workout ?? [];//was not nessasary but makes access easy for developers
+  List<WorkoutPreviewModel> get workouts =>
+      data?.attributes.workout ??
+      []; //was not nessasary but makes access easy for developers
   List<Quote> get quotes => data?.attributes.quotes ?? [];
   num get achievementCount => data?.attributes.achievementCount ?? 0;
   num get streakCount => data?.attributes.streak ?? 0;
@@ -68,14 +69,16 @@ class _Attributes {
     return _Attributes(
       user: _User.fromJson(json['user'] ?? {}),
       goal: _Goal.fromJson(json['goal'] ?? {}),
-      workout: (json['workout'] as List<dynamic>? ?? [])
-          .map((e) => WorkoutPreviewModel.fromJson(e))
-          .toList(),
+      workout:
+          (json['workout'] as List<dynamic>? ?? [])
+              .map((e) => WorkoutPreviewModel.fromJson(e))
+              .toList(),
       achievementCount: json['achievementCount'] ?? 0,
-      streak: json['streak']??0,
-      quotes: (json['quots'] as List<dynamic>? ?? [])
-          .map((e) => Quote.fromJson(e))
-          .toList(),
+      streak: json['streak'] ?? 0,
+      quotes:
+          (json['quots'] as List<dynamic>? ?? [])
+              .map((e) => Quote.fromJson(e))
+              .toList(),
     );
   }
 }
@@ -96,7 +99,7 @@ class _User {
   factory _User.fromJson(Map<String, dynamic> json) {
     return _User(
       id: json['_id'] ?? '',
-      fullName: json['fullName'] ?? '',
+      fullName: json['fullName'] ?? 'User',
       image: json['image'] ?? '',
       workoutCount: json['workoutCount'] ?? 0,
     );
@@ -119,17 +122,12 @@ class _Goal {
   }
 }
 
-
 class Quote {
   final String id;
   final String image;
   final String text;
 
-  Quote({
-    required this.id,
-    required this.image,
-    required this.text,
-  });
+  Quote({required this.id, required this.image, required this.text});
 
   factory Quote.fromJson(Map<String, dynamic> json) {
     return Quote(
