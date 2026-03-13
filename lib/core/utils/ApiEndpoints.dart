@@ -70,6 +70,7 @@ class ApiEndpoints {
   static String updatePost(String postId) => "post/edit/$postId";
   static String deletePost(String postId) => "post/$postId";
   static String getCommentByPostId(String postId) => "post/comments/$postId";
+  static const String reportAPost = "report/add";
   static String blockUser(String userId) => "users/block-friend/$userId";
 
   //subscription

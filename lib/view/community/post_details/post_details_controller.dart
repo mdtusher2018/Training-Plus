@@ -10,6 +10,7 @@ import 'post_details_model.dart';
 class PostDetailsState {
   final bool isLoading;
   final bool userBlockLoading;
+  final bool userReportLoading;
   final bool isSending;
   final String? error;
   final PostDetails? postDetails;
@@ -18,6 +19,7 @@ class PostDetailsState {
     this.isLoading = false,
     this.isSending = false,
     this.userBlockLoading = false,
+    this.userReportLoading = false,
     this.error,
     this.postDetails,
   });
@@ -25,6 +27,7 @@ class PostDetailsState {
   PostDetailsState copyWith({
     bool? isLoading,
     bool? userBlockLoading,
+    bool? userReportLoading,
     bool? isSending,
     String? error,
     PostDetails? postDetails,
@@ -32,6 +35,7 @@ class PostDetailsState {
     return PostDetailsState(
       isLoading: isLoading ?? this.isLoading,
       userBlockLoading: userBlockLoading ?? this.userBlockLoading,
+      userReportLoading: userReportLoading ?? this.userReportLoading,
       isSending: isSending ?? this.isSending,
       error: error,
       postDetails: postDetails ?? this.postDetails,
@@ -143,7 +147,31 @@ class PostDetailsController extends StateNotifier<PostDetailsState> {
     } catch (e) {
       return {"title": "Error", "message": e.toString()};
     } finally {
-      state = state.copyWith(isSending: false);
+      state = state.copyWith(userBlockLoading: false);
+    }
+  }
+
+  Future<Map<String, String>> reportPost(String postId, String reason) async {
+    try {
+      state = state.copyWith(userReportLoading: true);
+
+      final response = await apiService.post(ApiEndpoints.reportAPost, {
+        "post": postId,
+        "reason": reason,
+      });
+
+      if (response != null && response["statusCode"] == 201) {
+        return {"title": "Success", "message": "Post reported successfully"};
+      } else {
+        return {
+          "title": "Error",
+          "message": response?["message"] ?? "Failed to report this post",
+        };
+      }
+    } catch (e) {
+      return {"title": "Error", "message": e.toString()};
+    } finally {
+      state = state.copyWith(userReportLoading: false);
     }
   }
 }

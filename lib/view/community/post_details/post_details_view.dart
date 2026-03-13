@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:training_plus/core/utils/colors.dart';
 import 'package:training_plus/core/utils/extention.dart';
 import 'package:training_plus/core/utils/helper.dart';
 import 'package:training_plus/view/community/comunity_provider.dart';
+import 'package:training_plus/view/community/post_details/report_post_view.dart';
 import 'package:training_plus/widgets/common_button.dart';
 import 'package:training_plus/widgets/common_error_message.dart';
 import 'package:training_plus/widgets/common_sized_box.dart';
@@ -45,6 +47,9 @@ class PostDetailsPage extends ConsumerWidget {
                 if (postState.postDetails == null) return;
                 _showBlockDialog(ref, postState.postDetails!.authorId);
               }
+              if (value == "report") {
+                context.navigateTo(ReportPostView(postId: postId));
+              }
             },
             itemBuilder:
                 (context) => [
@@ -55,6 +60,16 @@ class PostDetailsPage extends ConsumerWidget {
                         Icon(Icons.block, color: Colors.red),
                         SizedBox(width: 8),
                         Text("Block"),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: "report",
+                    child: Row(
+                      children: [
+                        Icon(Icons.report, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text("Report"),
                       ],
                     ),
                   ),
