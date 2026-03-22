@@ -74,23 +74,26 @@ class _SplashViewState extends ConsumerState<SplashView>
       body: FadeTransition(
         opacity: _fadeInAnimation,
         child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CommonImage(
-                imagePath: ImagePaths.logo,
-                height: 116,
-                width: 280,
-                isAsset: true,
-              ),
-              CommonSizedBox(height: 16),
-              CommonText(
-                "Train Strong. Live\nstrong",
-                size: 24,
-                isBold: true,
-                textAlign: TextAlign.center,
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CommonImage(
+                  imagePath: ImagePaths.logo,
+                  height: 116,
+                  width: 280,
+                  isAsset: true,
+                ),
+                CommonSizedBox(height: 16),
+                CommonText(
+                  "Train Strong. Perform Stronger",
+                  size: 22,
+                  isBold: true,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),

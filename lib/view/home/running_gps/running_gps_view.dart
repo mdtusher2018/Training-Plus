@@ -5,13 +5,14 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_map/flutter_map.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:latlong2/latlong.dart';
+import 'package:latlong2/latlong.dart' as latlong2;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:training_plus/core/utils/ApiEndpoints.dart';
@@ -39,8 +40,8 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
   String pace = "--"; // min/km
   bool isRunning = false;
 
-  final String apiKey = '506107e66ed04133be2159f7b7ea222d';
-  MapController mapController = MapController();
+  // Google Maps controller
+  GoogleMapController? _googleMapController;
 
   LatLng? _currentLocation;
   LatLng? _startLocation;
@@ -48,21 +49,102 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
 
   Timer? _locationUpdateTimer;
   Timer? _timer;
+
+  // Google Maps uses its own LatLng — keep route as List<LatLng>
   final List<LatLng> _routePoints = [];
+
+  // For map screenshot
   final GlobalKey _mapKey = GlobalKey();
 
-  void _fitMapToRoute() {
-    if (_routePoints.length < 2) return;
+  // Markers shown on Google Map
+  final Set<Marker> _markers = {};
 
-    final bounds = LatLngBounds.fromPoints(_routePoints);
-    mapController.fitCamera(
-      CameraFit.bounds(
-        bounds: bounds,
-        padding: EdgeInsets.all(16),
-        forceIntegerZoomLevel: true,
-      ),
+  // Polyline drawn on Google Map
+  final Set<Polyline> _polylines = {};
+
+  // ── Map helpers ──────────────────────────────────────────────────────────────
+
+  void _fitMapToRoute() {
+    if (_routePoints.length < 2 || _googleMapController == null) return;
+
+    double minLat = _routePoints
+        .map((p) => p.latitude)
+        .reduce((a, b) => a < b ? a : b);
+    double maxLat = _routePoints
+        .map((p) => p.latitude)
+        .reduce((a, b) => a > b ? a : b);
+    double minLng = _routePoints
+        .map((p) => p.longitude)
+        .reduce((a, b) => a < b ? a : b);
+    double maxLng = _routePoints
+        .map((p) => p.longitude)
+        .reduce((a, b) => a > b ? a : b);
+
+    final bounds = LatLngBounds(
+      southwest: LatLng(minLat, minLng),
+      northeast: LatLng(maxLat, maxLng),
+    );
+
+    _googleMapController!.animateCamera(
+      CameraUpdate.newLatLngBounds(bounds, 48.0),
     );
   }
+
+  void _updateMapOverlays() {
+    final Set<Marker> newMarkers = {};
+    final Set<Polyline> newPolylines = {};
+
+    if (_startLocation != null) {
+      newMarkers.add(
+        Marker(
+          markerId: const MarkerId('start'),
+          position: _startLocation!,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueGreen,
+          ),
+          infoWindow: const InfoWindow(title: 'Start'),
+        ),
+      );
+    }
+
+    if (_currentLocation != null) {
+      newMarkers.add(
+        Marker(
+          markerId: const MarkerId('current'),
+          position: _currentLocation!,
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueAzure,
+          ),
+          infoWindow: const InfoWindow(title: 'You'),
+        ),
+      );
+    }
+
+    if (_routePoints.length > 1) {
+      newPolylines.add(
+        Polyline(
+          polylineId: const PolylineId('route'),
+          points:
+              _routePoints
+                  .where((p) => p.latitude.isFinite && p.longitude.isFinite)
+                  .toList(),
+          color: Colors.blue,
+          width: 4,
+        ),
+      );
+    }
+
+    setState(() {
+      _markers
+        ..clear()
+        ..addAll(newMarkers);
+      _polylines
+        ..clear()
+        ..addAll(newPolylines);
+    });
+  }
+
+  // ── Place name ───────────────────────────────────────────────────────────────
 
   Future<String> _getPlaceName(LatLng location) async {
     try {
@@ -76,8 +158,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
 
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
-
-        // Safely handle nulls
         final locality = place.locality ?? place.subLocality ?? "";
         final country = place.country ?? "";
 
@@ -93,6 +173,29 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     return "Unknown place";
   }
 
+  // ── Map screenshot ───────────────────────────────────────────────────────────
+
+  Future<Uint8List?> _captureMap() async {
+    try {
+      if (_googleMapController != null) {
+        // Google Maps native screenshot
+        final bytes = await _googleMapController!.takeSnapshot();
+        return bytes;
+      }
+      // Fallback: RepaintBoundary screenshot
+      if (_mapKey.currentContext != null) {
+        RenderRepaintBoundary boundary =
+            _mapKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+        final image = await boundary.toImage(pixelRatio: 3.0);
+        final byteData = await image.toByteData(format: ImageByteFormat.png);
+        return byteData?.buffer.asUint8List();
+      }
+    } catch (e) {
+      debugPrint("Error capturing map: $e");
+    }
+    return null;
+  }
+
   Future<File> _bytesToFile(Uint8List bytes) async {
     final tempDir = await getTemporaryDirectory();
     final file = File("${tempDir.path}/run_map.png");
@@ -100,22 +203,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     return file;
   }
 
-  Future<Uint8List?> _captureMap() async {
-    try {
-      if (_mapKey.currentContext != null) {
-        RenderRepaintBoundary boundary =
-            _mapKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-
-        final image = await boundary.toImage(pixelRatio: 3.0);
-        final byteData = await image.toByteData(format: ImageByteFormat.png);
-        return byteData?.buffer.asUint8List();
-      }
-    } catch (e) {
-      debugPrint("Error capturing map: $e");
-      return null;
-    }
-    return null;
-  }
+  // ── Lifecycle ────────────────────────────────────────────────────────────────
 
   @override
   void initState() {
@@ -125,8 +213,13 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
 
   @override
   void dispose() {
+    _timer?.cancel();
+    _locationUpdateTimer?.cancel();
+    _googleMapController?.dispose();
     super.dispose();
   }
+
+  // ── Location tracking ────────────────────────────────────────────────────────
 
   Future<void> _getCurrentLocation({bool moveCamera = true}) async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -141,52 +234,62 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
         desiredAccuracy: LocationAccuracy.high,
       );
 
-      LatLng userLocation = LatLng(position.latitude, position.longitude);
+      final userLocation = LatLng(position.latitude, position.longitude);
 
       setState(() {
         _currentLocation = userLocation;
       });
 
-      if (moveCamera) {
-        mapController.move(userLocation, 18);
+      if (moveCamera && _googleMapController != null) {
+        _googleMapController!.animateCamera(
+          CameraUpdate.newLatLngZoom(userLocation, 18),
+        );
       }
 
       if (isRunning) {
-        final d = Distance();
-        // Only add point if moved more than 1 meters
-        if (_lastLocation == null ||
-            d.as(LengthUnit.Meter, _lastLocation!, userLocation) >= 1) {
-          // Update distance only if we have a previous location
-          if (_lastLocation != null) {
-            final dist = d.as(
-              LengthUnit.Kilometer,
-              _lastLocation!,
-              userLocation,
-            );
-            distance += dist;
-            _calculatePace();
-          }
+        final d = latlong2.Distance();
+        final lastLatLng =
+            _lastLocation == null
+                ? null
+                : latlong2.LatLng(
+                  _lastLocation!.latitude,
+                  _lastLocation!.longitude,
+                );
+        final userLatLng = latlong2.LatLng(
+          userLocation.latitude,
+          userLocation.longitude,
+        );
 
+        if (lastLatLng == null ||
+            d.as(latlong2.LengthUnit.Meter, lastLatLng, userLatLng) >= 1) {
           _routePoints.add(userLocation);
           _recalculateDistanceFromRoute();
         }
       }
 
       _lastLocation = userLocation;
+      _updateMapOverlays();
     }
   }
 
   void _recalculateDistanceFromRoute() {
     if (_routePoints.length < 2) return;
     double total = 0.0;
-    final d = Distance();
+    final d = latlong2.Distance();
 
     for (int i = 0; i < _routePoints.length - 1; i++) {
-      total += d.as(LengthUnit.Meter, _routePoints[i], _routePoints[i + 1]);
+      total += d.as(
+        latlong2.LengthUnit.Meter,
+        latlong2.LatLng(_routePoints[i].latitude, _routePoints[i].longitude),
+        latlong2.LatLng(
+          _routePoints[i + 1].latitude,
+          _routePoints[i + 1].longitude,
+        ),
+      );
     }
     setState(() {
-      distance = (total / 1000.0);
-      _calculatePace(); // also update pace based on new distance
+      distance = total / 1000.0;
+      _calculatePace();
     });
   }
 
@@ -195,20 +298,22 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
       int seconds = elapsedTime.inSeconds;
       double minutes = seconds / 60.0;
       log(minutes.toString());
-      double paceValue = minutes / distance; // ⚠ can be NaN if distance == 0
+      double paceValue = minutes / distance;
       pace = paceValue.toStringAsFixed(5);
     } else {
       pace = "--";
     }
   }
 
+  // ── Run controls ─────────────────────────────────────────────────────────────
+
   void _pauseRun() {
     setState(() {
-      _getCurrentLocation();
       isRunning = false;
     });
     _locationUpdateTimer?.cancel();
     _timer?.cancel();
+    _getCurrentLocation();
     context.showCommonSnackbar(title: "Paused", message: "Run paused");
   }
 
@@ -216,21 +321,18 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     if (_currentLocation == null) return;
 
     setState(() {
-      // Only reset if starting a new run
       if (_startLocation == null) {
         _startLocation = _currentLocation;
         _lastLocation = _currentLocation;
         elapsedTime = Duration.zero;
         distance = 0.0;
         pace = "--";
-        _routePoints.add(
-          _startLocation ??
-              LatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-        );
+        _routePoints.add(_currentLocation!);
       }
-
       isRunning = true;
     });
+
+    _updateMapOverlays();
 
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -251,25 +353,25 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
   }
 
   void _stopRun() {
-    if (_timer != null && _locationUpdateTimer != null) {
-      _timer!.cancel();
-      _locationUpdateTimer!.cancel();
-    }
+    _timer?.cancel();
+    _locationUpdateTimer?.cancel();
     setState(() {
       isRunning = false;
       elapsedTime = Duration.zero;
-      // distance = 0.0;
       pace = "--";
       _routePoints.clear();
+      _startLocation = null;
+      _lastLocation = null;
     });
+    _updateMapOverlays();
     _getCurrentLocation();
-
-    // Optionally show a snackbar
     context.showCommonSnackbar(
       title: "Run Stopped",
       message: "All data has been reset",
     );
   }
+
+  // ── Build ─────────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -277,81 +379,44 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
+          // ── Google Map ──
           RepaintBoundary(
             key: _mapKey,
-            child: FlutterMap(
-              mapController: mapController,
-
-              options: MapOptions(
-                initialCenter: _currentLocation ?? LatLng(20.5937, 78.9629),
-                initialZoom: 15,
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: _currentLocation ?? const LatLng(20.5937, 78.9629),
+                zoom: 15,
               ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  additionalOptions: {'apiKey': apiKey},
-                ),
-                if (_routePoints.length > 2)
-                  PolylineLayer(
-                    polylines: [
-                      Polyline(
-                        points:
-                            _routePoints
-                                .where(
-                                  (p) =>
-                                      p.latitude.isFinite &&
-                                      p.longitude.isFinite,
-                                )
-                                .toList(),
-                        strokeWidth: 4.0,
-                        color: Colors.blue,
-                      ),
-                    ],
-                  ),
-
-                MarkerLayer(
-                  markers: [
-                    if (_startLocation != null)
-                      Marker(
-                        point: _startLocation!,
-                        width: 40,
-                        height: 40,
-                        child: const Icon(
-                          Icons.flag,
-                          color: Colors.green,
-                          size: 36,
-                        ),
-                      ),
-                    if (_currentLocation != null)
-                      Marker(
-                        point: _currentLocation!,
-                        width: 40,
-                        height: 40,
-                        child: const Icon(
-                          Icons.my_location,
-                          color: Colors.blue,
-                          size: 32,
-                        ),
-                      ),
-                  ],
-                ),
-              ],
+              onMapCreated: (controller) {
+                _googleMapController = controller;
+                // Move camera once controller is ready
+                if (_currentLocation != null) {
+                  controller.animateCamera(
+                    CameraUpdate.newLatLngZoom(_currentLocation!, 18),
+                  );
+                }
+              },
+              markers: _markers,
+              polylines: _polylines,
+              myLocationEnabled: true,
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              mapToolbarEnabled: false,
+              compassEnabled: false,
             ),
           ),
 
-          // Back Button
+          // ── Back button ──
           Positioned(
             top: 70,
             left: 32,
             child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               child: const Icon(Icons.arrow_back_ios_new),
             ),
           ),
 
-          // Bottom controls
+          // ── Bottom controls ──
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
             child: BackdropFilter(
@@ -373,7 +438,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     ),
                     CommonSizedBox(height: 12),
 
-                    // Distance & Pace
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -383,12 +447,11 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     ),
                     CommonSizedBox(height: 20),
 
-                    // Play/Pause + Stop
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         _roundButton(
-                          (isRunning) ? Icons.pause : Icons.play_arrow,
+                          isRunning ? Icons.pause : Icons.play_arrow,
                           Colors.yellow.shade700,
                           () {
                             if (isRunning) {
@@ -401,25 +464,27 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                         CommonSizedBox(width: 20),
                         _roundButton(
                           ref.watch(runningGpsControllerProvider).isLoading
-                              ? Center(child: CircularProgressIndicator())
-                              : Icon(Icons.stop),
+                              ? const Center(child: CircularProgressIndicator())
+                              : const Icon(Icons.stop),
                           Colors.red,
                           () async {
-                            if (!isRunning && _routePoints.isEmpty) {
-                              return;
-                            }
+                            if (!isRunning && _routePoints.isEmpty) return;
+
                             _pauseRun();
                             _fitMapToRoute();
+
+                            // Small delay so the camera animation completes before snapshot
+                            await Future.delayed(
+                              const Duration(milliseconds: 600),
+                            );
 
                             final imageBytes = await _captureMap();
 
                             if (imageBytes != null) {
-                              final file = await _bytesToFile(
-                                imageBytes,
-                              ); // helper to save Uint8List as File
+                              final file = await _bytesToFile(imageBytes);
                               final placeName = await _getPlaceName(
                                 _currentLocation ??
-                                    LatLng(-122.084, 37.4219983),
+                                    const LatLng(-122.084, 37.4219983),
                               );
                               final result = await ref
                                   .read(runningGpsControllerProvider.notifier)
@@ -467,6 +532,8 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     );
   }
 
+  // ── Helpers ───────────────────────────────────────────────────────────────────
+
   Widget _statItem(String value, String label) {
     return Column(
       children: [
@@ -476,7 +543,7 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
     );
   }
 
-  Widget _roundButton(icon, Color color, VoidCallback onTap) {
+  Widget _roundButton(dynamic icon, Color color, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -519,11 +586,8 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     width: 70.sp,
                     height: 70.sp,
                   ),
-
                   CommonText("Running Complete", size: 18, isBold: true),
-
                   CommonText("Great Workout !", size: 16),
-
                   CommonText(
                     formatDuration(elapsedTime),
                     size: 26,
@@ -535,7 +599,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                     size: 12,
                     color: AppColors.textSecondary,
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -543,23 +606,17 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
                       _statItem(pace, "Pace (min/km)"),
                     ],
                   ),
-
                   CommonButton(
                     "  Share Results",
                     iconWidget: const Icon(Icons.share),
                     width: double.infinity,
                     onTap: () async {
-                      // 1️⃣ Share running data to backend (if needed)
-                      // ref.read(runningGpsControllerProvider.notifier).shareRunningData();
-
                       final Uri shareUri = Uri.parse(
                         ApiEndpoints.runSharingUrl(runId),
                       );
-
                       await Share.shareUri(shareUri);
                     },
                   ),
-
                   CommonButton(
                     "  Start New Run",
                     color: Colors.transparent,
@@ -585,8 +642,6 @@ class _RunningTrackerPageState extends ConsumerState<RunningTrackerPage> {
           ),
         );
       },
-    ).then((value) {
-      _stopRun();
-    });
+    ).then((_) => _stopRun());
   }
 }
