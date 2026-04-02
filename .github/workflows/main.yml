@@ -1,48 +1,65 @@
-name: Flutter - Android Build apk
+name: Flutter - Android Build (Signed)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # 📥 Checkout repo
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
+      # ☕ Setup Java
       - name: Setup JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'zulu'
 
-      # Set up Flutter
+      # 🐦 Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
 
-      # Decode the keystore from base64 and save it to a file
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > $HOME/trainplus-release.keystore
-
-
-
+      # 📦 Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release --build-name=1.0.0
+      # 🔐 Decode keystore
+      - name: Decode Keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/trainplus-release.keystore
 
+      # 🔐 Decode key.properties
+      - name: Decode key.properties
+        run: echo "${{ secrets.KEY_PROPERTIES_BASE64 }}" | base64 --decode > android/key.properties
+
+      # 📦 Build AAB
+      - name: Build App Bundle
+        run: flutter build appbundle
+
+      # 🧱 Build APK
+      - name: Build APK
+        run: flutter build apk --release 
+
+      # 📤 Upload USER APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-flutter-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: user-apk
+          path: build/app/outputs/flutter-apk/app-user-release.apk
 
-        
+      # 📤 Upload USER AAB
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-aab
+          path: build/app/outputs/bundle/userRelease/app-user-release.aab
+
+    
